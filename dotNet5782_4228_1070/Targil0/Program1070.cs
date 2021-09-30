@@ -10,7 +10,7 @@ namespace Targil0
     {
         private static void Welcome1070()
         {
-            Console.WriteLine("I am here!!! :) ");
+            Console.WriteLine("I am here  :) ");
             Console.ReadLine();
         }
     }
