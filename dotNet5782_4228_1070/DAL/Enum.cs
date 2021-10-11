@@ -10,7 +10,7 @@ namespace IDAL
 
         }
         enum WeightCategories { Light, Medium, Heavy }
-        enum DroneStatus { }
+        enum DroneStatus { Available, Maintenance, Delivery }
         enum Priorities { Regular, Fast, Emergency }
         enum Datatime { }
     }
