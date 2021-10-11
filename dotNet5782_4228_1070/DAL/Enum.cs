@@ -8,6 +8,10 @@ namespace IDAL
         {
 
         }
+        enum WeightCategories { }
+        enum DroneStatus { }
+        enum Priorities { }
+        enum Datatime { }
     }
     
 }
