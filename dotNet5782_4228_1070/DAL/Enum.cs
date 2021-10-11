@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace IDAL
 {
     namespace DO
@@ -8,13 +9,12 @@ namespace IDAL
         {
 
         }
-        enum WeightCategories { }
+        enum WeightCategories { Light, Medium, Heavy }
         enum DroneStatus { }
-        enum Priorities { }
+        enum Priorities { Regular, Fast, Emergency }
         enum Datatime { }
     }
-    
-}
 
+}
 
 

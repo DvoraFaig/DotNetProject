@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDAL.DO;
 
-namespace DAL
+namespace DALObject
 {
     class Parcel
     {
@@ -15,8 +16,8 @@ namespace DAL
         public Priorities Priority { get; set; }
         public Datatime Requeasted { get; set; }
         public int DroneId { get; set; }
-        public Datatime Scheduled { get; set; }
-        public Datatime PickUp { get; set; }
-        public Datatime Delivered { get; set; }
+        public DateTime Scheduled { get; set; }
+        public DateTime PickUp { get; set; }
+        public DateTime Delivered { get; set; }
     }
 }

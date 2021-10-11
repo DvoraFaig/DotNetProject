@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace DAL
+using IDAL.DO;
+namespace DALObject
 {
     public class Drone
     {
