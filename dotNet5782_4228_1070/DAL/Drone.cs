@@ -8,6 +8,7 @@ namespace DALObject
 {
     public class Drone
     {
+        public struct drobbbbb
         public int Id { get; set; }
         public string Model { get; set; }
         public WeightCategories MaxWeight { get; set; }
