@@ -14,8 +14,27 @@ namespace DALObject
         internal static Customer[] Customers = new Customer[100];
         internal static Parcel[] Parcels = new Parcel[1000];
 
-        public static void Initialize()
+        public static void Initialize(int action ,int  objNum , obj)
         {
+            switch (switch_on)
+	        {
+                case 1:
+
+                    break;
+                    
+                case 2:
+                    break;
+                    
+                case 3:
+                    break;
+                    
+                case 4:
+                    break;
+		    default:
+	        }
+
+
+
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
