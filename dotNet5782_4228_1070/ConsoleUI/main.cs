@@ -9,14 +9,14 @@ using DalObject;
 namespace DAL
 {
     enum choices { Add = 1, Update, ShowWithId, ShowList }
-    enum objects { Station = 1, Drone, CLient, Parcel }
+    enum objects { Station = 1, Drone, Customer, Parcel }
     enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
 
     Random r = new Random();
 
     class main
     {
-
+        Random r = new Random();
         public void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
@@ -25,7 +25,7 @@ namespace DAL
             {
                 case objects.Station:
                     int id = r.Next(0, 5);
-                    Console.WriteLine("Enter a Name");
+                    Console.WriteLine("Enter a station Name: ");
                     string Name = Console.ReadLine();
                     int ChargeSlots = r.Next(0, 5)
                     Console.WriteLine("Enter a Latitude");
@@ -33,7 +33,7 @@ namespace DAL
                     Console.WriteLine("Enter a Longitude");
                     int Longitude = Convert.ToInt32(Console.ReadLine());
                     int ChargeSlots = r.Next(0, 200);
-                    DalObject.DalObject.AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
+                    DalObject.DalObject.AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
                     break;
                 case objects.Drone:
                     int id = r.Next(0, 10);
@@ -44,9 +44,33 @@ namespace DAL
                     double Battery = 0;
                     DalObject.DalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
-                case objects.CLient:
+                case objects.Customer:
+                    int id = r.Next(0, 5);
+                    Console.WriteLine("Enter costumer's Name: ");
+                    string Name = Console.ReadLine();
+                    Console.WriteLine("Enter costumer's Phone: ");
+                    int Phone = Convert.ToInt64(Console.ReadLine());
+                    Console.WriteLine("Enter a Latitude: ");
+                    int Latitude = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a Longitude: ");
+                    int Longitude = Convert.ToInt32(Console.ReadLine());
+                    int ChargeSlots = r.Next(0, 200);
+                    DalObject.DalObject.AddStation(int id, string Name, int Phone, double Longitude, double Latitude)
                     break;
                 case objects.Parcel:
+                    int id 
+                    Console.WriteLine("Enter the sending costumer's id: ");
+                    int Serderid =Convert.ToInt32(Console.ReadLine())///////
+                    Console.WriteLine("Enter the receiving costumer's id: ");
+                    int TargetId =Convert.ToInt32(Console.ReadLine())////////
+                    WeightCategories Weight = (WeightCategories)r.Next(0,3);
+                    Priorities Priority = (Priorities)r.Next(0,3);
+                    Datatime Requeasted =(Datatime)r.Next(0,3);
+                    //int DroneId;
+                    DateTime Scheduled = DateTime.Now;
+                    //DateTime PickUp ;
+                    //DateTime Delivered ;
+                    AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
                     break;
                 default:
                     break;
@@ -92,7 +116,7 @@ namespace DAL
                     break;
                 case objects.Drone:
                     break;
-                case objects.CLient:
+                case objects.Customer:
                     break;
                 case objects.Parcel:
                     break;
@@ -113,7 +137,7 @@ namespace DAL
                 case objects.Drone:
                     DalObject.DalObject.displayDrone();
                     break;
-                case objects.CLient:
+                case objects.Customer:
                     DalObject.DalObject.displayCustomers();
                     break;
                 case objects.Parcel:

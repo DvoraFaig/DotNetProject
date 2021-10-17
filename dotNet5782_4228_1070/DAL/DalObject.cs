@@ -26,13 +26,42 @@ namespace DalObject
             drone.MaxWeight = MaxWeight;
             drone.Status = Status;
             drone.Battery = Battery;
+            
         }
             
       
         public void AddStation(int id, string Name,int ChargeSlots,double Longitude,double Latitude)
         {
-               
+            Station station = new Station();
+            station.ID = id;
+            station.Name=Name; 
+            station.ChargeSlots = ChargeSlots;
+            station.Longitude =Longitude;
+            station.Latitude = Latitude; 
                 
+        }
+        public void AddCustomer(int id, string Name , string Phone , double Longitude,double Latitude )
+        {
+            Customer customer = new Customer();
+            customer.ID = id;
+            customer.Name=Name; 
+            customer.Phone = Phone;
+            customer.Longitude =Longitude;
+            customer.Latitude = Latitude;
+        }
+        public void AddParcelToDelivery(int id,int Serderid,int TargetId,WeightCategories Weight,Priorities Priority,Datatime Requeasted,int DroneId,DateTime Scheduled,DateTime PickUp,DateTime Delivered)
+        {
+            Parcel parcel = new Parcel()
+            parcel.Id = id;
+            parcel.Serderid = Serderid;
+            parcel.TargetId = TargetId;
+            parcel.Weight=Weight;
+            parcel.Priority =Priority;
+            parcel.Requeasted = Requeasted;
+            parcel.DroneId =DroneId;
+            parcel.Scheduled=Scheduled;
+            parcel.PickUp = PickUp;
+            parcel.Delivered =Delivered;
         }
 
 
