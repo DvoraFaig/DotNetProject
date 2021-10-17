@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
+using IDAL.DO;  
 
 namespace DalObject
 {
@@ -14,7 +14,7 @@ namespace DalObject
         internal static Customer[] Customers = new Customer[100];
         internal static Parcel[] Parcels = new Parcel[1000];
 
-        public static void Initialize(int action ,int  objNum , obj)
+        public static void Initialize()
         {
             Random r = new Random();
 
@@ -60,7 +60,25 @@ namespace DalObject
                 Stations[i].Longitude = Convert.ToInt32(Console.ReadLine());
                 Config.indexCustomers++;
             }
-            
+
+            int amountParcels = r.Next(10, 1000);
+            Console.WriteLine($"Enter {amountParcels} stations information");
+            for(int i =0; i<amountParcels; i++)
+            {
+                Parcels[i].Id = 0000000000000000000; //יחודי???
+                Console.WriteLine("Enter the sending costumer's id: ");
+                Parcels[i].Serderid = Convert.ToInt32(Console.ReadLine());///////
+                Console.WriteLine("Enter the receiving costumer's id: ");
+                Parcels[i].TargetId = Convert.ToInt32(Console.ReadLine());////////
+                Parcels[i].Weight = (WeightCategories)r.Next(0,3);
+                Parcels[i].Priority = (Priorities)r.Next(0,3);
+                Parcels[i].Requeasted =(Datatime)r.Next(0,3);
+                //Parcels[i].DroneId;
+                Parcels[i].Scheduled = DateTime.Now;
+                //Parcels[i].PickUp ;
+                //Parcels[i].Delivered ;
+
+            }
 
         }
 

@@ -7,61 +7,62 @@ using IDAL.DO;
 
 
 
+
+
 namespace DalObject
 {
-     public class DalObject
-     {
-          
+    public class DalObject
+    {
         public DalObject()
         {
             DataSource.Initialize();
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Add//
-        public void AddDrone(int id, string Model, WeightCategories MaxWeight,DroneStatus Status,double Battery)
+        public void AddDrone(int id, string Model, IDAL.DO.WeightCategories MaxWeight, IDAL.DO.DroneStatus Status, double Battery)
         {
             Drone drone = new Drone();
             drone.Id = id;
-            drone.Model=Model;
+            drone.Model = Model;
             drone.MaxWeight = MaxWeight;
             drone.Status = Status;
             drone.Battery = Battery;
-            
+
         }
-            
-      
-        public void AddStation(int id, string Name,int ChargeSlots,double Longitude,double Latitude)
+
+
+        public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
-            station.ID = id;
-            station.Name=Name; 
+            station.Id = id;
+            station.Name = Name;
             station.ChargeSlots = ChargeSlots;
-            station.Longitude =Longitude;
-            station.Latitude = Latitude; 
-                
+            station.Longitude = Longitude;
+            station.Latitude = Latitude;
+
         }
-        public void AddCustomer(int id, string Name , string Phone , double Longitude,double Latitude )
+        public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
         {
             Customer customer = new Customer();
             customer.ID = id;
-            customer.Name=Name; 
+            customer.Name = Name;
             customer.Phone = Phone;
-            customer.Longitude =Longitude;
+            customer.Longitude = Longitude;
             customer.Latitude = Latitude;
         }
-        public void AddParcelToDelivery(int id,int Serderid,int TargetId,WeightCategories Weight,Priorities Priority,Datatime Requeasted,int DroneId,DateTime Scheduled,DateTime PickUp,DateTime Delivered)
+        public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority, Datatime Requeasted, int DroneId, DateTime Scheduled, DateTime PickUp, DateTime Delivered)
         {
-            Parcel parcel = new Parcel()
+            Parcel parcel = new Parcel();
             parcel.Id = id;
             parcel.Serderid = Serderid;
             parcel.TargetId = TargetId;
-            parcel.Weight=Weight;
-            parcel.Priority =Priority;
+            parcel.Weight = Weight;
+            parcel.Priority = Priority;
             parcel.Requeasted = Requeasted;
-            parcel.DroneId =DroneId;
-            parcel.Scheduled=Scheduled;
+            parcel.DroneId = DroneId;
+            parcel.Scheduled = Scheduled;
             parcel.PickUp = PickUp;
-            parcel.Delivered =Delivered;
+            parcel.Delivered = Delivered;
         }
 
 
@@ -69,29 +70,29 @@ namespace DalObject
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Update//
-        public var DroneReceivesParcel(Parcel parcel)
+        public void DroneReceivesParcel(Parcel parcel)
         {
-            foreach(Drone drone in DataSource.drones)
+            foreach (Drone drone in DataSource.Drones)
             {
-                if(drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight )
+                if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
                 {
-                   parcel.DroneId = drone.Id;
-                   drone.Status = DroneStatus.Delivery;
-                   return;
+                    //parcel.DroneId = drone.Id;
+                    //drone.Status = DroneStatus.Delivery;
+                    return;
                 }
             }
-            return ("No drones available");
-            
+            //return ("No drones available");
+
         }
-        public void DroneCollectsAParcel(Drone drone,Parcel parcel)
+        public void DroneCollectsAParcel(Drone drone, Parcel parcel)
         {
-            drone.DroneStatus = DroneStatus.Delivery;
-            parcel.PickedUp = DateTime.Now;
-            parcel.DroneId = drone.Id; 
+            //drone.DroneStatus = DroneStatus.Delivery;
+            //parcel.PickedUp = DateTime.Now;
+            parcel.DroneId = drone.Id;
 
         }
 
-        public void CostumerGetsParcel(Customer customer , Parcel parcel)
+        public void CostumerGetsParcel(Customer customer, Parcel parcel)
         {
             parcel.Delivered = DateTime.Now;
         }
@@ -101,45 +102,58 @@ namespace DalObject
             drone.Status = DroneStatus.Maintenance;
             DroneCharge droneCharge = new DroneCharge();
             droneCharge.DroneId = drone.Id;
-            foreach(Station station in DataSource.Stations)
+            foreach (Station station in DataSource.Stations)
             {
-                if(station.)
             }
-            
+
         }
         public void freeDroneFromCharge(Drone drone)
         {
             //??????????????????????????????
-            drone.Status == DroneStatus.Available;
+            //drone.Status == DroneStatus.Available;
             drone.Battery = 100;
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Display//
-        public Station displayStations()
+        public IEnumerable<Station> displayStations()
         {
-
+            foreach(Station station in DataSource.Stations)
+            {
+                yield return station;
+            }
         }
-        public Drone displayDrone()
+        public IEnumerable<Drone> displayDrone()
         {
+            foreach (Drone drone in DataSource.Drones)
+            {
+                yield return drone;
+            }
 
         }
-        public Parcel displayParcels()
+        public IEnumerable<Parcel> displayParcels()
         {
-
+            foreach (Parcel parcel in DataSource.Parcels)
+            {
+                yield return parcel;
+            }
         }
-        public Customer displayCustomers()
+        public IEnumerable<Customer> displayCustomers()
         {
-
+            foreach (Customer customer in DataSource.Customers)
+            {
+                yield return customer;
+            }
         }
 
 
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            /*כאן יהיו מתודות הוספה, עדכון, וכו
-             */
-            public void addOptions() { }
-        }
-     }  
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///*כאן יהיו מתודות הוספה, עדכון, וכו
+        // */
+
+    }
 }
+  
+
 

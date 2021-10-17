@@ -6,71 +6,75 @@ using System.Threading.Tasks;
 using IDAL.DO;
 using DalObject;
 
+
 namespace DAL
 {
-    enum choices { Add = 1, Update, ShowWithId, ShowList }
+    enum Choices { Add = 1, Update, ShowWithId, ShowList }
     enum objects { Station = 1, Drone, Customer, Parcel }
     enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
 
-    Random r = new Random();
 
     class main
     {
         Random r = new Random();
-        public void additionFunc()
+        int choice;
+        DalObject.DalObject dalObject = new DalObject.DalObject();
+=        public void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
-            int choice = Console.WriteLine();
-            switch (choice)
+            objects obj = (objects)Convert.ToInt32(Console.ReadLine());
+            Random r = new Random();
+
+
+            switch (obj)
             {
                 case objects.Station:
                     int id = r.Next(0, 5);
                     Console.WriteLine("Enter a station Name: ");
                     string Name = Console.ReadLine();
-                    int ChargeSlots = r.Next(0, 5)
+                    int ChargeSlots = r.Next(0, 5);
                     Console.WriteLine("Enter a Latitude");
                     int Latitude = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter a Longitude");
                     int Longitude = Convert.ToInt32(Console.ReadLine());
-                    int ChargeSlots = r.Next(0, 200);
-                    DalObject.DalObject.AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
+                    dalObject.AddStation( id, Name, ChargeSlots,Longitude, Latitude);
                     break;
                 case objects.Drone:
-                    int id = r.Next(0, 10);
+                    id = r.Next(0, 10);
                     Console.WriteLine("Enter a Model");
                     string Model = Console.ReadLine();
                     WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
                     DroneStatus Status = (DroneStatus)(r.Next(0, 3));
                     double Battery = 0;
-                    DalObject.DalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
+                    dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
                 case objects.Customer:
-                    int id = r.Next(0, 5);
+                    id = r.Next(0, 5);
                     Console.WriteLine("Enter costumer's Name: ");
-                    string Name = Console.ReadLine();
+                    Name = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
-                    int Phone = Convert.ToInt64(Console.ReadLine());
+                    int Phone = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter a Latitude: ");
-                    int Latitude = Convert.ToInt32(Console.ReadLine());
+                    Latitude = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter a Longitude: ");
-                    int Longitude = Convert.ToInt32(Console.ReadLine());
-                    int ChargeSlots = r.Next(0, 200);
-                    DalObject.DalObject.AddStation(int id, string Name, int Phone, double Longitude, double Latitude)
+                    Longitude = Convert.ToInt32(Console.ReadLine());
+                    ChargeSlots = r.Next(0, 200);
+                    dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
                     break;
                 case objects.Parcel:
-                    int id 
+                    id = 0000000000000000000; //יחודי???
                     Console.WriteLine("Enter the sending costumer's id: ");
-                    int Serderid =Convert.ToInt32(Console.ReadLine())///////
+                    int Serderid = Convert.ToInt32(Console.ReadLine());///////
                     Console.WriteLine("Enter the receiving costumer's id: ");
-                    int TargetId =Convert.ToInt32(Console.ReadLine())////////
+                    int TargetId = Convert.ToInt32(Console.ReadLine());////////
                     WeightCategories Weight = (WeightCategories)r.Next(0,3);
                     Priorities Priority = (Priorities)r.Next(0,3);
                     Datatime Requeasted =(Datatime)r.Next(0,3);
-                    //int DroneId;
+                    int DroneId=111111;////////////////;////////////////;////////////////;////////////////
                     DateTime Scheduled = DateTime.Now;
-                    //DateTime PickUp ;
-                    //DateTime Delivered ;
-                    AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
+                    DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
+                    DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
+                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
                     break;
                 default:
                     break;
@@ -79,36 +83,36 @@ namespace DAL
         public void UpdateFunc()
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
-            int choice = Console.WriteLine();
-            switch(choice)
-            {
-            case UpdateObj.DroneReceivesParcel:
-                    DalObject.DalObject.DroneReceivesParcel();
-                break;
-            case UpdateObj.DroneCollectsAParcel:
-                    DalObject.DalObject.DroneCollectsAParcel();
-                break;
-            case UpdateObj.CostumerGetsParcel:
-                    DalObject.DalObject.CostumerGetsParcel();
-                break;
-            case UpdateObj.sendDroneToCharge:
-                DalObject.DalObject.sendDroneToCharge();
-                break;
-            case UpdateObj.freeDroneFromCharge:
-                    DalObject.DalObject.freeDroneFromCharge();
-                break;
-    }
+            UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
+            //switch (choice)
+            //{
+            //case UpdateObj.DroneReceivesParcel:
+            //    dalObject.DroneReceivesParcel();
+            //    break;
+            //case UpdateObj.DroneCollectsAParcel:
+            //    dalObject.DroneCollectsAParcel();
+            //    break;
+            //case UpdateObj.CostumerGetsParcel:
+            //    dalObject.CostumerGetsParcel();
+            //    break;
+            //case UpdateObj.sendDroneToCharge:
+            //    dalObject.sendDroneToCharge();
+            //    break;
+            //case UpdateObj.freeDroneFromCharge:
+            //    dalObject.freeDroneFromCharge();
+            //    break;
+            //}
 
 
         }
         public void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
-            int choice = Console.WriteLine();
-            if (choice > 0 && choice < 5)
+            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            if ((int)choice > 0 && (int)choice < 5)
             {
                 Console.WriteLine("Enter the Id of the object");
-                int id = Console.ReadLine();
+                int id = Convert.ToInt32(Console.ReadLine());
             }
             switch (choice)
             {
@@ -128,20 +132,21 @@ namespace DAL
         public void DisplayListFunc() 
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
-            int choice = Console.WriteLine();
+            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
                 case objects.Station:
-                    DalObject.DalObject.displayStations();
+                    IEnumerable<Station> stations = dalObject.displayStations();
+                    Console.WriteLine("stations..............");
                     break;
                 case objects.Drone:
-                    DalObject.DalObject.displayDrone();
+                    IEnumerable<Drone> drones = dalObject.displayDrone();
                     break;
                 case objects.Customer:
-                    DalObject.DalObject.displayCustomers();
+                    IEnumerable<Customer>customers = dalObject.displayCustomers();
                     break;
                 case objects.Parcel:
-                    DalObject.DalObject.displayParcels();
+                    IEnumerable<Parcel> parcel = dalObject.displayParcels();
                     break;
                 default:
                     break;
@@ -150,32 +155,32 @@ namespace DAL
 
         public void nav()
         {
-            Console.WriteLine("Enter your choice");
-            int choice = Console.ReadLine();
+            //Console.WriteLine("Enter your choice");
+            //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add \n2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                int choice = Console.WriteLine();
-                switch (choices)
+                Choices choice = (Choices)Convert.ToInt32(Console.ReadLine());
+                switch (choice)
                 {
-                    case choices.Add:
+                    case Choices.Add:
                         additionFunc();
                         break;
-                    case choices.Update:
+                    case Choices.Update:
                         UpdateFunc();
                         break;
-                    case choices.ShowWithId:
+                    case Choices.ShowWithId:
                         ShowWithIdFunc();
                         break;
-                    case choices.ShowList:
+                    case Choices.ShowList:
                         DisplayListFunc();
                         break;
                     default:
-                        if (choice != 5)
+                        if ((int)choice != 5)
                             Console.WriteLine("Error");
                         break;
                 }
-            } while (choice != 5);
+            } while ((int)choice != 5);
         }
     }
 }

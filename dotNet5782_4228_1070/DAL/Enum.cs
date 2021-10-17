@@ -4,12 +4,11 @@ namespace IDAL
 {
     namespace DO
     {
-        enum WeightCategories { Light, Medium, Heavy }
-        enum DroneStatus { Available, Maintenance, Delivery }
-        enum Priorities { Regular, Fast, Emergency }
-        enum Datatime { }
+        public enum WeightCategories { Light, Medium, Heavy }
+        public enum DroneStatus { Available, Maintenance, Delivery }
+        public enum Priorities { Regular, Fast, Emergency }
+        public enum Datatime { }
     }
-
 }
 
 
