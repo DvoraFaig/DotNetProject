@@ -10,6 +10,8 @@ namespace DAL
 {
     enum choices { Add = 1, Update, ShowWithId, ShowList }
     enum objects { Station = 1, Drone, CLient, Parcel }
+    enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
+
     Random r = new Random();
 
     class main
@@ -19,10 +21,9 @@ namespace DAL
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             int choice = Console.WriteLine();
-            switch (ch oice)
+            switch (choice)
             {
                 case objects.Station:
-                    {
                     int id = r.Next(0, 5);
                     Console.WriteLine("Enter a Name");
                     string Name = Console.ReadLine();
@@ -33,9 +34,7 @@ namespace DAL
                     int Longitude = Convert.ToInt32(Console.ReadLine());
                     int ChargeSlots = r.Next(0, 200);
                     DalObject.DalObject.AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
-
-                    }
-                break;
+                    break;
                 case objects.Drone:
                     int id = r.Next(0, 10);
                     Console.WriteLine("Enter a Model");
@@ -53,7 +52,31 @@ namespace DAL
                     break;
             }
         }
-        public void UpdateFunc() { }
+        public void UpdateFunc()
+        {
+            Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
+            int choice = Console.WriteLine();
+            switch(choice)
+            {
+            case UpdateObj.DroneReceivesParcel:
+                    DalObject.DalObject.DroneReceivesParcel();
+                break;
+            case UpdateObj.DroneCollectsAParcel:
+                    DalObject.DalObject.DroneCollectsAParcel();
+                break;
+            case UpdateObj.CostumerGetsParcel:
+                    DalObject.DalObject.CostumerGetsParcel();
+                break;
+            case UpdateObj.sendDroneToCharge:
+                DalObject.DalObject.sendDroneToCharge();
+                break;
+            case UpdateObj.freeDroneFromCharge:
+                    DalObject.DalObject.freeDroneFromCharge();
+                break;
+    }
+
+
+        }
         public void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
@@ -78,7 +101,28 @@ namespace DAL
                     break;
             }
         }
-        public void ShowListFunc() { }
+        public void DisplayListFunc() 
+        {
+            Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
+            int choice = Console.WriteLine();
+            switch (choice)
+            {
+                case objects.Station:
+                    DalObject.DalObject.displayStations();
+                    break;
+                case objects.Drone:
+                    DalObject.DalObject.displayDrone();
+                    break;
+                case objects.CLient:
+                    DalObject.DalObject.displayCustomers();
+                    break;
+                case objects.Parcel:
+                    DalObject.DalObject.displayParcels();
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public void nav()
         {
@@ -100,7 +144,7 @@ namespace DAL
                         ShowWithIdFunc();
                         break;
                     case choices.ShowList:
-                        ShowListFunc();
+                        DisplayListFunc();
                         break;
                     default:
                         if (choice != 5)
