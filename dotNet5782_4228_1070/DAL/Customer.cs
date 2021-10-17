@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DALObject
 {
-    class Customer
+    public struct Customer
     {
         public int ID { get; set; }
         public string Name { get; set; }

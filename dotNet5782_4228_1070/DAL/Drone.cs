@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
-namespace DALObject
+
+namespace DalObject
 {
-    public class Drone
+    public struct Drone
     {
-        public struct drobbbbb
         public int Id { get; set; }
         public string Model { get; set; }
         public WeightCategories MaxWeight { get; set; }

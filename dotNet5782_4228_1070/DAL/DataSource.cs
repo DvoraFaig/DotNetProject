@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
-namespace DALObject
+namespace DalObject
 {
     internal class DataSource
     {
@@ -16,25 +16,6 @@ namespace DALObject
 
         public static void Initialize(int action ,int  objNum , obj)
         {
-            switch (switch_on)
-	        {
-                case 1:
-
-                    break;
-                    
-                case 2:
-                    break;
-                    
-                case 3:
-                    break;
-                    
-                case 4:
-                    break;
-		    default:
-	        }
-
-
-
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
@@ -42,11 +23,12 @@ namespace DALObject
             for (int i = 0; i < amountStations; i++)
             {
                 Stations[i].Id = r.Next(0, 10);
+                Stations[i].ChargeSlots = r.Next(0, 10);
                 Console.WriteLine("Enter a Latitude");
                 Stations[i].Latitude = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter a Longitude");
                 Stations[i].Longitude = Convert.ToInt32(Console.ReadLine());
-                Stations[i].ChargeStop = r.Next(0, 200);
+                Stations[i].ChargeSlots = r.Next(0, 200);
                 Config.indexStations++;
 
             }
@@ -63,8 +45,8 @@ namespace DALObject
             }
             
 
-            int amountCusomer = r.Next(10, 100);
-            Console.WriteLine($"Enter {amountCusomer} stations information");
+            int amountCustomer = r.Next(10, 100);
+            Console.WriteLine($"Enter {amountCustomer} stations information");
             for (int i = 0; i < amountStations; i++)
             {
                 Customers[i].ID = r.Next(0, 10);

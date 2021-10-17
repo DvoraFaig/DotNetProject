@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
-namespace DALObject
+namespace DalObject
 {
-    class Parcel
+    public struct Parcel
     {
         public int Id { get; set; }
         public int Serderid { get; set; }

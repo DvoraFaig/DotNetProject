@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
+using DalObject;
 
 namespace DAL
 {
@@ -14,29 +15,35 @@ namespace DAL
     class main
     {
 
-
         public void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             int choice = Console.WriteLine();
-            switch (choice)
+            switch (ch oice)
             {
                 case objects.Station:
-                    //int amountStations = r.Next(2, 5);
-                    //Console.WriteLine($"Enter {amountStations} stations information");
-                    //Station StationsTemp = new Station;
-                    //for (int i = 0; i < amountStations; i++)
-                    //{
-                    //    StationsTemp.Id = r.Next(0, 10);
-                    //    Console.WriteLine("Enter a Latitude");
-                    //    StationsTemp.Latitude = Convert.ToInt32(Console.ReadLine());
-                    //    Console.WriteLine("Enter a Longitude");
-                    //    StationsTemp.Longitude = Convert.ToInt32(Console.ReadLine());
-                    //    StationsTemp.ChargeStop = r.Next(0, 200);
-                    //    Inilize(i, choice, StationsTemp);
-                    //}
-                    break;
+                    {
+                    int id = r.Next(0, 5);
+                    Console.WriteLine("Enter a Name");
+                    string Name = Console.ReadLine();
+                    int ChargeSlots = r.Next(0, 5)
+                    Console.WriteLine("Enter a Latitude");
+                    int Latitude = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a Longitude");
+                    int Longitude = Convert.ToInt32(Console.ReadLine());
+                    int ChargeSlots = r.Next(0, 200);
+                    DalObject.DalObject.AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
+
+                    }
+                break;
                 case objects.Drone:
+                    int id = r.Next(0, 10);
+                    Console.WriteLine("Enter a Model");
+                    string Model = Console.ReadLine();
+                    WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
+                    DroneStatus Status = (DroneStatus)(r.Next(0, 3));
+                    double Battery = 0;
+                    DalObject.DalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
                 case objects.CLient:
                     break;
