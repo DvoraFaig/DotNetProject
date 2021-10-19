@@ -21,12 +21,6 @@ namespace DAL
 
         static void Main(string[] args)
         {
-            nav();
-        }
-        public static void nav()
-        {
-            //Console.WriteLine("Enter your choice");
-            //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
             Choices choice; //defaualt 0
             do
             {
@@ -53,7 +47,6 @@ namespace DAL
                 }
             } while ((int)choice != 5);
         }
-
         
         public static void additionFunc()
         {
