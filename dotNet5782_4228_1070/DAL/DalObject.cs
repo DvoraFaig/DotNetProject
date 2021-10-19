@@ -136,6 +136,55 @@ namespace DalObject
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Display//
+        public static Station getStationById(int id)
+        {
+            foreach(Station state in DataSource.Stations)
+            {
+                if (state.Id == id)
+                {
+                    return state;
+                }
+            }
+            Station m_station = new Station();
+            return m_station;
+        }
+        public static Drone getDroneById(int id)
+        {
+            foreach (Drone drone in DataSource.Drones)
+            {
+                if (drone.Id == id)
+                {
+                    return drone;
+                }
+            }
+            Drone m_drone = new Drone();
+            return m_drone;
+        }
+        public static Customer getCustomerById(int id)
+        {
+            foreach (Customer customer in DataSource.Customers)
+            {
+                if (customer.ID == id)
+                {
+                    return customer;
+                }
+            }
+            Customer m_customer = new Customer();
+            return m_customer;
+        }
+        public static Parcel getParcelById(int id)
+        {
+            foreach (Parcel parcel in DataSource.Parcels)
+            {
+                if (parcel.Id == id)
+                {
+                    return parcel;
+                }
+            }
+            Parcel m_parcel = new Parcel();
+            return m_parcel;
+        }
+
         public IEnumerable<Station> displayStations()
         {
             foreach(Station station in DataSource.Stations)
