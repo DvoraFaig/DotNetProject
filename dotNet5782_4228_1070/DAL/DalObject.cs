@@ -90,8 +90,14 @@ namespace DalObject
             //return ("No drones available");
 
         }
-        public void DroneCollectsAParcel(Drone drone, Parcel parcel)
+        public void DroneCollectsAParcel( Parcel parcel)
         {
+            if(parcel.DroneId == 0) //doesn't have a Drone
+            {
+                Console.WriteLine("Error! The parcel doesn't have a Drone.\n Please enter DroneReceivesParcel");
+                return;
+            }
+            Drone drone = new Drone();//recieves Drone occurding to DroneId;
             //drone.DroneStatus = DroneStatus.Delivery;
             //parcel.PickedUp = DateTime.Now;
             parcel.DroneId = drone.Id;
@@ -104,13 +110,21 @@ namespace DalObject
         }
         public void sendDroneToCharge(Drone drone)
         {
-            //??????????????????????????????
+            //DroneCharges;
+            foreach (DroneCharge DroneCharge in DataSource.DroneCharges)
+            {
+                if(DataSource.DroneCharges[DataSource.Config.indexDroneCharges] == 10)
+                {
+                    Console.WriteLine( "The DroneCharge is full!\nPleasetry later! ");
+                    return;
+                }
+            }
             drone.Status = DroneStatus.Maintenance;
             DroneCharge droneCharge = new DroneCharge();
             droneCharge.DroneId = drone.Id;
-            foreach (Station station in DataSource.Stations)
-            {
-            }
+            //foreach (Station station in DataSource.Stations)
+            //{
+            //}
 
         }
         public void freeDroneFromCharge(Drone drone)

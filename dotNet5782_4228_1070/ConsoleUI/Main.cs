@@ -21,6 +21,7 @@ namespace DAL
 
         static void Main(string[] args)
         {
+            
             Choices choice; //defaualt 0
             do
             {
@@ -78,7 +79,7 @@ namespace DAL
                     dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
                 case objects.Customer:
-                    id = r.Next(0, 5);
+                    id = r.Next(0, 100);
                     Console.WriteLine("Enter costumer's Name: ");
                     Name = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
@@ -91,7 +92,7 @@ namespace DAL
                     dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
                     break;
                 case objects.Parcel:
-                    id = 0000000000000000000; //יחודי???
+                    id = r.Next(0, 1000); //יחודי???
                     Console.WriteLine("Enter the sending costumer's id: ");
                     int Serderid = Convert.ToInt32(Console.ReadLine());///////
                     Console.WriteLine("Enter the receiving costumer's id: ");
@@ -99,10 +100,10 @@ namespace DAL
                     WeightCategories Weight = (WeightCategories)r.Next(0,3);
                     Priorities Priority = (Priorities)r.Next(0,3);
                     Datatime Requeasted =(Datatime)r.Next(0,3);
-                    int DroneId=111111;////////////////;////////////////;////////////////;////////////////
-                    DateTime Scheduled = DateTime.Now;
-                    DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
-                    DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
+                    //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
+                    //DateTime Scheduled = DateTime.Now;
+                    //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
+                    //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
                     dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
                     break;
                 default:

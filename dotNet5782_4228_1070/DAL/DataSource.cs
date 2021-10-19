@@ -13,6 +13,7 @@ namespace DalObject
         internal static Station[] Stations = new Station[5];
         internal static Customer[] Customers = new Customer[100];
         internal static Parcel[] Parcels = new Parcel[1000];
+        internal static DroneCharge[] DroneCharges = new DroneCharge[10];
 
         public static void Initialize()
         {
@@ -46,7 +47,7 @@ namespace DalObject
             Console.WriteLine($"Enter {amountCustomer} stations information");
             for (int i = 0; i < amountStations; i++)
             {
-                Customers[i].ID = r.Next(0, 10);
+                Customers[i].ID = r.Next(0, 100);//יחודי???
                 Customers[i].Name = $"Customer{Customers[i].ID}";
                 Customers[i].Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
                 Stations[i].Latitude = r.Next(0, 400);
@@ -58,7 +59,7 @@ namespace DalObject
             Console.WriteLine($"Enter {amountParcels} stations information");
             for(int i =0; i<amountParcels; i++)
             {
-                Parcels[i].Id = 0000000000000000000; //יחודי???
+                Parcels[i].Id = r.Next(0, 1000); //יחודי???
                 Parcels[i].Serderid = r.Next(0, 400);
                 Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
@@ -69,6 +70,7 @@ namespace DalObject
                 //Parcels[i].PickUp ;
                 //Parcels[i].Delivered ;
             }
+            /////////////////DroneCharges
         }
 
         /*מערכים סטטים של ישויות הנתונים*/
@@ -78,6 +80,7 @@ namespace DalObject
             internal static int indexStations = 0;
             internal static int indexCustomers = 0;
             internal static int indexParcels = 0;
+            internal static int indexDroneCharges = 0;
             /*להוסיף שדה עבור יצירה של מזהה רץ עבור חבילות*/
         }
 
