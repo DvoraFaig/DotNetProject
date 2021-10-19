@@ -14,6 +14,9 @@ namespace DalObject
         public WeightCategories MaxWeight { get; set; }
         public DroneStatus Status { get; set; }
         public double Battery { get; set; }
-
+        public override string ToString()
+        {
+            return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {Battery}\n");
+        }
     }
 }

@@ -113,26 +113,45 @@ namespace DAL
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
-            //switch (choice)
-            //{
-            //case UpdateObj.DroneReceivesParcel:
-            //    dalObject.DroneReceivesParcel();
-            //    break;
-            //case UpdateObj.DroneCollectsAParcel:
-            //    dalObject.DroneCollectsAParcel();
-            //    break;
-            //case UpdateObj.CostumerGetsParcel:
-            //    dalObject.CostumerGetsParcel();
-            //    break;
-            //case UpdateObj.sendDroneToCharge:
-            //    dalObject.sendDroneToCharge();
-            //    break;
-            //case UpdateObj.freeDroneFromCharge:
-            //    dalObject.freeDroneFromCharge();
-            //    break;
-            //}
-
-
+            switch (choice)
+            {
+                case UpdateObj.DroneReceivesParcel:
+                    Console.WriteLine("Enter a parcel id");
+                    int parcelId = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcel = new Parcel();
+                    parcel = DalObject.DalObject.getParcelById(parcelId);
+                    dalObject.DroneReceivesParcel(parcel);
+                    break;
+                case UpdateObj.DroneCollectsAParcel:
+                    int idParcelCollect = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcelCollect = new Parcel();
+                    parcel = DalObject.DalObject.getParcelById(idParcelCollect);
+                    dalObject.DroneCollectsAParcel(parcelCollect);
+                    break;
+                case UpdateObj.CostumerGetsParcel:
+                    //dalObject.CostumerGetsParcel();
+                    break;
+                case UpdateObj.sendDroneToCharge:
+                    int droneId = Convert.ToInt32(Console.ReadLine());
+                    Drone drone = new Drone();
+                    drone = DalObject.DalObject.getDroneById(droneId);
+                    if(!(drone.Status == DroneStatus.Available))
+                    {
+                        if(drone.Status == DroneStatus.Maintenance)
+                            Console.WriteLine("Drone is in maintenance");
+                        else
+                            Console.WriteLine("Drone is in available");
+                        break;
+                    }
+                    dalObject.sendDroneToCharge(drone);
+                    break;
+                case UpdateObj.freeDroneFromCharge:
+                    int droneIdCharge = Convert.ToInt32(Console.ReadLine());
+                    Drone droneCharge = new Drone();
+                    droneCharge = DalObject.DalObject.getDroneById(droneIdCharge);
+                    dalObject.freeDroneFromCharge(droneCharge);
+                    break;
+            }
         }
         public static void ShowWithIdFunc()
         {
@@ -175,28 +194,37 @@ namespace DAL
             switch (choice)
             {
                 case objects.Station:
-                    Console.WriteLine( "IEnumerable<Station>");
-                    //IEnumerable<Station> stations = dalObject.displayStations();
-                    var stations = dalObject.displayStations();
-                    
-                    Console.WriteLine("stations..............");
-                    Console.WriteLine(stations);
+                    IEnumerable<Station> stations = dalObject.displayStations();
+                    foreach (Station station  in stations)
+                    {
+                        Console.WriteLine(station.ToString());
+                    }
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
+                    foreach (Drone drone in drones)
+                    {
+                        Console.WriteLine(drone.ToString());
+                    }
                     break;
                 case objects.Customer:
                     IEnumerable<Customer>customers = dalObject.displayCustomers();
+                    foreach (Customer customer in customers)
+                    {
+                        Console.WriteLine(customer.ToString());
+                    }
                     break;
                 case objects.Parcel:
-                    IEnumerable<Parcel> parcel = dalObject.displayParcels();
+                    IEnumerable<Parcel> parcels = dalObject.displayParcels();
+                    foreach (Parcel parcel in parcels )
+                    {
+                        Console.WriteLine(parcels.ToString());
+                    }
                     break;
                 default:
                     break;
             }
-        }
-
-        
+        }    
     }
 }
 
