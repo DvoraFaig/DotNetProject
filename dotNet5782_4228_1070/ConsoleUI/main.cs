@@ -14,15 +14,47 @@ namespace DAL
     enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
    
     class main
-    {     
-        static void Main(string[] args)
-        {
-            nav();
-        }
+    {
         Random r = new Random();
         //int choice;
         static DalObject.DalObject dalObject = new DalObject.DalObject();
 
+        static void Main(string[] args)
+        {
+            nav();
+        }
+        public static void nav()
+        {
+            //Console.WriteLine("Enter your choice");
+            //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
+            Choices choice; //defaualt 0
+            do
+            {
+                Console.WriteLine("Enter your choice to add:\n 1.Add \n2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
+                choice = (Choices)Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case Choices.Add:
+                        additionFunc();
+                        break;
+                    case Choices.Update:
+                        UpdateFunc();
+                        break;
+                    case Choices.ShowWithId:
+                        ShowWithIdFunc();
+                        break;
+                    case Choices.ShowList:
+                        DisplayListFunc();
+                        break;
+                    default:
+                        if ((int)choice != 5)
+                            Console.WriteLine("Error");
+                        break;
+                }
+            } while ((int)choice != 5);
+        }
+
+        
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
@@ -142,10 +174,10 @@ namespace DAL
                 case objects.Station:
                     Console.WriteLine( "IEnumerable<Station>");
                     IEnumerable<Station> stations = dalObject.displayStations();
-                    foreach (var station in stations)
-                    {
-                        Console.WriteLine("dsfgh");
-                    }
+                    //foreach (var station in stations)
+                    //{
+                    //    Console.WriteLine("dsfgh");
+                    //}
                     Console.WriteLine("stations..............");
                     break;
                 case objects.Drone:
@@ -162,38 +194,7 @@ namespace DAL
             }
         }
 
-        public static void nav()
-        {
-            //Console.WriteLine("Enter your choice");
-            //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
-            Choices choice ; //defaualt 0
-
-            do
-            {
-                Console.WriteLine("Enter your choice to add:\n 1.Add \n2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                choice= (Choices)Convert.ToInt32(Console.ReadLine());
-
-                switch (choice)
-                {
-                    case Choices.Add:
-                        additionFunc();
-                        break;
-                    case Choices.Update:
-                        UpdateFunc();
-                        break;
-                    case Choices.ShowWithId:
-                        ShowWithIdFunc();
-                        break;
-                    case Choices.ShowList:
-                        DisplayListFunc();
-                        break;
-                    default:
-                        if ((int)choice != 5)
-                            Console.WriteLine("Error");
-                        break;
-                }
-            } while ((int)choice != 5);
-        }
+        
     }
 }
 
