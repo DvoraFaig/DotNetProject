@@ -82,7 +82,7 @@ namespace DalObject
             {
                 if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
                 {
-                    //parcel.DroneId = drone.Id;
+                    parcel.DroneId = drone.Id;
                     //drone.Status = DroneStatus.Delivery;
                     return;
                 }

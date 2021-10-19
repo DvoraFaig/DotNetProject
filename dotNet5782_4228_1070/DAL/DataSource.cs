@@ -24,10 +24,8 @@ namespace DalObject
             {
                 Stations[i].Id = r.Next(0, 10);
                 Stations[i].ChargeSlots = r.Next(0, 10);
-                Console.WriteLine("Enter a Latitude");
-                Stations[i].Latitude = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a Longitude");
-                Stations[i].Longitude = Convert.ToInt32(Console.ReadLine());
+                Stations[i].Latitude = r.Next(0, 400);
+                Stations[i].Longitude = r.Next(0, 400);
                 Stations[i].ChargeSlots = r.Next(0, 200);
                 Config.indexStations++;
 
@@ -38,8 +36,7 @@ namespace DalObject
             for (int i=0; i< amountDrones; i++)
             {
                 Drones[i].Id = r.Next(0, 10);
-                Console.WriteLine("Enter a Model");
-                Drones[i].Model = Console.ReadLine();
+                Drones[i].Model = $"Drone{Drones[i].Id}";
                 Console.WriteLine();
                 Config.indexDrones++;
             }
@@ -50,14 +47,10 @@ namespace DalObject
             for (int i = 0; i < amountStations; i++)
             {
                 Customers[i].ID = r.Next(0, 10);
-                Console.WriteLine("Enter a Name");
-                Customers[i].Name = Console.ReadLine();
-                Console.WriteLine("Enter a phone");
-                Customers[i].Phone = Console.ReadLine();
-                Console.WriteLine("Enter a Latitude");
-                Stations[i].Latitude = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a Longitude");
-                Stations[i].Longitude = Convert.ToInt32(Console.ReadLine());
+                Customers[i].Name = $"Customer{Customers[i].ID}";
+                Customers[i].Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
+                Stations[i].Latitude = r.Next(0, 400);
+                Stations[i].Longitude = r.Next(0, 400);
                 Config.indexCustomers++;
             }
 
@@ -66,10 +59,8 @@ namespace DalObject
             for(int i =0; i<amountParcels; i++)
             {
                 Parcels[i].Id = 0000000000000000000; //יחודי???
-                Console.WriteLine("Enter the sending costumer's id: ");
-                Parcels[i].Serderid = Convert.ToInt32(Console.ReadLine());///////
-                Console.WriteLine("Enter the receiving costumer's id: ");
-                Parcels[i].TargetId = Convert.ToInt32(Console.ReadLine());////////
+                Parcels[i].Serderid = r.Next(0, 400);
+                Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
                 Parcels[i].Priority = (Priorities)r.Next(0,3);
                 Parcels[i].Requeasted =(Datatime)r.Next(0,3);
@@ -77,9 +68,7 @@ namespace DalObject
                 Parcels[i].Scheduled = DateTime.Now;
                 //Parcels[i].PickUp ;
                 //Parcels[i].Delivered ;
-
             }
-
         }
 
         /*מערכים סטטים של ישויות הנתונים*/
