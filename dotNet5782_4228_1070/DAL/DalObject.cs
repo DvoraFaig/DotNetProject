@@ -185,7 +185,21 @@ namespace DalObject
             Parcel m_parcel = new Parcel();
             return m_parcel;
         }
-
+        public static DroneCharge getDroneChargeById(int id)
+        {
+            foreach (DroneCharge droneCharge in DataSource.DroneCharges)
+            {
+                if (DroneCharge.Id == id)
+                {
+                    return droneCharge;
+                }
+            }
+            DroneCharge m_droneCharge = new DroneCharge();
+            return m_droneCharge;
+        }
+        //////////////////////////////////////////////////////////////////
+        /// Display all
+        //////////////////////////////////////////////////////////////////
         public IEnumerable<Station> displayStations()
         {
             foreach(Station station in DataSource.Stations)

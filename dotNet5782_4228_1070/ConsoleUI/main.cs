@@ -7,6 +7,7 @@ using IDAL.DO;
 using DalObject;
 
 
+
 namespace DAL
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList }
@@ -16,8 +17,7 @@ namespace DAL
     class main
     {
         Random r = new Random();
-        //int choice;
-        static DalObject.DalObject dalObject = new DalObject.DalObject();
+        static DalObject.DalObject dalObject;
 
         static void Main(string[] args)
         {
@@ -78,7 +78,7 @@ namespace DAL
                     dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
                 case objects.Customer:
-                    id = r.Next(0, 5);
+                    id = r.Next(0, 100);
                     Console.WriteLine("Enter costumer's Name: ");
                     Name = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
@@ -91,7 +91,7 @@ namespace DAL
                     dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
                     break;
                 case objects.Parcel:
-                    id = 0000000000000000000; //יחודי???
+                    id = r.Next(0, 1000); //יחודי???
                     Console.WriteLine("Enter the sending costumer's id: ");
                     int Serderid = Convert.ToInt32(Console.ReadLine());///////
                     Console.WriteLine("Enter the receiving costumer's id: ");
@@ -99,11 +99,11 @@ namespace DAL
                     WeightCategories Weight = (WeightCategories)r.Next(0,3);
                     Priorities Priority = (Priorities)r.Next(0,3);
                     Datatime Requeasted =(Datatime)r.Next(0,3);
-                    int DroneId=111111;////////////////;////////////////;////////////////;////////////////
-                    DateTime Scheduled = DateTime.Now;
-                    DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
-                    DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
-                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
+                    //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
+                    //DateTime Scheduled = DateTime.Now;
+                    //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
+                    //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
+                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
                     break;
                 default:
                     break;
@@ -138,20 +138,29 @@ namespace DAL
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int id = new int();
             if ((int)choice > 0 && (int)choice < 5)
             {
                 Console.WriteLine("Enter the Id of the object");
-                int id = Convert.ToInt32(Console.ReadLine());
+                id = Convert.ToInt32(Console.ReadLine());
             }
             switch (choice)
             {
                 case objects.Station:
+                    Station s = DalObject.DalObject.getStationById(id);
+                    Console.WriteLine(s.ToString());
                     break;
                 case objects.Drone:
+                    Drone d = DalObject.DalObject.getDroneById(id);
+                    Console.WriteLine(d.ToString());
                     break;
                 case objects.Customer:
+                    Customer c = DalObject.DalObject.getCustomerById(id);
+                    Console.WriteLine(c.ToString());
                     break;
                 case objects.Parcel:
+                    Parcel p = DalObject.DalObject.getParcelById(id);
+                    Console.WriteLine(p.ToString());
                     break;
                 default:
                     Console.WriteLine("eroor");
@@ -166,12 +175,11 @@ namespace DAL
             {
                 case objects.Station:
                     Console.WriteLine( "IEnumerable<Station>");
-                    IEnumerable<Station> stations = dalObject.displayStations();
-                    //foreach (var station in stations)
-                    //{
-                    //    Console.WriteLine("dsfgh");
-                    //}
+                    //IEnumerable<Station> stations = dalObject.displayStations();
+                    var stations = dalObject.displayStations();
+                    
                     Console.WriteLine("stations..............");
+                    Console.WriteLine(stations);
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
