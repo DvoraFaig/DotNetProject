@@ -117,21 +117,40 @@ namespace DAL
             switch (choice)
             {
                 case UpdateObj.DroneReceivesParcel:
-                    int idParcel = Console.WriteLine("Enter a parcel id");
-                    Parcel parcel;
+                    Console.WriteLine("Enter a parcel id");
+                    int parcelId = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcel = new Parcel();
+                    parcel = DalObject.DalObject.getParcelById(parcelId);
                     dalObject.DroneReceivesParcel(parcel);
                     break;
                 case UpdateObj.DroneCollectsAParcel:
-                    //dalObject.DroneCollectsAParcel();
+                    int idParcelCollect = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcelCollect = new Parcel();
+                    parcel = DalObject.DalObject.getParcelById(idParcelCollect);
+                    dalObject.DroneCollectsAParcel(parcelCollect);
                     break;
                 case UpdateObj.CostumerGetsParcel:
                     //dalObject.CostumerGetsParcel();
                     break;
                 case UpdateObj.sendDroneToCharge:
-                    //dalObject.sendDroneToCharge();
+                    int droneId = Convert.ToInt32(Console.ReadLine());
+                    Drone drone = new Drone();
+                    drone = DalObject.DalObject.getDroneById(droneId);
+                    if(!(drone.Status == DroneStatus.Available))
+                    {
+                        if(drone.Status == DroneStatus.Maintenance)
+                            Console.WriteLine("Drone is in maintenance");
+                        else
+                            Console.WriteLine("Drone is in available");
+                        break;
+                    }
+                    dalObject.sendDroneToCharge(drone);
                     break;
                 case UpdateObj.freeDroneFromCharge:
-                    //dalObject.freeDroneFromCharge();
+                    int droneIdCharge = Convert.ToInt32(Console.ReadLine());
+                    Drone droneCharge = new Drone();
+                    droneCharge = DalObject.DalObject.getDroneById(droneIdCharge);
+                    dalObject.freeDroneFromCharge(droneCharge);
                     break;
             }
         }
@@ -170,14 +189,12 @@ namespace DAL
                     foreach (Station station  in stations)
                     {
                         Console.WriteLine(station.ToString());
-                        //Console.WriteLine($"station name: {station.Name}, station Id{station.Id}, station latitude {station.Latitude}, station longitude{station.Longitude}\n");
                     }
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
                     foreach (Drone drone in drones)
                     {
-                        //Console.WriteLine($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {drone.MaxWeight}, drone status{drone.Status}, drone battery {drone.Battery}\n");
                         Console.WriteLine(drone.ToString());
                     }
                     break;
@@ -185,7 +202,6 @@ namespace DAL
                     IEnumerable<Customer>customers = dalObject.displayCustomers();
                     foreach (Customer customer in customers)
                     {
-                        //Console.WriteLine($"customer id: {customer.ID}, customer name{customer.Name}, customer phone {customer.Phone} ,customer latitude {customer.Latitude}, customer Longitude{customer.Longitude}\n");
                         Console.WriteLine(customer.ToString());
                     }
                     break;
@@ -193,16 +209,13 @@ namespace DAL
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
                     foreach (Parcel parcel in parcels )
                     {
-                        //Console.WriteLine($"customer id: {customer.ID}, customer name{customer.Name}, customer phone {customer.Phone} ,customer latitude {customer.Latitude}, customer Longitude{customer.Longitude}\n");
                         Console.WriteLine(parcels.ToString());
                     }
                     break;
                 default:
                     break;
             }
-        }
-
-        
+        }    
     }
 }
 
