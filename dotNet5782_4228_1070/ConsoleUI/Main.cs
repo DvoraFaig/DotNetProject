@@ -15,6 +15,7 @@ namespace DAL
    
     class main
     {
+
         Random r = new Random();
         //int choice;
         static DalObject.DalObject dalObject = new DalObject.DalObject();
