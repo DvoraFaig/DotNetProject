@@ -54,11 +54,14 @@ namespace DAL
             objects obj = (objects)Convert.ToInt32(Console.ReadLine());
             Random r = new Random();
 
-     
+            int id = new int();
             switch (obj)
             {
                 case objects.Station:
-                    int id = r.Next(0, 5);
+                    do
+                    {
+                        id = r.Next(0, 5);
+                    } while (DalObject.DalObject.getStationById(id).Equals(null));
                     Console.WriteLine("Enter a station Name: ");
                     string Name = Console.ReadLine();
                     int ChargeSlots = r.Next(0, 5);
@@ -69,7 +72,10 @@ namespace DAL
                     dalObject.AddStation( id, Name, ChargeSlots,Longitude, Latitude);
                     break;
                 case objects.Drone:
-                    id = r.Next(0, 10);
+                    do
+                    {
+                        id = r.Next(0, 10);
+                    } while (DalObject.DalObject.getDroneById(id).Equals(null));
                     Console.WriteLine("Enter a Model");
                     string Model = Console.ReadLine();
                     WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
@@ -78,7 +84,9 @@ namespace DAL
                     dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
                     break;
                 case objects.Customer:
-                    id = r.Next(0, 100);
+                    do {
+                        id = r.Next(0, 100);
+                    } while (DalObject.DalObject.getCustomerById(id).Equals(null));
                     Console.WriteLine("Enter costumer's Name: ");
                     Name = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
@@ -91,7 +99,9 @@ namespace DAL
                     dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
                     break;
                 case objects.Parcel:
-                    id = r.Next(0, 1000); //יחודי???
+                    do {
+                        id = r.Next(0, 1000); //יחודי???
+                    } while (DalObject.DalObject.getParcelById(id).Equals(null));
                     Console.WriteLine("Enter the sending costumer's id: ");
                     int Serderid = Convert.ToInt32(Console.ReadLine());///////
                     Console.WriteLine("Enter the receiving costumer's id: ");
