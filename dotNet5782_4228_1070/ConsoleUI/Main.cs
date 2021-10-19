@@ -15,19 +15,12 @@ namespace DAL
    
     class main
     {
-
         Random r = new Random();
         //int choice;
         static DalObject.DalObject dalObject = new DalObject.DalObject();
 
         static void Main(string[] args)
         {
-            nav();
-        }
-        public static void nav()
-        {
-            //Console.WriteLine("Enter your choice");
-            //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
             Choices choice; //defaualt 0
             do
             {
@@ -54,7 +47,6 @@ namespace DAL
                 }
             } while ((int)choice != 5);
         }
-
         
         public static void additionFunc()
         {
