@@ -30,7 +30,7 @@ namespace DAL
             Choices choice; //defaualt 0
             do
             {
-                Console.WriteLine("Enter your choice to add:\n 1.Add \n2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
+                Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
                 choice = (Choices)Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
