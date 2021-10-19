@@ -7,6 +7,7 @@ using IDAL.DO;
 using DalObject;
 
 
+
 namespace DAL
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList }
@@ -16,12 +17,11 @@ namespace DAL
     class main
     {
         Random r = new Random();
-        //int choice;
-        static DalObject.DalObject dalObject = new DalObject.DalObject();
+        static DalObject.DalObject dalObject;
 
         static void Main(string[] args)
         {
-            
+            dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
             {
@@ -104,7 +104,7 @@ namespace DAL
                     //DateTime Scheduled = DateTime.Now;
                     //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
                     //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
-                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority,Requeasted,DroneId,Scheduled,PickUp,Delivered);
+                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
                     break;
                 default:
                     break;
@@ -167,12 +167,11 @@ namespace DAL
             {
                 case objects.Station:
                     Console.WriteLine( "IEnumerable<Station>");
-                    IEnumerable<Station> stations = dalObject.displayStations();
-                    //foreach (var station in stations)
-                    //{
-                    //    Console.WriteLine("dsfgh");
-                    //}
+                    //IEnumerable<Station> stations = dalObject.displayStations();
+                    var stations = dalObject.displayStations();
+                    
                     Console.WriteLine("stations..............");
+                    Console.WriteLine(stations);
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();

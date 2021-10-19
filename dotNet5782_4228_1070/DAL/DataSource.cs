@@ -20,7 +20,6 @@ namespace DalObject
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
-            Console.WriteLine($"Enter {amountStations} stations information");
             for (int i = 0; i < amountStations; i++)
             {
                 Stations[i].Id = r.Next(0, 10);
@@ -33,7 +32,6 @@ namespace DalObject
             }
 
             int amountDrones = r.Next(5,10);
-            Console.WriteLine($"Enter {amountDrones} Drones information");
             for (int i=0; i< amountDrones; i++)
             {
                 Drones[i].Id = r.Next(0, 10);
@@ -44,7 +42,6 @@ namespace DalObject
             
 
             int amountCustomer = r.Next(10, 100);
-            Console.WriteLine($"Enter {amountCustomer} stations information");
             for (int i = 0; i < amountStations; i++)
             {
                 Customers[i].ID = r.Next(0, 100);//יחודי???
@@ -56,7 +53,6 @@ namespace DalObject
             }
 
             int amountParcels = r.Next(10, 1000);
-            Console.WriteLine($"Enter {amountParcels} stations information");
             for(int i =0; i<amountParcels; i++)
             {
                 Parcels[i].Id = r.Next(0, 1000); //יחודי???

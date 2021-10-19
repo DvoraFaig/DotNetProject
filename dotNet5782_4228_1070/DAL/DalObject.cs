@@ -54,7 +54,7 @@ namespace DalObject
             DataSource.Customers[DataSource.Config.indexCustomers++] = customer;
 
         }
-        public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority, Datatime Requeasted, int DroneId, DateTime Scheduled, DateTime PickUp, DateTime Delivered)
+        public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority/*,Datatime Requeasted, int DroneId, DateTime Scheduled, DateTime PickUp, DateTime Delivered*/)
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;
@@ -62,11 +62,11 @@ namespace DalObject
             parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;
-            parcel.Requeasted = Requeasted;
-            parcel.DroneId = DroneId;
-            parcel.Scheduled = Scheduled;
-            parcel.PickUp = PickUp;
-            parcel.Delivered = Delivered;
+            //parcel.Requeasted = Requeasted;
+            //parcel.DroneId = DroneId;
+            //parcel.Scheduled = Scheduled;
+            //parcel.PickUp = PickUp;
+            //parcel.Delivered = Delivered;
             DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
 
         }
@@ -113,11 +113,11 @@ namespace DalObject
             //DroneCharges;
             foreach (DroneCharge DroneCharge in DataSource.DroneCharges)
             {
-                if(DataSource.DroneCharges[DataSource.Config.indexDroneCharges] == 10)
-                {
-                    Console.WriteLine( "The DroneCharge is full!\nPleasetry later! ");
-                    return;
-                }
+                //if(DataSource.DroneCharges[DataSource.Config.indexDroneCharges] == 10)
+                //{
+                //    Console.WriteLine( "The DroneCharge is full!\nPleasetry later! ");
+                //    return;
+                //}
             }
             drone.Status = DroneStatus.Maintenance;
             DroneCharge droneCharge = new DroneCharge();
@@ -129,6 +129,7 @@ namespace DalObject
         }
         public void freeDroneFromCharge(Drone drone)
         {
+            //
             //??????????????????????????????
             //drone.Status == DroneStatus.Available;
             drone.Battery = 100;
