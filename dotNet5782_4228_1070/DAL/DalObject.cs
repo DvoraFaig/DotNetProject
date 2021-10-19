@@ -58,7 +58,7 @@ namespace DalObject
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;
-            parcel.Serderid = Serderid;
+            parcel.SenderId = Serderid;
             parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;

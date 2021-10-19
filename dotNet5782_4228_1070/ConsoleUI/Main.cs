@@ -114,26 +114,26 @@ namespace DAL
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
-            //switch (choice)
-            //{
-            //case UpdateObj.DroneReceivesParcel:
-            //    dalObject.DroneReceivesParcel();
-            //    break;
-            //case UpdateObj.DroneCollectsAParcel:
-            //    dalObject.DroneCollectsAParcel();
-            //    break;
-            //case UpdateObj.CostumerGetsParcel:
-            //    dalObject.CostumerGetsParcel();
-            //    break;
-            //case UpdateObj.sendDroneToCharge:
-            //    dalObject.sendDroneToCharge();
-            //    break;
-            //case UpdateObj.freeDroneFromCharge:
-            //    dalObject.freeDroneFromCharge();
-            //    break;
-            //}
-
-
+            switch (choice)
+            {
+                case UpdateObj.DroneReceivesParcel:
+                    int idParcel = Console.WriteLine("Enter a parcel id");
+                    Parcel parcel;
+                    dalObject.DroneReceivesParcel(parcel);
+                    break;
+                case UpdateObj.DroneCollectsAParcel:
+                    //dalObject.DroneCollectsAParcel();
+                    break;
+                case UpdateObj.CostumerGetsParcel:
+                    //dalObject.CostumerGetsParcel();
+                    break;
+                case UpdateObj.sendDroneToCharge:
+                    //dalObject.sendDroneToCharge();
+                    break;
+                case UpdateObj.freeDroneFromCharge:
+                    //dalObject.freeDroneFromCharge();
+                    break;
+            }
         }
         public static void ShowWithIdFunc()
         {
@@ -166,21 +166,36 @@ namespace DAL
             switch (choice)
             {
                 case objects.Station:
-                    Console.WriteLine( "IEnumerable<Station>");
-                    //IEnumerable<Station> stations = dalObject.displayStations();
-                    var stations = dalObject.displayStations();
-                    
-                    Console.WriteLine("stations..............");
-                    Console.WriteLine(stations);
+                    IEnumerable<Station> stations = dalObject.displayStations();
+                    foreach (Station station  in stations)
+                    {
+                        Console.WriteLine(station.ToString());
+                        //Console.WriteLine($"station name: {station.Name}, station Id{station.Id}, station latitude {station.Latitude}, station longitude{station.Longitude}\n");
+                    }
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
+                    foreach (Drone drone in drones)
+                    {
+                        //Console.WriteLine($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {drone.MaxWeight}, drone status{drone.Status}, drone battery {drone.Battery}\n");
+                        Console.WriteLine(drone.ToString());
+                    }
                     break;
                 case objects.Customer:
                     IEnumerable<Customer>customers = dalObject.displayCustomers();
+                    foreach (Customer customer in customers)
+                    {
+                        //Console.WriteLine($"customer id: {customer.ID}, customer name{customer.Name}, customer phone {customer.Phone} ,customer latitude {customer.Latitude}, customer Longitude{customer.Longitude}\n");
+                        Console.WriteLine(customer.ToString());
+                    }
                     break;
                 case objects.Parcel:
-                    IEnumerable<Parcel> parcel = dalObject.displayParcels();
+                    IEnumerable<Parcel> parcels = dalObject.displayParcels();
+                    foreach (Parcel parcel in parcels )
+                    {
+                        //Console.WriteLine($"customer id: {customer.ID}, customer name{customer.Name}, customer phone {customer.Phone} ,customer latitude {customer.Latitude}, customer Longitude{customer.Longitude}\n");
+                        Console.WriteLine(parcels.ToString());
+                    }
                     break;
                 default:
                     break;

@@ -56,7 +56,7 @@ namespace DalObject
             for(int i =0; i<amountParcels; i++)
             {
                 Parcels[i].Id = r.Next(0, 1000); //יחודי???
-                Parcels[i].Serderid = r.Next(0, 400);
+                Parcels[i].SenderId = r.Next(0, 400);
                 Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
                 Parcels[i].Priority = (Priorities)r.Next(0,3);
