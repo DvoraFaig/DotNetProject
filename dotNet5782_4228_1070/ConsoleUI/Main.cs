@@ -21,7 +21,6 @@ namespace DAL
 
         static void Main(string[] args)
         {
-            dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
             {
@@ -139,26 +138,36 @@ namespace DAL
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int id = new int();
             if ((int)choice > 0 && (int)choice < 5)
             {
                 Console.WriteLine("Enter the Id of the object");
-                int id = Convert.ToInt32(Console.ReadLine());
+                id = Convert.ToInt32(Console.ReadLine());
             }
             switch (choice)
             {
                 case objects.Station:
+                    Station s = DalObject.DalObject.getStationById(id);
+                    Console.WriteLine(s.ToString());
                     break;
                 case objects.Drone:
+                    Drone d = DalObject.DalObject.getDroneById(id);
+                    Console.WriteLine(d.ToString());
                     break;
                 case objects.Customer:
+                    Customer c = DalObject.DalObject.getCustomerById(id);
+                    Console.WriteLine(c.ToString());
                     break;
                 case objects.Parcel:
+                    Parcel p = DalObject.DalObject.getParcelById(id);
+                    Console.WriteLine(p.ToString());
                     break;
                 default:
                     Console.WriteLine("eroor");
                     break;
             }
         }
+
         public static void DisplayListFunc() 
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
