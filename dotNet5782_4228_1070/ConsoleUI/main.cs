@@ -12,20 +12,24 @@ namespace DAL
     enum Choices { Add = 1, Update, ShowWithId, ShowList }
     enum objects { Station = 1, Drone, Customer, Parcel }
     enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
-
-
+   
     class main
-    {
-        Random r = new Random();
-        int choice;
-        DalObject.DalObject dalObject = new DalObject.DalObject();
-=        public void additionFunc()
+    {     
+        static void Main(string[] args)
         {
-            Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
+            nav();
+        }
+        Random r = new Random();
+        //int choice;
+        static DalObject.DalObject dalObject = new DalObject.DalObject();
+
+        public static void additionFunc()
+        {
+            Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj = (objects)Convert.ToInt32(Console.ReadLine());
             Random r = new Random();
 
-
+     
             switch (obj)
             {
                 case objects.Station:
@@ -80,7 +84,7 @@ namespace DAL
                     break;
             }
         }
-        public void UpdateFunc()
+        public static void UpdateFunc()
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
@@ -105,7 +109,7 @@ namespace DAL
 
 
         }
-        public void ShowWithIdFunc()
+        public static void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
@@ -129,14 +133,19 @@ namespace DAL
                     break;
             }
         }
-        public void DisplayListFunc() 
+        public static void DisplayListFunc() 
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
                 case objects.Station:
+                    Console.WriteLine( "IEnumerable<Station>");
                     IEnumerable<Station> stations = dalObject.displayStations();
+                    foreach (var station in stations)
+                    {
+                        Console.WriteLine("dsfgh");
+                    }
                     Console.WriteLine("stations..............");
                     break;
                 case objects.Drone:
@@ -153,14 +162,17 @@ namespace DAL
             }
         }
 
-        public void nav()
+        public static void nav()
         {
             //Console.WriteLine("Enter your choice");
             //choices choice = (objects)Convert.ToInt32(Console.ReadLine());
+            Choices choice ; //defaualt 0
+
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add \n2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                Choices choice = (Choices)Convert.ToInt32(Console.ReadLine());
+                choice= (Choices)Convert.ToInt32(Console.ReadLine());
+
                 switch (choice)
                 {
                     case Choices.Add:

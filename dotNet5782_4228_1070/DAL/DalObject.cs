@@ -9,6 +9,7 @@ using IDAL.DO;
 
 
 
+
 namespace DalObject
 {
     public class DalObject
@@ -27,7 +28,7 @@ namespace DalObject
             drone.MaxWeight = MaxWeight;
             drone.Status = Status;
             drone.Battery = Battery;
-
+            DataSource.Drones[DataSource.Config.indexDrones++] = drone;
         }
 
 
@@ -39,6 +40,7 @@ namespace DalObject
             station.ChargeSlots = ChargeSlots;
             station.Longitude = Longitude;
             station.Latitude = Latitude;
+            DataSource.Stations[DataSource.Config.indexStations++] = station;
 
         }
         public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
@@ -49,6 +51,8 @@ namespace DalObject
             customer.Phone = Phone;
             customer.Longitude = Longitude;
             customer.Latitude = Latitude;
+            DataSource.Customers[DataSource.Config.indexCustomers++] = customer;
+
         }
         public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority, Datatime Requeasted, int DroneId, DateTime Scheduled, DateTime PickUp, DateTime Delivered)
         {
@@ -63,6 +67,8 @@ namespace DalObject
             parcel.Scheduled = Scheduled;
             parcel.PickUp = PickUp;
             parcel.Delivered = Delivered;
+            DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
+
         }
 
 
@@ -114,7 +120,7 @@ namespace DalObject
             drone.Battery = 100;
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Display//
         public IEnumerable<Station> displayStations()
         {
