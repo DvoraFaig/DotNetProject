@@ -104,8 +104,9 @@ namespace DalObject
                     parcel.DroneId = drone.Id;
                     parcel.SenderId = sendingCustomer.ID;
                     parcel.Requeasted = DateTime.Today;//prepare a parcel to delivery
-                    parcel.Scheduled = DateTime.Now; //pair a parcel to drone
-                    //drone.Status = DroneStatus.Delivery;
+                    parcel.Scheduled = DateTime.Now; //pair a parcel to dron
+                    int indexDrone = drone.Id;
+                    DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
                     return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id} frome costumer {sendingCustomer.ID}.";
                 }
             }

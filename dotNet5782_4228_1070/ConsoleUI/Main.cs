@@ -26,7 +26,13 @@ namespace DAL
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                choice = (Choices)Convert.ToInt32(Console.ReadLine());
+                int tempChoice = Convert.ToInt32(Console.ReadLine());
+                if(tempChoice <= 0 && tempChoice >=5)
+                {
+                    Console.WriteLine("ERROR");
+                    return;
+                }
+                choice = (Choices)tempChoice;
                 switch (choice)
                 {
                     case Choices.Add:
@@ -52,10 +58,15 @@ namespace DAL
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects obj = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects obj = (objects)tempChoice;
             Random r = new Random();
-            //int id;
-
+            
             switch (obj)
             {
                 case objects.Station:
@@ -129,7 +140,13 @@ namespace DAL
         public static void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects choice = (objects)tempChoice;
             int id = new int();
             if ((int)choice > 0 && (int)choice < 5)
             {
@@ -162,7 +179,13 @@ namespace DAL
         public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects choice = (objects)tempChoice;
             switch (choice)
             {
                 case objects.Station:
@@ -206,6 +229,7 @@ namespace DAL
                     break;
             }
         }
+
         public static void addStation()
         {
             Random r = new Random();
