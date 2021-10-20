@@ -9,6 +9,7 @@ namespace DalObject
 {
     internal class DataSource
     {
+        //Arrays of the classes
         internal static Drone[] Drones = new Drone[10];
         internal static Station[] Stations = new Station[5];
         internal static Customer[] Customers = new Customer[100];
@@ -22,7 +23,8 @@ namespace DalObject
             int amountStations = r.Next(2, 5);
             for (int i = 0; i < amountStations; i++)
             {
-                Stations[i].Id = r.Next(0, 10);
+                Stations[i].Id = i;
+                Stations[i].Name = $"Station{Stations[i].Id}";
                 Stations[i].ChargeSlots = r.Next(0, 10);
                 Stations[i].Latitude = r.Next(0, 400);
                 Stations[i].Longitude = r.Next(0, 400);
@@ -34,9 +36,12 @@ namespace DalObject
             int amountDrones = r.Next(5,10);
             for (int i=0; i< amountDrones; i++)
             {
-                Drones[i].Id = r.Next(0, 10);
+                Drones[i].Id = i;
                 Drones[i].Model = $"Drone{Drones[i].Id}";
-                //Console.WriteLine();
+                Drones[i].Battery = 100;
+                Drones[i].MaxWeight = (WeightCategories)r.Next(0, 3);
+                Drones[i].Model = $"Model{r.Next(0, 3)}";
+                Drones[i].Status = (DroneStatus)r.Next(0, 3);
                 Config.indexDrones++;
             }
             
@@ -69,7 +74,6 @@ namespace DalObject
             /////////////////DroneCharges
         }
 
-        /*מערכים סטטים של ישויות הנתונים*/
         internal static class Config
         {
             internal static int indexDrones = 0;
