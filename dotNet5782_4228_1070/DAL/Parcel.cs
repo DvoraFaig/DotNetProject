@@ -21,8 +21,7 @@ namespace DalObject
         public DateTime Delivered { get; set; }
         public override string ToString()
         {
-            return $"parcel ID: {Id}, parcel SenderId: {SenderId}, parcel TargetId: {TargetId}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted},parcel DroneId {DroneId},parcel scheduled {Scheduled},parcel pickUp{PickUp}, parcel delivered: {Delivered}\n";
-
+            return ($"parcel ID: {Id}, parcel SenderId: {SenderId}, parcel TargetId: {TargetId}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted}, parcel DroneId {DroneId}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
         }
     }
 }

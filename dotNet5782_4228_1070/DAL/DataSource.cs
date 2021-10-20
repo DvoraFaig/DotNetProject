@@ -36,7 +36,7 @@ namespace DalObject
             {
                 Drones[i].Id = r.Next(0, 10);
                 Drones[i].Model = $"Drone{Drones[i].Id}";
-                Console.WriteLine();
+                //Console.WriteLine();
                 Config.indexDrones++;
             }
             
