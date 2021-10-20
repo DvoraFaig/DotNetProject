@@ -250,7 +250,7 @@ namespace DAL
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
                     foreach (Parcel parcel in parcels)
                     {
-                        Console.WriteLine(parcels.ToString());
+                        Console.WriteLine(parcel.ToString());
                     }
                     break;
                 default:
