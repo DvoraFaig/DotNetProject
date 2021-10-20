@@ -73,19 +73,22 @@ namespace DalObject
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Update//
-        public void PairAParcelWithADrone(Parcel parcel)
+        //find an availeble drone and send it to the sending costumer.
+        public string PairAParcelWithADrone(Parcel parcel,Customer sendingCustomer)
         {
             foreach (Drone drone in DataSource.Drones)
             {
                 if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
                 {
                     parcel.DroneId = drone.Id;
+                    parcel.SenderId = sendingCustomer.ID;
+                    parcel.Requeasted = DateTime.Today;//prepare a parcel to delivery
+                    parcel.Scheduled = DateTime.Now; //pair a parcel to drone
                     //drone.Status = DroneStatus.Delivery;
-                    return;
+                    return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id} frome costumer {sendingCustomer.ID}.";
                 }
             }
-            //return ("No drones available");
-
+            return ("No drones available.\n please try later.");
         }
         public void DroneCollectsAParcel( Parcel parcel)
         {

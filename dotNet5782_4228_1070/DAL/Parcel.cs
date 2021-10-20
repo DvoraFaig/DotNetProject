@@ -14,9 +14,9 @@ namespace DalObject
         public int TargetId { get; set; }
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
-        public Datatime Requeasted { get; set; }
         public int DroneId { get; set; }
-        public DateTime Scheduled { get; set; }
+        public DateTime Requeasted { get; set; } //prepare a parcel to delivery
+        public DateTime Scheduled { get; set; } //pair a parcel to drone
         public DateTime PickUp { get; set; }
         public DateTime Delivered { get; set; }
         public override string ToString()

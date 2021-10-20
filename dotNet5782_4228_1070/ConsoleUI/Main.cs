@@ -81,11 +81,27 @@ namespace DAL
             switch (choice)
             {
                 case UpdateObj.DroneReceivesParcel:
+                    //if()//indexCustomer = 10
+                    //{
+                    //  cw(_"No Available Drones")
+                    //}
+                    Customer sendingCstmr;
+                    Random r = new Random();
+                    int id = 0;
+                    do
+                    {
+                        id = r.Next(0, 100);
+                        sendingCstmr = DalObject.DalObject.getCustomerById(id);
+                    } while (!sendingCstmr.Equals(null)); //check if the id exist
+                    sendingCstmr.Name = 
+                        sendingCstmr.Phone
+
                     Console.WriteLine("Enter a parcel id");
                     int parcelId = Convert.ToInt32(Console.ReadLine());
                     Parcel parcel = new Parcel();
                     parcel = DalObject.DalObject.getParcelById(parcelId);
-                    dalObject.PairAParcelWithADrone(parcel);
+
+                    dalObject.PairAParcelWithADrone(parcel, sendingCstmr);
                     break;
                 case UpdateObj.DroneCollectsAParcel:
                     int idParcelCollect = Convert.ToInt32(Console.ReadLine());
@@ -262,7 +278,7 @@ namespace DAL
             int TargetId = Convert.ToInt32(Console.ReadLine());////////
             WeightCategories Weight = (WeightCategories)r.Next(0, 3);
             Priorities Priority = (Priorities)r.Next(0, 3);
-            Datatime Requeasted = (Datatime)r.Next(0, 3);
+            //Datetime Requeasted = (Datatime)r.Next(0, 3);
             //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
             //DateTime Scheduled = DateTime.Now;
             //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0

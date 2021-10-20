@@ -60,7 +60,7 @@ namespace DalObject
                 Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
                 Parcels[i].Priority = (Priorities)r.Next(0,3);
-                Parcels[i].Requeasted =(Datatime)r.Next(0,3);
+                //Parcels[i].Requeasted =(DateTime)r.Next(0,3);
                 //Parcels[i].DroneId;
                 Parcels[i].Scheduled = DateTime.Now;
                 //Parcels[i].PickUp ;
