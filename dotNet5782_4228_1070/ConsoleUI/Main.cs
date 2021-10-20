@@ -54,7 +54,7 @@ namespace DAL
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj = (objects)Convert.ToInt32(Console.ReadLine());
             Random r = new Random();
-            int id;
+            //int id;
 
             switch (obj)
             {
@@ -85,7 +85,7 @@ namespace DAL
                     int parcelId = Convert.ToInt32(Console.ReadLine());
                     Parcel parcel = new Parcel();
                     parcel = DalObject.DalObject.getParcelById(parcelId);
-                    dalObject.DroneReceivesParcel(parcel);
+                    dalObject.PairAParcelWithADrone(parcel);
                     break;
                 case UpdateObj.DroneCollectsAParcel:
                     int idParcelCollect = Convert.ToInt32(Console.ReadLine());
