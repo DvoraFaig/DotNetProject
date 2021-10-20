@@ -12,8 +12,8 @@ namespace DAL
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList }
     enum objects { Station = 1, Drone, Customer, Parcel }
-    enum UpdateObj { DroneReceivesParcel=1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
-   
+    enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
+
     class main
     {
         Random r = new Random();
@@ -21,6 +21,7 @@ namespace DAL
 
         static void Main(string[] args)
         {
+            dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
             {
@@ -47,73 +48,27 @@ namespace DAL
                 }
             } while ((int)choice != 5);
         }
-        
+
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj = (objects)Convert.ToInt32(Console.ReadLine());
             Random r = new Random();
+            int id;
 
-            int id = new int();
             switch (obj)
             {
                 case objects.Station:
-                    do
-                    {
-                        id = r.Next(0, 5);
-                    } while (DalObject.DalObject.getStationById(id).Equals(null));
-                    Console.WriteLine("Enter a station Name: ");
-                    string Name = Console.ReadLine();
-                    int ChargeSlots = r.Next(0, 5);
-                    Console.WriteLine("Enter a Latitude");
-                    int Latitude = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter a Longitude");
-                    int Longitude = Convert.ToInt32(Console.ReadLine());
-                    dalObject.AddStation( id, Name, ChargeSlots,Longitude, Latitude);
+                    addStation();
                     break;
                 case objects.Drone:
-                    do
-                    {
-                        id = r.Next(0, 10);
-                    } while (DalObject.DalObject.getDroneById(id).Equals(null));
-                    Console.WriteLine("Enter a Model");
-                    string Model = Console.ReadLine();
-                    WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
-                    DroneStatus Status = (DroneStatus)(r.Next(0, 3));
-                    double Battery = 0;
-                    dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
+                    addDrone();
                     break;
                 case objects.Customer:
-                    do {
-                        id = r.Next(0, 100);
-                    } while (DalObject.DalObject.getCustomerById(id).Equals(null));
-                    Console.WriteLine("Enter costumer's Name: ");
-                    Name = Console.ReadLine();
-                    Console.WriteLine("Enter costumer's Phone: ");
-                    int Phone = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter a Latitude: ");
-                    Latitude = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter a Longitude: ");
-                    Longitude = Convert.ToInt32(Console.ReadLine());
-                    ChargeSlots = r.Next(0, 200);
-                    dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
+                    addCustomer();
                     break;
                 case objects.Parcel:
-                    do {
-                        id = r.Next(0, 1000); //יחודי???
-                    } while (DalObject.DalObject.getParcelById(id).Equals(null));
-                    Console.WriteLine("Enter the sending costumer's id: ");
-                    int Serderid = Convert.ToInt32(Console.ReadLine());///////
-                    Console.WriteLine("Enter the receiving costumer's id: ");
-                    int TargetId = Convert.ToInt32(Console.ReadLine());////////
-                    WeightCategories Weight = (WeightCategories)r.Next(0,3);
-                    Priorities Priority = (Priorities)r.Next(0,3);
-                    Datatime Requeasted =(Datatime)r.Next(0,3);
-                    //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
-                    //DateTime Scheduled = DateTime.Now;
-                    //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
-                    //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
-                    dalObject.AddParcelToDelivery(id,Serderid,TargetId,Weight,Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
+                    addParcel();
                     break;
                 default:
                     break;
@@ -145,9 +100,9 @@ namespace DAL
                     int droneId = Convert.ToInt32(Console.ReadLine());
                     Drone drone = new Drone();
                     drone = DalObject.DalObject.getDroneById(droneId);
-                    if(!(drone.Status == DroneStatus.Available))
+                    if (!(drone.Status == DroneStatus.Available))
                     {
-                        if(drone.Status == DroneStatus.Maintenance)
+                        if (drone.Status == DroneStatus.Maintenance)
                             Console.WriteLine("Drone is in maintenance");
                         else
                             Console.WriteLine("Drone is in available");
@@ -196,8 +151,7 @@ namespace DAL
                     break;
             }
         }
-
-        public static void DisplayListFunc() 
+        public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
@@ -205,7 +159,7 @@ namespace DAL
             {
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
-                    foreach (Station station  in stations)
+                    foreach (Station station in stations)
                     {
                         Console.WriteLine(station.ToString());
                     }
@@ -218,7 +172,7 @@ namespace DAL
                     }
                     break;
                 case objects.Customer:
-                    IEnumerable<Customer>customers = dalObject.displayCustomers();
+                    IEnumerable<Customer> customers = dalObject.displayCustomers();
                     foreach (Customer customer in customers)
                     {
                         Console.WriteLine(customer.ToString());
@@ -226,7 +180,7 @@ namespace DAL
                     break;
                 case objects.Parcel:
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
-                    foreach (Parcel parcel in parcels )
+                    foreach (Parcel parcel in parcels)
                     {
                         Console.WriteLine(parcels.ToString());
                     }
@@ -234,7 +188,91 @@ namespace DAL
                 default:
                     break;
             }
-        }    
+        }
+        public static void addStation()
+        {
+            Random r = new Random();
+            int id = 0;
+            Station s;
+            do
+            {
+                id = r.Next(0, 5);
+                s = DalObject.DalObject.getStationById(id);
+            } while (!s.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter a station Name: ");
+            string Name = Console.ReadLine();
+            int ChargeSlots = r.Next(0, 5);
+            Console.WriteLine("Enter a Latitude");
+            int Latitude = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Longitude");
+            int Longitude = Convert.ToInt32(Console.ReadLine());
+            dalObject.AddStation(id, Name, ChargeSlots, Longitude, Latitude);
+        }
+        public static void addDrone()
+        {
+            Random r = new Random();
+            int id = 0;
+            Drone d;
+            do
+            {
+                id = r.Next(0, 10);
+                d = DalObject.DalObject.getDroneById(id);
+            } while (!d.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter a Model");
+            string Model = Console.ReadLine();
+            WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
+            DroneStatus Status = (DroneStatus)(r.Next(0, 3));
+            double Battery = 0;
+            dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
+        }
+        public static void addParcel()
+        {
+            Random r = new Random();
+            int id = 0;
+            Customer c;
+            do
+            {
+                id = r.Next(0, 100);
+                c = DalObject.DalObject.getCustomerById(id);
+            } while (!c.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter costumer's Name: ");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Enter costumer's Phone: ");
+            int Phone = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Latitude: ");
+            int Latitude = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Longitude: ");
+            int Longitude = Convert.ToInt32(Console.ReadLine());
+            int ChargeSlots = r.Next(0, 200);
+            dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
+        }
+        public static void addCustomer()
+        {
+            Random r = new Random();
+            int id = 0;
+            Parcel p;
+            do
+            {
+                id = r.Next(0, 1000);
+                p = DalObject.DalObject.getParcelById(id);
+            } while (!p.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter the sending costumer's id: ");
+            int Serderid = Convert.ToInt32(Console.ReadLine());///////
+            Console.WriteLine("Enter the receiving costumer's id: ");
+            int TargetId = Convert.ToInt32(Console.ReadLine());////////
+            WeightCategories Weight = (WeightCategories)r.Next(0, 3);
+            Priorities Priority = (Priorities)r.Next(0, 3);
+            Datatime Requeasted = (Datatime)r.Next(0, 3);
+            //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
+            //DateTime Scheduled = DateTime.Now;
+            //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
+            //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
+            dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
+        }
+        public static void findIfExist(int id)
+        {
+
+        }
     }
 }
 
