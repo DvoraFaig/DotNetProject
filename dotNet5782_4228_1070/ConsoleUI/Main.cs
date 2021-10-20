@@ -80,7 +80,7 @@ namespace DAL
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
-                case UpdateObj.DroneReceivesParcel:  
+                case UpdateObj.DroneReceivesParcel:  //i worked on it
                     Customer sendingCstmr = addCustomer();
                     if (sendingCstmr.Equals(null))
                     {
@@ -209,13 +209,12 @@ namespace DAL
         public static void addStation()
         {
             Random r = new Random();
-            int id = 0;
-            Station s;
-            do
+            int amountS = DalObject.DalObject.amountStations();
+            if(amountS == 5)
             {
-                id = r.Next(0, 5);
-                s = DalObject.DalObject.getStationById(id);
-            } while (!s.Equals(null)); //check if the id exist
+                Console.WriteLine("Cann't add stations");
+                return;
+            }
             Console.WriteLine("Enter a station Name: ");
             string Name = Console.ReadLine();
             int ChargeSlots = r.Next(0, 5);
@@ -223,34 +222,39 @@ namespace DAL
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            dalObject.AddStation(id, Name, ChargeSlots, Longitude, Latitude);
+            dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
         }
         public static void addDrone()
         {
             Random r = new Random();
-            int id = 0;
-            Drone d;
-            do
+            int amountD = DalObject.DalObject.amountDrones();
+            if (amountD == 10)
             {
-                id = r.Next(0, 10);
-                d = DalObject.DalObject.getDroneById(id);
-            } while (!d.Equals(null)); //check if the id exist
+                Console.WriteLine("Cann't add Drones");
+                return;
+            }
             Console.WriteLine("Enter a Model");
             string Model = Console.ReadLine();
             WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
             DroneStatus Status = (DroneStatus)(r.Next(0, 3));
             double Battery = 0;
-            dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
+            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
         }
         //need sometimes to use customer's detailes - return customer
         public static Customer addCustomer()
         {
             Random r = new Random();
+            Customer c = new Customer();
+            int amountC = DalObject.DalObject.amountCustomers();
+            if (amountC == 10)
+            {
+                Console.WriteLine("Cann't add costumers");
+                return c;
+            }
             int id = 0;
-            Customer c;
             do
             {
-                id = r.Next(0, 100);
+                id = r.Next(100, 1000);
                 c = DalObject.DalObject.getCustomerById(id);
             } while (!c.Equals(null)); //check if the id exist
             Console.WriteLine("Enter costumer's Name: ");
@@ -269,10 +273,16 @@ namespace DAL
         {
             Random r = new Random();
             int id = 0;
-            Parcel p;
+            Parcel p = new Parcel();
+            int amountP = DalObject.DalObject.amountParcels();
+            if (amountP == 1000)
+            {
+                Console.WriteLine("Cann't add costumers");
+                return p;
+            }
             do
             {
-                id = r.Next(0, 1000);
+                id = r.Next(1000, 10000);
                 p = DalObject.DalObject.getParcelById(id);
             } while (!p.Equals(null)); //check if the id exist
             Console.WriteLine("Enter the sending costumer's id: ");

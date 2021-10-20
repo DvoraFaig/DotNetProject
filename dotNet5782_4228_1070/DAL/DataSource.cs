@@ -70,7 +70,7 @@ namespace DalObject
         }
 
         /*מערכים סטטים של ישויות הנתונים*/
-        internal class Config
+        internal static class Config
         {
             internal static int indexDrones = 0;
             internal static int indexStations = 0;

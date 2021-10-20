@@ -18,6 +18,27 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
+
+        public static int amountStations()
+        {
+            return DataSource.Config.indexStations;
+        }
+        public static int amountDrones()
+        {
+            return DataSource.Config.indexDrones;
+        }
+        public static int amountParcels()
+        {
+            return DataSource.Config.indexParcels;
+        }
+        public static int amountCustomers()
+        {
+            return DataSource.Config.indexCustomers;
+        }
+        public static int amountDroneCharges()
+        {
+            return DataSource.Config.indexDroneCharges;
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Add//
         public void AddDrone(int id, string Model, IDAL.DO.WeightCategories MaxWeight, IDAL.DO.DroneStatus Status, double Battery)
@@ -30,7 +51,6 @@ namespace DalObject
             drone.Battery = Battery;
             DataSource.Drones[DataSource.Config.indexDrones++] = drone;
         }
-
         public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
