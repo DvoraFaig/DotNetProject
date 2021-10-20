@@ -80,27 +80,19 @@ namespace DAL
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
-                case UpdateObj.DroneReceivesParcel:
-                    //if()//indexCustomer = 10
-                    //{
-                    //  cw(_"No Available Drones")
-                    //}
-                    Customer sendingCstmr;
-                    Random r = new Random();
-                    int id = 0;
-                    do
+                case UpdateObj.DroneReceivesParcel:  
+                    Customer sendingCstmr = addCustomer();
+                    if (sendingCstmr.Equals(null))
                     {
-                        id = r.Next(0, 100);
-                        sendingCstmr = DalObject.DalObject.getCustomerById(id);
-                    } while (!sendingCstmr.Equals(null)); //check if the id exist
-                    sendingCstmr.Name = 
-                        sendingCstmr.Phone
+                        Console.WriteLine("The service is not availble now (too much customers).\n Please try later");
+                        break;
+                    }
+                    Parcel parcel = addParcel();
+                    if (parcel.Equals(null))
+                    {
+                        Console.WriteLine("The service is not availble now (too much parcels).\n Please try later");
 
-                    Console.WriteLine("Enter a parcel id");
-                    int parcelId = Convert.ToInt32(Console.ReadLine());
-                    Parcel parcel = new Parcel();
-                    parcel = DalObject.DalObject.getParcelById(parcelId);
-
+                    }
                     dalObject.PairAParcelWithADrone(parcel, sendingCstmr);
                     break;
                 case UpdateObj.DroneCollectsAParcel:
@@ -250,7 +242,8 @@ namespace DAL
             double Battery = 0;
             dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
         }
-        public static void addCustomer()
+        //need sometimes to use customer's detailes - return customer
+        public static Customer addCustomer()
         {
             Random r = new Random();
             int id = 0;
@@ -270,8 +263,9 @@ namespace DAL
             int Longitude = Convert.ToInt32(Console.ReadLine());
             int ChargeSlots = r.Next(0, 200);
             dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
+            return c;
         }
-        public static void addParcel()
+        public static Parcel addParcel()
         {
             Random r = new Random();
             int id = 0;
@@ -293,6 +287,7 @@ namespace DAL
             //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
             //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
             dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
+            return p;
         }
         public static void findIfExist(int id)
         {
