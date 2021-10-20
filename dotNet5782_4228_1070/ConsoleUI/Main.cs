@@ -50,7 +50,7 @@ namespace DAL
                         DisplayListFunc();
                         break;
                     default:
-                        Console.WriteLine("Error");
+                        Console.WriteLine("== ERROR ==");
                         break;
                 }
             } while ((int)choice != 5);
@@ -83,7 +83,7 @@ namespace DAL
                     addParcel();
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
@@ -132,9 +132,9 @@ namespace DAL
                     if (!(drone.Status == DroneStatus.Available))
                     {
                         if (drone.Status == DroneStatus.Maintenance)
-                            Console.WriteLine("Drone is in maintenance");
+                            Console.WriteLine("== Drone is maintenance ==");
                         else
-                            Console.WriteLine("Drone is in available");
+                            Console.WriteLine("== Drone is available ==");
                         break;
                     }
                     dalObject.sendDroneToCharge(drone);
@@ -146,7 +146,7 @@ namespace DAL
                     dalObject.freeDroneFromCharge(droneCharge);
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
@@ -187,7 +187,7 @@ namespace DAL
                     Console.WriteLine(p.ToString());
                     break;
                 default:
-                    Console.WriteLine("eroor");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
@@ -243,7 +243,7 @@ namespace DAL
                     }
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
@@ -252,9 +252,9 @@ namespace DAL
         {
             Random r = new Random();
             int amountS = DalObject.DalObject.amountStations();
-            if(amountS == 5)
+            if(amountS >= 5)
             {
-                Console.WriteLine("Cann't add stations");
+                Console.WriteLine("== Cann't add stations ==");
                 return;
             }
             Console.WriteLine("Enter a station Name: ");
@@ -270,9 +270,9 @@ namespace DAL
         {
             Random r = new Random();
             int amountD = DalObject.DalObject.amountDrones();
-            if (amountD == 10)
+            if (amountD >= 10)
             {
-                Console.WriteLine("Cann't add Drones");
+                Console.WriteLine("== Cann't add Drones ==");
                 return;
             }
             Console.WriteLine("Enter a Model");
@@ -288,9 +288,9 @@ namespace DAL
             Random r = new Random();
             Customer c = new Customer();
             int amountC = DalObject.DalObject.amountCustomers();
-            if (amountC == 10)
+            if (amountC >= 100)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("== Cann't add costumers ==");
                 return c;
             }
             int id = 0;
@@ -317,9 +317,9 @@ namespace DAL
             int id = 0;
             Parcel p = new Parcel();
             int amountP = DalObject.DalObject.amountParcels();
-            if (amountP == 1000)
+            if (amountP >= 1000)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("== Cann't add costumers ==");
                 return p;
             }
             do
@@ -341,10 +341,7 @@ namespace DAL
             dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
             return p;
         }
-        public static void findIfExist(int id)
-        {
-
-        }
+       
     }
 }
 
