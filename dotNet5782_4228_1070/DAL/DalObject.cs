@@ -18,7 +18,7 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
-
+        //returnnig amount functions//
         public static int amountStations()
         {
             return DataSource.Config.indexStations;
@@ -39,8 +39,8 @@ namespace DalObject
         {
             return DataSource.Config.indexDroneCharges;
         }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Add//
+
+        //Add functions//
         public void AddDrone(int id, string Model, IDAL.DO.WeightCategories MaxWeight, IDAL.DO.DroneStatus Status, double Battery)
         {
             Drone drone = new Drone();
@@ -89,10 +89,8 @@ namespace DalObject
             DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
 
         }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Update//
+        //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
         public string PairAParcelWithADrone(Parcel parcel,Customer sendingCustomer)
@@ -125,7 +123,6 @@ namespace DalObject
             parcel.DroneId = drone.Id;
 
         }
-
         public void CostumerGetsParcel(Customer customer, Parcel parcel)
         {
             parcel.Delivered = DateTime.Now;
@@ -156,9 +153,8 @@ namespace DalObject
             //drone.Status == DroneStatus.Available;
             drone.Battery = 100;
         }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///Display//
+        
+        // Display functions//
         public static Station getStationById(int id)
         {
             foreach(Station state in DataSource.Stations)
@@ -219,9 +215,8 @@ namespace DalObject
             DroneCharge m_droneCharge = new DroneCharge();
             return m_droneCharge;
         }
-        //////////////////////////////////////////////////////////////////
-        /// Display all
-        //////////////////////////////////////////////////////////////////
+        
+        // Display all functions //
         public IEnumerable<Station> displayStations()
         {
             foreach(Station station in DataSource.Stations)
@@ -251,13 +246,6 @@ namespace DalObject
                 yield return customer;
             }
         }
-
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///*כאן יהיו מתודות הוספה, עדכון, וכו
-        // */
-
     }
 }
   
