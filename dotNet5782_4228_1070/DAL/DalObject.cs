@@ -189,7 +189,7 @@ namespace DalObject
         {
             foreach (DroneCharge droneCharge in DataSource.DroneCharges)
             {
-                if (DroneCharge.Id == id)
+                if (droneCharge.DroneId == id)
                 {
                     return droneCharge;
                 }
