@@ -26,16 +26,15 @@ namespace DAL
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                var a = Console.ReadLine();
-                int tempChoice;
-                if (a is string)
+                try
                 {
-                    choice = (Choices)(tempChoice = Convert.ToInt32(-1));//error
+                    choice = (Choices)(Convert.ToInt32(Console.ReadLine()));
                 }
-                else
+                catch
                 {
-                    choice = (Choices)(tempChoice = Convert.ToInt32(a));
+                    choice = (Choices)(-1);
                 }
+                
                 switch (choice)
                 {
                     case Choices.Add:
@@ -60,19 +59,15 @@ namespace DAL
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
-            Random r = new Random();
-            
             switch (obj)
             {
                 case objects.Station:
@@ -95,16 +90,14 @@ namespace DAL
         public static void UpdateFunc()
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n 2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
-            var a = Console.ReadLine();
-            int tempChoice;
             UpdateObj choice;
-            if (a is string)
+            try
             {
-                choice = (UpdateObj)(tempChoice = Convert.ToInt32(-1));//error
+                choice = (UpdateObj)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (UpdateObj)(tempChoice = Convert.ToInt32(a));
+                choice = (UpdateObj)(-1);
             }
             switch (choice)
             {
@@ -160,24 +153,22 @@ namespace DAL
         public static void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
             int id = new int();
-            if ((int)choice > 0 && (int)choice < 5)
+            if ((int)obj > 0 && (int)obj < 5)
             {
                 Console.WriteLine("Enter the Id of the object");
                 id = Convert.ToInt32(Console.ReadLine());
             }
-            switch (choice)
+            switch (obj)
             {
                 case objects.Station:
                     Station s = DalObject.DalObject.getStationById(id);
@@ -203,18 +194,16 @@ namespace DAL
         public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
-            switch (choice)
+            switch (obj)
             {
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
