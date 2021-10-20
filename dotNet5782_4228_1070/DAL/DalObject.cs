@@ -18,6 +18,27 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
+
+        public static int amountStations()
+        {
+            return DataSource.Config.indexStations;
+        }
+        public static int amountDrones()
+        {
+            return DataSource.Config.indexDrones;
+        }
+        public static int amountParcels()
+        {
+            return DataSource.Config.indexParcels;
+        }
+        public static int amountCustomers()
+        {
+            return DataSource.Config.indexCustomers;
+        }
+        public static int amountDroneCharges()
+        {
+            return DataSource.Config.indexDroneCharges;
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Add//
         public void AddDrone(int id, string Model, IDAL.DO.WeightCategories MaxWeight, IDAL.DO.DroneStatus Status, double Battery)
@@ -30,7 +51,6 @@ namespace DalObject
             drone.Battery = Battery;
             DataSource.Drones[DataSource.Config.indexDrones++] = drone;
         }
-
         public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
@@ -84,8 +104,9 @@ namespace DalObject
                     parcel.DroneId = drone.Id;
                     parcel.SenderId = sendingCustomer.ID;
                     parcel.Requeasted = DateTime.Today;//prepare a parcel to delivery
-                    parcel.Scheduled = DateTime.Now; //pair a parcel to drone
-                    //drone.Status = DroneStatus.Delivery;
+                    parcel.Scheduled = DateTime.Now; //pair a parcel to dron
+                    int indexDrone = drone.Id;
+                    DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
                     return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id} frome costumer {sendingCustomer.ID}.";
                 }
             }

@@ -26,7 +26,13 @@ namespace DAL
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                choice = (Choices)Convert.ToInt32(Console.ReadLine());
+                int tempChoice = Convert.ToInt32(Console.ReadLine());
+                if(tempChoice <= 0 && tempChoice >=5)
+                {
+                    Console.WriteLine("ERROR");
+                    return;
+                }
+                choice = (Choices)tempChoice;
                 switch (choice)
                 {
                     case Choices.Add:
@@ -52,10 +58,15 @@ namespace DAL
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects obj = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects obj = (objects)tempChoice;
             Random r = new Random();
-            //int id;
-
+            
             switch (obj)
             {
                 case objects.Station:
@@ -80,7 +91,7 @@ namespace DAL
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
-                case UpdateObj.DroneReceivesParcel:  
+                case UpdateObj.DroneReceivesParcel:  //i worked on it
                     Customer sendingCstmr = addCustomer();
                     if (sendingCstmr.Equals(null))
                     {
@@ -129,7 +140,13 @@ namespace DAL
         public static void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects choice = (objects)tempChoice;
             int id = new int();
             if ((int)choice > 0 && (int)choice < 5)
             {
@@ -162,7 +179,13 @@ namespace DAL
         public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            objects choice = (objects)Convert.ToInt32(Console.ReadLine());
+            int tempChoice = Convert.ToInt32(Console.ReadLine());
+            if (tempChoice <= 0 && tempChoice >= 5)
+            {
+                Console.WriteLine("ERROR");
+                return;
+            }
+            objects choice = (objects)tempChoice;
             switch (choice)
             {
                 case objects.Station:
@@ -206,16 +229,16 @@ namespace DAL
                     break;
             }
         }
+
         public static void addStation()
         {
             Random r = new Random();
-            int id = 0;
-            Station s;
-            do
+            int amountS = DalObject.DalObject.amountStations();
+            if(amountS == 5)
             {
-                id = r.Next(0, 5);
-                s = DalObject.DalObject.getStationById(id);
-            } while (!s.Equals(null)); //check if the id exist
+                Console.WriteLine("Cann't add stations");
+                return;
+            }
             Console.WriteLine("Enter a station Name: ");
             string Name = Console.ReadLine();
             int ChargeSlots = r.Next(0, 5);
@@ -223,34 +246,39 @@ namespace DAL
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            dalObject.AddStation(id, Name, ChargeSlots, Longitude, Latitude);
+            dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
         }
         public static void addDrone()
         {
             Random r = new Random();
-            int id = 0;
-            Drone d;
-            do
+            int amountD = DalObject.DalObject.amountDrones();
+            if (amountD == 10)
             {
-                id = r.Next(0, 10);
-                d = DalObject.DalObject.getDroneById(id);
-            } while (!d.Equals(null)); //check if the id exist
+                Console.WriteLine("Cann't add Drones");
+                return;
+            }
             Console.WriteLine("Enter a Model");
             string Model = Console.ReadLine();
             WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
             DroneStatus Status = (DroneStatus)(r.Next(0, 3));
             double Battery = 0;
-            dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
+            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
         }
         //need sometimes to use customer's detailes - return customer
         public static Customer addCustomer()
         {
             Random r = new Random();
+            Customer c = new Customer();
+            int amountC = DalObject.DalObject.amountCustomers();
+            if (amountC == 10)
+            {
+                Console.WriteLine("Cann't add costumers");
+                return c;
+            }
             int id = 0;
-            Customer c;
             do
             {
-                id = r.Next(0, 100);
+                id = r.Next(100, 1000);
                 c = DalObject.DalObject.getCustomerById(id);
             } while (!c.Equals(null)); //check if the id exist
             Console.WriteLine("Enter costumer's Name: ");
@@ -269,10 +297,16 @@ namespace DAL
         {
             Random r = new Random();
             int id = 0;
-            Parcel p;
+            Parcel p = new Parcel();
+            int amountP = DalObject.DalObject.amountParcels();
+            if (amountP == 1000)
+            {
+                Console.WriteLine("Cann't add costumers");
+                return p;
+            }
             do
             {
-                id = r.Next(0, 1000);
+                id = r.Next(1000, 10000);
                 p = DalObject.DalObject.getParcelById(id);
             } while (!p.Equals(null)); //check if the id exist
             Console.WriteLine("Enter the sending costumer's id: ");
