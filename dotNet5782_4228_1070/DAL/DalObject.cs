@@ -74,6 +74,7 @@ namespace DalObject
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Update//
         //find an availeble drone and send it to the sending costumer.
+        //Pair between a customer and parcel to a drone;
         public string PairAParcelWithADrone(Parcel parcel,Customer sendingCustomer)
         {
             foreach (Drone drone in DataSource.Drones)
