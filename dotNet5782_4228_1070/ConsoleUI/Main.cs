@@ -250,7 +250,7 @@ namespace DAL
             double Battery = 0;
             dalObject.AddDrone(id, Model, MaxWeight, Status, Battery);
         }
-        public static void addParcel()
+        public static void addCustomer()
         {
             Random r = new Random();
             int id = 0;
@@ -263,15 +263,15 @@ namespace DAL
             Console.WriteLine("Enter costumer's Name: ");
             string Name = Console.ReadLine();
             Console.WriteLine("Enter costumer's Phone: ");
-            int Phone = Convert.ToInt32(Console.ReadLine());
+            string Phone = Console.ReadLine();
             Console.WriteLine("Enter a Latitude: ");
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude: ");
             int Longitude = Convert.ToInt32(Console.ReadLine());
             int ChargeSlots = r.Next(0, 200);
-            dalObject.AddStation(id, Name, Phone, Longitude, Latitude);
+            dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
         }
-        public static void addCustomer()
+        public static void addParcel()
         {
             Random r = new Random();
             int id = 0;
