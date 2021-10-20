@@ -222,7 +222,10 @@ namespace DAL
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
                     foreach (Parcel parcel in parcels)
                     {
-                        Console.WriteLine(parcel.ToString());
+                        if (parcel.Id != 0)
+                        {
+                            Console.WriteLine(parcel.ToString());
+                        }
                     }
                     break;
                 default:
@@ -301,7 +304,7 @@ namespace DAL
             int amountP = DalObject.DalObject.amountParcels();
             if (amountP == 1000)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("Cann't add parcel");
                 return p;
             }
             do

@@ -23,6 +23,7 @@ namespace DalObject
             for (int i = 0; i < amountStations; i++)
             {
                 Stations[i].Id = r.Next(0, 10);
+                Stations[i].Name = $"station{Stations[i].Id}";
                 Stations[i].ChargeSlots = r.Next(0, 10);
                 Stations[i].Latitude = r.Next(0, 400);
                 Stations[i].Longitude = r.Next(0, 400);
