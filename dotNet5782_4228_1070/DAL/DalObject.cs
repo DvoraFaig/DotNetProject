@@ -31,7 +31,6 @@ namespace DalObject
             DataSource.Drones[DataSource.Config.indexDrones++] = drone;
         }
 
-
         public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
@@ -70,13 +69,11 @@ namespace DalObject
             DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
 
         }
-
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Update//
-        public void DroneReceivesParcel(Parcel parcel)
+        public void PairAParcelWithADrone(Parcel parcel)
         {
             foreach (Drone drone in DataSource.Drones)
             {
