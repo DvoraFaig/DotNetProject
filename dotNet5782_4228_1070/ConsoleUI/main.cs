@@ -26,16 +26,15 @@ namespace DAL
             do
             {
                 Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
-                var a = Console.ReadLine();
-                int tempChoice;
-                if (a is string)
+                try
                 {
-                    choice = (Choices)(tempChoice = Convert.ToInt32(-1));//error
+                    choice = (Choices)(Convert.ToInt32(Console.ReadLine()));
                 }
-                else
+                catch
                 {
-                    choice = (Choices)(tempChoice = Convert.ToInt32(a));
+                    choice = (Choices)(-1);
                 }
+                
                 switch (choice)
                 {
                     case Choices.Add:
@@ -51,7 +50,7 @@ namespace DAL
                         DisplayListFunc();
                         break;
                     default:
-                        Console.WriteLine("Error");
+                        Console.WriteLine("== ERROR ==");
                         break;
                 }
             } while ((int)choice != 5);
@@ -60,19 +59,15 @@ namespace DAL
         public static void additionFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
-            Random r = new Random();
-            
             switch (obj)
             {
                 case objects.Station:
@@ -88,23 +83,21 @@ namespace DAL
                     addParcel();
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
         public static void UpdateFunc()
         {
             Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n 2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
-            var a = Console.ReadLine();
-            int tempChoice;
             UpdateObj choice;
-            if (a is string)
+            try
             {
-                choice = (UpdateObj)(tempChoice = Convert.ToInt32(-1));//error
+                choice = (UpdateObj)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (UpdateObj)(tempChoice = Convert.ToInt32(a));
+                choice = (UpdateObj)(-1);
             }
             switch (choice)
             {
@@ -139,9 +132,9 @@ namespace DAL
                     if (!(drone.Status == DroneStatus.Available))
                     {
                         if (drone.Status == DroneStatus.Maintenance)
-                            Console.WriteLine("Drone is in maintenance");
+                            Console.WriteLine("== Drone is maintenance ==");
                         else
-                            Console.WriteLine("Drone is in available");
+                            Console.WriteLine("== Drone is available ==");
                         break;
                     }
                     dalObject.sendDroneToCharge(drone);
@@ -153,31 +146,29 @@ namespace DAL
                     dalObject.freeDroneFromCharge(droneCharge);
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
         public static void ShowWithIdFunc()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
             int id = new int();
-            if ((int)choice > 0 && (int)choice < 5)
+            if ((int)obj > 0 && (int)obj < 5)
             {
                 Console.WriteLine("Enter the Id of the object");
                 id = Convert.ToInt32(Console.ReadLine());
             }
-            switch (choice)
+            switch (obj)
             {
                 case objects.Station:
                     Station s = DalObject.DalObject.getStationById(id);
@@ -196,25 +187,23 @@ namespace DAL
                     Console.WriteLine(p.ToString());
                     break;
                 default:
-                    Console.WriteLine("eroor");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
         public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
-            var a = Console.ReadLine();
-            int tempChoice;
-            objects choice;
-            if (a is string)
+            objects obj;
+            try
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(-1));//error
+                obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
-            else
+            catch
             {
-                choice = (objects)(tempChoice = Convert.ToInt32(a));
+                obj = (objects)(-1);
             }
-            switch (choice)
+            switch (obj)
             {
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
@@ -254,7 +243,7 @@ namespace DAL
                     }
                     break;
                 default:
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("== ERROR ==");
                     break;
             }
         }
@@ -263,9 +252,9 @@ namespace DAL
         {
             Random r = new Random();
             int amountS = DalObject.DalObject.amountStations();
-            if(amountS == 5)
+            if(amountS > 5)
             {
-                Console.WriteLine("Cann't add stations");
+                Console.WriteLine("== Cann't add stations ==");
                 return;
             }
             Console.WriteLine("Enter a station Name: ");
@@ -281,9 +270,9 @@ namespace DAL
         {
             Random r = new Random();
             int amountD = DalObject.DalObject.amountDrones();
-            if (amountD == 10)
+            if (amountD > 10)
             {
-                Console.WriteLine("Cann't add Drones");
+                Console.WriteLine("== Cann't add Drones ==");
                 return;
             }
             Console.WriteLine("Enter a Model");
@@ -299,9 +288,9 @@ namespace DAL
             Random r = new Random();
             Customer c = new Customer();
             int amountC = DalObject.DalObject.amountCustomers();
-            if (amountC == 10)
+            if (amountC > 100)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("== Cann't add costumers ==");
                 return c;
             }
             int id = 0;
@@ -328,9 +317,9 @@ namespace DAL
             int id = 0;
             Parcel p = new Parcel();
             int amountP = DalObject.DalObject.amountParcels();
-            if (amountP == 1000)
+            if (amountP > 1000)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("== Cann't add costumers ==");
                 return p;
             }
             do
@@ -352,10 +341,7 @@ namespace DAL
             dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
             return p;
         }
-        public static void findIfExist(int id)
-        {
-
-        }
+       
     }
 }
 

@@ -76,11 +76,11 @@ namespace DalObject
 
         internal static class Config
         {
-            internal static int indexDrones = 0;
-            internal static int indexStations = 0;
-            internal static int indexCustomers = 0;
-            internal static int indexParcels = 0;
-            internal static int indexDroneCharges = 0;
+            internal static int indexDrones = -1;
+            internal static int indexStations = -1;
+            internal static int indexCustomers = -1;
+            internal static int indexParcels = -1;
+            internal static int indexDroneCharges = -1;
             /*להוסיף שדה עבור יצירה של מזהה רץ עבור חבילות*/
         }
 
