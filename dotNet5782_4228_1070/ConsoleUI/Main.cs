@@ -93,8 +93,8 @@ namespace DAL
                         id = r.Next(0, 100);
                         sendingCstmr = DalObject.DalObject.getCustomerById(id);
                     } while (!sendingCstmr.Equals(null)); //check if the id exist
-                    sendingCstmr.Name = 
-                        sendingCstmr.Phone
+                    sendingCstmr.Name =
+                        sendingCstmr.Phone;
 
                     Console.WriteLine("Enter a parcel id");
                     int parcelId = Convert.ToInt32(Console.ReadLine());
