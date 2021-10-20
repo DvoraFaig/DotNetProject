@@ -76,7 +76,7 @@ namespace DAL
         }
         public static void UpdateFunc()
         {
-            Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
+            Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n 2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
             UpdateObj choice = (UpdateObj)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
@@ -120,7 +120,7 @@ namespace DAL
         }
         public static void ShowWithIdFunc()
         {
-            Console.WriteLine("Enter your choice to add:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
+            Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
             int id = new int();
             if ((int)choice > 0 && (int)choice < 5)
@@ -153,7 +153,7 @@ namespace DAL
         }
         public static void DisplayListFunc()
         {
-            Console.WriteLine("Enter your choice to display:\n 1.Station \n2.Drone\n 3.CLient\n 4.Parcel ");
+            Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects choice = (objects)Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
@@ -161,21 +161,30 @@ namespace DAL
                     IEnumerable<Station> stations = dalObject.displayStations();
                     foreach (Station station in stations)
                     {
-                        Console.WriteLine(station.ToString());
+                        if (station.Id != 0)
+                        {
+                            Console.WriteLine(station.ToString());
+                        }
                     }
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
                     foreach (Drone drone in drones)
                     {
-                        Console.WriteLine(drone.ToString());
+                        if (drone.Id != 0)
+                        {
+                            Console.WriteLine(drone.ToString());
+                        }
                     }
                     break;
                 case objects.Customer:
                     IEnumerable<Customer> customers = dalObject.displayCustomers();
                     foreach (Customer customer in customers)
                     {
-                        Console.WriteLine(customer.ToString());
+                        if (customer.ID != 0)
+                        {
+                            Console.WriteLine(customer.ToString());
+                        }
                     }
                     break;
                 case objects.Parcel:

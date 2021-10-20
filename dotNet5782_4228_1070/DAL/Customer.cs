@@ -15,7 +15,7 @@ namespace DalObject
         public double Latitude { get; set; }
         public override string ToString()
         {
-            return $"customer id: {ID}, customer name: {Name}, customer phone: {Phone} ,customer latitude: {Latitude}, customer Longitude: {Longitude}\n";
+            return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, customer latitude: {Latitude}, customer Longitude: {Longitude}\n");
         }
     }
 }
