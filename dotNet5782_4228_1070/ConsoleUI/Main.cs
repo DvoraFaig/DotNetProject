@@ -326,10 +326,6 @@ namespace DAL
             dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
             return p;
         }
-        public static void findIfExist(int id)
-        {
-
-        }
     }
 }
 
