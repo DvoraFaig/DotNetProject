@@ -9,6 +9,7 @@ namespace DalObject
 {
     internal class DataSource
     {
+        //Arrays of the classes
         internal static Drone[] Drones = new Drone[10];
         internal static Station[] Stations = new Station[5];
         internal static Customer[] Customers = new Customer[100];
@@ -20,10 +21,12 @@ namespace DalObject
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
-            for (int i = 0; i < amountStations; i++)
+            for (int i = 1; i <= amountStations; i++)
             {
-                Stations[i].Id = r.Next(0, 10);
+                Stations[i].Id = i;
                 Stations[i].Name = $"station{Stations[i].Id}";
+                Stations[i].Id = i;
+                Stations[i].Name = $"Station{Stations[i].Id}";
                 Stations[i].ChargeSlots = r.Next(0, 10);
                 Stations[i].Latitude = r.Next(0, 400);
                 Stations[i].Longitude = r.Next(0, 400);
@@ -33,19 +36,22 @@ namespace DalObject
             }
 
             int amountDrones = r.Next(5,10);
-            for (int i=0; i< amountDrones; i++)
+            for (int i=1; i<= amountDrones; i++)
             {
-                Drones[i].Id = r.Next(0, 10);
+                Drones[i].Id = i;
                 Drones[i].Model = $"Drone{Drones[i].Id}";
-                //Console.WriteLine();
+                Drones[i].Battery = 100;
+                Drones[i].MaxWeight = (WeightCategories)r.Next(0, 3);
+                Drones[i].Model = $"Model{r.Next(0, 3)}";
+                Drones[i].Status = (DroneStatus)r.Next(0, 3);
                 Config.indexDrones++;
             }
             
 
             int amountCustomer = r.Next(10, 100);
-            for (int i = 0; i < amountStations; i++)
+            for (int i = 1; i <= amountStations; i++)
             {
-                Customers[i].ID = r.Next(0, 100);//יחודי???
+                Customers[i].ID = i;//יחודי???
                 Customers[i].Name = $"Customer{Customers[i].ID}";
                 Customers[i].Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
                 Stations[i].Latitude = r.Next(0, 400);
@@ -54,7 +60,7 @@ namespace DalObject
             }
 
             int amountParcels = r.Next(10, 1000);
-            for(int i =0; i<amountParcels; i++)
+            for(int i =1; i <= amountParcels; i++)
             {
                 Parcels[i].Id = r.Next(0, 1000); //יחודי???
                 Parcels[i].SenderId = r.Next(0, 400);
@@ -70,14 +76,13 @@ namespace DalObject
             /////////////////DroneCharges
         }
 
-        /*מערכים סטטים של ישויות הנתונים*/
         internal static class Config
         {
-            internal static int indexDrones = 0;
-            internal static int indexStations = 0;
-            internal static int indexCustomers = 0;
-            internal static int indexParcels = 0;
-            internal static int indexDroneCharges = 0;
+            internal static int indexDrones = -1;
+            internal static int indexStations = -1;
+            internal static int indexCustomers = -1;
+            internal static int indexParcels = -1;
+            internal static int indexDroneCharges = -1;
             /*להוסיף שדה עבור יצירה של מזהה רץ עבור חבילות*/
         }
 
