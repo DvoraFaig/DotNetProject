@@ -255,7 +255,7 @@ namespace DAL
         {
             Random r = new Random();
             int amountS = DalObject.DalObject.amountStations();
-            if(amountS == 5)
+            if(amountS >= 5)
             {
                 Console.WriteLine("== Cann't add stations ==");
                 return;
@@ -273,7 +273,7 @@ namespace DAL
         {
             Random r = new Random();
             int amountD = DalObject.DalObject.amountDrones();
-            if (amountD == 10)
+            if (amountD >= 10)
             {
                 Console.WriteLine("== Cann't add Drones ==");
                 return;
@@ -291,9 +291,9 @@ namespace DAL
             Random r = new Random();
             Customer c = new Customer();
             int amountC = DalObject.DalObject.amountCustomers();
-            if (amountC == 100)
+            if (amountC >= 100)
             {
-                Console.WriteLine("Cann't add costumers");
+                Console.WriteLine("== Cann't add costumers ==");
                 return c;
             }
             int id = 0;
@@ -320,9 +320,9 @@ namespace DAL
             int id = 0;
             Parcel p = new Parcel();
             int amountP = DalObject.DalObject.amountParcels();
-            if (amountP == 1000)
+            if (amountP >= 1000)
             {
-                Console.WriteLine("Cann't add parcel");
+                Console.WriteLine("== Cann't add costumers ==");
                 return p;
             }
             do
