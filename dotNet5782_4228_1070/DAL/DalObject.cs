@@ -101,7 +101,7 @@ namespace DalObject
                 {
                     parcel.DroneId = drone.Id;
                     parcel.SenderId = sendingCustomer.ID;
-                    parcel.Requeasted = DateTime.Today;//prepare a parcel to delivery
+                    //Requeasted = DateTime.Today;//prepare a parcel to delivery
                     parcel.Scheduled = DateTime.Now; //pair a parcel to dron
                     int indexDrone = drone.Id;
                     DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
@@ -110,6 +110,7 @@ namespace DalObject
             }
             return ("No drones available.\n please try later.");
         }
+
         public void DroneCollectsAParcel( Parcel parcel)
         {
             if(parcel.DroneId == 0) //doesn't have a Drone
@@ -219,31 +220,42 @@ namespace DalObject
         // Display all functions //
         public IEnumerable<Station> displayStations()
         {
-            foreach(Station station in DataSource.Stations)
+            foreach (Station station in DataSource.Stations)
             {
-                yield return station;
+                if (station.Id != 0)
+                {
+                    yield return station;
+                }
             }
         }
         public IEnumerable<Drone> displayDrone()
         {
             foreach (Drone drone in DataSource.Drones)
             {
-                yield return drone;
+                if (drone.Id != 0)
+                {
+                    yield return drone;
+                }
             }
-
         }
         public IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
             {
-                yield return parcel;
+                if (parcel.Id != 0)
+                {
+                    yield return parcel;
+                }
             }
         }
         public IEnumerable<Customer> displayCustomers()
         {
             foreach (Customer customer in DataSource.Customers)
             {
-                yield return customer;
+                if (customer.ID != 0)
+                {
+                    yield return customer;
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ using DalObject;
 
 namespace DAL
 {
-    enum Choices { Add = 1, Update, ShowWithId, ShowList }
+    enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
     enum objects { Station = 1, Drone, Customer, Parcel }
     enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
 
@@ -25,7 +25,7 @@ namespace DAL
             Choices choice; //defaualt 0
             do
             {
-                Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Show object occurding to an Id\n 4.Show list of an object ");
+                Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Display an object by Id\n 4.display a list of objects\n 5.Exit");
                 try
                 {
                     choice = (Choices)(Convert.ToInt32(Console.ReadLine()));
@@ -49,6 +49,8 @@ namespace DAL
                     case Choices.ShowList:
                         DisplayListFunc();
                         break;
+                    case Choices.exit:
+                        return;
                     default:
                         Console.WriteLine("== ERROR ==");
                         break;
@@ -89,7 +91,7 @@ namespace DAL
         }
         public static void UpdateFunc()
         {
-            Console.WriteLine("Enter your choice to update:\n 1.DroneReceivesParcel \n 2.DroneCollectsAParcel\n 3.CostumerGetsParcel\n 4.sendDroneToCharge\n 5.freeDroneFromCharge ");
+            Console.WriteLine("Enter your choice to update:\n 1.Drone receives parcel \n 2.Drone collects a parcel\n 3.Costumer gets parcel\n 4.send drone to charge\n 5.free drone from harge ");
             UpdateObj choice;
             try
             {
@@ -102,17 +104,17 @@ namespace DAL
             switch (choice)
             {
                 case UpdateObj.DroneReceivesParcel:  //i worked on it
-                    Customer sendingCstmr = addCustomer();
+                    // (Dvori) I put it on comment becuase it's not relevant to this method.
+                    /*Customer sendingCstmr = addCustomer();
                     if (sendingCstmr.Equals(null))
                     {
                         Console.WriteLine("The service is not availble now (too much customers).\n Please try later");
                         break;
-                    }
+                    }*/ 
                     Parcel parcel = addParcel();
                     if (parcel.Equals(null))
                     {
                         Console.WriteLine("The service is not availble now (too much parcels).\n Please try later");
-
                     }
                     dalObject.PairAParcelWithADrone(parcel, sendingCstmr);
                     break;
@@ -209,40 +211,28 @@ namespace DAL
                     IEnumerable<Station> stations = dalObject.displayStations();
                     foreach (Station station in stations)
                     {
-                        if (station.Id != 0)
-                        {
-                            Console.WriteLine(station.ToString());
-                        }
+                        Console.WriteLine(station.ToString());
                     }
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
                     foreach (Drone drone in drones)
                     {
-                        if (drone.Id != 0)
-                        {
-                            Console.WriteLine(drone.ToString());
-                        }
+                        Console.WriteLine(drone.ToString());
                     }
                     break;
                 case objects.Customer:
                     IEnumerable<Customer> customers = dalObject.displayCustomers();
                     foreach (Customer customer in customers)
                     {
-                        if (customer.ID != 0)
-                        {
-                            Console.WriteLine(customer.ToString());
-                        }
+                        Console.WriteLine(customer.ToString());
                     }
                     break;
                 case objects.Parcel:
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
                     foreach (Parcel parcel in parcels)
                     {
-                        if (parcel.Id != 0)
-                        {
-                            Console.WriteLine(parcel.ToString());
-                        }
+                        Console.WriteLine(parcel.ToString());
                     }
                     break;
                 default:
