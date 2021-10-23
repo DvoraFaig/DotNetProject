@@ -103,49 +103,54 @@ namespace DAL
             }
             switch (choice)
             {
-                case UpdateObj.DroneReceivesParcel:  //i worked on it
-                    // (Dvori) I put it on comment becuase it's not relevant to this method.
-                    /*Customer sendingCstmr = addCustomer();
-                    if (sendingCstmr.Equals(null))
-                    {
-                        Console.WriteLine("The service is not availble now (too much customers).\n Please try later");
-                        break;
-                    }*/ 
-                    Parcel parcel = addParcel();
-                    if (parcel.Equals(null))
-                    {
-                        Console.WriteLine("The service is not availble now (too much parcels).\n Please try later");
-                    }
-                    dalObject.PairAParcelWithADrone(parcel, sendingCstmr);
+                case UpdateObj.DroneReceivesParcel:
+                    Console.WriteLine("Enter ID of parcel");
+                    int parcelId = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcel = DalObject.DalObject.getParcelById(parcelId);
+                    Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
                     break;
                 case UpdateObj.DroneCollectsAParcel:
-                    int idParcelCollect = Convert.ToInt32(Console.ReadLine());
-                    Parcel parcelCollect = new Parcel();
-                    parcel = DalObject.DalObject.getParcelById(idParcelCollect);
+                    Console.WriteLine("Enter ID of parcel");
+                    int parcelIdToCollect = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcelCollect = DalObject.DalObject.getParcelById(parcelIdToCollect);
                     dalObject.DroneCollectsAParcel(parcelCollect);
                     break;
                 case UpdateObj.CostumerGetsParcel:
-                    //dalObject.CostumerGetsParcel();
+                    Console.WriteLine("Enter ID of parcel");
+                    int parcelIdGet = Convert.ToInt32(Console.ReadLine());
+                    Parcel parcelGet = DalObject.DalObject.getParcelById(parcelIdGet);
+                    Drone drone = DalObject.DalObject.getDroneById(parcelGet.DroneId);
+                    dalObject.CostumerGetsParcel(drone, parcelGet);
                     break;
                 case UpdateObj.sendDroneToCharge:
+                    Console.WriteLine("Enter ID of drone");
                     int droneId = Convert.ToInt32(Console.ReadLine());
-                    Drone drone = new Drone();
-                    drone = DalObject.DalObject.getDroneById(droneId);
-                    if (!(drone.Status == DroneStatus.Available))
+                    Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
+                    switch (droneToCharge.Status)
                     {
-                        if (drone.Status == DroneStatus.Maintenance)
+                        case DroneStatus.Maintenance:
                             Console.WriteLine("== Drone is maintenance ==");
-                        else
-                            Console.WriteLine("== Drone is available ==");
-                        break;
+                            break;
+                        case DroneStatus.Delivery:
+                            Console.WriteLine("== Drone in Deliver ==");
+                            break;
+                        case DroneStatus.Available:
+                            dalObject.sendDroneToCharge(droneToCharge);
+                            break;
                     }
-                    dalObject.sendDroneToCharge(drone);
                     break;
                 case UpdateObj.freeDroneFromCharge:
-                    int droneIdCharge = Convert.ToInt32(Console.ReadLine());
-                    Drone droneCharge = new Drone();
-                    droneCharge = DalObject.DalObject.getDroneById(droneIdCharge);
-                    dalObject.freeDroneFromCharge(droneCharge);
+                    Console.WriteLine("Enter Id of drone to charge");
+                    int droneIdCharged = Convert.ToInt32(Console.ReadLine());
+                    Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
+                    if (droneToFree.Status == DroneStatus.Maintenance)
+                    {
+                        dalObject.freeDroneFromCharge(droneToFree); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
+                    }
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");

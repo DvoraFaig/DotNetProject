@@ -93,66 +93,97 @@ namespace DalObject
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
-        public string PairAParcelWithADrone(Parcel parcel,Customer sendingCustomer)
+
+        // כאן צריך להיות השמת רחפן לחבילה. לעבור על רשימת חבילות למצוא את המתאימה ולהוסיף לה מזהה רחפן מבצע וזמן שיוך החבילה לרחפן.
+        public void assignParcelToDrone(int parcelId)
+        {
+            Parcel p = getParcelById(parcelId);
+            foreach(Drone drone in DataSource.Drones)
+            {
+                if (drone.Status == DroneStatus.Available)
+                {
+                    
+                }
+            }
+            
+        }
+
+        private bool isFreeDrone(Drone d)
+        {
+            if (d.Status == DroneStatus.Available)
+            {
+                return true;
+            }
+            return false;
+        }
+        public string PairAParcelWithADrone(Parcel parcel)
         {
             foreach (Drone drone in DataSource.Drones)
             {
                 if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
                 {
                     parcel.DroneId = drone.Id;
-                    parcel.SenderId = sendingCustomer.ID;
+                    //parcel.SenderId = sendingCustomer.ID;//זה מספר לקוח שולח? לא צריך את זה כאן. זה ביצירת חבילה. חובה
                     //Requeasted = DateTime.Today;//prepare a parcel to delivery
                     parcel.Scheduled = DateTime.Now; //pair a parcel to dron
                     int indexDrone = drone.Id;
                     DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
-                    return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id} frome costumer {sendingCustomer.ID}.";
+                    return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id}.";
                 }
             }
             return ("No drones available.\n please try later.");
         }
 
-        public void DroneCollectsAParcel( Parcel parcel)
+        public void DroneCollectsAParcel(Parcel parcel)
         {
             if(parcel.DroneId == 0) //doesn't have a Drone
             {
                 Console.WriteLine("Error! The parcel doesn't have a Drone.\n Please enter DroneReceivesParcel");
-                return;
             }
-            Drone drone = new Drone();//recieves Drone occurding to DroneId;
+            else
+            {
+                parcel.PickUp = DateTime.Now;
+                Drone droneCollect = DalObject.getDroneById(parcel.DroneId);
+                droneCollect.Status = DroneStatus.Delivery;
+            }
+            //Drone drone = new Drone();//recieves Drone occurding to DroneId;
             //drone.DroneStatus = DroneStatus.Delivery;
             //parcel.PickedUp = DateTime.Now;
-            parcel.DroneId = drone.Id;
+            //parcel.DroneId = drone.Id;
 
         }
-        public void CostumerGetsParcel(Customer customer, Parcel parcel)
+        public void CostumerGetsParcel(Drone drone, Parcel parcel)
         {
             parcel.Delivered = DateTime.Now;
+            drone.Status = DroneStatus.Available;
         }
         public void sendDroneToCharge(Drone drone)
         {
-            //DroneCharges;
-            foreach (DroneCharge DroneCharge in DataSource.DroneCharges)
+            IEnumerable<DroneCharge> droneCharges = displayDroneCharge();
+            Console.WriteLine("Choose id of Station to charge The drone");
+            foreach (DroneCharge charge in droneCharges)
             {
+                Console.WriteLine(charge.ToString());
                 //if(DataSource.DroneCharges[DataSource.Config.indexDroneCharges] == 10)
                 //{
                 //    Console.WriteLine( "The DroneCharge is full!\nPleasetry later! ");
                 //    return;
                 //}
             }
-            drone.Status = DroneStatus.Maintenance;
-            DroneCharge droneCharge = new DroneCharge();
-            droneCharge.DroneId = drone.Id;
-            //foreach (Station station in DataSource.Stations)
-            //{
-            //}
-
+            int choose = Convert.ToInt32(Console.ReadLine());
+            DroneCharge droneCharge = getDroneChargeById(choose);
+            if (droneCharge.StationId != -1)
+            {
+                drone.Status = DroneStatus.Maintenance;
+                droneCharge.DroneId = drone.Id;
+            }
         }
         public void freeDroneFromCharge(Drone drone)
         {
-            //
-            //??????????????????????????????
-            //drone.Status == DroneStatus.Available;
+            drone.Status = DroneStatus.Available;
             drone.Battery = 100;
+            DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
+            chargeToFree.StationId = -1;
         }
         
         // Display functions//
@@ -208,6 +239,18 @@ namespace DalObject
         {
             foreach (DroneCharge droneCharge in DataSource.DroneCharges)
             {
+                if (droneCharge.StationId == id)
+                {
+                    return droneCharge;
+                }
+            }
+            DroneCharge m_droneCharge = new DroneCharge();
+            return m_droneCharge;
+        }
+        public static DroneCharge getDroneChargeByDroneId(int id)
+        {
+            foreach (DroneCharge droneCharge in DataSource.DroneCharges)
+            {
                 if (droneCharge.DroneId == id)
                 {
                     return droneCharge;
@@ -216,7 +259,6 @@ namespace DalObject
             DroneCharge m_droneCharge = new DroneCharge();
             return m_droneCharge;
         }
-        
         // Display all functions //
         public IEnumerable<Station> displayStations()
         {
@@ -245,6 +287,16 @@ namespace DalObject
                 if (parcel.Id != 0)
                 {
                     yield return parcel;
+                }
+            }
+        }
+        public IEnumerable<DroneCharge> displayDroneCharge()
+        {
+            foreach (DroneCharge droneCharge in DataSource.DroneCharges)
+            {
+                if (droneCharge.StationId != 0 && droneCharge.DroneId == 0)
+                {
+                    yield return droneCharge;
                 }
             }
         }
