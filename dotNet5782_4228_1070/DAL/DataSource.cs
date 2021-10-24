@@ -67,13 +67,8 @@ namespace DalObject
                 Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
                 Parcels[i].Priority = (Priorities)r.Next(0,3);
-                //Parcels[i].Requeasted =(DateTime)r.Next(0,3);
-                //Parcels[i].DroneId;
-                Parcels[i].Scheduled = DateTime.Now;
-                //Parcels[i].PickUp ;
-                //Parcels[i].Delivered ;
+                Parcels[i].Requeasted =DateTime.Now;
             }
-            /////////////////DroneCharges
         }
 
         internal static class Config
@@ -83,10 +78,7 @@ namespace DalObject
             internal static int indexCustomers = -1;
             internal static int indexParcels = -1;
             internal static int indexDroneCharges = -1;
-            /*להוסיף שדה עבור יצירה של מזהה רץ עבור חבילות*/
+            /*להוסיף שור יצירה של מזהה רץ עבור חבילות*/
         }
-
     }
-
-
 }

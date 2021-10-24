@@ -25,7 +25,7 @@ namespace DAL
             Choices choice; //defaualt 0
             do
             {
-                Console.WriteLine("Enter your choice to add:\n 1.Add\n 2.Update\n 3.Display an object by Id\n 4.display a list of objects\n 5.Exit");
+                Console.WriteLine("Choose action:\n 1.Add\n 2.Update\n 3.Display an object by Id\n 4.display a list of objects\n 5.Exit");
                 try
                 {
                     choice = (Choices)(Convert.ToInt32(Console.ReadLine()));
@@ -159,7 +159,7 @@ namespace DAL
         }
         public static void ShowWithIdFunc()
         {
-            Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
+            Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj;
             try
             {
@@ -275,9 +275,10 @@ namespace DAL
             }
             Console.WriteLine("Enter a Model");
             string Model = Console.ReadLine();
-            WeightCategories MaxWeight = (WeightCategories)(r.Next(0, 3));
-            DroneStatus Status = (DroneStatus)(r.Next(0, 3));
-            double Battery = 0;
+            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
+            DroneStatus Status = DroneStatus.Available;
+            double Battery = 100;
             dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
         }
         //need sometimes to use customer's detailes - return customer
@@ -325,18 +326,32 @@ namespace DAL
                 id = r.Next(1000, 10000);
                 p = DalObject.DalObject.getParcelById(id);
             } while (!p.Equals(null)); //check if the id exist
-            Console.WriteLine("Enter the sending costumer's id: ");
-            int Serderid = Convert.ToInt32(Console.ReadLine());///////
-            Console.WriteLine("Enter the receiving costumer's id: ");
-            int TargetId = Convert.ToInt32(Console.ReadLine());////////
-            WeightCategories Weight = (WeightCategories)r.Next(0, 3);
-            Priorities Priority = (Priorities)r.Next(0, 3);
-            //Datetime Requeasted = (Datatime)r.Next(0, 3);
-            //int DroneId=111111;////////////////;////////////////;////////////////;////////////////
-            //DateTime Scheduled = DateTime.Now;
-            //DateTime PickUp = DateTime.Now;////////////////;////////////////;////////////////;//////////////// 0.0.0
-            //DateTime Delivered = DateTime.Now;////////////////;////////////////;////////////////;////////////////0.0.0
-            dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority/*,Requeasted,DroneId,Scheduled,PickUp,Delivered*/);
+            int Serderid;
+            int TargetId;
+            do
+            {
+                Console.WriteLine("Enter the sending costumer's id: ");
+                Serderid = Convert.ToInt32(Console.ReadLine());///////
+                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
+                {
+                    Console.WriteLine("Error: no found customer");
+                }
+            } while (DalObject.DalObject.getCustomerById(Serderid).Equals(null));
+            do
+            {
+                Console.WriteLine("Enter the receiving costumer's id: ");
+                TargetId = Convert.ToInt32(Console.ReadLine());
+                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
+                {
+                    Console.WriteLine("Error: no found customer");
+                }
+            } while (DalObject.DalObject.getCustomerById(TargetId).Equals(null));
+            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            WeightCategories Weight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter priority (1, 2 or 3):");
+            Priorities Priority = (Priorities)Convert.ToInt32(Console.ReadLine());
+            DateTime requestedTime = DateTime.Now;
+            dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
             return p;
         }
     }

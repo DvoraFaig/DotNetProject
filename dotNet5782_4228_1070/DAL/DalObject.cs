@@ -73,7 +73,7 @@ namespace DalObject
             DataSource.Customers[DataSource.Config.indexCustomers++] = customer;
 
         }
-        public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority/*,Datatime Requeasted, int DroneId, DateTime Scheduled, DateTime PickUp, DateTime Delivered*/)
+        public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority, DateTime requestedTime)
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;
@@ -81,11 +81,7 @@ namespace DalObject
             parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;
-            //parcel.Requeasted = Requeasted;
-            //parcel.DroneId = DroneId;
-            //parcel.Scheduled = Scheduled;
-            //parcel.PickUp = PickUp;
-            //parcel.Delivered = Delivered;
+            parcel.Requeasted = requestedTime;
             DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
 
         }
@@ -93,8 +89,6 @@ namespace DalObject
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
-
-        // כאן צריך להיות השמת רחפן לחבילה. לעבור על רשימת חבילות למצוא את המתאימה ולהוסיף לה מזהה רחפן מבצע וזמן שיוך החבילה לרחפן.
         public void assignParcelToDrone(int parcelId)
         {
             Parcel p = getParcelById(parcelId);
@@ -123,8 +117,6 @@ namespace DalObject
                 if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
                 {
                     parcel.DroneId = drone.Id;
-                    //parcel.SenderId = sendingCustomer.ID;//זה מספר לקוח שולח? לא צריך את זה כאן. זה ביצירת חבילה. חובה
-                    //Requeasted = DateTime.Today;//prepare a parcel to delivery
                     parcel.Scheduled = DateTime.Now; //pair a parcel to dron
                     int indexDrone = drone.Id;
                     DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
@@ -146,11 +138,6 @@ namespace DalObject
                 Drone droneCollect = DalObject.getDroneById(parcel.DroneId);
                 droneCollect.Status = DroneStatus.Delivery;
             }
-            //Drone drone = new Drone();//recieves Drone occurding to DroneId;
-            //drone.DroneStatus = DroneStatus.Delivery;
-            //parcel.PickedUp = DateTime.Now;
-            //parcel.DroneId = drone.Id;
-
         }
         public void CostumerGetsParcel(Drone drone, Parcel parcel)
         {
@@ -164,11 +151,6 @@ namespace DalObject
             foreach (DroneCharge charge in droneCharges)
             {
                 Console.WriteLine(charge.ToString());
-                //if(DataSource.DroneCharges[DataSource.Config.indexDroneCharges] == 10)
-                //{
-                //    Console.WriteLine( "The DroneCharge is full!\nPleasetry later! ");
-                //    return;
-                //}
             }
             int choose = Convert.ToInt32(Console.ReadLine());
             DroneCharge droneCharge = getDroneChargeById(choose);
