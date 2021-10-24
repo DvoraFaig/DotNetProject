@@ -82,6 +82,7 @@ namespace DalObject
             parcel.Weight = Weight;
             parcel.Priority = Priority;
             parcel.Requeasted = requestedTime;
+            parcel.DroneId = -1;
             DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
 
         }
@@ -267,6 +268,16 @@ namespace DalObject
             foreach (Parcel parcel in DataSource.Parcels)
             {
                 if (parcel.Id != 0)
+                {
+                    yield return parcel;
+                }
+            }
+        }
+        public IEnumerable<Parcel> displayFreeParcels()
+        {
+            foreach (Parcel parcel in DataSource.Parcels)
+            {
+                if (parcel.Id != 0 && parcel.DroneId == -1)
                 {
                     yield return parcel;
                 }

@@ -11,7 +11,7 @@ using DalObject;
 namespace DAL
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
-    enum objects { Station = 1, Drone, Customer, Parcel }
+    enum objects { Station = 1, Drone, Customer, Parcel, FreeParcel, EmptyCharges }
     enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
 
     class main
@@ -200,7 +200,7 @@ namespace DAL
         }
         public static void DisplayListFunc()
         {
-            Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
+            Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel\n 5.Parcels Without drone\n 6.Station with empty Charging positions ");
             objects obj;
             try
             {
@@ -238,6 +238,20 @@ namespace DAL
                     foreach (Parcel parcel in parcels)
                     {
                         Console.WriteLine(parcel.ToString());
+                    }
+                    break;
+                case objects.FreeParcel:
+                    IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
+                    foreach (Parcel parcel in freeParcels)
+                    {
+                        Console.WriteLine(parcel.ToString());
+                    }
+                    break;
+                case objects.EmptyCharges:
+                    IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();
+                    foreach (DroneCharge d in ChargeStand)
+                    {
+                        Console.WriteLine(d.ToString());
                     }
                     break;
                 default:
