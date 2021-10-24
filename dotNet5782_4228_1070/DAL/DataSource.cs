@@ -51,7 +51,7 @@ namespace DalObject
             int amountCustomer = r.Next(10, 100);
             for (int i = 1; i <= amountStations; i++)
             {
-                Customers[i].ID = i;//יחודי???
+                Customers[i].ID = i;
                 Customers[i].Name = $"Customer{Customers[i].ID}";
                 Customers[i].Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
                 Stations[i].Latitude = r.Next(0, 400);
@@ -62,7 +62,7 @@ namespace DalObject
             int amountParcels = r.Next(10, 1000);
             for(int i =1; i <= amountParcels; i++)
             {
-                Parcels[i].Id = r.Next(0, 1000); //יחודי???
+                Parcels[i].Id = r.Next(0, 1000); 
                 Parcels[i].SenderId = r.Next(0, 400);
                 Parcels[i].TargetId = r.Next(0, 400);// which costumer
                 Parcels[i].Weight = (WeightCategories)r.Next(0,3);
@@ -78,7 +78,6 @@ namespace DalObject
             internal static int indexCustomers = -1;
             internal static int indexParcels = -1;
             internal static int indexDroneCharges = -1;
-            /*להוסיף שור יצירה של מזהה רץ עבור חבילות*/
         }
     }
 }

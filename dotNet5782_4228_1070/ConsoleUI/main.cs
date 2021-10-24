@@ -19,6 +19,11 @@ namespace DAL
         Random r = new Random();
         static DalObject.DalObject dalObject;
 
+        /// <summary>
+        /// The user chooses what to do with the objects:
+        /// 1.Add 2.update 3.display obj by id 4.display arr of obj 5.exit.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             dalObject = new DalObject.DalObject();
@@ -38,16 +43,16 @@ namespace DAL
                 switch (choice)
                 {
                     case Choices.Add:
-                        additionFunc();
+                        chooseObjToAdd();
                         break;
                     case Choices.Update:
                         UpdateFunc();
                         break;
                     case Choices.ShowWithId:
-                        ShowWithIdFunc();
+                        receivesAndDisplaysObjById();
                         break;
                     case Choices.ShowList:
-                        DisplayListFunc();
+                        receivesArrObjs();
                         break;
                     case Choices.exit:
                         return;
@@ -58,7 +63,7 @@ namespace DAL
             } while ((int)choice != 5);
         }
 
-        public static void additionFunc()
+        public static void chooseObjToAdd()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj;
@@ -107,7 +112,9 @@ namespace DAL
                     Console.WriteLine("Enter ID of parcel");
                     int parcelId = Convert.ToInt32(Console.ReadLine());
                     Parcel parcel = DalObject.DalObject.getParcelById(parcelId);
-                    Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
+                    if (parcel.DroneId == -1)
+                        Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
+                    else Console.WriteLine("Error: Parcel have a drone.");
                     break;
                 case UpdateObj.DroneCollectsAParcel:
                     Console.WriteLine("Enter ID of parcel");
@@ -157,7 +164,7 @@ namespace DAL
                     break;
             }
         }
-        public static void ShowWithIdFunc()
+        public static void receivesAndDisplaysObjById()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
             objects obj;
@@ -198,14 +205,18 @@ namespace DAL
                     break;
             }
         }
-        public static void printListObj<T>(T[] arrObjects)
+        public static void displayArrObjs<T>(T[] arrObjects)
         {
             foreach (T obj in arrObjects)
             {
                 Console.WriteLine(obj.ToString());
             }
         }
-        public static void DisplayListFunc()
+        /// <summary>
+        /// Receives an array the objects. (according to a switch)
+        /// and send the array to displayArrObjs.
+        /// </summary>
+        public static void receivesArrObjs()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel\n 5.Parcels Without drone\n 6.Station with empty Charging positions ");
             objects obj;
@@ -222,40 +233,38 @@ namespace DAL
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
                     Station[] stationsArr = stations.Cast<Station>().ToArray();
-                    printListObj(stationsArr);
+                    displayArrObjs(stationsArr);
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
                     Drone[] dronesArr= drones.Cast<Drone>().ToArray();
-                    printListObj(dronesArr);          
+                    displayArrObjs(dronesArr);          
                     break;
                 case objects.Customer:
                     IEnumerable<Customer> customers = dalObject.displayCustomers();
                     Customer[] customersArr = customers.Cast<Customer>().ToArray();
-                    printListObj(customersArr);
+                    displayArrObjs(customersArr);
                     break;
                 case objects.Parcel:
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
                     Parcel[] parcelsArr = parcels.Cast<Parcel>().ToArray();
-                    printListObj(parcelsArr); 
+                    displayArrObjs(parcelsArr); 
                     break;
                 case objects.FreeParcel:
                     IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
                     Parcel[] freeParcelsArr = freeParcels.Cast<Parcel>().ToArray();
-                    printListObj(freeParcelsArr);
+                    displayArrObjs(freeParcelsArr);
                     break;
                 case objects.EmptyCharges:
                     IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();
                     DroneCharge[] ChargeStandArr = ChargeStand.Cast<DroneCharge>().ToArray();
-                    printListObj(ChargeStandArr);
+                    displayArrObjs(ChargeStandArr);
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
                     break;
             }
         }
-
-
         public static void addStation()
         {
             Random r = new Random();
@@ -291,7 +300,7 @@ namespace DAL
             double Battery = 100;
             dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
         }
-        //need sometimes to use customer's detailes - return customer
+        //need sometimes to use customer's detailes - return customer.
         public static Customer addCustomer()
         {
             Random r = new Random();
@@ -320,6 +329,7 @@ namespace DAL
             dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
             return c;
         }
+        //need sometimes to use parcel's detailes - return parcel.
         public static Parcel addParcel()
         {
             Random r = new Random();

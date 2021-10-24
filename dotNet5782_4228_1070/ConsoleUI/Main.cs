@@ -112,7 +112,9 @@ namespace DAL
                     Console.WriteLine("Enter ID of parcel");
                     int parcelId = Convert.ToInt32(Console.ReadLine());
                     Parcel parcel = DalObject.DalObject.getParcelById(parcelId);
-                    Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
+                    if (parcel.DroneId == -1)
+                        Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
+                    else Console.WriteLine("Error: Parcel have a drone.");
                     break;
                 case UpdateObj.DroneCollectsAParcel:
                     Console.WriteLine("Enter ID of parcel");
