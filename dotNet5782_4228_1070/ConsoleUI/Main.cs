@@ -198,6 +198,13 @@ namespace DAL
                     break;
             }
         }
+        public static void printListObj<T>(T[] arrObjects)
+        {
+            foreach (T obj in arrObjects)
+            {
+                Console.WriteLine(obj.ToString());
+            }
+        }
         public static void DisplayListFunc()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel\n 5.Parcels Without drone\n 6.Station with empty Charging positions ");
@@ -214,52 +221,40 @@ namespace DAL
             {
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
-                    foreach (Station station in stations)
-                    {
-                        Console.WriteLine(station.ToString());
-                    }
+                    Station[] stationsArr = stations.Cast<Station>().ToArray();
+                    printListObj(stationsArr);
                     break;
                 case objects.Drone:
                     IEnumerable<Drone> drones = dalObject.displayDrone();
-                    foreach (Drone drone in drones)
-                    {
-                        Console.WriteLine(drone.ToString());
-                    }
+                    Drone[] dronesArr= drones.Cast<Drone>().ToArray();
+                    printListObj(dronesArr);          
                     break;
                 case objects.Customer:
                     IEnumerable<Customer> customers = dalObject.displayCustomers();
-                    foreach (Customer customer in customers)
-                    {
-                        Console.WriteLine(customer.ToString());
-                    }
+                    Customer[] customersArr = customers.Cast<Customer>().ToArray();
+                    printListObj(customersArr);
                     break;
                 case objects.Parcel:
                     IEnumerable<Parcel> parcels = dalObject.displayParcels();
-                    foreach (Parcel parcel in parcels)
-                    {
-                        Console.WriteLine(parcel.ToString());
-                    }
+                    Parcel[] parcelsArr = parcels.Cast<Parcel>().ToArray();
+                    printListObj(parcelsArr); 
                     break;
                 case objects.FreeParcel:
                     IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
-                    foreach (Parcel parcel in freeParcels)
-                    {
-                        Console.WriteLine(parcel.ToString());
-                    }
+                    Parcel[] freeParcelsArr = freeParcels.Cast<Parcel>().ToArray();
+                    printListObj(freeParcelsArr);
                     break;
                 case objects.EmptyCharges:
                     IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();
-                    foreach (DroneCharge d in ChargeStand)
-                    {
-                        Console.WriteLine(d.ToString());
-                    }
+                    DroneCharge[] ChargeStandArr = ChargeStand.Cast<DroneCharge>().ToArray();
+                    printListObj(ChargeStandArr);
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
                     break;
             }
         }
-
+        
         public static void addStation()
         {
             Random r = new Random();
