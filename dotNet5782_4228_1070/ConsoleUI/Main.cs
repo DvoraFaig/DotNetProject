@@ -217,7 +217,7 @@ namespace DAL
             {
                 obj = (objects)(-1);
             }
-            switch (obj)
+            switch (obj)           
             {
                 case objects.Station:
                     IEnumerable<Station> stations = dalObject.displayStations();
@@ -254,7 +254,8 @@ namespace DAL
                     break;
             }
         }
-        
+
+
         public static void addStation()
         {
             Random r = new Random();
