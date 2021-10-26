@@ -10,74 +10,72 @@ namespace DalObject
     internal class DataSource
     {
         //Arrays of the classes
-        internal static Drone[] Drones = new Drone[10];
-        internal static Station[] Stations = new Station[5];
-        internal static Customer[] Customers = new Customer[100];
-        internal static Parcel[] Parcels = new Parcel[1000];
-        internal static DroneCharge[] DroneCharges = new DroneCharge[10];
+        internal static List<Drone> Drones = new List<Drone>();
+        internal static List<Station> Stations = new List<Station>();
+        internal static List<Customer> Customers = new List<Customer>();
+        internal static List<Parcel> Parcels = new List<Parcel>();
+        internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
+
 
         public static void Initialize()
         {
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
-            for (int i = 1; i <= amountStations; i++)
+            for (int i = 0; i < amountStations; i++)
             {
-                Stations[i].Id = i;
-                Stations[i].Name = $"station{Stations[i].Id}";
-                Stations[i].Id = i;
-                Stations[i].Name = $"Station{Stations[i].Id}";
-                Stations[i].ChargeSlots = r.Next(0, 10);
-                Stations[i].Latitude = r.Next(0, 400);
-                Stations[i].Longitude = r.Next(0, 400);
-                Stations[i].ChargeSlots = r.Next(0, 200);
-                Config.indexStations++;
-
+                Station s = new Station();
+                s.Id = i;
+                s.Name = $"station{Stations[i].Id}";
+                s.ChargeSlots = r.Next(0, 10);
+                s.Latitude = r.Next(0, 400);
+                s.Longitude = r.Next(0, 400);
+                s.ChargeSlots = r.Next(0, 200);
+                Stations.Add(s);
             }
 
             int amountDrones = r.Next(5,10);
             for (int i=1; i<= amountDrones; i++)
             {
-                Drones[i].Id = i;
-                Drones[i].Model = $"Drone{Drones[i].Id}";
-                Drones[i].Battery = 100;
-                Drones[i].MaxWeight = (WeightCategories)r.Next(0, 3);
-                Drones[i].Model = $"Model{r.Next(0, 3)}";
-                Drones[i].Status = (DroneStatus)r.Next(0, 3);
-                Config.indexDrones++;
+                Drone d = new Drone();
+                d.Id = i;
+                d.Model = $"Drone{Drones[i].Id}";
+                d.Battery = 100;
+                d.MaxWeight = (WeightCategories)r.Next(0, 3);
+                d.Model = $"Model{r.Next(0, 3)}";
+                d.Status = (DroneStatus)r.Next(0, 3);
+                Drones.Add(d);
             }
             
-
             int amountCustomer = r.Next(10, 100);
             for (int i = 1; i <= amountStations; i++)
             {
-                Customers[i].ID = i;
-                Customers[i].Name = $"Customer{Customers[i].ID}";
-                Customers[i].Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
-                Stations[i].Latitude = r.Next(0, 400);
-                Stations[i].Longitude = r.Next(0, 400);
-                Config.indexCustomers++;
+                Customer c = new Customer();
+                c.ID = i;
+                c.Name = $"Customer{Customers[i].ID}";
+                c.Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
+                c.Latitude = r.Next(0, 400);
+                c.Longitude = r.Next(0, 400);
+                Customers.Add(c);
             }
 
             int amountParcels = r.Next(10, 1000);
             for(int i =1; i <= amountParcels; i++)
             {
-                Parcels[i].Id = r.Next(0, 1000); 
-                Parcels[i].SenderId = r.Next(0, 400);
-                Parcels[i].TargetId = r.Next(0, 400);// which costumer
-                Parcels[i].Weight = (WeightCategories)r.Next(0,3);
-                Parcels[i].Priority = (Priorities)r.Next(0,3);
-                Parcels[i].Requeasted =DateTime.Now;
+                Parcel p = new Parcel();
+                p.Id = r.Next(0, 1000); 
+                p.SenderId = r.Next(0, 400);
+                p.TargetId = r.Next(0, 400);// which costumer
+                p.Weight = (WeightCategories)r.Next(0,3);
+                p.Priority = (Priorities)r.Next(0,3);
+                p.Requeasted =DateTime.Now;
+                Parcels.Add(p);
             }
         }
 
         internal static class Config
         {
-            internal static int indexDrones = -1;
-            internal static int indexStations = -1;
-            internal static int indexCustomers = -1;
-            internal static int indexParcels = -1;
-            internal static int indexDroneCharges = -1;
+
         }
     }
 }

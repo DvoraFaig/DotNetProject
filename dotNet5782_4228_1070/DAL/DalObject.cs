@@ -21,23 +21,23 @@ namespace DalObject
         //returnnig amount functions//
         public static int amountStations()
         {
-            return DataSource.Config.indexStations;
+            return DataSource.Stations.Count();
         }
         public static int amountDrones()
         {
-            return DataSource.Config.indexDrones;
+            return DataSource.Drones.Count();
         }
         public static int amountParcels()
         {
-            return DataSource.Config.indexParcels;
+            return DataSource.Parcels.Count();
         }
         public static int amountCustomers()
         {
-            return DataSource.Config.indexCustomers;
+            return DataSource.Customers.Count;
         }
         public static int amountDroneCharges()
         {
-            return DataSource.Config.indexDroneCharges;
+            return DataSource.DroneCharges.Count();
         }
 
         //Add functions//
@@ -49,7 +49,7 @@ namespace DalObject
             drone.MaxWeight = MaxWeight;
             drone.Status = Status;
             drone.Battery = Battery;
-            DataSource.Drones[DataSource.Config.indexDrones++] = drone;
+            DataSource.Drones.Add(drone);
         }
         public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
@@ -59,7 +59,7 @@ namespace DalObject
             station.ChargeSlots = ChargeSlots;
             station.Longitude = Longitude;
             station.Latitude = Latitude;
-            DataSource.Stations[DataSource.Config.indexStations++] = station;
+            DataSource.Stations.Add(station);
 
         }
         public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
@@ -70,7 +70,7 @@ namespace DalObject
             customer.Phone = Phone;
             customer.Longitude = Longitude;
             customer.Latitude = Latitude;
-            DataSource.Customers[DataSource.Config.indexCustomers++] = customer;
+            DataSource.Customers.Add(customer);
 
         }
         public void AddParcelToDelivery(int id, int Serderid, int TargetId,IDAL.DO.WeightCategories Weight, IDAL.DO.Priorities Priority, DateTime requestedTime)
@@ -83,16 +83,23 @@ namespace DalObject
             parcel.Priority = Priority;
             parcel.Requeasted = requestedTime;
             parcel.DroneId = -1;
-            DataSource.Parcels[DataSource.Config.indexParcels++] = parcel;
+            DataSource.Parcels.Add(parcel);
 
         }
 
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
-        public void assignParcelToDrone(int parcelId)
+        /*public void assignParcelToDrone(int parcelId)
         {
             Parcel p = getParcelById(parcelId);
+            for (int i = 0; i < DataSource.Drones.Count; i++)
+            {
+                if (DataSource.Drones[i].Status == DroneStatus.Available)
+                {
+
+                }
+            }
             foreach(Drone drone in DataSource.Drones)
             {
                 if (drone.Status == DroneStatus.Available)
@@ -101,18 +108,26 @@ namespace DalObject
                 }
             }
             
-        }
+        }*/
 
-        private bool isFreeDrone(Drone d)
+/*        private bool isFreeDrone(Drone d)
         {
             if (d.Status == DroneStatus.Available)
             {
                 return true;
             }
             return false;
-        }
+        }*/
         public string PairAParcelWithADrone(Parcel parcel)
-        {
+        { 
+            for (int i = 0; i < DataSource.Drones.Count())
+            {
+                if (DataSource.Drones[i].Status == DroneStatus.Available && (WeightCategories)DataSource.Drones[i].MaxWeight >= parcel.Weight)
+                {
+
+                }
+
+            }
             foreach (Drone drone in DataSource.Drones)
             {
                 if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
@@ -172,75 +187,27 @@ namespace DalObject
         // Display functions//
         public static Station getStationById(int id)
         {
-            foreach(Station state in DataSource.Stations)
-            {
-                if (state.Id == id)
-                {
-                    return state;
-                }
-            }
-            Station m_station = new Station();
-            return m_station;
+            return DataSource.Stations.FirstOrDefault(station => station.Id == id);
         }
         public static Drone getDroneById(int id)
         {
-            foreach (Drone drone in DataSource.Drones)
-            {
-                if (drone.Id == id)
-                {
-                    return drone;
-                }
-            }
-            Drone m_drone = new Drone();
-            return m_drone;
+            return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
         }
         public static Customer getCustomerById(int id)
         {
-            foreach (Customer customer in DataSource.Customers)
-            {
-                if (customer.ID == id)
-                {
-                    return customer;
-                }
-            }
-            Customer m_customer = new Customer();
-            return m_customer;
+            return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
         }
-        public static Parcel getParcelById(int id)
+        public Parcel getParcelById(int id)
         {
-            foreach (Parcel parcel in DataSource.Parcels)
-            {
-                if (parcel.Id == id)
-                {
-                    return parcel;
-                }
-            }
-            Parcel m_parcel = new Parcel();
-            return m_parcel;
+            return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
         }
         public static DroneCharge getDroneChargeById(int id)
         {
-            foreach (DroneCharge droneCharge in DataSource.DroneCharges)
-            {
-                if (droneCharge.StationId == id)
-                {
-                    return droneCharge;
-                }
-            }
-            DroneCharge m_droneCharge = new DroneCharge();
-            return m_droneCharge;
+            return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
         }
         public static DroneCharge getDroneChargeByDroneId(int id)
         {
-            foreach (DroneCharge droneCharge in DataSource.DroneCharges)
-            {
-                if (droneCharge.DroneId == id)
-                {
-                    return droneCharge;
-                }
-            }
-            DroneCharge m_droneCharge = new DroneCharge();
-            return m_droneCharge;
+            return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
         }
         // Display all functions //
         public IEnumerable<Station> displayStations()
