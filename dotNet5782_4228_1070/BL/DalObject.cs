@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;
-using IDal;
-
-
-
+using IBL.BO;
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject : IBL.Ibl
     {
         public DalObject()
         {
             DataSource.Initialize();
         }
+      
+        /// <summary>
+        /// ???????????????????????
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static DroneCharge getDroneChargeByDroneId(int id)
         {
             return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
