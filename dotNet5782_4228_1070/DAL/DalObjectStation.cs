@@ -8,7 +8,6 @@ namespace DalObject
 {
     public partial class DalObject : IDal.IDal
     {
-        //Station//
         public static int amountStations()
         {
             return DataSource.Stations.Count();

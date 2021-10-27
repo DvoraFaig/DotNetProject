@@ -19,7 +19,7 @@ namespace DalObject
         }
       
         /// <summary>
-        /// ???????????????????????
+        /// Function get id of drone and return drone charge object.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -30,6 +30,9 @@ namespace DalObject
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
+
+
+
         /*public void assignParcelToDrone(int parcelId)
         {
             Parcel p = getParcelById(parcelId);
@@ -58,33 +61,27 @@ namespace DalObject
                     }
                     return false;
                 }*/
+        /// <summary>
+        /// Function get parcel object and find drone to take it.
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns></returns>
         public string PairAParcelWithADrone(Parcel parcel)
         {
-            for (int i = 0; i < DataSource.Drones.Count();/* ??? לא היה כתוב i++ */ i++)
+            for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
                 if (DataSource.Drones[i].Status == DroneStatus.Available && (WeightCategories)DataSource.Drones[i].MaxWeight >= parcel.Weight)
                 {
-
-                }
-
-            }
-            foreach (Drone drone in DataSource.Drones)
-            {
-                if (drone.Status == DroneStatus.Available && (WeightCategories)drone.MaxWeight >= parcel.Weight)
-                {
-                    parcel.DroneId = drone.Id;
+                    Drone d = DataSource.Drones[i];
+                    parcel.DroneId = DataSource.Drones[i].Id;
                     parcel.Scheduled = DateTime.Now; //pair a parcel to dron
-                    int indexDrone = drone.Id;
-                    //?????????????????????????????????????????????????
-                    //change to list........
-                    //DataSource.Drones[indexDrone].Status = DroneStatus.Delivery; // can't change info by foreach - drone.Status = DroneStatus.Delivery;
-                    //////////////////////////
-                    return $"The Drone number{drone.Id} is ready and will receive parcel num {parcel.Id}.";
+                    d.Status = DroneStatus.Delivery;
+                    DataSource.Drones[i] = d;
+                    return $"The Drone number {d.Id} is ready and will recieve parcel num {parcel.Id}.";
                 }
             }
             return ("No drones available.\n please try later.");
         }
-
         public void DroneCollectsAParcel(Parcel parcel)
         {
             if (parcel.DroneId == 0) //doesn't have a Drone
@@ -126,7 +123,6 @@ namespace DalObject
             DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
             chargeToFree.StationId = -1;
         }
-
     }
 }
   
