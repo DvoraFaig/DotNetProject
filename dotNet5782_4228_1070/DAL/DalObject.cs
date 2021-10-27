@@ -9,9 +9,6 @@ using IDal;
 
 
 
-
-
-
 namespace DalObject
 {
     public partial class DalObject : IDal.IDal
