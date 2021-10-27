@@ -8,7 +8,6 @@ namespace DalObject
 {
     public partial class DalObject : IDal.IDal
     {
-        //DroneCharge
         public static int amountDroneCharges()
         {
             return DataSource.DroneCharges.Count();

@@ -8,7 +8,6 @@ namespace DalObject
 {
     public partial class DalObject : IDal.IDal
     {
-        //Drone//
         public static int amountDrones()
         {
             return DataSource.Drones.Count();
@@ -37,7 +36,5 @@ namespace DalObject
         {
             return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
         }
-
     }
-
 }
