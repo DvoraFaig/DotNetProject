@@ -259,24 +259,25 @@ namespace BL_ConsoleUI
                     break;
             }
         }
-        public static void addStation()
-        {
-            //Random r = new Random();
-            //int amountS = DalObject.DalObject.amountStations();
-            //if (amountS >= 5)
-            //{
-            //    Console.WriteLine("== Cann't add stations ==");
-            //    return;
-            //}
-            //Console.WriteLine("Enter a station Name: ");
-            //string Name = Console.ReadLine();
-            //int ChargeSlots = r.Next(0, 5);
-            //Console.WriteLine("Enter a Latitude");
-            //int Latitude = Convert.ToInt32(Console.ReadLine());
-            //Console.WriteLine("Enter a Longitude");
-            //int Longitude = Convert.ToInt32(Console.ReadLine());
-            //dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
-        }
+
+        //public static void addStation()
+        //{
+        //    //Random r = new Random();
+        //    //int amountS = DalObject.DalObject.amountStations();
+        //    //if (amountS >= 5)
+        //    //{
+        //    //    Console.WriteLine("== Cann't add stations ==");
+        //    //    return;
+        //    //}
+        //    //Console.WriteLine("Enter a station Name: ");
+        //    //string Name = Console.ReadLine();
+        //    //int ChargeSlots = r.Next(0, 5);
+        //    //Console.WriteLine("Enter a Latitude");
+        //    //int Latitude = Convert.ToInt32(Console.ReadLine());
+        //    //Console.WriteLine("Enter a Longitude");
+        //    //int Longitude = Convert.ToInt32(Console.ReadLine());
+        //    //dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
+        //}
         public static void addDrone()
         {
             //Random r = new Random();
