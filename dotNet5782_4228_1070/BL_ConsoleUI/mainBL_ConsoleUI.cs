@@ -79,10 +79,10 @@ namespace BL_ConsoleUI
                     BL.BL.addDrone();
                     break;
                 case objects.Customer:
-                    //addCustomer();
+                    BL.BL.addCustomer();
                     break;
                 case objects.Parcel:
-                    //addParcel();
+                    BL.BL.addParcel();
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
