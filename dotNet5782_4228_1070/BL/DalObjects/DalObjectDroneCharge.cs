@@ -8,7 +8,7 @@ using IBL.BO;
 
 namespace DalObject
 {
-    public partial class DalObject : IBL.Ibl
+    public partial class DalObject 
     {
         //DroneCharge
         public static int amountDroneCharges()

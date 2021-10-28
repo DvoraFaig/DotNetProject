@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace DalObject
 {
-    public partial class DalObject : IBL.Ibl
+    public partial class DalObject 
     {
         //Station//
         public static int amountStations()
@@ -18,7 +18,6 @@ namespace DalObject
         {
             Station s = new Station(id, Name, ChargeSlots, Latitude, Longitude);
             DataSource.Stations.Add(s);
-
         }
         public IEnumerable<Station> displayStations()
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using BL;
 namespace BL_ConsoleUI
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
@@ -18,7 +18,7 @@ namespace BL_ConsoleUI
         /// 1.Add 2.update 3.display obj by id 4.display arr of obj 5.exit.
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             //dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
@@ -54,6 +54,7 @@ namespace BL_ConsoleUI
                         Console.WriteLine("== ERROR ==");
                         break;
                 }
+                
             } while ((int)choice != 5);
         }
 
@@ -72,10 +73,10 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    addStation();
+                    BL.BL.addStation();
                     break;
                 case objects.Drone:
-                    addDrone();
+                    BL.BL.addDrone();
                     break;
                 case objects.Customer:
                     //addCustomer();
@@ -260,42 +261,7 @@ namespace BL_ConsoleUI
             }
         }
 
-        //public static void addStation()
-        //{
-        //    //Random r = new Random();
-        //    //int amountS = DalObject.DalObject.amountStations();
-        //    //if (amountS >= 5)
-        //    //{
-        //    //    Console.WriteLine("== Cann't add stations ==");
-        //    //    return;
-        //    //}
-        //    //Console.WriteLine("Enter a station Name: ");
-        //    //string Name = Console.ReadLine();
-        //    //int ChargeSlots = r.Next(0, 5);
-        //    //Console.WriteLine("Enter a Latitude");
-        //    //int Latitude = Convert.ToInt32(Console.ReadLine());
-        //    //Console.WriteLine("Enter a Longitude");
-        //    //int Longitude = Convert.ToInt32(Console.ReadLine());
-        //    //dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
-        //}
-        public static void addDrone()
-        {
-            //Random r = new Random();
-            //int amountD = DalObject.DalObject.amountDrones();
-            //if (amountD >= 10)
-            //{
-            //    Console.WriteLine("== Cann't add Drones ==");
-            //    return;
-            //}
-            //Console.WriteLine("Enter a Model");
-            //string Model = Console.ReadLine();
-            //Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-            //WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-            //DroneStatus Status = DroneStatus.Available;
-            //double Battery = 100;
-            //dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
-        }
-        //need sometimes to use customer's detailes - return customer.
+       
         //public static Customer addCustomer()
         //{
         //    Random r = new Random();

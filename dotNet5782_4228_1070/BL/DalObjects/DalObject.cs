@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace DalObject
 {
-    public partial class DalObject : IBL.Ibl
+    public partial class DalObject 
     {
         public DalObject()
         {

@@ -8,8 +8,9 @@ using IBL.BO;
 
 namespace DalObject
 {
-    public partial class DalObject : IBL.Ibl
+    public partial class DalObject 
     {
+        
         //Customers//
         public static int amountCustomers()
         {
@@ -39,11 +40,6 @@ namespace DalObject
         public static Customer getCustomerById(int id)
         {
             return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
-        }
-
-        public void AddDrone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
-        {
-            throw new NotImplementedException();
         }
     }
 }
