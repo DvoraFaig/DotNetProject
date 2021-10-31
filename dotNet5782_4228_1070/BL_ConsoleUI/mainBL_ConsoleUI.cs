@@ -66,6 +66,11 @@ namespace BL_ConsoleUI
             {
                 obj = (objects)(Convert.ToInt32(Console.ReadLine()));
             }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("Catch ArgumentNullException");
+                obj = (objects)(-1);
+            }
             catch
             {
                 obj = (objects)(-1);
