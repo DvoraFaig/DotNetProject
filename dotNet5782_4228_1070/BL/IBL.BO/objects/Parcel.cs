@@ -24,7 +24,7 @@ namespace IBL
                 parcel.Requeasted = requestedTime;
                 parcel.DroneId = -1;
             }
-	
+	        
                 //this.Id = id;
                 //this.SenderId = Serderid;
                 //this.TargetId = TargetId;

@@ -10,7 +10,6 @@ namespace IDal
     namespace DO
     {
         interface IDal
-
         {
             //Add functions//
             public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
@@ -36,6 +35,9 @@ namespace IDal
             public static IEnumerable<Parcel> displayFreeParcels() { yield return new Parcel(); }
             public static IEnumerable<DroneCharge> displayDroneCharge() { yield return new DroneCharge(); }
             public static IEnumerable<Customer> displayCustomers() { yield return new Customer(); }
+
+            //בקשת צריכת חשמל
+            public double[] electricityUseByDrone(Drone drone);
         }
     }
 }

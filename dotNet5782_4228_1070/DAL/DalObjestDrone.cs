@@ -7,7 +7,7 @@ using IDal.DO;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
         public static int amountDrones()
         {
@@ -18,8 +18,8 @@ namespace DalObject
             Drone drone = new Drone();
             drone.Id = id;
             drone.Model = Model;
-            drone.MaxWeight = MaxWeight;
-            drone.Status = Status;
+            //drone.MaxWeight = MaxWeight;
+            //drone.Status = Status;
             drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
@@ -36,6 +36,16 @@ namespace DalObject
         public static Drone getDroneById(int id)
         {
             return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
+        }
+        public double[] electricityUseByDrone(Drone drone)
+        {
+            double[] droneInfo = new double[5];
+            droneInfo[0] = DataSource.Config.empty;
+            droneInfo[1] = DataSource.Config.lightWeight;
+            droneInfo[2] = DataSource.Config.mediumWeight;
+            droneInfo[3] = DataSource.Config.heavyWeight;
+            droneInfo[4] = DataSource.Config.chargingRate;
+            return droneInfo;
         }
     }
 }
