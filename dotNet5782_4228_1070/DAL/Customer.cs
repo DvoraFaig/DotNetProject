@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DalObject
+namespace IDal
 {
-    public struct Customer
+    namespace DO
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public override string ToString()
+        public struct Customer
         {
-            return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, customer latitude: {Latitude}, customer Longitude: {Longitude}\n");
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public string Phone { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+            public override string ToString()
+            {
+                return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, customer latitude: {Latitude}, customer Longitude: {Longitude}\n");
+            }
         }
     }
 }
