@@ -14,7 +14,7 @@ namespace DalObject
         {
             return DataSource.Stations.Count();
         }
-        public static void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
+        public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
             station.Id = id;
@@ -25,7 +25,7 @@ namespace DalObject
             DataSource.Stations.Add(station);
 
         }
-        public IEnumerable<Station> displayStations()
+        public static IEnumerable<Station> displayStations()
         {
             foreach (Station station in DataSource.Stations)
             {

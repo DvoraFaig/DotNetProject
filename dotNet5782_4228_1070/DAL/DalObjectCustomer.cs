@@ -14,7 +14,7 @@ namespace DalObject
         {
             return DataSource.Customers.Count;
         }
-        public static void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
+        public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
         {
             Customer customer = new Customer();
             customer.ID = id;
@@ -25,7 +25,7 @@ namespace DalObject
             DataSource.Customers.Add(customer);
 
         }
-        public IEnumerable<Customer> displayCustomers()
+        public static IEnumerable<Customer> displayCustomers()
         {
             foreach (Customer customer in DataSource.Customers)
             {

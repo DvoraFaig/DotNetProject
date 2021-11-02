@@ -14,7 +14,7 @@ namespace DalObject
         {
             return DataSource.DroneCharges.Count();
         }
-        public IEnumerable<DroneCharge> displayDroneCharge()
+        public static IEnumerable<DroneCharge> displayDroneCharge()
         {
             foreach (DroneCharge droneCharge in DataSource.DroneCharges)
             {

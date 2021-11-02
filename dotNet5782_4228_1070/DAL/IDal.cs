@@ -13,9 +13,9 @@ namespace IDal
 
         {
             //Add functions//
-            public static void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
-            public static void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
-            public static void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
+            public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
+            public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
+            public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
             public static void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
 
             //Update functions//
@@ -30,12 +30,12 @@ namespace IDal
             public static Parcel getParcelById(int id) { return new Parcel(); }
             public static DroneCharge getDroneChargeById(int id) { return new DroneCharge(); }
             public static DroneCharge getDroneChargeByDroneId(int id) { return new DroneCharge(); }
-            public IEnumerable<Station> displayStations() { yield return new Station(); }
-            public IEnumerable<Drone> displayDrone() { yield return new Drone(); }
-            public IEnumerable<Parcel> displayParcels() { yield return new Parcel(); }
-            public IEnumerable<Parcel> displayFreeParcels() { yield return new Parcel(); }
-            public IEnumerable<DroneCharge> displayDroneCharge() { yield return new DroneCharge(); }
-            public IEnumerable<Customer> displayCustomers() { yield return new Customer(); }
+            public static IEnumerable<Station> displayStations() { yield return new Station(); }
+            public static IEnumerable<Drone> displayDrone() { yield return new Drone(); }
+            public static IEnumerable<Parcel> displayParcels() { yield return new Parcel(); }
+            public static IEnumerable<Parcel> displayFreeParcels() { yield return new Parcel(); }
+            public static IEnumerable<DroneCharge> displayDroneCharge() { yield return new DroneCharge(); }
+            public static IEnumerable<Customer> displayCustomers() { yield return new Customer(); }
         }
     }
 }

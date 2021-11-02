@@ -13,7 +13,7 @@ namespace DalObject
         {
             return DataSource.Drones.Count();
         }
-        public static void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight, IDal.DO.DroneStatus Status, double Battery)
+        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight, IDal.DO.DroneStatus Status, double Battery)
         {
             Drone drone = new Drone();
             drone.Id = id;
@@ -23,7 +23,7 @@ namespace DalObject
             drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
-        public IEnumerable<Drone> displayDrone()
+        public static IEnumerable<Drone> displayDrone()
         {
             foreach (Drone drone in DataSource.Drones)
             {

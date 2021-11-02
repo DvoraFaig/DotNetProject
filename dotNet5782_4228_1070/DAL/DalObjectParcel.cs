@@ -14,7 +14,7 @@ namespace DalObject
         {
             return DataSource.Parcels.Count();
         }
-        public static void AddParcelToDelivery(int id, int Serderid, int TargetId, IDal.DO.WeightCategories Weight, IDal.DO.Priorities Priority, DateTime requestedTime)
+        public void AddParcelToDelivery(int id, int Serderid, int TargetId, IDal.DO.WeightCategories Weight, IDal.DO.Priorities Priority, DateTime requestedTime)
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;
@@ -26,7 +26,7 @@ namespace DalObject
             parcel.DroneId = -1;
             DataSource.Parcels.Add(parcel);
         }
-        public IEnumerable<Parcel> displayParcels()
+        public static IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
             {
