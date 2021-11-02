@@ -4,6 +4,7 @@ using System.Text;
 using IBL;
 using IBL.BO;
 using DalObject;
+using IDal;
 
 namespace BL
 {

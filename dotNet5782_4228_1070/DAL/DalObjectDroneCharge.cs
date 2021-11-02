@@ -26,6 +26,5 @@ namespace DalObject
         {
             return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
         }
-
     }
 }
