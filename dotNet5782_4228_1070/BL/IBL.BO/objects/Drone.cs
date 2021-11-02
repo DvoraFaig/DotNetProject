@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
 
 
 namespace IBL
@@ -10,24 +11,33 @@ namespace IBL
     namespace BO {
         public class Drone
         {
-            public Drone (int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
+            IDal.DO.Drone drone;
+            public Drone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
             {
-                this.Id = id;
-                this.Model = Model;
+                drone = new IDal.DO.Drone();
+                drone.Id = id;
+                drone.Model = Model;
                 this.MaxWeight = MaxWeight;
                 this.Status = Status;
-                this.Battery = Battery;
-	        }
-            public int Id { get; set; }
-            public string Model { get; set; }
+                drone.Battery = Battery;
+            }           
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
-            public double Battery { get; set; }
 
             public override string ToString()
             {
-                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {Battery}\n");
+                return ($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {drone.Battery}\n");
             }
+
+
+            //   public Drone (int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
+            //   {
+            //       this.Id = id;
+            //       this.Model = Model;
+            //       this.MaxWeight = MaxWeight;
+            //       this.Status = Status;
+            //       this.Battery = Battery;
+            //}
         }
     }
 }
