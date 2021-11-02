@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject //: IDal.IDal
     {
         public static int amountDrones()
         {
             return DataSource.Drones.Count();
         }
-        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight, IDal.DO.DroneStatus Status, double Battery)
+        public static void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight, IDal.DO.DroneStatus Status, double Battery)
         {
             Drone drone = new Drone();
             drone.Id = id;

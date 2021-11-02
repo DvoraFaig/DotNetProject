@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
+
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject //: IDal.IDal
     {
         public static int amountCustomers()
         {
             return DataSource.Customers.Count;
         }
-        public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
+        public static void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
         {
             Customer customer = new Customer();
             customer.ID = id;

@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
+
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject //: IDal.IDal
     {
         public static int amountStations()
         {
             return DataSource.Stations.Count();
         }
-        public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
+        public static void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
         {
             Station station = new Station();
             station.Id = id;

@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
+
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject //: IDal.IDal
     {
         public static int amountParcels()
         {
             return DataSource.Parcels.Count();
         }
-        public void AddParcelToDelivery(int id, int Serderid, int TargetId, IDal.DO.WeightCategories Weight, IDal.DO.Priorities Priority, DateTime requestedTime)
+        public static void AddParcelToDelivery(int id, int Serderid, int TargetId, IDal.DO.WeightCategories Weight, IDal.DO.Priorities Priority, DateTime requestedTime)
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;

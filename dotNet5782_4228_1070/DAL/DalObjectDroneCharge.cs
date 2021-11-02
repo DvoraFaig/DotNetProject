@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDal.DO;
+
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public partial class DalObject //: IDal.IDal
     {
         public static int amountDroneCharges()
         {

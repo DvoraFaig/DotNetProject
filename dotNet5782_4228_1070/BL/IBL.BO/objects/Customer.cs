@@ -5,29 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-
+using IDal.DO;
 namespace IBL
 {
     namespace BO
     {
+        
         public class Customer
         {
-        
-            //public Customer(Customer cu) 
-            //{
-            //    IDal.DO.Costumer costumer;
-
-
-            //}
-
+            IDal.DO.Customer costumer = new IDal.DO.Customer();
             public Customer(int id, string Name, string Phone, double Longitude, double Latitude)
             {
-                this.ID = id;
-                this.Name = Name;
-                this.Phone = Phone;
-                this.Longitude = Longitude;
-                this.Latitude = Latitude;
+                IDal.DO.Customer customer = new IDal.DO.Customer();
+                customer.ID = id;
+                customer.Name = Name;
+                customer.Phone = Phone;
+                customer.Longitude = Longitude;
+                customer.Latitude = Latitude;
+                //upadate the list
+                //רשימת משלוחים אצל לקוח מהלקוח
+                //
             }
+
+            //public Customer(int id, string Name, string Phone, double Longitude, double Latitude)
+            //{
+            //    this.ID = id;
+            //    this.Name = Name;
+            //    this.Phone = Phone;
+            //    this.Longitude = Longitude;
+            //    this.Latitude = Latitude;
+            //}
             public int ID { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }

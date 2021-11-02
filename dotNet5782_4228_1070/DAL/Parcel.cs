@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 
-namespace IBL
+namespace IDal
 {
-    namespace BO
+    namespace DO
     {
         public struct Parcel
         {

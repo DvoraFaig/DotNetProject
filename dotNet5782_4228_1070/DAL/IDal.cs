@@ -13,10 +13,10 @@ namespace IDal
 
         {
             //Add functions//
-            public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
-            public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
-            public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
-            public void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
+            public static void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
+            public static void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
+            public static void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
+            public static void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
 
             //Update functions//
             public string PairAParcelWithADrone(Parcel parcel);
