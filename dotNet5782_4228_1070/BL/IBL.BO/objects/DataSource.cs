@@ -80,6 +80,8 @@ namespace DalObject
         internal static class Config
         {
 
+            
+
         }
     }
 }

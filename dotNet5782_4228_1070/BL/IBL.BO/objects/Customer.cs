@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IDal.DO;
-
-
+﻿
 namespace IBL
 {
     namespace BO
     {
-        
+
         public class Customer
         {
-            public Customer(Customer cu)
-            {
-            }
+        
+            //public Customer(Customer cu) 
+            //{
+            //    IDal.DO.Costumer costumer;
 
 
-
+            //}
 
             public Customer(int id, string Name, string Phone, double Longitude, double Latitude)
             {

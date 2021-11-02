@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DalObject
+namespace IBL
 {
-    public struct Station
+    namespace BO
     {
-        public int Id { get; set; }
-        public string Name { set; get; }
-        public int ChargeSlots { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public override string ToString()
+        public struct Station
         {
-            return ($"station name: {Name}, station Id: {Id}, station latitude: {Latitude}, station longitude: {Longitude}\n");
+            public int Id { get; set; }
+            public string Name { set; get; }
+            public int ChargeSlots { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+            public override string ToString()
+            {
+                return ($"station name: {Name}, station Id: {Id}, station latitude: {Latitude}, station longitude: {Longitude}\n");
+            }
+
         }
     }
 }
