@@ -1,6 +1,6 @@
-﻿namespace IDal
-{
-    public class DO
-    {
-    }
-}
+﻿//namespace IDal
+//{
+//    public class DO
+//    {
+//    }
+//}

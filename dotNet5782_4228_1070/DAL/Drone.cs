@@ -5,18 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 
-namespace DalObject
+namespace IDal
 {
-    public struct Drone
+    namespace DO
     {
-        public int Id { get; set; }
-        public string Model { get; set; }
-        public WeightCategories MaxWeight { get; set; }
-        public DroneStatus Status { get; set; }
-        public double Battery { get; set; }
-        public override string ToString()
+        public struct Drone
         {
-            return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {Battery}\n");
+            public int Id { get; set; }
+            public string Model { get; set; }
+            public WeightCategories MaxWeight { get; set; }
+            public DroneStatus Status { get; set; }
+            public double Battery { get; set; }
+            public override string ToString()
+            {
+                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {Battery}\n");
+            }
         }
     }
 }
+

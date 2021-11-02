@@ -72,7 +72,6 @@ namespace DalObject
                 Parcels.Add(p);
             }
         }
-
         internal static class Config
         {
 
