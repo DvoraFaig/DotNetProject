@@ -4,11 +4,10 @@ using System.Text;
 using IBL;
 using IBL.BO;
 using DalObject;
-using IDal;
 
 namespace BL
 {
-    public partial class BL //: IBL.Ibl
+    public partial class BL : IBL
     {
         static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
         public BL()

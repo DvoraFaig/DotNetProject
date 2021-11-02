@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using BL;
-using 
 namespace BL_ConsoleUI
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
