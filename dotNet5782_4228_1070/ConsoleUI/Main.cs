@@ -18,6 +18,7 @@ namespace DAL
     {
         Random r = new Random();
         static DalObject.DalObject dalObject;
+        //IDal dalObj = new DalObject.DalObject;
 
         /// <summary>
         /// The user chooses what to do with the objects:

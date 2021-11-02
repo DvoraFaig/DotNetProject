@@ -74,7 +74,11 @@ namespace DalObject
         }
         internal static class Config
         {
-
+            internal static bool empty;
+            internal static bool lightWeight;
+            internal static bool mediumWeight;
+            internal static bool heavyWeight;
+            internal static double chargingRate;
         }
     }
 }
