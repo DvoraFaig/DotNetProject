@@ -15,6 +15,7 @@ namespace BL
             dalObject = new DalObject.DalObject();
         }
 
+       
         public static void addStation()
         {
             Random r = new Random();
