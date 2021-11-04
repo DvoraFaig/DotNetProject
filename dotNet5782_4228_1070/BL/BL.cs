@@ -4,16 +4,25 @@ using System.Text;
 using IBL;
 using IBL.BO;
 using DalObject;
+using IDal.DO;
 
 namespace BL
 {
     public partial class BL //: IBL
     {
-        static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
+        DalObject.DalObject d = new DalObject.DalObject();
+        private class BL_Data
+        {
+            internal List<IBL.BO.Station> StationsBL;
+            internal List<IBL.BO.Parcel> ParcelsBL;
+            internal List<IBL.BO.DroneCharge> DroneChargesBL;
+        }
         public BL()
         {
-            dalObject = new DalObject.DalObject();
+            d = new DalObject.DalObject();
         }
+        /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
+        
 
         public static void addStation()
         {
@@ -120,6 +129,6 @@ namespace BL
             DateTime requestedTime = DateTime.Now;
             dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
             return p;
-        }
+        }*/
     }
 }

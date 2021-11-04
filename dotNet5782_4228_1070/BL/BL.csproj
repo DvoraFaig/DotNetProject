@@ -4,6 +4,26 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="IBL.BO\objects\Customer.cs" />
+    <Compile Remove="IBL.BO\objects\DataSource.cs" />
+    <Compile Remove="IBL.BO\objects\Drone.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="IBL.BO\objects\Drone.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="IBL.BO\objects\DataSource.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="IBL.BO\objects\Customer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />

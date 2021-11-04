@@ -13,6 +13,7 @@ namespace DalObject
 {
     public partial class DalObject //: IDal.IDal
     {
+
         public DalObject()
         {
             DataSource.Initialize();

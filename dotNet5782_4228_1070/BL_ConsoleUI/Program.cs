@@ -8,6 +8,7 @@ namespace BL_ConsoleUI
         IBL objectIbl = new BL();
         static void Main(string[] args)
         {
+
         }
     }
 }

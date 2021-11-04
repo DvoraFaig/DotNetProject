@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{9E8995AC-FF25-402F-AAA6-35500D8BB1FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{B30B094D-EF2C-402C-9A03-D16475822508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{B30B094D-EF2C-402C-9A03-D16475822508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL_ConsoleUI", "BL_ConsoleUI\BL_ConsoleUI.csproj", "{348132F2-CFA9-446D-A9A2-78E6AEDAC220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL_ConsoleUI", "BL_ConsoleUI\BL_ConsoleUI.csproj", "{348132F2-CFA9-446D-A9A2-78E6AEDAC220}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
