@@ -24,6 +24,7 @@ namespace BL
         /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
         
 
+       
         public static void addStation()
         {
             Random r = new Random();
