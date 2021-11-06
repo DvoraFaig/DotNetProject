@@ -10,7 +10,8 @@ namespace BL
 {
     public partial class BL //: IBL
     {
-        DalObject.DalObject d = new DalObject.DalObject();
+        DalObject.DalObject d;
+        BL_Data blData = new BL_Data();
         private class BL_Data
         {
             internal List<IBL.BO.Station> StationsBL;
@@ -20,6 +21,13 @@ namespace BL
         public BL()
         {
             d = new DalObject.DalObject();
+        }
+        public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
+        {
+            IBL.BO.Station s = new IBL.BO.Station(id, name, emptyChargeSlot, longitude, latitude);
+            blData.StationsBL.Add(s);
+            //int id, string Name, int ChargeSlots, double Longitude, double Latitude
+            d.AddStation(id, name, emptyChargeSlot, longitude, latitude);
         }
         /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
         
