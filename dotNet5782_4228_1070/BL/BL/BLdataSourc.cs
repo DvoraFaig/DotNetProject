@@ -7,17 +7,20 @@ using DalObject;
 using IDal.DO;
 
 
-namespace BL
+namespace IBL
 {
-    public partial class BL //: IBL
+    namespace BO
     {
-        public class BLdataSource
+        public partial class BL //: IBL
         {
-            internal static List<IBL.BO.Drone> Drones = new List<IBL.BO.Drone>();
-            internal static List<IBL.BO.Station> Stations = new List<IBL.BO.Station>();
-            internal static List<IBL.BO.Customer> Customers = new List<IBL.BO.Customer>();
-            internal static List<IBL.BO.Parcel> Parcels = new List<IBL.BO.Parcel>();
-            internal static List<IBL.BO.DroneCharge> DroneCharges = new List<IBL.BO.DroneCharge>();
+            public static class BLdataSource
+            {
+                public static List<IBL.BO.Drone> BLDrones = new List<IBL.BO.Drone>();
+                public static List<IBL.BO.Station> BLStations = new List<IBL.BO.Station>();
+                public static List<IBL.BO.Customer> BLCustomers = new List<IBL.BO.Customer>();
+                public static List<IBL.BO.Parcel> BLParcels = new List<IBL.BO.Parcel>();
+                public static List<IBL.BO.DroneCharge> BLDroneCharges = new List<IBL.BO.DroneCharge>();
+            }
         }
     }
 }

@@ -10,17 +10,17 @@ namespace BL
 {
     public partial class BL //: IBL
     {
-        public class BLPosition
+        private class BLPosition
         {
             public double Longitude { get; set; }
             public double Latitude { get; set; }
         }
-        public class BLCustomerInDelivery //targetId in parcel
+        private class BLCustomerInDelivery //targetId in parcel
         {
             public int TargetId { get; set; }
             public string name { get; set; }
         }
-        public class BLDeliveryInTransfer
+        private class BLDeliveryInTransfer
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
@@ -30,7 +30,7 @@ namespace BL
             public BLPosition TargetPosition { get; set; }
             public double distance { get; set; }//.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
         }
-        public class BLDeliveryAtCustomer
+        private class BLDeliveryAtCustomer
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
@@ -38,7 +38,7 @@ namespace BL
             public ParcelStatuses ParcelStatus { get;set;}
             public BLCustomerInDelivery SenderOrTargetCustomer { get; set; }
         }
-        public class BLParcelInTransfer
+        private class BLParcelInTransfer
         {
             public int Id { get; set; }
             public Priorities Priority { get; set; }
@@ -46,18 +46,18 @@ namespace BL
             public BLCustomerInDelivery TargetCustomer { get; set; }
         }
 
-        public class BLParcelInDrone //drone in pacel
+        private class BLParcelInDrone //drone in pacel
         {
             public int Id { get; set; }
             public double Battery { get; set; }
             public BLPosition droneWithparcel { get; set; }
         }
-        public class BLChargingDrone
+        private class BLChargingDrone
         {
             public int Id { get; set; }
             public double Battery { get; set; }
         }
-        public class BLCustomer
+        private class BLCustomer
         {
             public int ID { get; set; }
             public string Name { get; set; }
@@ -67,7 +67,7 @@ namespace BL
             public List<BLDeliveryAtCustomer> deliveryToCustomers { get; set; }
         }
 
-        public class BLStation
+        private class BLStation
         {
             public int ID { get; set; }
             public string Name { get; set; }
@@ -75,7 +75,7 @@ namespace BL
             public int DroneChargeAvailble { get; set; }
             public List<BLChargingDrone> ChargingDrone { get; set; }
         }
-        public class BLDrone
+        private class BLDrone
         {
             public int Id { get; set; }
             public string Model { get; set; }
@@ -85,7 +85,7 @@ namespace BL
             public BLDeliveryInTransfer DeliveryInTransfer { get; set; }
             public BLPosition DronePosition { get; set; }
         }
-        public class BLParcel
+        private class BLParcel
         {
             public int Id { get; set; }
             public BLCustomer Sender { get; set; }
@@ -98,7 +98,7 @@ namespace BL
             public DateTime PickUp { get; set; }
             public DateTime Delivered { get; set; }
         }
-        public class BLCustomerToList
+        private class BLCustomerToList
         {
             public int ID { get; set; }
             public string Name { get; set; }
@@ -110,16 +110,15 @@ namespace BL
             public BLPosition CustomerPosition { get; set; }
             public List<BLDeliveryAtCustomer> deliveryfromCustomers { get; set; }
             public List<BLDeliveryAtCustomer> deliveryToCustomers { get; set; }
-
         }
-        public class BLStationToList
+        private class BLStationToList
         {
             public int ID { get; set; }
             public string Name { get; set; }
             public int DroneChargeAvailble { get; set; }
             public int DroneChargeOccupied { get; set; }
         }
-        public class BLDroneToList
+        private class BLDroneToList
         {
             public int Id { get; set; }
             public string Model { get; set; }
@@ -129,7 +128,7 @@ namespace BL
             public BLPosition DronePosition { get; set; }
             public int IdParcel { get; set; } //if there is
         }
-        public class BLParcelToList
+        private class BLParcelToList
         {
             public int Id { get; set; }
             public string SenderName { get; set; }
