@@ -1,14 +1,19 @@
 ﻿using System;
 using IBL.BO;
+using IBL;
 
-namespace BL_ConsoleUI
+
+
+namespace BL
 {
     class Program
     {
-        IBL objectIbl = new BL();
+
+        //private static Ibl blObject;
         static void Main(string[] args)
         {
-
+           // blObject = new BL();
+            
         }
     }
 }

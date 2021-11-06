@@ -8,27 +8,32 @@ using IDal.DO;
 
 namespace BL
 {
-    public partial class BL //: IBL
+    public partial class BL : Ibl
     {
         DalObject.DalObject d;
         BL_Data blData = new BL_Data();
-        private class BL_Data
+/*        private class BL_Data
         {
             internal List<IBL.BO.Station> StationsBL;
             internal List<IBL.BO.Parcel> ParcelsBL;
             internal List<IBL.BO.DroneCharge> DroneChargesBL;
-        }
+        }*/
         public BL()
         {
             d = new DalObject.DalObject();
+            //יש לבקש משכבת הנתונים ולשמור בשדות נפרדים את צריכת החשמל ע"י
+            //הרחפנים ואת קצב טעינתם -בהתאם למה שרשום לעיל
+            Drone[] dronesInDal = (Drone[])d.displayDrone();
+            foreach (Drone dr in dronesInDal)
+            {
+                BLDrone d = new BLDrone(dr.Id, dr.Model, dr.Battery);
+            }
         }
         public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
         {
             IBL.BO.Station s = new IBL.BO.Station(id, name, emptyChargeSlot, longitude, latitude);
-            d.AddStation()
-            blData.StationsBL.Add(s);
-            //int id, string Name, int ChargeSlots, double Longitude, double Latitude
             d.AddStation(id, name, emptyChargeSlot, longitude, latitude);
+            blData.StationsBL.Add(s);
         }
         /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
         
