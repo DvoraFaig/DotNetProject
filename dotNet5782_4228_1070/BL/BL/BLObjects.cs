@@ -138,6 +138,5 @@ namespace BL
             public Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
         }
-
     }
 }

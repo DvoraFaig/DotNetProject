@@ -25,6 +25,7 @@ namespace BL
         public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
         {
             IBL.BO.Station s = new IBL.BO.Station(id, name, emptyChargeSlot, longitude, latitude);
+            d.AddStation()
             blData.StationsBL.Add(s);
             //int id, string Name, int ChargeSlots, double Longitude, double Latitude
             d.AddStation(id, name, emptyChargeSlot, longitude, latitude);
