@@ -11,17 +11,10 @@ namespace BL
 {
     public partial class BL //: IBL
     {
-        internal static List<BLDrone> Drones = new List<BLDrone>();
-        internal static List<BLStation> Stations= new List<BLStation>();
-        internal static List<BLCustomer> Customers = new List<BLCustomer>();
-        internal static List<BLParcel> Parcels  = new List<BLParcel>();
-        //internal List<IBL.BO.DroneCharge> DroneChargesBL;
-        //internal static List<BLChargingDrone> ChargingDrone = new List<BLChargingDrone>();
-        //internal static List<BLCustomerInDelivery> CustomerInDelivery = new List<BLCustomerInDelivery>();
-        //internal static List<BLDeliveryAtCustomer> DeliveryAtCustomer = new List<BLDeliveryAtCustomer>();
-        //internal static List<BLDeliveryInTransfer> DeliveryInTransfer = new List<BLDeliveryInTransfer>();
-        //internal static List<BLParcelInDrone> ParcelInDrone = new List<BLParcelInDrone>();
-        //internal static List<BLParcelInTransfer> ParcelInTransfer = new List<BLParcelInTransfer>();
-
+        internal static List<IBL.BO.Drone> Drones = new List<IBL.BO.Drone>();
+        internal static List<IBL.BO.Station> Stations= new List<IBL.BO.Station>();
+        internal static List<IBL.BO.Customer> Customers = new List<IBL.BO.Customer>();
+        internal static List<IBL.BO.Parcel> Parcels  = new List<IBL.BO.Parcel>();
+        internal static List<IBL.BO.DroneCharge> DroneCharges  = new List<IBL.BO.DroneCharge>();
     }
 }
