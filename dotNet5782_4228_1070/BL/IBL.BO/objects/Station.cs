@@ -27,16 +27,6 @@ namespace IBL
             {
                 return ($"station name: {station.Name}, station Id: {station.Id}, station latitude: {station.Latitude}, station longitude: {station.Longitude}\n");
             }
-                //this.Id = id;
-                //this.Name = Name;
-                //this.ChargeSlots = ChargeSlots;
-                //this.Longitude = Longitude;
-                //this.Latitude = Latitude;
-            //public int Id { get; set; }
-            //public string Name { set; get; }
-            //public int ChargeSlots { get; set; }
-            //public double Longitude { get; set; }
-            //public double Latitude { get; set; }
         }
     }
 }
