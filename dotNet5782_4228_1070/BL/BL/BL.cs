@@ -30,7 +30,7 @@ namespace IBL
                     Drone d = new Drone(dr.Id, dr.Model,/*maxWeight ,Status,*/ dr.Battery);
 
                 }
-            }
+            }*/
             public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
             {
                 //Station s = new Station(id, name, emptyChargeSlot, longitude, latitude);
@@ -39,7 +39,7 @@ namespace IBL
             }
             public void addDrone(int id, WeightCategories maxWeight, int stationId)
             {
-                if (DalObject.DalObject.getStationById(stationId).ChargeSlots > 0)
+                if ((d.getStationById(stationId).ChargeSlots) > 0)
                 {
                     Random r = new Random();
                     int battery = r.Next(20, 40);
@@ -54,9 +54,9 @@ namespace IBL
             }
             public void addCustomer(int id, string name, string phone)
             {
-                Customer c = new Customer(id, name, phone, /*longitude, latitude*/);
+                Customer c = new Customer(id, name, phone /*,longitude, latitude*/);
                 BLdataSource.BLCustomers.Add(c);
-                d.AddCustomer(id, name, phone,/*longitude, latitude*/ );
+                d.AddCustomer(id, name, phone/*,longitude, latitude*/ );
             }
             /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
 

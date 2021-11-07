@@ -134,7 +134,7 @@ namespace DAL
                     Console.WriteLine("Enter ID of drone");
                     int droneId = Convert.ToInt32(Console.ReadLine());
                     Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
-                    switch (droneToCharge.Status)
+                    /*switch (droneToCharge.Status)
                     {
                         case DroneStatus.Maintenance:
                             Console.WriteLine("== Drone is maintenance ==");
@@ -145,20 +145,20 @@ namespace DAL
                         case DroneStatus.Available:
                             dalObject.sendDroneToCharge(droneToCharge);
                             break;
-                    }
+                    }*/
                     break;
                 case UpdateObj.freeDroneFromCharge:
                     Console.WriteLine("Enter Id of drone to charge");
                     int droneIdCharged = Convert.ToInt32(Console.ReadLine());
                     Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
-                    if (droneToFree.Status == DroneStatus.Maintenance)
+                    /*if (droneToFree.Status == DroneStatus.Maintenance)
                     {
                         dalObject.freeDroneFromCharge(droneToFree); 
                     }
                     else
                     {
                         Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
-                    }
+                    }*/
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
@@ -186,7 +186,7 @@ namespace DAL
             switch (obj)
             {
                 case objects.Station:
-                    Station s = DalObject.DalObject.getStationById(id);
+                    Station s = dalObject.getStationById(id);
                     Console.WriteLine(s.ToString());
                     break;
                 case objects.Drone:
@@ -282,7 +282,7 @@ namespace DAL
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
+            //dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
         }
         public static void addDrone()
         {
@@ -297,9 +297,9 @@ namespace DAL
             string Model = Console.ReadLine();
             Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
             WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-            DroneStatus Status = DroneStatus.Available;
-            double Battery = 100;
-            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
+            //DroneStatus Status = DroneStatus.Available;
+            //double Battery = 100;
+            dalObject.AddDrone(amountD, Model, MaxWeight);
         }
         //need sometimes to use customer's detailes - return customer.
         public static Customer addCustomer()

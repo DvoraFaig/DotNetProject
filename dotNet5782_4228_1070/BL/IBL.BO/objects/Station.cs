@@ -13,7 +13,7 @@ namespace IBL
     { 
         public class Station
         {
-            IDal.DO.Station station;
+            public IDal.DO.Station station;
             public Station (int id, string Name, int ChargeSlots, double Longitude, double Latitude)
             {
                 station = new IDal.DO.Station();

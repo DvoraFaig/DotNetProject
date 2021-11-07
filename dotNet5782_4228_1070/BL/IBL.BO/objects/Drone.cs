@@ -15,6 +15,7 @@ namespace IBL
             IDal.DO.Drone drone;
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
+            double Battery { get; set; }
 
             public Drone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
             {
@@ -23,12 +24,12 @@ namespace IBL
                 drone.Model = Model;
                 this.MaxWeight = MaxWeight;
                 this.Status = Status;
-                drone.Battery = Battery;
+                this.Battery = Battery;
                 //DalObject.DalObject.
             }
             public override string ToString()
             {
-                return ($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {drone.Battery}\n");
+                return ($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {Battery}\n");
             }
         }
     }
