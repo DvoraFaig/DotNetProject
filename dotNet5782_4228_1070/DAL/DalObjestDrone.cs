@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
+using IDal;
+
 
 namespace DalObject
 {
@@ -23,7 +25,7 @@ namespace DalObject
             drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
-        public static IEnumerable<Drone> displayDrone()
+        public IEnumerable<Drone> displayDrone()
         {
             foreach (Drone drone in DataSource.Drones)
             {

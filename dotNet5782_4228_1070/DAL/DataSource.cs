@@ -41,9 +41,9 @@ namespace DalObject
                 d.Id = i;
                 d.Model = $"Drone{Drones[i].Id}";
                 d.Battery = 100;
-                d.MaxWeight = (WeightCategories)r.Next(0, 3);
+                //d.MaxWeight = (WeightCategories)r.Next(0, 3);
                 d.Model = $"Model{r.Next(0, 3)}";
-                d.Status = (DroneStatus)r.Next(0, 3);
+                //d.Status = (DroneStatus)r.Next(0, 3);
                 Drones.Add(d);
             }
             

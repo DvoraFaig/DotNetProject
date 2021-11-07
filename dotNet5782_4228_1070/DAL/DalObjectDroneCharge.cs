@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
+using IDal;
+
 
 
 namespace DalObject
@@ -28,7 +30,5 @@ namespace DalObject
         {
             return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
         }
-       
-
     }
 }

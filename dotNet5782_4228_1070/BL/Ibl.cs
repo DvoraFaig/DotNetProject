@@ -6,7 +6,7 @@ using DalObject;
 
 namespace IBL
 {
-    interface IBL
+    public interface Ibl
     {
         ////Add functions//
         //public void AddDrone(int id, string Model, WeightCategories MaxWeight, BO.DroneStatus Status, double Battery);

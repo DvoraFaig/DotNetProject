@@ -8,10 +8,14 @@ using IDal.DO;
 
 namespace IBL
 {
-    namespace BO {
+    namespace BO
+    {
         public class Drone
         {
             IDal.DO.Drone drone;
+            public WeightCategories MaxWeight { get; set; }
+            public DroneStatus Status { get; set; }
+
             public Drone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
             {
                 drone = new IDal.DO.Drone();
@@ -20,24 +24,12 @@ namespace IBL
                 this.MaxWeight = MaxWeight;
                 this.Status = Status;
                 drone.Battery = Battery;
-            }           
-            public WeightCategories MaxWeight { get; set; }
-            public DroneStatus Status { get; set; }
-
+                //DalObject.DalObject.
+            }
             public override string ToString()
             {
                 return ($"drone id: {drone.Id}, drone model{drone.Model}, drone MaxWeight {MaxWeight}, drone status{Status}, drone battery {drone.Battery}\n");
             }
-
-
-            //   public Drone (int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
-            //   {
-            //       this.Id = id;
-            //       this.Model = Model;
-            //       this.MaxWeight = MaxWeight;
-            //       this.Status = Status;
-            //       this.Battery = Battery;
-            //}
         }
     }
 }

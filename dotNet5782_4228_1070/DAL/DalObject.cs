@@ -13,6 +13,7 @@ namespace DalObject
 {
     public partial class DalObject //: IDal.IDal
     {
+
         public DalObject()
         {
             DataSource.Initialize();
@@ -70,15 +71,15 @@ namespace DalObject
         {
             for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
-                if (DataSource.Drones[i].Status == DroneStatus.Available && (WeightCategories)DataSource.Drones[i].MaxWeight >= parcel.Weight)
-                {
-                    Drone d = DataSource.Drones[i];
-                    parcel.DroneId = DataSource.Drones[i].Id;
-                    parcel.Scheduled = DateTime.Now; //pair a parcel to dron
-                    d.Status = DroneStatus.Delivery;
-                    DataSource.Drones[i] = d;
-                    return $"The Drone number {d.Id} is ready and will recieve parcel num {parcel.Id}.";
-                }
+                //if (DataSource.Drones[i].Status == DroneStatus.Available && (WeightCategories)DataSource.Drones[i].MaxWeight >= parcel.Weight)
+                //{
+                //    Drone d = DataSource.Drones[i];
+                //    parcel.DroneId = DataSource.Drones[i].Id;
+                //    parcel.Scheduled = DateTime.Now; //pair a parcel to dron
+                //    d.Status = DroneStatus.Delivery;
+                //    DataSource.Drones[i] = d;
+                //    return $"The Drone number {d.Id} is ready and will recieve parcel num {parcel.Id}.";
+                //}
             }
             return ("No drones available.\n please try later.");
         }
@@ -92,13 +93,13 @@ namespace DalObject
             {
                 parcel.PickUp = DateTime.Now;
                 Drone droneCollect = DalObject.getDroneById(parcel.DroneId);
-                droneCollect.Status = DroneStatus.Delivery;
+                //droneCollect.Status = DroneStatus.Delivery;
             }
         }
         public void CostumerGetsParcel(Drone drone, Parcel parcel)
         {
             parcel.Delivered = DateTime.Now;
-            drone.Status = DroneStatus.Available;
+            //drone.Status = DroneStatus.Available;
         }
         public void sendDroneToCharge(Drone drone)
         {
@@ -112,13 +113,13 @@ namespace DalObject
             DroneCharge droneCharge = getDroneChargeById(choose);
             if (droneCharge.StationId != -1)
             {
-                drone.Status = DroneStatus.Maintenance;
+                //drone.Status = DroneStatus.Maintenance;
                 droneCharge.DroneId = drone.Id;
             }
         }
         public void freeDroneFromCharge(Drone drone)
         {
-            drone.Status = DroneStatus.Available;
+            //drone.Status = DroneStatus.Available;
             drone.Battery = 100;
             DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
             chargeToFree.StationId = -1;
