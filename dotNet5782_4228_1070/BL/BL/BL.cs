@@ -31,9 +31,30 @@ namespace IBL
             }
             public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
             {
-                IBL.BO.Station s = new IBL.BO.Station(id, name, emptyChargeSlot, longitude, latitude);
+                Station s = new Station(id, name, emptyChargeSlot, longitude, latitude);
                 d.AddStation(id, name, emptyChargeSlot, longitude, latitude);
                 BLdataSource.BLStations.Add(s);
+            }
+            public void addDrone(int id, WeightCategories maxWeight, int stationId)
+            {
+                if (DalObject.DalObject.getStationById(stationId).ChargeSlots > 0)
+                {
+                    Random r = new Random();
+                    int battery = r.Next(20, 40);
+                    Drone dr = new Drone(id, /*model*/, maxWeight, DroneStatus.Maintenance, battery);
+                    BLdataSource.BLDrones.Add(dr);
+                    d.AddDrone(id, /*model*/, maxWeight,/*delete ths argument*/ , battery);
+                }
+                else
+                {
+                    throw new Exception("Charge slot is full. The drone was not added.");
+                }
+            }
+            public void addCustomer(int id, string name, string phone)
+            {
+                Customer c = new Customer(id, name, phone, /*longitude, latitude*/);
+                BLdataSource.BLCustomers.Add(c);
+                d.AddCustomer(id, name, phone,/*longitude, latitude*/ );
             }
             /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
 

@@ -8,7 +8,7 @@ namespace IBL
     {
         class Exceptions
         {
-            class InvalidStringException : Exception
+            public class InvalidStringException : Exception
             {
                 public InvalidStringException() { }
                 public InvalidStringException(string name)
@@ -16,7 +16,7 @@ namespace IBL
                 {
                 }
             }
-            class ObjNotExistException<T> : Exception
+            public class ObjNotExistException<T> : Exception
             {
                 public ObjNotExistException(){ }
                 public ObjNotExistException( T obj )
