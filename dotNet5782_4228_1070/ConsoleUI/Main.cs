@@ -282,7 +282,7 @@ namespace DAL
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            //dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
+            dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
         }
         public static void addDrone()
         {

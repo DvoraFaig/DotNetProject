@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="BL\BLdataSourc.cs~RF65c5545.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Include="IBL.BO\objects\DataSource.cs" />
   </ItemGroup>
 

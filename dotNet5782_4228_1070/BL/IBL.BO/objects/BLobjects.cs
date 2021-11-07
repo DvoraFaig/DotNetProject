@@ -29,7 +29,7 @@ namespace IBL
             public bool parcelStatus { get; set; }
             public BLPosition SenderPosition { get; set; }
             public BLPosition TargetPosition { get; set; }
-            public double distance { get; set; }//.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
+            public double distance { get; set; } //.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
         }
         public class BLDeliveryAtCustomer
         {

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using IBL.BO;
-using DalObject;
 
 namespace IBL
 {
-    public interface Ibl
+    public interface IBL
     {
         ////Add functions//
         //public void AddDrone(int id, string Model, WeightCategories MaxWeight, BO.DroneStatus Status, double Battery);
         //public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
+        public void AddStation(BLStation s);
         //public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
+        public void AddCustomer(BLCustomer c);
+
         //public void AddParcelToDelivery(int id, int Serderid, int TargetId, BO.WeightCategories Weight, BO.Priorities Priority, DateTime requestedTime) { }
 
         ////Update functions//
@@ -32,6 +34,7 @@ namespace IBL
         //public IEnumerable<Parcel> displayFreeParcels();
         //public IEnumerable<DroneCharge> displayDroneCharge();
         //public IEnumerable<Customer> displayCustomers();
+        public double distance(float x1, float y1, float x2, float y2);
 
     }
 }

@@ -78,7 +78,7 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    BL.BL.addStation();
+                    addStation();
                     break;
                 case objects.Drone:
                     BL.BL.addDrone();
@@ -266,35 +266,51 @@ namespace BL_ConsoleUI
             }
         }
 
-       
-        //public static Customer addCustomer()
-        //{
-        //    Random r = new Random();
-        //    Customer c = new Customer();
-        //    int amountC = DalObject.DalObject.amountCustomers();
-        //    if (amountC >= 100)
-        //    {
-        //        Console.WriteLine("== Cann't add costumers ==");
-        //        return c;
-        //    }
-        //    int id = 0;
-        //    do
-        //    {
-        //        id = r.Next(100, 1000);
-        //        c = DalObject.DalObject.getCustomerById(id);
-        //    } while (!c.Equals(null)); //check if the id exist
-        //    Console.WriteLine("Enter costumer's Name: ");
-        //    string Name = Console.ReadLine();
-        //    Console.WriteLine("Enter costumer's Phone: ");
-        //    string Phone = Console.ReadLine();
-        //    Console.WriteLine("Enter a Latitude: ");
-        //    int Latitude = Convert.ToInt32(Console.ReadLine());
-        //    Console.WriteLine("Enter a Longitude: ");
-        //    int Longitude = Convert.ToInt32(Console.ReadLine());
-        //    int ChargeSlots = r.Next(0, 200);
-        //    dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
-        //    return c;
-        //}
+        public static void addStations()
+        {
+            Random r = new Random();
+            int id = 111;
+            int amountS = DalObject.DalObject.amountStations();
+            if (amountS >= 5)
+            {
+                Console.WriteLine("== Cann't add stations ==");
+                return;
+            }
+            Console.WriteLine("Enter a station Name: ");
+            string Name = Console.ReadLine();
+            int ChargeSlots = r.Next(0, 5);
+            Console.WriteLine("Enter a Latitude");
+            int Latitude = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Longitude");
+            int Longitude = Convert.ToInt32(Console.ReadLine());
+            BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+        }
+        public static void addCustomer()
+        {
+            Random r = new Random();
+            int amountC = DalObject.DalObject.amountCustomers();
+            if (amountC >= 100)
+            {
+                Console.WriteLine("== Cann't add costumers ==");
+            }
+            int id = 0;
+            //do
+            //{
+            //    id = r.Next(100, 1000);
+            //    //c = DalObject.DalObject.getCustomerById(id);
+            //} while (!c.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter costumer's Name: ");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Enter costumer's Phone: ");
+            string Phone = Console.ReadLine();
+            Console.WriteLine("Enter a Latitude: ");
+            int Latitude = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Longitude: ");
+            int Longitude = Convert.ToInt32(Console.ReadLine());
+            int ChargeSlots = r.Next(0, 200);
+            BL.BL.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+        }
+
         //need sometimes to use parcel's detailes - return parcel.
         //public static Parcel addParcel()
         //{
