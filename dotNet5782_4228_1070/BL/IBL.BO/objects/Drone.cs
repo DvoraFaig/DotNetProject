@@ -15,6 +15,7 @@ namespace IBL
             IDal.DO.Drone drone;
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
+            public int Battery { get; set; }
 
             public Drone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
             {
@@ -23,7 +24,7 @@ namespace IBL
                 drone.Model = Model;
                 this.MaxWeight = MaxWeight;
                 this.Status = Status;
-                drone.Battery = Battery;
+                //drone.Battery = Battery;
                 //DalObject.DalObject.
             }
             public override string ToString()

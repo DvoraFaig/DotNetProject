@@ -186,7 +186,7 @@ namespace DAL
             switch (obj)
             {
                 case objects.Station:
-                    Station s = DalObject.DalObject.getStationById(id);
+                    Station s = dalObject.getStationById(id);
                     Console.WriteLine(s.ToString());
                     break;
                 case objects.Drone:
@@ -297,9 +297,9 @@ namespace DAL
             string Model = Console.ReadLine();
             Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
             WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-            DroneStatus Status = DroneStatus.Available;
-            double Battery = 100;
-            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
+            //DroneStatus Status = DroneStatus.Available;
+            //double Battery = 100;
+            dalObject.AddDrone(amountD, Model, MaxWeight);
         }
         //need sometimes to use customer's detailes - return customer.
         public static Customer addCustomer()

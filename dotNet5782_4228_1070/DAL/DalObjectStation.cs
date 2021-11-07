@@ -28,7 +28,7 @@ namespace DalObject
             DataSource.Stations.Add(station);
 
         }
-        public static IEnumerable<Station> displayStations()
+        public IEnumerable<Station> displayStations()
         {
             foreach (Station station in DataSource.Stations)
             {
@@ -38,7 +38,7 @@ namespace DalObject
                 }
             }
         }
-        public static Station getStationById(int id)
+        public Station getStationById(int id)
         {
             return DataSource.Stations.FirstOrDefault(station => station.Id == id);
         }

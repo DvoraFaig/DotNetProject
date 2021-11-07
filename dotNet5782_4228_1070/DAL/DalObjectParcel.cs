@@ -28,7 +28,7 @@ namespace DalObject
             parcel.DroneId = -1;
             DataSource.Parcels.Add(parcel);
         }
-        public static IEnumerable<Parcel> displayParcels()
+        public IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
             {

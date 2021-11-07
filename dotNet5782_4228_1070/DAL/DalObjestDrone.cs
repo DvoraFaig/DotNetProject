@@ -15,14 +15,14 @@ namespace DalObject
         {
             return DataSource.Drones.Count();
         }
-        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight, IDal.DO.DroneStatus Status, double Battery)
+        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight)
         {
             Drone drone = new Drone();
             drone.Id = id;
             drone.Model = Model;
-            //drone.MaxWeight = MaxWeight;
+            drone.MaxWeight = MaxWeight;
             //drone.Status = Status;
-            drone.Battery = Battery;
+            //drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
         public IEnumerable<Drone> displayDrone()

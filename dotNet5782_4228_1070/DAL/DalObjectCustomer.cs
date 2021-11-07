@@ -27,7 +27,7 @@ namespace DalObject
             DataSource.Customers.Add(customer);
 
         }
-        public static IEnumerable<Customer> displayCustomers()
+        public IEnumerable<Customer> displayCustomers()
         {
             foreach (Customer customer in DataSource.Customers)
             {

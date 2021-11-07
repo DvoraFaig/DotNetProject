@@ -120,7 +120,7 @@ namespace DalObject
         public void freeDroneFromCharge(Drone drone)
         {
             //drone.Status = DroneStatus.Available;
-            drone.Battery = 100;
+            //drone.Battery = 100;
             DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
             chargeToFree.StationId = -1;
         }
