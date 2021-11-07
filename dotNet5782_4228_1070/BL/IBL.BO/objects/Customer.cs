@@ -12,7 +12,7 @@ namespace IBL
     {
         public class Customer
         {
-            IDal.DO.Customer customer;
+            public IDal.DO.Customer customer;
             public Customer(int id, string Name, string Phone, double Longitude, double Latitude)
             {
                 customer = new IDal.DO.Customer();
@@ -24,13 +24,10 @@ namespace IBL
                 //upadate the list
                 //רשימת משלוחים אצל לקוח מהלקוח
             }
-
             public override string ToString()
             {
                 return ($"customer id: {customer.ID}, customer name: {customer.Name}, customer phone: {customer.Phone}, customer latitude: {customer.Latitude}, customer Longitude: {customer.Longitude}\n");
-            }
-
-           
+            }   
         }
     }
 }

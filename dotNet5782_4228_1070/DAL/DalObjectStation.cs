@@ -17,16 +17,9 @@ namespace DalObject
         {
             return DataSource.Stations.Count();
         }
-        public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude)
+        public void AddStation(Station s)
         {
-            Station station = new Station();
-            station.Id = id;
-            station.Name = Name;
-            station.ChargeSlots = ChargeSlots;
-            station.Longitude = Longitude;
-            station.Latitude = Latitude;
-            DataSource.Stations.Add(station);
-
+            DataSource.Stations.Add(s);
         }
         public IEnumerable<Station> displayStations()
         {
@@ -42,7 +35,5 @@ namespace DalObject
         {
             return DataSource.Stations.FirstOrDefault(station => station.Id == id);
         }
-
-
     }
 }
