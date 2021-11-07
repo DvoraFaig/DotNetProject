@@ -11,14 +11,24 @@ using IDal;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
 
         public DalObject()
         {
             DataSource.Initialize();
         }
-      
+        static DalObject instance;
+        public static DalObject GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new DalObject();
+                return instance;
+            }
+        }
+
         /// <summary>
         /// Function get id of drone and return drone charge object.
         /// </summary>
@@ -85,7 +95,7 @@ namespace DalObject
         }
         public void DroneCollectsAParcel(Parcel parcel)
         {
-            if (parcel.DroneId == 0) //doesn't have a Drone
+            if (parcel.DroneId == 0) //doesn't have a Drone 
             {
                 Console.WriteLine("Error! The parcel doesn't have a Drone.\n Please enter DroneReceivesParcel");
             }
