@@ -10,12 +10,14 @@ namespace IBL
 {
     namespace BO
     {
-        public partial class BL : Ibl
+        public sealed partial class BL : Ibl
         {
-            DalObject.DalObject d;
+            //static DalObject.DalObject d;
+            static public  dal;
             //BLdataSource blData = new BLdataSource();
-            public BL()
+            private BL()
             {
+                dal = new IDal.DO.
                 d = new DalObject.DalObject();
                 //יש לבקש משכבת הנתונים ולשמור בשדות נפרדים את צריכת החשמל ע"י
                 //הרחפנים ואת קצב טעינתם -בהתאם למה שרשום לעיל
@@ -25,15 +27,15 @@ namespace IBL
                 {
                     //BL הוראות בבנאי מופע של
                     //כאן יש דברים שקשורים לבטריות ושטויות אחרות. להתייחס בהמשך
-                    Drone d = new Drone(dr.Id, dr.Model,/*maxWeight*/ ,/*Status*/,dr.Battery);
+                    Drone d = new Drone(dr.Id, dr.Model,/*maxWeight ,Status,*/ dr.Battery);
 
                 }
             }
             public void addStation(int id, string name, int emptyChargeSlot, double longitude, double latitude)
             {
-                Station s = new Station(id, name, emptyChargeSlot, longitude, latitude);
+                //Station s = new Station(id, name, emptyChargeSlot, longitude, latitude);
                 d.AddStation(id, name, emptyChargeSlot, longitude, latitude);
-                BLdataSource.BLStations.Add(s);
+                //BLdataSource.BLStations.Add(s);
             }
             public void addDrone(int id, WeightCategories maxWeight, int stationId)
             {
@@ -41,9 +43,9 @@ namespace IBL
                 {
                     Random r = new Random();
                     int battery = r.Next(20, 40);
-                    Drone dr = new Drone(id, /*model*/, maxWeight, DroneStatus.Maintenance, battery);
+                    Drone dr = new Drone(id, /*model,*/ maxWeight, DroneStatus.Maintenance, battery);
                     BLdataSource.BLDrones.Add(dr);
-                    d.AddDrone(id, /*model*/, maxWeight,/*delete ths argument*/ , battery);
+                    d.AddDrone(id, /*model, */ maxWeight,/*delete ths argument , */ battery);
                 }
                 else
                 {

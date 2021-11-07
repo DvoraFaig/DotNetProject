@@ -9,7 +9,7 @@ namespace IDal
 {
     namespace DO
     {
-        interface IDal
+        public interface IDal
         {
             //Add functions//
             public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);

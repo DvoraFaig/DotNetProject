@@ -10,7 +10,7 @@ using IDal;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
         public static int amountDroneCharges()
         {
