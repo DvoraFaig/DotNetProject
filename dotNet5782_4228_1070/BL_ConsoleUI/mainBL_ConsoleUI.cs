@@ -231,24 +231,18 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    //IEnumerable<Station> stations = dalObject.displayStations();
-                    //Station[] stationsArr = stations.Cast<Station>().ToArray();
-                    //displayArrObjs(stationsArr);
+                    List<IBL.BO.BLStation> stations = BL.BL.displayStations();
+                    stations.ForEach(s => s.ToString());
                     break;
                 case objects.Drone:
-                    //IEnumerable<Drone> drones = dalObject.displayDrone();
-                    //Drone[] dronesArr = drones.Cast<Drone>().ToArray();
-                    //displayArrObjs(dronesArr);
+                    List<IBL.BO.BLDrone> drones = BL.BL.displayDrones();
+                    drones.ForEach(s => s.ToString());
                     break;
                 case objects.Customer:
-                    //IEnumerable<Customer> customers = dalObject.displayCustomers();
-                    //Customer[] customersArr = customers.Cast<Customer>().ToArray();
-                    //displayArrObjs(customersArr);
+                    List<IBL.BO.BLCustomer> customers = BL.BL.displayCustomers();
+                    customers.ForEach(s => s.ToString());
                     break;
                 case objects.Parcel:
-                    //IEnumerable<Parcel> parcels = dalObject.displayParcels();
-                    //Parcel[] parcelsArr = parcels.Cast<Parcel>().ToArray();
-                    //displayArrObjs(parcelsArr);
                     break;
                 case objects.FreeParcel:
                     //IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
@@ -265,7 +259,6 @@ namespace BL_ConsoleUI
                     break;
             }
         }
-
         public static void addStations()
         {
             Random r = new Random();

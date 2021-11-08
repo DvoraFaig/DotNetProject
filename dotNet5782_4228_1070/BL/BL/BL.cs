@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using IDal;
 using IBL.BO;
-
+using System.Linq;
 
 namespace BL
 {
@@ -40,27 +40,56 @@ namespace BL
         {
 
         }
-        public void addDrone(int id, WeightCategories maxWeight, int stationId)
+        //public void addDrone(int id, WeightCategories maxWeight, int stationId)
+        //{
+        //    if ((d.getStationById(stationId).ChargeSlots) > 0)
+        //    {
+        //        Random r = new Random();
+        //        int battery = r.Next(20, 40);
+        //        Drone dr = new Drone(id, /*model,*/ maxWeight, DroneStatus.Maintenance, battery);
+        //        BLdataSource.BLDrones.Add(dr);
+        //        d.AddDrone(id, /*model, */ maxWeight,/*delete ths argument , */ battery);
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Charge slot is full. The drone was not added.");
+        //    }
+        //}
+        //public void addCustomer(int id, string name, string phone)
+        //{
+        //    Customer c = new Customer(id, name, phone /*,longitude, latitude*/);
+        //    BLdataSource.BLCustomers.Add(c);
+        //    d.AddCustomer(id, name, phone/*,longitude, latitude*/ );
+        //}
+
+        public static List<BLStation> displayStations()
         {
-            if ((d.getStationById(stationId).ChargeSlots) > 0)
-            {
-                Random r = new Random();
-                int battery = r.Next(20, 40);
-                Drone dr = new Drone(id, /*model,*/ maxWeight, DroneStatus.Maintenance, battery);
-                BLdataSource.BLDrones.Add(dr);
-                d.AddDrone(id, /*model, */ maxWeight,/*delete ths argument , */ battery);
-            }
-            else
-            {
-                throw new Exception("Charge slot is full. The drone was not added.");
-            }
+            IEnumerable<IDal.DO.Station> stations = dal.displayStations();
+            List<IDal.DO.Station> sList = stations.Cast<IDal.DO.Station>().ToList();
+            List<BLStation> arr = new List<BLStation>();
+            sList.ForEach(s => arr.Add(new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } })) ;
+            return arr;
         }
-        public void addCustomer(int id, string name, string phone)
+        public static List<BLDrone> displayDrones()
         {
-            Customer c = new Customer(id, name, phone /*,longitude, latitude*/);
-            BLdataSource.BLCustomers.Add(c);
-            d.AddCustomer(id, name, phone/*,longitude, latitude*/ );
+            IEnumerable<IDal.DO.Drone> d = dal.displayDrone();
+            List<IDal.DO.Drone> dList = d.Cast<IDal.DO.Drone>().ToList();
+            List<BLDrone> arr = new List<BLDrone>();
+            //dList.ForEach(s => arr.Add(new BLDrone() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } }));
+            return arr;
         }
+        public static List<BLCustomer> displayCustomers()
+        {
+            IEnumerable<IDal.DO.Customer> c = dal.displayCustomers();
+            List<IDal.DO.Customer> cList = c.Cast<IDal.DO.Customer>().ToList();
+            List<BLCustomer> arr = new List<BLCustomer>();
+            cList.ForEach(s => arr.Add(new BLCustomer() { ID = s.ID, Name = s.Name, Phone = s.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } }));
+            return arr;
+        }
+    }
+}
+
+
         /*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
 
 

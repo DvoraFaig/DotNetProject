@@ -5,7 +5,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    public interface IBL
+    public interface Ibl
     {
         ////Add functions//
         //public void AddDrone(int id, string Model, WeightCategories MaxWeight, BO.DroneStatus Status, double Battery);
@@ -34,6 +34,11 @@ namespace IBL
         //public IEnumerable<Parcel> displayFreeParcels();
         //public IEnumerable<DroneCharge> displayDroneCharge();
         //public IEnumerable<Customer> displayCustomers();
+        public List<BLStation> displayStations();
+        public List<BLDrone> displayDrones();
+        public List<BLCustomer> displayCustomers();
+
+
         public double distance(float x1, float y1, float x2, float y2);
 
     }
