@@ -81,13 +81,13 @@ namespace BL_ConsoleUI
                     addStation();
                     break;
                 case objects.Drone:
-                    BL.BL.addDrone();
+                    addDrone();
                     break;
                 case objects.Customer:
-                    BL.BL.addCustomer();
+                    addCustomer();
                     break;
                 case objects.Parcel:
-                    BL.BL.addParcel();
+                    addParcel();
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
@@ -259,7 +259,7 @@ namespace BL_ConsoleUI
                     break;
             }
         }
-        public static void addStations()
+        public static void addStation()
         {
             Random r = new Random();
             int id = 111;
@@ -278,6 +278,9 @@ namespace BL_ConsoleUI
             int Longitude = Convert.ToInt32(Console.ReadLine());
             BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
+        public static void addDrone() { }
+        public static void addParcel() { }
+
         public static void addCustomer()
         {
             Random r = new Random();
