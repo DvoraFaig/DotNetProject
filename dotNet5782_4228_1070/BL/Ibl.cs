@@ -34,6 +34,16 @@ namespace IBL
         //public IEnumerable<Parcel> displayFreeParcels();
         //public IEnumerable<DroneCharge> displayDroneCharge();
         //public IEnumerable<Customer> displayCustomers();
+
+
+        public BLStation convertDalToBLStation(IDal.DO.Station s);
+        public BLCustomer convertDalToBLCustomer(IDal.DO.Customer c);
+        public BLDrone convertDalToBLDrone(IDal.DO.Drone d);
+        public BLParcel convertDalToBLParcel(IDal.DO.Parcel p);
+        public BLStation getStationById(int id);
+        public BLCustomer getCustomerById(int id);
+        public BLDrone getDroneById(int id);
+        public BLParcel getParcelById(int id);
         public List<BLStation> displayStations();
         public List<BLDrone> displayDrones();
         public List<BLCustomer> displayCustomers();
@@ -42,6 +52,7 @@ namespace IBL
 
 
 
+        public BLStation convertDalStationToBLStation(IDal.DO.Station s);
 
         public double distance(float x1, float y1, float x2, float y2);
 

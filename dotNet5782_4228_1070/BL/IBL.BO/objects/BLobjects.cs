@@ -93,7 +93,7 @@ namespace IBL
             public BLCustomer Target { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public BLDrone drone { get; set; }
+            public BLDrone Drone { get; set; }
             public DateTime Requeasted { get; set; } //prepare a parcel to delivery
             public DateTime Scheduled { get; set; } //pair a parcel to drone
             public DateTime PickUp { get; set; }

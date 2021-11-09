@@ -25,18 +25,20 @@ namespace IDal
             public void CostumerGetsParcel(Drone drone, Parcel parcel);
             public void sendDroneToCharge(Drone drone);
             public void freeDroneFromCharge(Drone drone);
-            public Station getStationById(int id) { return new Station(); }
-            public Drone getDroneById(int id) { return new Drone(); }
+            public Station getStationById(int id);
+            public Drone getDroneById(int id);
+            public Customer getCustomerById(int id);
 
-            public Parcel getParcelById(int id) { return new Parcel(); }
-            public DroneCharge getDroneChargeById(int id) { return new DroneCharge(); }
-            public DroneCharge getDroneChargeByDroneId(int id) { return new DroneCharge(); }
-            public IEnumerable<Station> displayStations() { yield return new Station(); }
-            public IEnumerable<Drone> displayDrone() { yield return new Drone(); }
-            public IEnumerable<Parcel> displayParcels() { yield return new Parcel(); }
-            public IEnumerable<Parcel> displayFreeParcels() { yield return new Parcel(); }
-            public IEnumerable<DroneCharge> displayDroneCharge() { yield return new DroneCharge(); }
-            public IEnumerable<Customer> displayCustomers() { yield return new Customer(); }
+
+            public Parcel getParcelById(int id);
+            public DroneCharge getDroneChargeById(int id);
+            public DroneCharge getDroneChargeByDroneId(int id);
+            public IEnumerable<Station> displayStations();
+            public IEnumerable<Drone> displayDrone();
+            public IEnumerable<Parcel> displayParcels();
+            public IEnumerable<Parcel> displayFreeParcels();
+            public IEnumerable<DroneCharge> displayDroneCharge();
+            public IEnumerable<Customer> displayCustomers();
 
             //בקשת צריכת חשמל
             public double[] electricityUseByDrone(Drone drone);
