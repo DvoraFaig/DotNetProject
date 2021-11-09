@@ -25,6 +25,10 @@ namespace DalObject
             //drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
+        public void AddDrone(Drone drone)
+        {
+            DataSource.Drones.Add(drone);
+        }
         public IEnumerable<Drone> displayDrone()
         {
             foreach (Drone drone in DataSource.Drones)

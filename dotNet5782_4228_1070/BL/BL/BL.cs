@@ -12,13 +12,12 @@ namespace BL
 {
     public sealed partial class BL : IBL.Ibl
     {
-        private List<BLDroneToList> dronesInBL;
-
+        private List<BLDrone> dronesInBL;
         //static DalObject.DalObject d;
         static public IDal.DO.IDal dal;
         private BL()
         {
-            dronesInBL = new List<BLDroneToList>();
+            dronesInBL = new List<BLDrone>();
             dal = IDal.DalFactory.factory("DalObject");
             /*
             //יש לבקש משכבת הנתונים ולשמור בשדות נפרדים את צריכת החשמל ע"י
@@ -50,14 +49,19 @@ namespace BL
             int battery = r.Next(20, 40);
             IDal.DO.Station s = dal.getStationById(stationId);
             BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-            BLDroneToList dr = new BLDroneToList() { Id = id, Model = model, MaxWeight = maxWeight, droneStatus = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeight, droneStatus = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
             dronesInBL.Add(dr);
-            dal.AddDrone(convertBLToDalStation(dr));          
+            dal.AddDrone(convertBLToDalDrone(dr));
         }
         public void AddCustomer(int id, string name, string phone, BLPosition position)
         {
             IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
             dal.AddCustomer(c);
+        }
+        public void getParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority)
+        {
+            IDal.DO.Parcel p = new IDal.DO.Parcel() { SenderId = senderId, TargetId = targetId, Priority = priority, Delivered = new DateTime(), Requeasted = DateTime.Now, Scheduled = new DateTime(), Weight = weight, PickUp = new DateTime() };
+            dal.AddParcelToDelivery(p);
         }
 
         //public void addDrone(int id, WeightCategories maxWeight, int stationId)

@@ -12,12 +12,14 @@ namespace IDal
         public interface IDal
         {
             //Add functions//
+            public void AddDrone(Drone d);
             public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
             public void AddStation(Station s);
             public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);          
             public void AddCustomer(Customer c);
             public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
             public void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
+            public void AddParcelToDelivery(Parcel parcel);
 
             //Update functions//
             public string PairAParcelWithADrone(Parcel parcel);

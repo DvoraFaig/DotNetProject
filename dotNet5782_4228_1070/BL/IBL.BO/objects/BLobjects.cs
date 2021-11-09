@@ -82,7 +82,7 @@ namespace IBL
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
-            public IDal.DO.DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
+            public DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
             public BLDeliveryInTransfer DeliveryInTransfer { get; set; }
             public BLPosition DronePosition { get; set; }
         }
@@ -125,7 +125,7 @@ namespace IBL
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
-            public IDal.DO.DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
+            public DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
             public BLPosition DronePosition { get; set; }
             public int IdParcel { get; set; } //if there is
         }
