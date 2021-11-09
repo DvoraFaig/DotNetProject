@@ -279,8 +279,12 @@ namespace BL_ConsoleUI
             int Longitude = Convert.ToInt32(Console.ReadLine());
             BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
-        public static void addDrone() { }
-        public static void addParcel() { }
+        public static void addDrone()
+        { 
+        }
+        public static void addParcel()
+        {
+        }
 
         public static void addCustomer()
         {

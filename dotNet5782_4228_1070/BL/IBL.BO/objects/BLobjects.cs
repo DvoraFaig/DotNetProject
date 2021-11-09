@@ -57,6 +57,11 @@ namespace IBL
         {
             public int Id { get; set; }
             public double Battery { get; set; }
+            public override string ToString()
+            {
+                return ($"ChargingDrone Id: {Id}, ChargingDrone Battery: {Battery}\n");
+            }
+
         }
         public class BLCustomer
         {
@@ -66,6 +71,10 @@ namespace IBL
             public BLPosition CustomerPosition { get; set; }
             public List<BLDeliveryAtCustomer> deliveryfromCustomers { get; set; }
             public List<BLDeliveryAtCustomer> deliveryToCustomers { get; set; }
+            public override string ToString()
+            {
+                return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, CustomerPosition: {CustomerPosition.ToString()}\n");
+            }
         }
 
         public class BLStation
@@ -75,6 +84,11 @@ namespace IBL
             public BLPosition StationPosition { get; set; }
             public int DroneChargeAvailble { get; set; }
             public List<BLChargingDrone> ChargingDrone { get; set; }
+            public override string ToString()
+            {
+                return ($"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n station position: { StationPosition.ToString()}, ChargingDrone:Try...... "/* {ChargingDrone.ForEach(e => e.ToString())} */  );
+            }
+
         }
         public class BLDrone
         {
@@ -85,6 +99,10 @@ namespace IBL
             public DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
             public BLDeliveryInTransfer DeliveryInTransfer { get; set; }
             public BLPosition DronePosition { get; set; }
+            public override string ToString()
+            {
+                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight},drone battery {Battery} , drone status{droneStatus}, drone battery {Battery}\n DeliveryInTransferDeliveryInTransferDeliveryInTransfer\n DronePosition : {DronePosition.ToString()}");
+            }
         }
         public class BLParcel
         {
@@ -98,6 +116,10 @@ namespace IBL
             public DateTime Scheduled { get; set; } //pair a parcel to drone
             public DateTime PickUp { get; set; }
             public DateTime Delivered { get; set; }
+            public override string ToString()
+            {
+                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted}, Drone of parcel {Drone.ToString}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
+            }
         }
         public class BLCustomerToList
         {
