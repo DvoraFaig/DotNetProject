@@ -243,11 +243,12 @@ namespace BL_ConsoleUI
                     customers.ForEach(s => s.ToString());
                     break;
                 case objects.Parcel:
+                    List<IBL.BO.BLParcel> parcels = BL.BL.displayParcel();
+                    parcels.ForEach(s => s.ToString());
                     break;
                 case objects.FreeParcel:
-                    //IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
-                    //Parcel[] freeParcelsArr = freeParcels.Cast<Parcel>().ToArray();
-                    //displayArrObjs(freeParcelsArr);
+                    List<IBL.BO.BLParcel> freeParcels = BL.BL.displayFreeParcel();
+                    freeParcels.ForEach(s => s.ToString());
                     break;
                 case objects.EmptyCharges:
                     //IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();

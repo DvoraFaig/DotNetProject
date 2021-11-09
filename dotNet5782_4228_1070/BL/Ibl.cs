@@ -37,6 +37,10 @@ namespace IBL
         public List<BLStation> displayStations();
         public List<BLDrone> displayDrones();
         public List<BLCustomer> displayCustomers();
+        public List<BLParcel> displayParcel();
+        public List<BLParcel> displayFreeParcel();
+
+
 
 
         public double distance(float x1, float y1, float x2, float y2);

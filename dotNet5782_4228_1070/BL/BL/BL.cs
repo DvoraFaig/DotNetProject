@@ -86,6 +86,22 @@ namespace BL
             cList.ForEach(s => arr.Add(new BLCustomer() { ID = s.ID, Name = s.Name, Phone = s.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } }));
             return arr;
         }
+        public static List<BLParcel> displayParcel()
+        {
+            IEnumerable<IDal.DO.Parcel> p = dal.displayParcels();
+            List<IDal.DO.Parcel> pList = p.Cast<IDal.DO.Parcel>().ToList();
+            List<BLParcel> arr = new List<BLParcel>();
+            pList.ForEach(s => arr.Add(new BLParcel() { Id = s.Id,/* SenderId = s.SenderId, TargetId = s.TargetId,*/ PickUp=s.PickUp,Priority = s.Priority , Weight = s.Weight}));
+            return arr;
+        }
+        public static List<BLParcel>  displayFreeParcel()
+        {
+            IEnumerable<IDal.DO.Parcel> p = dal.displayFreeParcels();
+            List<IDal.DO.Parcel> pList = p.Cast<IDal.DO.Parcel>().ToList();
+            List<BLParcel> arr = new List<BLParcel>();
+            pList.ForEach(s => arr.Add(new BLParcel() { Id = s.Id,/* SenderId = s.SenderId, TargetId = s.TargetId,*/ PickUp = s.PickUp, Priority = s.Priority, Weight = s.Weight }));
+            return arr;
+        }
     }
 }
 
