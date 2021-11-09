@@ -15,6 +15,9 @@ namespace IBL
             IDal.DO.Drone drone;
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
+
+
+
             double Battery { get; set; }
 
             public Drone(int id, string Model, WeightCategories MaxWeight, DroneStatus Status, double Battery)
