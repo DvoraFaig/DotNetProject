@@ -4,6 +4,9 @@ using System.Text;
 using IDal;
 using IBL.BO;
 using System.Linq;
+/*ChargeSlots = s.DroneChargeAvailble ????????????*/
+
+
 
 namespace BL
 {
@@ -22,7 +25,7 @@ namespace BL
             {
                 //BL הוראות בבנאי מופע של
                 //כאן יש דברים שקשורים לבטריות ושטויות אחרות. להתייחס בהמשך
-                Drone d = new Drone(dr.Id, dr.Model,/*maxWeight ,Status,*/ dr.Battery);
+                Drone d = new Drone(dr.Id, dr.Model,/*maxWeight ,Status,*/dr.Battery);
 
             }
         }
@@ -61,6 +64,26 @@ namespace BL
         //    BLdataSource.BLCustomers.Add(c);
         //    d.AddCustomer(id, name, phone/*,longitude, latitude*/ );
         //}
+        public static IDal.DO.Station convertBLToDalStation(BLStation s)
+        {
+            return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.ChargingDrone.Count(), Longitude = s.StationPosition.Longitude , Latitude = s.StationPosition.Latitude};
+        }
+        public static IDal.DO.Drone convertBLToDalDrone(BLDrone d)
+        {
+            /*BLDeliveryInTransfer , BLPosition*/
+            return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight};
+        }
+        public static IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
+        {
+            return new IDal.DO.Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, Longitude = c.CustomerPosition.Longitude , Latitude =  c.CustomerPosition.Latitude, };
+        }
+        public static IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
+        {
+            //IDal.DO.Customer sender = convertBLToDalCustomer(p.Sender);
+            //IDal.DO.Customer target = convertBLToDalCustomer(p.Target);
+            //IDal.DO.Drone drone = convertBLToDalDrone(p.Drone);
+            return new IDal.DO.Parcel() { Id = p.Id, SenderId = p.Sender.ID, TargetId = p.Target.ID, Weight = p.Weight, Priority = p.Priority, DroneId = p.Drone.Id, Requeasted = p.Requeasted, Scheduled = p.Scheduled, PickUp = p.PickUp , Delivered = p.Delivered };
+        }
         public static BLStation convertDalToBLStation(IDal.DO.Station s)
         {
             return  new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } };
@@ -71,7 +94,8 @@ namespace BL
         }
         public static BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
         {
-            return new BLDrone() { Id = d.Id , Model = d.Model ,  MaxWeight = d.MaxWeight /*++++++++++++++++++++*/ }
+            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight /*++++++++++++++++++++*/
+        };
         }
         public static BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
         {
