@@ -40,6 +40,11 @@ namespace IBL
         public BLCustomer convertDalToBLCustomer(IDal.DO.Customer c);
         public BLDrone convertDalToBLDrone(IDal.DO.Drone d);
         public BLParcel convertDalToBLParcel(IDal.DO.Parcel p);
+        public  IDal.DO.Station convertBLToDalStation(BLStation s);
+        public IDal.DO.Drone convertBLToDalDrone(BLDrone d);
+        public IDal.DO.Customer convertBLToDalCustomer(BLCustomer c);
+        public IDal.DO.Parcel convertBLToDalParcel(BLParcel p);
+
         public BLStation getStationById(int id);
         public BLCustomer getCustomerById(int id);
         public BLDrone getDroneById(int id);

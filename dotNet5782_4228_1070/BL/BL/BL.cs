@@ -87,7 +87,6 @@ namespace BL
         }
         public static IDal.DO.Drone convertBLToDalDrone(BLDrone d)
         {
-            /*BLDeliveryInTransfer , BLPosition*/
             return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight};
         }
         public static IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
