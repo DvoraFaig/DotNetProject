@@ -86,17 +86,17 @@ namespace BL
             BLStation BLstation = convertDalToBLStation(s);
             return BLstation;
         }
-        public static BLDrone getDroneById(int id)
-        {
-            IDal.DO.Drone d = dal.getDroneById(id);
-            BLDrone BLdrone = convertDalToBLDrone(d);
-            return BLdrone;
-        }
         public static BLCustomer getCustomerById(int id)
         {
             IDal.DO.Customer c = dal.getCustomerById(id);
             BLCustomer BLcustomer = convertDalToBLCustomer(c);
             return BLcustomer;
+        }
+        public static BLDrone getDroneById(int id)
+        {
+            IDal.DO.Drone d = dal.getDroneById(id);
+            BLDrone BLdrone = convertDalToBLDrone(d);
+            return BLdrone;
         }
         public static BLParcel getParcelById(int id)
         {
@@ -111,18 +111,18 @@ namespace BL
             sList.ForEach(s => arr.Add(convertDalToBLStation(s)));
             return arr;
         }
-        public static List<BLDrone> displayDrones()
-        {
-            List<IDal.DO.Drone> dList = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
-            List<BLDrone> arr = new List<BLDrone>();
-            dList.ForEach(d => arr.Add(convertDalToBLDrone(d)));
-            return arr;
-        }
         public static List<BLCustomer> displayCustomers()
         {
             List<IDal.DO.Customer> cList = dal.displayCustomers().Cast<IDal.DO.Customer>().ToList();
             List<BLCustomer> arr = new List<BLCustomer>();
             cList.ForEach(c => arr.Add(convertDalToBLCustomer(c)));
+            return arr;
+        }
+        public static List<BLDrone> displayDrones()
+        {
+            List<IDal.DO.Drone> dList = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
+            List<BLDrone> arr = new List<BLDrone>();
+            dList.ForEach(d => arr.Add(convertDalToBLDrone(d)));
             return arr;
         }
         public static List<BLParcel> displayParcel()
