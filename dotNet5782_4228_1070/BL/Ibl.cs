@@ -42,6 +42,7 @@ namespace IBL
 
 
 
+        public BLStation convertDalStationToBLStation(IDal.DO.Station s);
 
         public double distance(float x1, float y1, float x2, float y2);
 
