@@ -25,7 +25,10 @@ namespace DalObject
             customer.Longitude = Longitude;
             customer.Latitude = Latitude;
             DataSource.Customers.Add(customer);
-
+        }
+        public void AddCustomer(Customer customer)
+        {
+            DataSource.Customers.Add(customer);
         }
         public IEnumerable<Customer> displayCustomers()
         {
