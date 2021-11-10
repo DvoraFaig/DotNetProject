@@ -75,9 +75,13 @@ namespace BL
             }*/
         }
         //==================================
+        // get lengh of list DAL obj
+        //==================================
+         
+        //==================================
         // Add
         //==================================
-        public void addStation(int id, string name, BLPosition position, int chargeSlot)
+        public static void addStation(int id, string name, BLPosition position, int chargeSlot)
         {
             IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Latitude = position.Latitude, Longitude = position.Longitude, ChargeSlots = chargeSlot };
             dal.AddStation(s);
@@ -129,7 +133,7 @@ namespace BL
             }
         }
         //==================================
-        // Findong a drone in the BL array
+        // Finding a drone in the BL array
         //==================================
         private BLDrone GetBLDroneById(int id)
         {
@@ -140,7 +144,7 @@ namespace BL
         //==================================
         private IDal.DO.Station convertBLToDalStation(BLStation s)
         {
-            return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.ChargingDrone.Count(), Longitude = s.StationPosition.Longitude, Latitude = s.StationPosition.Latitude };
+            return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(), Longitude = s.StationPosition.Longitude, Latitude = s.StationPosition.Latitude };
         }
         private IDal.DO.Drone convertBLToDalDrone(BLDrone d)
         {
@@ -159,7 +163,11 @@ namespace BL
         }
         private BLStation convertDalToBLStation(IDal.DO.Station s)
         {
-            return new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } };
+            List<IDal.DO.DroneCharge> DALdroneCharging = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
+            DALdroneCharging = DALdroneCharging.FindAll(staion => staion.StationId == s.Id); //list of id drone that are charged by this station.
+            List<BLChargingDrone> DronesCharging = new List<BLChargingDrone>();
+            DALdroneCharging.ForEach(d => DronesCharging.Add(convertDalToBLChargingDrone(dal.getDroneChargeByDroneId(d.DroneId))));
+            return new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } , DronesCharging = DronesCharging };
         }
         private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
         {
@@ -177,7 +185,10 @@ namespace BL
             }
             //return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,/*Battery = d.Battery , Status = d.Status*//*++++++++++++++++++++*/
         }
-        
+        public BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
+        {
+            return new BLChargingDrone() {Id = d.DroneId , Battery = GetBLDroneById(d.DroneId).Battery };
+        }
         private BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
         {
             BLCustomer sender = convertDalToBLCustomer(dal.getCustomerById(p.SenderId));

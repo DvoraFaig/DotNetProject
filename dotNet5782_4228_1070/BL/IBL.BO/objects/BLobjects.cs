@@ -83,7 +83,7 @@ namespace IBL
             public string Name { get; set; }
             public BLPosition StationPosition { get; set; }
             public int DroneChargeAvailble { get; set; }
-            public List<BLChargingDrone> ChargingDrone { get; set; }
+            public List<BLChargingDrone> DronesCharging { get; set; }
             public override string ToString()
             {
                 return ($"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n station position: { StationPosition.ToString()}, ChargingDrone:Try...... "/* {ChargingDrone.ForEach(e => e.ToString())} */  );

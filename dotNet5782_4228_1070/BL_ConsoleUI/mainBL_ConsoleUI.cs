@@ -263,7 +263,9 @@ namespace BL_ConsoleUI
         public static void addStation()
         {
             Random r = new Random();
-            int id = 111;
+            Console.WriteLine("Enter station id: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+
             int amountS = DalObject.DalObject.amountStations();
             if (amountS >= 5)
             {
@@ -280,7 +282,14 @@ namespace BL_ConsoleUI
             BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
         public static void addDrone()
-        { 
+        {
+            Console.WriteLine("Enter drone id: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Model");
+            string Model = Console.ReadLine();
+            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            int MaxWeight = Convert.ToInt32(Console.ReadLine());
+            BL.BL.
         }
         public static void addParcel()
         {
