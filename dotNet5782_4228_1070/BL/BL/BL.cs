@@ -196,7 +196,11 @@ namespace BL
         {
             BLCustomer sender = convertDalToBLCustomer(dal.getCustomerById(p.SenderId));
             BLCustomer target = convertDalToBLCustomer(dal.getCustomerById(p.TargetId));
-            BLDrone drone = convertDalToBLDrone(dal.getDroneById(p.DroneId));
+            BLDrone drone = null;
+            if (!p.Scheduled.Equals(null)) //if the parcel is paired with a drone
+            {
+                drone = convertDalToBLDrone(dal.getDroneById(p.DroneId));
+            }
             return new BLParcel() { Id = p.Id, Sender = sender, Target = target, Weight = p.Weight, PickUp = p.PickUp, Drone = drone, Requeasted = p.Requeasted, Scheduled = p.Scheduled, /* PickUp = p.PickUp,*/ Delivered = p.Delivered };
         }
         //==================================

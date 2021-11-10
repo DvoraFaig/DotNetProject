@@ -118,7 +118,16 @@ namespace IBL
             public DateTime Delivered { get; set; }
             public override string ToString()
             {
-                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted}, Drone of parcel {Drone.ToString}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
+                string d;
+                if (Drone.Equals(null)) 
+                { 
+                    d = "Drone of parcel: parcel not schedueld yet"; 
+                }
+                else
+                {
+                    d = Drone.ToString();
+                }
+                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\nDrone: {d} parcel Requeasted: {Requeasted}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
             }
         }
         public class BLCustomerToList
