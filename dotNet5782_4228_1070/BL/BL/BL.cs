@@ -49,7 +49,7 @@ namespace BL
             int battery = r.Next(20, 40);
             IDal.DO.Station s = dal.getStationById(stationId);
             BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeight, droneStatus = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeight, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
             dronesInBL.Add(dr);
             dal.AddDrone(convertBLToDalDrone(dr));
         }
@@ -91,7 +91,7 @@ namespace BL
         }
         public static IDal.DO.Drone convertBLToDalDrone(BLDrone d)
         {
-            return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight};
+            return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight , Battery = d.Battery , Status = d.Status};
         }
         public static IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
         {
@@ -114,7 +114,7 @@ namespace BL
         }
         public static BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
         {
-            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight /*++++++++++++++++++++*/
+            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,Battery = d.Battery , Status = d.Status/*++++++++++++++++++++*/
         };
         }
         public static BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
