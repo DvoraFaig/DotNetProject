@@ -74,9 +74,7 @@ namespace BL
 
             }*/
         }
-        //==================================
-        // get lengh of list DAL obj
-        //==================================
+
          
         //==================================
         // Add
@@ -135,19 +133,19 @@ namespace BL
                 // Throw match exception - "drone not available to charge"
             }
         }
-        public static string checkNullforPrint<T>(T t)
+        private static string checkNullforPrint<T>(T t)
         {
             if (t.Equals(null))
                 return $"--field {t.GetType()} not filled yet.--";
             return t.ToString();
         }
-        public static bool checkNull<T>(T t)
+        private static bool checkNull<T>(T t)
         {
             if (t.Equals(null))
                 return false;
             return true;
         }
-        public static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
+        private static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
         {
             if (p.Requeasted.Equals(null))
                 return (ParcelStatuses)0;
@@ -209,7 +207,7 @@ namespace BL
             targetParcels.ForEach(p => customerAsTarget.Add(createtDalParcelToBLParcelAtCustomer(p,c)));
             return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } , CustomerAsSender = customerAsSender , CustomerAsTarget = customerAsSender };
         }
-        public BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
+        private BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             //BLDrone BLDrone;// = dronesInBL.Find(e => e.Id == d.Id);
             //try
@@ -223,7 +221,7 @@ namespace BL
             Random r = new Random();
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/}
         }
-        public BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
+        private BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
         {
             return new BLChargingDrone() {Id = d.DroneId , Battery = GetBLDroneById(d.DroneId).Battery };
         }
