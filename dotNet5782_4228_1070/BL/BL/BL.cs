@@ -142,6 +142,23 @@ namespace BL
                 return $"--field {t.GetType()} not filled yet.--";
             return t.ToString();
         }
+        public static bool checkNull<T>(T t)
+        {
+            if (t.Equals(null))
+                return false;
+            return true;
+        }
+        public static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
+        {
+            if (p.Requeasted.Equals(null))
+                return (ParcelStatuses)0;
+            else if (p.Scheduled.Equals(null))
+                return (ParcelStatuses)1;
+            else if (p.PickUp.Equals(null))
+                return (ParcelStatuses)2;
+            else // if (p.Delivered.Equals(null))
+                return (ParcelStatuses)3;
+        }
 
         //==================================
         // Finding a drone in the BL array
@@ -151,7 +168,7 @@ namespace BL
             return dronesInBL.Find(d => d.Id == id);
         }
         //==================================
-        // Conversions
+        // Conversions BL to DAL.
         //==================================
         private IDal.DO.Station convertBLToDalStation(BLStation s)
         {
@@ -172,6 +189,9 @@ namespace BL
             //IDal.DO.Drone drone = convertBLToDalDrone(p.Drone);
             return new IDal.DO.Parcel() { Id = p.Id, SenderId = p.Sender.ID, TargetId = p.Target.ID, Weight = p.Weight, Priority = p.Priority, DroneId = p.Drone.Id, Requeasted = p.Requeasted, Scheduled = p.Scheduled, PickUp = p.PickUp, Delivered = p.Delivered };
         }
+        //==================================
+        // Conversions DAL to BL.
+        //==================================
         private BLStation convertDalToBLStation(IDal.DO.Station s)
         {
             List<IDal.DO.DroneCharge> DALdroneCharging = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
@@ -182,7 +202,14 @@ namespace BL
         }
         private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
         {
-            return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } };
+            List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
+            List<IDal.DO.Parcel> SendingParcels = parcels.FindAll(p => p.SenderId == c.ID);
+            List<IDal.DO.Parcel> TargetParcels = parcels.FindAll(p =>  p.TargetId == c.ID);
+            List<BLParcelAtCustomer> customerAsSender = new List<BLParcelAtCustomer>();
+            List<BLParcelAtCustomer> customerAsTarget = new List<BLParcelAtCustomer>();
+            SendingParcels.ForEach(p => customerAsSender.Add(convertDalParcelToBLParcelAtCustomer(p , c)));
+            TargetParcels.ForEach(p => customerAsTarget.Add(convertDalParcelToBLParcelAtCustomer(p,c)));
+            return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } , CustomerAsSender = customerAsSender , CustomerAsTarget = customerAsSender };
         }
         public BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
         {
@@ -210,6 +237,12 @@ namespace BL
                 drone = convertDalToBLDrone(dal.getDroneById(p.DroneId));
             }
             return new BLParcel() { Id = p.Id, Sender = sender, Target = target, Weight = p.Weight, PickUp = p.PickUp, Drone = drone, Requeasted = p.Requeasted, Scheduled = p.Scheduled, /* PickUp = p.PickUp,*/ Delivered = p.Delivered };
+        }
+
+        private BLParcelAtCustomer convertDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p ,IDal.DO.Customer c )
+        {
+            //if(p.senderId == c.Id || p.TargetId == c.Id)
+            return new BLParcelAtCustomer() { Id = p.Id, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p), SenderOrTargetCustomer = new BLCustomerInParcel() { Id = c.ID, name = c.Name } };
         }
         //==================================
         // Get object by ID
