@@ -26,7 +26,7 @@ namespace IBL
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public bool parcelStatus { get; set; }
+            public bool parcelStatus { get; set; } //ממתין לאיסוף =false\ בדרך ליעד=true
             public BLPosition SenderPosition { get; set; }
             public BLPosition TargetPosition { get; set; }
             public double distance { get; set; } //.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
@@ -96,12 +96,12 @@ namespace IBL
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
-            public DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
+            public DroneStatus Status { get; set; } //DroneStatus ?? the same name
             public BLDeliveryInTransfer DeliveryInTransfer { get; set; }
             public BLPosition DronePosition { get; set; }
             public override string ToString()
             {
-                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight},drone battery {Battery} , drone status{droneStatus}, drone battery {Battery}\n DeliveryInTransferDeliveryInTransferDeliveryInTransfer\n DronePosition : {DronePosition.ToString()}");
+                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight},drone battery {Battery} , drone status{Status}, drone battery {Battery}\n DeliveryInTransferDeliveryInTransferDeliveryInTransfer\n DronePosition : {DronePosition.ToString()}");
             }
         }
         public class BLParcel

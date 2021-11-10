@@ -35,7 +35,7 @@ namespace IBL
         //public IEnumerable<DroneCharge> displayDroneCharge();
         //public IEnumerable<Customer> displayCustomers();
 
-
+        public BLDrone GetBLDroneById(int id);
         public BLStation convertDalToBLStation(IDal.DO.Station s);
         public BLCustomer convertDalToBLCustomer(IDal.DO.Customer c);
         public BLDrone convertDalToBLDrone(IDal.DO.Drone d);
