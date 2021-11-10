@@ -4,6 +4,7 @@ using System.Text;
 using IDal;
 using IBL.BO;
 using System.Linq;
+using static IBL.BO.Exceptions;
 /*ChargeSlots = s.DroneChargeAvailble ????????????*/
 
 
@@ -87,6 +88,13 @@ namespace BL
             }
         }
         //==================================
+        // Findong a drone in the BL array
+        //==================================
+        private BLDrone GetBLDroneById(int id)
+        {
+            return dronesInBL.Find(d => d.Id == id);
+        }
+        //==================================
         // Conversions
         //==================================
         private IDal.DO.Station convertBLToDalStation(BLStation s)
@@ -116,11 +124,19 @@ namespace BL
         {
             return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } };
         }
-        public static BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
+        public BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
         {
-            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,/*Battery = d.Battery , Status = d.Status*//*++++++++++++++++++++*/
-        };
+            try
+            {
+                return GetBLDroneById(d.Id); //if there is no such BLdrone -> there is an error becuase the obj is in DAL Obj
+            }
+            catch
+            {
+                throw new NoDataMatchingBetweenDalandBL<IDal.DO.Drone>(d);
+            }
+            //return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,/*Battery = d.Battery , Status = d.Status*//*++++++++++++++++++++*/
         }
+        
         private BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
         {
             BLCustomer sender = convertDalToBLCustomer(dal.getCustomerById(p.SenderId));
