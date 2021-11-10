@@ -118,18 +118,10 @@ namespace IBL
             public DateTime Delivered { get; set; }
             public override string ToString()
             {
-                string d;
-                if (Drone.Equals(null)) 
-                { 
-                    d = "Drone of parcel: parcel not schedueld yet"; 
-                }
-                else
-                {
-                    d = Drone.ToString();
-                }
-                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\nDrone: {d} parcel Requeasted: {Requeasted}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
+                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\nDrone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
             }
         }
+
         public class BLCustomerToList
         {
             public int ID { get; set; }

@@ -135,6 +135,14 @@ namespace BL
                 // Throw match exception - "drone not available to charge"
             }
         }
+
+        public static string checkNullforPrint<T>(T t)
+        {
+            if (t.Equals(null))
+                return $"--field {t.GetType()} not filled yet.--";
+            return t.ToString();
+        }
+
         //==================================
         // Finding a drone in the BL array
         //==================================

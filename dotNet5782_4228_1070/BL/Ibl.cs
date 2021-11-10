@@ -34,6 +34,7 @@ namespace IBL
         //public IEnumerable<Parcel> displayFreeParcels();
         //public IEnumerable<DroneCharge> displayDroneCharge();
         //public IEnumerable<Customer> displayCustomers();
+        public string checkNull<T>(T t);
 
         public BLDrone GetBLDroneById(int id);
         public BLStation convertDalToBLStation(IDal.DO.Station s);
