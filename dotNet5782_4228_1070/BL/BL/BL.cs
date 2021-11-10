@@ -159,7 +159,6 @@ namespace BL
             else // if (p.Delivered.Equals(null))
                 return (ParcelStatuses)3;
         }
-
         //==================================
         // Finding a drone in the BL array
         //==================================
