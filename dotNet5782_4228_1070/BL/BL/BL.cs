@@ -87,6 +87,9 @@ namespace BL
             dal.AddStation(s);
         }
         public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId)
+
+
+
         {
             Random r = new Random();
             int battery = r.Next(20, 40);
