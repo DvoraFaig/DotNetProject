@@ -14,8 +14,8 @@ namespace IDal
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; } //not here
-            //public DroneStatus Status { get; set; }  //not here
-            //public double Battery { get; set; }
+            public DroneStatus Status { get; set; }  //not here
+            public double Battery { get; set; }
             public override string ToString()
             {
                 return ($"drone id: {Id}, drone model{Model}\n");
