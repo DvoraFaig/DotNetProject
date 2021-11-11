@@ -11,7 +11,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL //: IBL.Ibl
+    public sealed partial class BL : IBL.Ibl
     {
         private List<BLDrone> dronesInBL { get; set; }
         //static DalObject.DalObject d;
@@ -19,7 +19,7 @@ namespace BL
         private BL()
         {
             dronesInBL = new List<BLDrone>();
-            dal = IDal.DalFactory.factory("DalObject");
+            dal = IDal.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
             Random r = new Random();
             List<IDal.DO.Drone> drones = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
             List<IDal.DO.Parcel> parcels = dal.displayDrone().Cast<IDal.DO.Parcel>().ToList();
@@ -79,15 +79,12 @@ namespace BL
         //==================================
         // Add
         //==================================
-        public static void addStation(int id, string name, BLPosition position, int chargeSlot)
+        public void addStation(int id, string name, BLPosition position, int chargeSlot)
         {
             IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Latitude = position.Latitude, Longitude = position.Longitude, ChargeSlots = chargeSlot };
             dal.AddStation(s);
         }
         public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId)
-
-
-
         {
             Random r = new Random();
             int battery = r.Next(20, 40);
@@ -144,7 +141,7 @@ namespace BL
             if (t.Equals(null))
                 return false;
             return true;
-        }
+        } //not in Ibl
         private static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
         {
             if (p.Requeasted.Equals(null))
@@ -155,7 +152,7 @@ namespace BL
                 return (ParcelStatuses)2;
             else // if (p.Delivered.Equals(null))
                 return (ParcelStatuses)3;
-        }
+        } not in Ibl
         //==================================
         // Finding a drone in the BL array
         //==================================
