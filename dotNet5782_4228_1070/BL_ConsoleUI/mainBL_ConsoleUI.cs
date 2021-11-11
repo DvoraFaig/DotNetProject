@@ -279,7 +279,7 @@ namespace BL_ConsoleUI
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            //BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
         public static void addDrone()
         {
@@ -289,7 +289,7 @@ namespace BL_ConsoleUI
             string Model = Console.ReadLine();
             Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
             int MaxWeight = Convert.ToInt32(Console.ReadLine());
-            BL.BL.
+            //BL.BL.
         }
         public static void addParcel()
         {
@@ -318,7 +318,7 @@ namespace BL_ConsoleUI
             Console.WriteLine("Enter a Longitude: ");
             int Longitude = Convert.ToInt32(Console.ReadLine());
             int ChargeSlots = r.Next(0, 200);
-            BL.BL.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            //BL.BL.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
 
         //need sometimes to use parcel's detailes - return parcel.

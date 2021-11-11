@@ -121,7 +121,7 @@ namespace BL
         public void sendDroneToCharge(int droneId)
         {
             BLDrone drone = dronesInBL.Find(d => d.Id == droneId);
-            if (drone.droneStatus == DroneStatus.Available)
+            if (drone.Status == DroneStatus.Available)
             {
 
             }
@@ -130,7 +130,7 @@ namespace BL
                 // Throw match exception - "drone not available to charge"
             }
         }
-        private static string checkNullforPrint<T>(T t)
+        internal static string checkNullforPrint<T>(T t)
         {
             if (t.Equals(null))
                 return $"--field {t.GetType()} not filled yet.--";
@@ -152,40 +152,42 @@ namespace BL
                 return (ParcelStatuses)2;
             else // if (p.Delivered.Equals(null))
                 return (ParcelStatuses)3;
-        } not in Ibl
+        } //not in Ibl
         //==================================
         // Finding a drone in the BL array
         //==================================
-        private BLDrone GetBLDroneById(int id)
+        private static BLDrone GetBLDroneById(int id)/////////////////////////////
         {
-            return dronesInBL.Find(d => d.Id == id);
+            return new BLDrone();
+            //return dronesInBL.Find(d => d.Id == id);
+
         }
         //==================================
         // Conversions BL to DAL.
         //==================================
-        private IDal.DO.Station convertBLToDalStation(BLStation s)
+        private /*static*/ IDal.DO.Station convertBLToDalStation(BLStation s)
         {
             return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(), Longitude = s.StationPosition.Longitude, Latitude = s.StationPosition.Latitude };
         }
-        private IDal.DO.Drone convertBLToDalDrone(BLDrone d)
+        private /*static*/ IDal.DO.Drone convertBLToDalDrone(BLDrone d)
         {
             return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,/* Battery = d.Battery , Status = d.Status*/};
         }
-        private IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
+        private /*static*/ IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
         {
             return new IDal.DO.Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, Longitude = c.CustomerPosition.Longitude, Latitude = c.CustomerPosition.Latitude, };
         }
-        private IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
+        private /*static*/ IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
         {
             //IDal.DO.Customer sender = convertBLToDalCustomer(p.Sender);
             //IDal.DO.Customer target = convertBLToDalCustomer(p.Target);
             //IDal.DO.Drone drone = convertBLToDalDrone(p.Drone);
-            return new IDal.DO.Parcel() { Id = p.Id, SenderId = p.Sender.ID, TargetId = p.Target.ID, Weight = p.Weight, Priority = p.Priority, DroneId = p.Drone.Id, Requeasted = p.Requeasted, Scheduled = p.Scheduled, PickUp = p.PickUp, Delivered = p.Delivered };
+            return new IDal.DO.Parcel() { Id = p.Id, SenderId = p.Sender.Id, TargetId = p.Target.Id, Weight = p.Weight, Priority = p.Priority, DroneId = p.Drone.Id, Requeasted = p.Requeasted, Scheduled = p.Scheduled, PickUp = p.PickUp, Delivered = p.Delivered };
         }
         //==================================
         // Conversions DAL to BL.
         //==================================
-        private BLStation convertDalToBLStation(IDal.DO.Station s)
+        private static BLStation convertDalToBLStation(IDal.DO.Station s)
         {
             List<IDal.DO.DroneCharge> dalDroneCharging = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
             dalDroneCharging = dalDroneCharging.FindAll(staion => staion.StationId == s.Id); //list of id drone that are charged by this station.
@@ -193,7 +195,7 @@ namespace BL
             dalDroneCharging.ForEach(d => dronesCharging.Add(convertDalToBLChargingDrone(dal.getDroneChargeByDroneId(d.DroneId))));
             return new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } , DronesCharging = dronesCharging };
         }
-        private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
+        private static BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
         {
             List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
             List<IDal.DO.Parcel> sendingParcels = parcels.FindAll(p => p.SenderId == c.ID);
@@ -204,7 +206,7 @@ namespace BL
             targetParcels.ForEach(p => customerAsTarget.Add(createtDalParcelToBLParcelAtCustomer(p,c)));
             return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } , CustomerAsSender = customerAsSender , CustomerAsTarget = customerAsSender };
         }
-        private BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
+        private static BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             //BLDrone BLDrone;// = dronesInBL.Find(e => e.Id == d.Id);
             //try
@@ -216,13 +218,13 @@ namespace BL
             //    throw new NoDataMatchingBetweenDalandBL<IDal.DO.Drone>(d);
             //}
             Random r = new Random();
-            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/}
+            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
-        private BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
+        private static BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
         {
             return new BLChargingDrone() {Id = d.DroneId , Battery = GetBLDroneById(d.DroneId).Battery };
         }
-        private BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
+        private static BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
         {
             BLDroneInParcel drone = null;
             if (!p.Scheduled.Equals(null)) //if the parcel is paired with a drone
@@ -234,12 +236,12 @@ namespace BL
                 Target = new BLCustomerInParcel() { Id = p.TargetId, name = dal.getCustomerById(p.TargetId).Name },
                 Weight = p.Weight,Drone = createBLDroneInParcel(p , p.DroneId), Requeasted = p.Requeasted, Scheduled = p.Scheduled , PickUp = p.PickUp, Delivered = p.Delivered };
         }
-        private BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p , int droneId)
+        private static BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p , int droneId)
         {
             BLDrone d = GetBLDroneById(droneId);
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithparcel = d.DronePosition };
         }
-        private BLParcelAtCustomer createtDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p ,IDal.DO.Customer c )
+        private static BLParcelAtCustomer createtDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p ,IDal.DO.Customer c )
         {
             //if(p.senderId == c.Id || p.TargetId == c.Id)
             return new BLParcelAtCustomer() { Id = p.Id, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p), SenderOrTargetCustomer = new BLCustomerInParcel() { Id = c.ID, name = c.Name } };
@@ -279,35 +281,35 @@ namespace BL
         //==================================
         // Get list of objects
         //==================================
-        public List<BLStation> displayStations()
+        public static List<BLStation> displayStations()
         {
             List<IDal.DO.Station> sList = dal.displayStations().Cast<IDal.DO.Station>().ToList();
             List<BLStation> arr = new List<BLStation>();
             sList.ForEach(s => arr.Add(convertDalToBLStation(s)));
             return arr;
         }
-        public List<BLCustomer> displayCustomers()
+        public static List<BLCustomer> displayCustomers()
         {
             List<IDal.DO.Customer> cList = dal.displayCustomers().Cast<IDal.DO.Customer>().ToList();
             List<BLCustomer> arr = new List<BLCustomer>();
             cList.ForEach(c => arr.Add(convertDalToBLCustomer(c)));
             return arr;
         }
-        public List<BLDrone> displayDrones()
+        public static List<BLDrone> displayDrones()
         {
             List<IDal.DO.Drone> dList = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
             List<BLDrone> arr = new List<BLDrone>();
             dList.ForEach(d => arr.Add(convertDalToBLDrone(d)));
             return arr;
         }
-        public List<BLParcel> displayParcel()
+        public static List<BLParcel> displayParcel()
         {
             List<IDal.DO.Parcel> pList = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
             List<BLParcel> arr = new List<BLParcel>();
             pList.ForEach(s => arr.Add(new BLParcel() { Id = s.Id,/* SenderId = s.SenderId, TargetId = s.TargetId,*/ PickUp = s.PickUp, Priority = s.Priority, Weight = s.Weight }));
             return arr;
         }
-        public List<BLParcel> displayFreeParcel()
+        public static List<BLParcel> displayFreeParcel()
         {
             List<IDal.DO.Parcel> pList = dal.displayFreeParcels().Cast<IDal.DO.Parcel>().ToList();
             List<BLParcel> arr = new List<BLParcel>();

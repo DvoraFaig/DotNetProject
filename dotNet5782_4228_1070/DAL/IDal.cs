@@ -13,7 +13,7 @@ namespace IDal
         {
             //Add functions//
             public void AddDrone(Drone d);
-            public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
+            //public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
             public void AddStation(Station s);
             public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);          
             public void AddCustomer(Customer c);
