@@ -124,7 +124,11 @@ namespace BL
             {
                 dalCustomer = getDalCustomerById(senderID);
             }
-            if(dalCustomer.Equals(null))
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            //if(dalCustomer.Equals(null))
             //{
             //    throw new ObjNotExistException("sender customer", senderID);
             //}
@@ -132,6 +136,10 @@ namespace BL
             try
             {
                 dalCustomer = getDalCustomerById(targetId);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
             }
             //if (dalCustomer.Equals(null))
             //{
