@@ -79,24 +79,25 @@ namespace BL
         //==================================
         // Add
         //==================================
-        public void addStation(int id, string name, BLPosition position, int chargeSlot)
+        public void addStation(int id, string name, int latitude , int longitude, int chargeSlot)
         {
-            IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Latitude = position.Latitude, Longitude = position.Longitude, ChargeSlots = chargeSlot };
+            IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude , ChargeSlots = chargeSlot };
             dal.AddStation(s);
         }
-        public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId)
+        public void addDrone(int id, string model,int maxWeight, int stationId)
         {
+            IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
             Random r = new Random();
             int battery = r.Next(20, 40);
             IDal.DO.Station s = dal.getStationById(stationId);
             BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeight, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
             dronesInBL.Add(dr);
             dal.AddDrone(convertBLToDalDrone(dr));
         }
-        public void AddCustomer(int id, string name, string phone, BLPosition position)
+        public void AddCustomer(int id, string name, string phone, int longitude, int latitude)
         {
-            IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
+            IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = latitude, Longitude = longitude };
             dal.AddCustomer(c);
         }
         //==================================

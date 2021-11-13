@@ -7,11 +7,10 @@ namespace IBL
 {
     namespace BO
     {
-        class Exceptions
-        {
+        public static class Exceptions
+        {   
             public class InvalidStringException : Exception
             {
-                //public InvalidStringException() { }
                 public InvalidStringException(string name)
                     : base(String.Format("Invalid string : {0}", name))
                 {
@@ -19,7 +18,6 @@ namespace IBL
             }
             public class ObjNotExistException<T> : Exception
             {
-                //public ObjNotExistException(){ }
                 public ObjNotExistException( T obj )
                     : base(String.Format($"The {obj.GetType()} doesn't exist."))
                 {
@@ -27,9 +25,15 @@ namespace IBL
             }
             public class NoDataMatchingBetweenDalandBL<T> : Exception
             {
-                //public NoDataMatchingBetweenDalandBL() { }
                 public NoDataMatchingBetweenDalandBL(T obj)
                     : base(String.Format($"The {obj.GetType()} doesn't exist.\n BL and Dal data are not matching"))
+                {
+                }
+            }
+            public class SerialNumbeExistException<T> : Exception
+            {
+                public SerialNumbeExistException(T obj)
+                    : base(String.Format($"The {obj.GetType()} serial number exist.\n"))
                 {
                 }
             }

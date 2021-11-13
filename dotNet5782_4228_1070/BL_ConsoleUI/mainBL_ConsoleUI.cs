@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using BL;
+using IBL.BO.Exceptions;
+using static IBL.BO.Exceptions;
+
 namespace BL_ConsoleUI
 {
     enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
@@ -262,63 +266,70 @@ namespace BL_ConsoleUI
         }
         public static void addStation()
         {
-            Random r = new Random();
-            Console.WriteLine("Enter station id: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            int amountS = DalObject.DalObject.amountStations();
-            if (amountS >= 5)
+            bool flag = true;
+            do
             {
-                Console.WriteLine("== Cann't add stations ==");
-                return;
-            }
-            Console.WriteLine("Enter a station Name: ");
-            string Name = Console.ReadLine();
-            int ChargeSlots = r.Next(0, 5);
-            Console.WriteLine("Enter a Latitude");
-            int Latitude = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter a Longitude");
-            int Longitude = Convert.ToInt32(Console.ReadLine());
-            //BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+                flag = true;
+                Console.WriteLine("Enter station id: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter a station Name: ");
+                string name = Console.ReadLine();
+                Console.WriteLine("Enter a Latitude");
+                int latitude = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter a Longitude");
+                int longitude = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter amount of Availble charging slots: ");
+                int chargeSlot = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    BL.BL.addStation(id, name, chargeSlot, latitude, longitude);
+                }
+                catch(Exception e )
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Plese try again: ");
+                    flag = false;
+                }
+            } while (flag = false);
         }
         public static void addDrone()
         {
-            Console.WriteLine("Enter drone id: ");
+            Console.WriteLine("Enter the manufacturer serial number: ");
             int id = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Model");
             string Model = Console.ReadLine();
-            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            Console.WriteLine("Enter max weight of drone (category) (Light =1, Medium=2, Heavy=3): ");
             int MaxWeight = Convert.ToInt32(Console.ReadLine());
-            //BL.BL.
+            Console.WriteLine("Enter station id for charging drone for the initial charging:");
+            int stationId = Convert.ToInt32(Console.ReadLine());
+            BL.BL.addDrone(id, Model, MaxWeight, stationId);
         }
         public static void addParcel()
         {
+            Console.WriteLine("Enter sender's id: ");
+            int senderID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter target's id: ");
+            int targetId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter weight of parcel (Light =1, Medium=2, Heavy=3): ");
+            int weight = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter priority of parcel (Regular=1, Fast=2, Emergency=3 ): ");
+            int priority = Convert.ToInt32(Console.ReadLine());
+            BL.BL.addCustomer(senderID, targetId, weight, priority);
         }
 
         public static void addCustomer()
         {
-            Random r = new Random();
-            int amountC = DalObject.DalObject.amountCustomers();
-            if (amountC >= 100)
-            {
-                Console.WriteLine("== Cann't add costumers ==");
-            }
-            int id = 0;
-            //do
-            //{
-            //    id = r.Next(100, 1000);
-            //    //c = DalObject.DalObject.getCustomerById(id);
-            //} while (!c.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter costumer's id: ");
+            int id = Convert.ToInt32(Console.ReadLine()); 
             Console.WriteLine("Enter costumer's Name: ");
-            string Name = Console.ReadLine();
+            string name = Console.ReadLine();
             Console.WriteLine("Enter costumer's Phone: ");
-            string Phone = Console.ReadLine();
+            string phone = Console.ReadLine();
             Console.WriteLine("Enter a Latitude: ");
-            int Latitude = Convert.ToInt32(Console.ReadLine());
+            int latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude: ");
-            int Longitude = Convert.ToInt32(Console.ReadLine());
-            int ChargeSlots = r.Next(0, 200);
-            //BL.BL.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            int longitude = Convert.ToInt32(Console.ReadLine());
+            BL.BL.AddCustomer(id, name, phone, longitude, latitude);
         }
 
         //need sometimes to use parcel's detailes - return parcel.
@@ -367,4 +378,6 @@ namespace BL_ConsoleUI
         //    return p;
         //}
     }
+
+
 }

@@ -7,7 +7,8 @@ namespace IBL
 {
     public interface Ibl
     {
-        public void addStation(int id, string name, BLPosition position, int chargeSlot);
+        public void addStation(int id, string name, int latitude, int longitude, int chargeSlot);
+        //public void addStation(int id, string name, BLPosition position, int chargeSlot);
         public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
 
