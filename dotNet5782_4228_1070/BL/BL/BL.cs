@@ -81,11 +81,19 @@ namespace BL
         //==================================
         public void addStation(int id, string name, int latitude , int longitude, int chargeSlot)
         {
+            if(!getDalStationById(id).Equals(null))
+            {
+                throw new ObjExistException("station",id);
+            }
             IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude , ChargeSlots = chargeSlot };
             dal.AddStation(s);
         }
         public void addDrone(int id, string model,int maxWeight, int stationId)
         {
+            if (!getDalDroneById(id).Equals(null))
+            {
+                throw new ObjExistException("drone",id);
+            }
             IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
             Random r = new Random();
             int battery = r.Next(20, 40);
@@ -97,9 +105,48 @@ namespace BL
         }
         public void AddCustomer(int id, string name, string phone, int longitude, int latitude)
         {
+            if (!getDalCustomerById(id).Equals(null))
+            {
+                throw new ObjExistException("customer" , id);
+            }
             IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = latitude, Longitude = longitude };
             dal.AddCustomer(c);
         }
+        public void addParcel(int senderID,int targetId,int weight,int priority)
+        {
+            BLParcel p = new BLParcel();
+            BLCustomerInParcel c;
+            IDal.DO.Customer dalCustomer;
+            //IDal.DO.Parcel p = new IDal.DO.Parcel();
+            p.Id = dal.amountParcels()+1;
+            //p.DroneId = null;
+            try
+            {
+                dalCustomer = getDalCustomerById(senderID);
+            }
+            if(dalCustomer.Equals(null))
+            //{
+            //    throw new ObjNotExistException("sender customer", senderID);
+            //}
+            p.Sender = new BLCustomerInParcel() { Id = senderID, name = dalCustomer.Name };
+            try
+            {
+                dalCustomer = getDalCustomerById(targetId);
+            }
+            //if (dalCustomer.Equals(null))
+            //{
+            //    throw new ObjNotExistException("target customer", targetId);
+            //}
+            p.Target= new BLCustomerInParcel() { Id = targetId, name = dalCustomer.Name };
+            p.Weight = (IDal.DO.WeightCategories)weight;
+            p.Priority = (IDal.DO.Priorities)priority;
+            p.Requeasted = DateTime.Now;
+            p.Scheduled =new DateTime(0,0,0);
+            p.PickUp = new DateTime(0, 0, 0);
+            p.Delivered = new DateTime(0, 0, 0);
+            dal.AddParcelToDelivery(p);
+        }
+
         //==================================
         // Updates
         //==================================
@@ -111,13 +158,38 @@ namespace BL
             dr.Model = newModel;
             //check if it valid to do it. (the changing of dal - here)
         }
-        public void stationChangeDetails(int id, string name = null, int chargeStand = -1)//-1 is defualt value
+        public void stationChangeDetails(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
-
+            IDal.DO.Station s = getDalStationById(id);
+            if (s.Equals(null))
+            {
+                throw new ObjNotExistException(s);
+            }
+            if (name != null)
+                s.Name = name;
+            if (s.ChargeSlots <= ChargeSlots)
+                s.ChargeSlots = ChargeSlots;
+            if(s.ChargeSlots > ChargeSlots)
+            {
+                List<IDal.DO.DroneCharge> droneCharges = dal.displayDrone().Cast<IDal.DO.DroneCharge>().ToList();
+                int amountDroneChargesFull = droneCharges.Count(station => station.StationId == s.Id);
+                if(amountDroneChargesFull < ChargeSlots)
+                    s.ChargeSlots = ChargeSlots;
+                else
+                    throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}")
+            }
         }
-        public void customerupdateDetails(int id, string name = null, string phone = null)
+        public void customerUpdateDetails(int id, string name = null, string phone = null)
         {
-
+            IDal.DO.Customer c = getDalCustomerById(id);
+            if(c.Equals(null))
+            {
+                throw new ObjNotExistException(c);
+            }
+            if (name != null)
+                c.Name = name;
+            if (phone != null)
+                c.Phone = phone;
         }
         public void sendDroneToCharge(int droneId)
         {
@@ -131,6 +203,23 @@ namespace BL
                 // Throw match exception - "drone not available to charge"
             }
         }
+        public void freeDroneFromCharging(int id , int timeCharging)
+        {
+
+        }
+        public void PairParcelWithDrone(int droneId)
+        {
+        }
+        public void DroneCollectsAParcel(int droneId)
+        {
+        }
+        public void DronePicksUpParcel(int droneId)
+        {
+        }
+        public void DeliveryParcelByDrone(int droneId)
+        {
+        }
+
         internal static string checkNullforPrint<T>(T t)
         {
             if (t.Equals(null))
@@ -279,6 +368,25 @@ namespace BL
             BLParcel BLparcel = convertDalToBLParcel(p);
             return BLparcel;
         }
+
+        public IDal.DO.Drone getDalDroneById(int id)
+        {
+            return dal.getDroneById(id);
+        }
+        public IDal.DO.Station getDalStationById(int id)
+        {
+            return dal.getStationById(id);
+        }
+        public IDal.DO.Customer getDalCustomerById(int id)
+        {
+            return dal.getCustomerById(id);
+        }
+        public IDal.DO.Parcel getDalParcelById(int id)
+        {
+            return dal.getParcelById(id);
+        }
+
+
         //==================================
         // Get list of objects
         //==================================
