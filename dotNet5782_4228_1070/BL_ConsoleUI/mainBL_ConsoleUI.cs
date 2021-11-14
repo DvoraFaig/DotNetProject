@@ -11,7 +11,7 @@ namespace BL_ConsoleUI
     class mainBL_ConsoleUI
     {
         Random r = new Random();
-        //static DalObject.DalObject dalObject;
+        public static BL.BL bl;
 
         /// <summary>
         /// The user chooses what to do with the objects:
@@ -231,23 +231,23 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    List<IBL.BO.BLStation> stations = BL.BL.displayStations();
+                    List<IBL.BO.BLStation> stations = bl.displayStations();
                     stations.ForEach(s => s.ToString());
                     break;
                 case objects.Drone:
-                    List<IBL.BO.BLDrone> drones = BL.BL.displayDrones();
+                    List<IBL.BO.BLDrone> drones = bl.displayDrones();
                     drones.ForEach(s => s.ToString());
                     break;
                 case objects.Customer:
-                    List<IBL.BO.BLCustomer> customers = BL.BL.displayCustomers();
+                    List<IBL.BO.BLCustomer> customers = bl.displayCustomers();
                     customers.ForEach(s => s.ToString());
                     break;
                 case objects.Parcel:
-                    List<IBL.BO.BLParcel> parcels = BL.BL.displayParcel();
+                    List<IBL.BO.BLParcel> parcels = bl.displayParcel();
                     parcels.ForEach(s => s.ToString());
                     break;
                 case objects.FreeParcel:
-                    List<IBL.BO.BLParcel> freeParcels = BL.BL.displayFreeParcel();
+                    List<IBL.BO.BLParcel> freeParcels = bl.displayFreeParcel();
                     freeParcels.ForEach(s => s.ToString());
                     break;
                 case objects.EmptyCharges:
@@ -277,7 +277,7 @@ namespace BL_ConsoleUI
             int Latitude = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter a Longitude");
             int Longitude = Convert.ToInt32(Console.ReadLine());
-            BL.BL.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            bl.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
         public static void addDrone()
         { 
@@ -309,7 +309,7 @@ namespace BL_ConsoleUI
             Console.WriteLine("Enter a Longitude: ");
             int Longitude = Convert.ToInt32(Console.ReadLine());
             int ChargeSlots = r.Next(0, 200);
-            BL.BL.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            bl.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
 
         //need sometimes to use parcel's detailes - return parcel.

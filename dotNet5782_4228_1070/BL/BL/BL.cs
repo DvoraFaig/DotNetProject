@@ -84,8 +84,6 @@ namespace BL
         }
         public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId)
 
-
-
         {
             Random r = new Random();
             int battery = r.Next(20, 40);
@@ -131,6 +129,7 @@ namespace BL
                 // Throw match exception - "drone not available to charge"
             }
         }
+
         //==================================
         // Findong a drone in the BL array
         //==================================
