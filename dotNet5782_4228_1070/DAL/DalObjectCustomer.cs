@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 using IDal;
+using IDal.DO.DalExceptions;
 
 
 
@@ -30,6 +31,11 @@ namespace DalObject
         {
             DataSource.Customers.Add(customer);
         }
+        public void changeCustomerInfo(Customer c)
+        {
+            Customer cToChange = getCustomerById(c.ID);
+            cToChange = c;
+        }
         public IEnumerable<Customer> displayCustomers()
         {
             foreach (Customer customer in DataSource.Customers)
@@ -42,7 +48,14 @@ namespace DalObject
         }
         public static Customer getCustomerById(int id)
         {
-            return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
+            try
+            {
+                return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<Customer>("customer", id);
+            }
         }
     }
 }

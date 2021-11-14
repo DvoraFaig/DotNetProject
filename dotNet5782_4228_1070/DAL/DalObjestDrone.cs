@@ -29,6 +29,11 @@ namespace DalObject
         {
             DataSource.Drones.Add(drone);
         }
+        public void changeDroneInfo(Drone d)
+        {
+            Drone dToChange = getDroneById(d.Id);
+            dToChange = d;
+        }
         public IEnumerable<Drone> displayDrone()
         {
             foreach (Drone drone in DataSource.Drones)
@@ -41,7 +46,14 @@ namespace DalObject
         }
         public static Drone getDroneById(int id)
         {
-            return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
+            try
+            {
+                return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<Drone>("drone", id);
+            }
         }
         public double[] electricityUseByDrone(Drone drone)
         {

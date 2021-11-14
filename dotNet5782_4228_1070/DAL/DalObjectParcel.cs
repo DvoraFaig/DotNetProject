@@ -32,6 +32,11 @@ namespace DalObject
         {
             DataSource.Parcels.Add(parcel);
         }
+        public void changeParcelInfo(Parcel p)
+        {
+            Parcel pToChange = getParcelById(p.Id);
+            pToChange = p;
+        }
         public IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
@@ -54,7 +59,13 @@ namespace DalObject
         }
         public static Parcel getParcelById(int id)
         {
-            return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
+            try {
+                return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<Parcel>("parcel", id);
+            }
         }
     }
 }

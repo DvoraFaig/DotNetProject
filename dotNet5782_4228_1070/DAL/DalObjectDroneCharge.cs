@@ -16,6 +16,10 @@ namespace DalObject
         {
             return DataSource.DroneCharges.Count();
         }
+        public void changeDroneChargeInfo(DroneCharge d)
+        {
+           
+        }
         public IEnumerable<DroneCharge> displayDroneCharge()
         {
             foreach (DroneCharge droneCharge in DataSource.DroneCharges)
@@ -28,7 +32,14 @@ namespace DalObject
         }
         public static DroneCharge getDroneChargeById(int id)
         {
-            return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
+            try
+            {
+                return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<DroneCharge>("droneCharge", id);
+            }
         }
     }
 }

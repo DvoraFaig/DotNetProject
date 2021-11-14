@@ -169,10 +169,10 @@ namespace BL
         public void stationChangeDetails(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
             IDal.DO.Station s = getDalStationById(id);
-            if (s.Equals(null))
-            {
-                throw new ObjNotExistException(s);
-            }
+            //if (s.Equals(null))
+            //{
+            //    throw new Exceptions.ObjNotExistException<IDal.DO.Station>(s);
+            //}
             if (name != null)
                 s.Name = name;
             if (s.ChargeSlots <= ChargeSlots)
@@ -181,18 +181,19 @@ namespace BL
             {
                 List<IDal.DO.DroneCharge> droneCharges = dal.displayDrone().Cast<IDal.DO.DroneCharge>().ToList();
                 int amountDroneChargesFull = droneCharges.Count(station => station.StationId == s.Id);
-                if(amountDroneChargesFull < ChargeSlots)
+                if (amountDroneChargesFull < ChargeSlots)
                     s.ChargeSlots = ChargeSlots;
                 else
-                    throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}")
+                    throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
             }
+            
         }
         public void customerUpdateDetails(int id, string name = null, string phone = null)
         {
             IDal.DO.Customer c = getDalCustomerById(id);
             if(c.Equals(null))
             {
-                throw new ObjNotExistException(c);
+                throw new Exceptions.ObjNotExistException<IDal.DO.Customer>(c);
             }
             if (name != null)
                 c.Name = name;

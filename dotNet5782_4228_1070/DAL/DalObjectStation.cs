@@ -21,6 +21,11 @@ namespace DalObject
         {
             DataSource.Stations.Add(s);
         }
+        public void changeStationInfo(Station s)
+        {
+            Station sToChange = getStationById(s.Id);
+            sToChange = s;
+        }
         public IEnumerable<Station> displayStations()
         {
             foreach (Station station in DataSource.Stations)
@@ -33,7 +38,14 @@ namespace DalObject
         }
         public Station getStationById(int id)
         {
-            return DataSource.Stations.FirstOrDefault(station => station.Id == id);
+            try
+            {
+                return DataSource.Stations.FirstOrDefault(station => station.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<Station>("station", id);
+            }
         }
     }
 }
