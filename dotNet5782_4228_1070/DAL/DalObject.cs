@@ -29,6 +29,11 @@ namespace DalObject
             }
         }
 
+        public static T Clone<T>(T t)
+        {
+            return t;
+        }
+
         /// <summary>
         /// Function get id of drone and return drone charge object.
         /// </summary>

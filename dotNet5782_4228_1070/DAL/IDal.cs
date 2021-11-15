@@ -13,7 +13,7 @@ namespace IDal
         {
             //Add functions//
             public void AddDrone(Drone d);
-            public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
+            //public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
             public void AddStation(Station s);
             public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);          
             public void AddCustomer(Customer c);
@@ -21,6 +21,8 @@ namespace IDal
             public void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
             public void AddParcelToDelivery(Parcel parcel);
 
+            //amount for id//
+            public int amountParcels();
             //Update functions//
             public string PairAParcelWithADrone(Parcel parcel);
             public void DroneCollectsAParcel(Parcel parcel);
@@ -30,8 +32,6 @@ namespace IDal
             public Station getStationById(int id);
             public Drone getDroneById(int id);
             public Customer getCustomerById(int id);
-
-
             public Parcel getParcelById(int id);
             public DroneCharge getDroneChargeById(int id);
             public DroneCharge getDroneChargeByDroneId(int id);

@@ -12,7 +12,7 @@ namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountParcels()
+        public int amountParcels()
         {
             return DataSource.Parcels.Count();
         }
@@ -36,6 +36,11 @@ namespace DalObject
         {
            return DataSource.Parcels.Find(p => p.DroneId == droneId );
         }
+        public void changeParcelInfo(Parcel p)
+        {
+            Parcel pToChange = getParcelById(p.Id);
+            pToChange = p;
+        }
         public IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
@@ -58,7 +63,13 @@ namespace DalObject
         }
         public static Parcel getParcelById(int id)
         {
-            return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
+            try {
+                return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException<Parcel>("parcel", id);
+            }
         }
     }
 }

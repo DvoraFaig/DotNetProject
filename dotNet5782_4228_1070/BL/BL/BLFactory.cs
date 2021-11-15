@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IBL.IBL;
 
 namespace IBL.IBL
 {
-    public static class BLFactory
-
+    public static class BLFactory 
     {
-        public static IBL.IBL factory(string objName)
+        public static Ibl factory(string objName)
         {
             switch (objName)
             {
