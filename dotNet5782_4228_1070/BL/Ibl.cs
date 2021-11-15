@@ -17,7 +17,7 @@ namespace IBL
         //==================================
         public void droneChangeModel(int id, string newModel);
         public void stationChangeDetails(int id, string name = null, int chargeStand = -1);//-1 is defualt value
-        public void customerUpdateDetails(int id, string name = null, string phone = null);
+        public void updateCustomerDetails(int id, string name = null, string phone = null);
         public void sendDroneToCharge(int droneId);
         //==================================
         // Get object by ID

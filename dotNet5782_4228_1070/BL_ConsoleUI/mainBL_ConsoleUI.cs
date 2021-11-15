@@ -24,6 +24,7 @@ namespace BL_ConsoleUI
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+             
             //dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
@@ -117,7 +118,7 @@ namespace BL_ConsoleUI
                     int droneId = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter a new Model");
                     string model = Console.ReadLine();
-                    BL.BL.droneChangeModel(droneId, model);
+                    bl.droneChangeModel(droneId, model);
                     break;
                 case UpdateBL.StationInfo:
                     Console.WriteLine("Enter station id: ");
@@ -126,7 +127,7 @@ namespace BL_ConsoleUI
                     string sName = Console.ReadLine();
                     Console.WriteLine("Enter amount of Availble charging slots:(optional) ");
                     int chargeSlot = Convert.ToInt32(Console.ReadLine());
-                    BL.BLstationChangeDetails(stationId, sName, chargeSlot);
+                    bl.stationChangeDetails(stationId, sName, chargeSlot);
                     break;
                 case UpdateBL.CustomerInfo:
                     Console.WriteLine("Enter costumer's id: ");
@@ -135,95 +136,95 @@ namespace BL_ConsoleUI
                     string customerName = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
                     string phone = Console.ReadLine();
-                    BL.BL.customerupdateDetails(customerId, customerName, phone);
+                    bl.updateCustomerDetails(customerId, customerName, phone);
                     break;
                 case UpdateBL.sendDroneToCharge:
                     Console.WriteLine("Enter drones' id that's sent to charging: ");
                     int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.sendDroneToCharge(droneIdSentToCharge);
+                    bl.sendDroneToCharge(droneIdSentToCharge);
                     break;
                 case UpdateBL.freeDroneFromCharging:
                     Console.WriteLine("Enter drones' id that's freed from charging: ");
                     int droneIdFreeFromCharging = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter time period's on charge: ");
                     int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
+                    bl.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
                     break;
                 case UpdateBL.PairParcelWithDrone:
                     Console.WriteLine("Enter drones' id to pair a parcel with: ");
                     int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.PairParcelWithDrone(droneIdToPairAParcelWith);
+                    bl.PairParcelWithDrone(droneIdToPairAParcelWith);
                     break;
                 case UpdateBL.DroneCollectsAParcel:
                     Console.WriteLine("Enter drones' id that collects a parcel: ");
                     int droneIdCollectsAParcel = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.DroneCollectsAParcel(droneIdToPairAParcelWith);
+                    bl.DroneCollectsAParcel(droneIdToPairAParcelWith);
                     break;
                 case UpdateBL.DronePicksUpParcel:
                     Console.WriteLine("Enter drones' id that pickes up a parcel: ");
                     int droneIdPickesUpAParcel = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.DronePicksUpParcel(droneIdPickesUpAParcel);
+                    bl.DronePicksUpParcel(droneIdPickesUpAParcel);
                     break;
                 case UpdateBL.DeliveryParcelByDrone:
                     Console.WriteLine("Enter drones' id that deliverd a parcel: ");
                     int droneIdDeliveredAParcel = Convert.ToInt32(Console.ReadLine());
-                    BL.BL.DeliveryParcelByDrone(droneIdDeliveredAParcel);
+                    bl.DeliveryParcelByDrone(droneIdDeliveredAParcel);
                     break;
                 default:
                     break;
             }
 
-            switch (choice)
-            {
-                case UpdateObj:
+            //switch (choice)
+            //{
+            //    case UpdateObj:
                    
-                case UpdateObj.DroneCollectsAParcel:
-                    //Console.WriteLine("Enter ID of parcel");
-                    //int parcelIdToCollect = Convert.ToInt32(Console.ReadLine());
-                    //Parcel parcelCollect = DalObject.DalObject.getParcelById(parcelIdToCollect);
-                    //dalObject.DroneCollectsAParcel(parcelCollect);
-                    break;
-                case UpdateObj.CostumerGetsParcel:
-                    //Console.WriteLine("Enter ID of parcel");
-                    //int parcelIdGet = Convert.ToInt32(Console.ReadLine());
-                    //Parcel parcelGet = DalObject.DalObject.getParcelById(parcelIdGet);
-                    //Drone drone = DalObject.DalObject.getDroneById(parcelGet.DroneId);
-                    //dalObject.CostumerGetsParcel(drone, parcelGet);
-                    break;
-                case UpdateObj.sendDroneToCharge:
-                    //Console.WriteLine("Enter ID of drone");
-                    //int droneId = Convert.ToInt32(Console.ReadLine());
-                    //Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
-                    //switch (droneToCharge.Status)
-                    //{
-                    //    case DroneStatus.Maintenance:
-                    //        Console.WriteLine("== Drone is maintenance ==");
-                    //        break;
-                    //    case DroneStatus.Delivery:
-                    //        Console.WriteLine("== Drone in Deliver ==");
-                    //        break;
-                    //    case DroneStatus.Available:
-                    //        dalObject.sendDroneToCharge(droneToCharge);
-                    //        break;
-                    //}
-                    break;
-                case UpdateObj.freeDroneFromCharge:
-                    //Console.WriteLine("Enter Id of drone to charge");
-                    //int droneIdCharged = Convert.ToInt32(Console.ReadLine());
-                    //Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
-                    //if (droneToFree.Status == DroneStatus.Maintenance)
-                    //{
-                    //    dalObject.freeDroneFromCharge(droneToFree);
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
-                    //}
-                    break;
-                default:
-                    //Console.WriteLine("== ERROR ==");
-                    break;
-            }
+            //    case UpdateObj.DroneCollectsAParcel:
+            //        //Console.WriteLine("Enter ID of parcel");
+            //        //int parcelIdToCollect = Convert.ToInt32(Console.ReadLine());
+            //        //Parcel parcelCollect = DalObject.DalObject.getParcelById(parcelIdToCollect);
+            //        //dalObject.DroneCollectsAParcel(parcelCollect);
+            //        break;
+            //    case UpdateObj.CostumerGetsParcel:
+            //        //Console.WriteLine("Enter ID of parcel");
+            //        //int parcelIdGet = Convert.ToInt32(Console.ReadLine());
+            //        //Parcel parcelGet = DalObject.DalObject.getParcelById(parcelIdGet);
+            //        //Drone drone = DalObject.DalObject.getDroneById(parcelGet.DroneId);
+            //        //dalObject.CostumerGetsParcel(drone, parcelGet);
+            //        break;
+            //    case UpdateObj.sendDroneToCharge:
+            //        //Console.WriteLine("Enter ID of drone");
+            //        //int droneId = Convert.ToInt32(Console.ReadLine());
+            //        //Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
+            //        //switch (droneToCharge.Status)
+            //        //{
+            //        //    case DroneStatus.Maintenance:
+            //        //        Console.WriteLine("== Drone is maintenance ==");
+            //        //        break;
+            //        //    case DroneStatus.Delivery:
+            //        //        Console.WriteLine("== Drone in Deliver ==");
+            //        //        break;
+            //        //    case DroneStatus.Available:
+            //        //        dalObject.sendDroneToCharge(droneToCharge);
+            //        //        break;
+            //        //}
+            //        break;
+            //    case UpdateObj.freeDroneFromCharge:
+            //        //Console.WriteLine("Enter Id of drone to charge");
+            //        //int droneIdCharged = Convert.ToInt32(Console.ReadLine());
+            //        //Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
+            //        //if (droneToFree.Status == DroneStatus.Maintenance)
+            //        //{
+            //        //    dalObject.freeDroneFromCharge(droneToFree);
+            //        //}
+            //        //else
+            //        //{
+            //        //    Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
+            //        //}
+            //        break;
+            //    default:
+            //        //Console.WriteLine("== ERROR ==");
+            //        break;
+            //}
         }
         public static void receivesAndDisplaysObjById()
         {
@@ -339,7 +340,7 @@ namespace BL_ConsoleUI
                 int chargeSlot = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    BL.BL.addStation(id, name, chargeSlot, latitude, longitude);
+                    bl.addStation(id, name, chargeSlot, latitude, longitude);
                 }
                 catch(Exception e )
                 {
@@ -349,16 +350,6 @@ namespace BL_ConsoleUI
                 }
             } while (flag = false);
                 Console.WriteLine("== Cann't add stations ==");
-                return;
-            }
-            Console.WriteLine("Enter a station Name: ");
-            string Name = Console.ReadLine();
-            int ChargeSlots = r.Next(0, 5);
-            Console.WriteLine("Enter a Latitude");
-            int Latitude = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter a Longitude");
-            int Longitude = Convert.ToInt32(Console.ReadLine());
-            bl.AddStation(new IBL.BO.BLStation() { ID = id, Name = Name, DroneChargeAvailble = ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
         }
         public static void addDrone()
         {
@@ -370,7 +361,7 @@ namespace BL_ConsoleUI
             int MaxWeight = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter station id for charging drone for the initial charging:");
             int stationId = Convert.ToInt32(Console.ReadLine());
-            BL.BL.addDrone(id, Model, MaxWeight, stationId);
+            bl.addDrone(id, Model, MaxWeight, stationId);
         }
         public static void addParcel()
         {
@@ -388,7 +379,7 @@ namespace BL_ConsoleUI
                 int priority = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    BL.BL.addParcel(senderID, targetId, weight, priority);
+                    bl.addParcel(senderID, targetId, weight, priority);
                 }
                 catch (Exception e)
                 {

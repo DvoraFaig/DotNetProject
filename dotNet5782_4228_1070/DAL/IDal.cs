@@ -19,8 +19,7 @@ namespace IDal
             public void AddCustomer(Customer c);
             public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
             public void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
-            public void AddParcelToDelivery(Parcel parcel);
-
+            public void AddParcel(Parcel parcel);
             //amount for id//
             public int amountParcels();
             //Update functions//
@@ -43,8 +42,8 @@ namespace IDal
             public IEnumerable<Customer> displayCustomers();
 
             //בקשת צריכת חשמל
-            public double[] electricityUseByDrone(Drone drone);
-            ///
+            //public double[] electricityUseByDrone(Drone drone);
+            double[] electricityUseByDrone();
             public Parcel getParcelByDroneId(int droneId);
 
         }

@@ -28,12 +28,11 @@ namespace DalObject
                 return instance;
             }
         }
-
-        public static T Clone<T>(T t)
+        public double[] electricityUseByDrone()
         {
-            return t;
+            double[] arr = { DataSource.Config.empty, DataSource.Config.lightWeight, DataSource.Config.mediumWeight, DataSource.Config.heavyWeight, DataSource.Config.chargingRate };
+            return arr;
         }
-
         /// <summary>
         /// Function get id of drone and return drone charge object.
         /// </summary>

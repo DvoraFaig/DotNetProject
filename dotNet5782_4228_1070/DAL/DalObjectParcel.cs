@@ -28,7 +28,7 @@ namespace DalObject
             parcel.DroneId = -1;
             DataSource.Parcels.Add(parcel);
         }
-        public void AddParcelToDelivery(Parcel parcel)
+        public void AddParcel(Parcel parcel)
         {
             DataSource.Parcels.Add(parcel);
         }
