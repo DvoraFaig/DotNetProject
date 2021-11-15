@@ -11,7 +11,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL //: IBL.Ibl
     {
         private List<BLDrone> dronesInBL { get; set; }
         //static DalObject.DalObject d;
@@ -198,6 +198,9 @@ namespace BL
 
             }
             else
+            {
+
+            }
         }
 
 
@@ -357,7 +360,6 @@ namespace BL
             updateParcel(parcelToDelivery);
 
         }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         private static bool checkNull<T>(T t)
         {
             if (t.Equals(null))
@@ -389,19 +391,19 @@ namespace BL
         //==================================
         // Conversions BL to DAL.
         //==================================
-        private /*static*/ IDal.DO.Station convertBLToDalStation(BLStation s)
+        private  IDal.DO.Station convertBLToDalStation(BLStation s)
         {
             return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(), Longitude = s.StationPosition.Longitude, Latitude = s.StationPosition.Latitude };
         }
-        private /*static*/ IDal.DO.Drone convertBLToDalDrone(BLDrone d)
+        private  IDal.DO.Drone convertBLToDalDrone(BLDrone d)
         {
             return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight,/* Battery = d.Battery , Status = d.Status*/};
         }
-        private /*static*/ IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
+        private  IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
         {
             return new IDal.DO.Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, Longitude = c.CustomerPosition.Longitude, Latitude = c.CustomerPosition.Latitude, };
         }
-        private /*static*/ IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
+        private IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
         {
             //IDal.DO.Customer sender = convertBLToDalCustomer(p.Sender);
             //IDal.DO.Customer target = convertBLToDalCustomer(p.Target);
@@ -410,6 +412,8 @@ namespace BL
         }
         //==================================
         // Conversions DAL to BL.
+        //==================================
+
         private static BLStation convertDalToBLStation(IDal.DO.Station s)
         {
             List<BLChargingDrone> blDroneChargingByStation = new List<BLChargingDrone>();
@@ -434,7 +438,7 @@ namespace BL
         }
         private static BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
-            //BLDrone BLDrone;// = dronesInBL.Find(e => e.Id == d.Id);
+            BLDrone BLDrone = GetBLDroneById(d.Id);// = dronesInBL.Find(e => e.Id == d.Id);
             //try
             //{
             //    return GetBLDroneById(d.Id); //if there is no such BLdrone -> there is an error becuase the obj is in DAL Obj

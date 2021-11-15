@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 using IDal;
-using IDal.DO.DalExceptions;
+//using IDal.DO.DalExceptions;
 
 
 

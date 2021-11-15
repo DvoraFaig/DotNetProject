@@ -168,7 +168,7 @@ namespace BL_ConsoleUI
                 case UpdateBL.DeliveryParcelByDrone:
                     Console.WriteLine("Enter drones' id that deliverd a parcel: ");
                     int droneIdDeliveredAParcel = Convert.ToInt32(Console.ReadLine());
-                    bl.DeliveryParcelByDrone(droneIdDeliveredAParcel);
+                    bl.deliveryParcelByDrone(droneIdDeliveredAParcel);
                     break;
                 default:
                     break;
