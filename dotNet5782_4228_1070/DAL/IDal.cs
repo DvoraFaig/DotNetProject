@@ -44,6 +44,9 @@ namespace IDal
 
             //בקשת צריכת חשמל
             public double[] electricityUseByDrone(Drone drone);
+            ///
+            public Parcel getParcelByDroneId(int droneId);
+
         }
     }
 }

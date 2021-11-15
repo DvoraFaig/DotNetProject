@@ -32,6 +32,10 @@ namespace DalObject
         {
             DataSource.Parcels.Add(parcel);
         }
+        public Parcel getParcelByDroneId(int droneId)
+        {
+           return DataSource.Parcels.Find(p => p.DroneId == droneId );
+        }
         public IEnumerable<Parcel> displayParcels()
         {
             foreach (Parcel parcel in DataSource.Parcels)
