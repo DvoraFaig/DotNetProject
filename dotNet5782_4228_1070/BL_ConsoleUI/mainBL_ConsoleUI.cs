@@ -92,7 +92,7 @@ namespace BL_ConsoleUI
                     addCustomer();
                     break;
                 case objects.Parcel:
-                    addParcel();
+                    addParcel();//ParcelStatuses.Requeasted;
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
@@ -150,22 +150,17 @@ namespace BL_ConsoleUI
                     int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
                     bl.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
                     break;
-                case UpdateBL.PairParcelWithDrone:
-                    Console.WriteLine("Enter drones' id to pair a parcel with: ");
+                case UpdateBL.DroneScheduledWithAParcel://ParcelStatuses.Scheduled
+                    Console.WriteLine("Enter drones' id that collects a parcel: ");
                     int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
                     bl.PairParcelWithDrone(droneIdToPairAParcelWith);
                     break;
-                case UpdateBL.DroneCollectsAParcel:
-                    Console.WriteLine("Enter drones' id that collects a parcel: ");
-                    int droneIdCollectsAParcel = Convert.ToInt32(Console.ReadLine());
-                    bl.DroneCollectsAParcel(droneIdToPairAParcelWith);
-                    break;
-                case UpdateBL.DronePicksUpParcel:
+                case UpdateBL.DronePicksUpParcel://ParcelStatuses.pickUp
                     Console.WriteLine("Enter drones' id that pickes up a parcel: ");
                     int droneIdPickesUpAParcel = Convert.ToInt32(Console.ReadLine());
                     bl.DronePicksUpParcel(droneIdPickesUpAParcel);
                     break;
-                case UpdateBL.DeliveryParcelByDrone:
+                case UpdateBL.DeliveryParcelByDrone://ParcelStatuses.delivery
                     Console.WriteLine("Enter drones' id that deliverd a parcel: ");
                     int droneIdDeliveredAParcel = Convert.ToInt32(Console.ReadLine());
                     bl.deliveryParcelByDrone(droneIdDeliveredAParcel);

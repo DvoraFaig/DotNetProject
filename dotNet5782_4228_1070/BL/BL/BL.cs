@@ -203,8 +203,7 @@ namespace BL
             }
         }
 
-
-        public void updateFreeDroneFromeCharge(int droneId, double time)
+        public void freeDroneFromCharging(int droneId, double timeCharging)
         {
             BLDrone blDrone;
             try
@@ -217,14 +216,14 @@ namespace BL
             }
 
             blDrone.Status = DroneStatus.Available;
-            blDrone.Battery += (double)time * requestElectricity()[4];
+            blDrone.Battery += (double)timeCharging * requestElectricity()[4];
             IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeByDroneId(blDrone.Id);
             IDal.DO.Station s = dal.getStationById(droneChargeByStation.StationId);
             s.ChargeSlots++;
             stationChangeDetails(s.Id, null, s.ChargeSlots);
             //dal.removeDroneFromCharge();
         }
-        public void PairParcelWithDrone(int droneId)
+        public void PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
         {
             IDal.DO.Customer senderP;
             IDal.DO.Customer targetP;
@@ -283,7 +282,7 @@ namespace BL
             maxParcel.Scheduled = DateTime.Now;
             updateParcel(maxParcel);
         }
-        public void DroneCollectsAParcel(int droneId)
+        public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             BLDrone bLDrone = dronesInBL.Find(d => d.Id == droneId && d.Status == DroneStatus.Delivery);
             IDal.DO.Parcel p = dal.getParcelByDroneId(droneId);
@@ -305,38 +304,7 @@ namespace BL
             p.PickUp = DateTime.Now;
             updateParcel(maxParcel);
         }
-
-        public void updateBLDrone(BLDrone d)
-        {
-            BLDrone findDrone = dronesInBL.Find(e => e.Id == d.Id);
-            findDrone = d;
-        }
-
-
-
-        public IDal.DO.Station getMinDistanceFromStation(BLPosition p)
-        {
-            return new IDal.DO.Station();
-        }
-        public void freeDroneFromCharging(int id, int timeCharging)
-        {
-
-        }
-
-        public void DronePicksUpParcel(int droneId)
-        {
-        }
-        //public void DeliveryParcelByDrone(int droneId)
-        //{
-        //}
-
-        internal static string checkNullforPrint<T>(T t)
-        {
-            if (t.Equals(null))
-                return $"--field {t.GetType()} not filled yet.--";
-            return t.ToString();
-        }
-        public void deliveryParcelByDrone(int idDrone)
+        public void deliveryParcelByDrone(int idDrone) //ParcelStatuses.Delivered.
         {
             BLDrone bLDroneToSuplly = GetBLDroneById(idDrone);
             IDal.DO.Parcel parcelToDelivery = dal.getParcelByDroneId(idDrone);
@@ -351,7 +319,7 @@ namespace BL
             BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
             BLPosition targetPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
             double disSenderToTarget = distance(senderPosition, targetPosition);
-            double ectricity = dal.requestElectricity()[(int)parcelToDelivery.Weight];
+            double ectricity = requestElectricity()[(int)parcelToDelivery.Weight];
             bLDroneToSuplly.Battery -= ectricity * disSenderToTarget;
             bLDroneToSuplly.DronePosition = targetPosition;
             bLDroneToSuplly.Status = DroneStatus.Available;
@@ -379,6 +347,23 @@ namespace BL
         } //not in Ibl
           // Throw match exception - "drone not available to charge"
 
+        public void updateBLDrone(BLDrone d)
+        {
+            BLDrone findDrone = dronesInBL.Find(e => e.Id == d.Id);
+            findDrone = d;
+        }
+
+        public IDal.DO.Station getMinDistanceFromStation(BLPosition p)
+        {
+            return new IDal.DO.Station();
+        }
+
+        internal static string checkNullforPrint<T>(T t)
+        {
+            if (t.Equals(null))
+                return $"--field {t.GetType()} not filled yet.--";
+            return t.ToString();
+        }
         //==================================
         // Finding a drone in the BL array
         //==================================
