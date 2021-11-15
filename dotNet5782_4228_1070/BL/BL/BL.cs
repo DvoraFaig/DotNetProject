@@ -253,8 +253,31 @@ namespace BL
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+        public void deliveryParcelByDrone(int idDrone)
+        {
+            BLDrone bLDroneToSuplly = GetBLDroneById(idDrone);
+            IDal.DO.Parcel parcelToDelivery =  dal.getParcelByDroneId(idDrone);
+            if (parcelToDelivery.PickUp.Equals(null) && !parcelToDelivery.Delivered.Equals(null))
+            {
+                throw new Exception("Drone cann't deliver this parcel.");
+            }
+            IDal.DO.Customer senderP;
+            IDal.DO.Customer targetP;
+            senderP = dal.getCustomerById(parcelToDelivery.SenderId);
+            targetP = dal.getCustomerById(parcelToDelivery.TargetId);
+            BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+            BLPosition targetPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+            double disSenderToTarget = distance(senderPosition, targetPosition);
+            double ectricity = dal.requestElectricity()[(int)parcelToDelivery.Weight];
+            bLDroneToSuplly.Battery -= ectricity * disSenderToTarget;
+            bLDroneToSuplly.DronePosition = targetPosition;
+            bLDroneToSuplly.Status = DroneStatus.Available;
+            updateBLDrone(bLDroneToSuplly);
+            parcelToDelivery.Delivered = DateTime.Now;
+            updateParcel(parcelToDelivery);
 
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //==================================
         // Findong a drone in the BL array
         //==================================
@@ -286,9 +309,18 @@ namespace BL
         }
         private BLStation convertDalToBLStation(IDal.DO.Station s)
         {
-            return new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } };
+            List<BLChargingDrone> blDroneChargingByStation = new List<BLChargingDrone>();
+            List < IDal.DO.DroneCharge> droneChargesByStation = dal.displayDroneCharge().ToList();
+            droneChargesByStation = droneChargesByStation.FindAll(d => d.StationId == s.Id);
+            BLDrone specificD;
+            droneChargesByStation.ForEach(d =>
+            {
+                specificD = GetBLDroneById(d.DroneId);
+                blDroneChargingByStation.Add(new BLChargingDrone() { Id = specificD.Id, Battery = specificD.Battery });
+            });
+            return new BLStation() { ID = s.Id, Name = s.Name,  StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } , DroneChargeAvailble = s.ChargeSlots , ChargingDrone= blDroneChargingByStation };
         }
-        private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
+        private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c) 
         {
             return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } };
         }
