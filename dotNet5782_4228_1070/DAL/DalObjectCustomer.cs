@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 using IDal;
-//using IDal.DO.DalExceptions;
+
+
 
 
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.DO.IDal
+    public partial class DalObject //: IDal.DO.IDal
     {
         public static int amountCustomers()
         {
@@ -50,11 +51,11 @@ namespace DalObject
         {
             try
             {
-                return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
+                return DataSource.Customers.Find(customer => customer.ID == id);
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException<Customer>("customer", id);
+                throw new DalExceptions.ObjNotExistException(typeof(Customer), id);
             }
         }
     }

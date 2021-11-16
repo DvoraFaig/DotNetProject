@@ -52,7 +52,7 @@ namespace DalObject
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException<Drone>("drone", id);
+                throw new DalExceptions.ObjNotExistException(typeof(Drone), id);
             }
         }
         public double[] electricityUseByDrone(Drone drone)

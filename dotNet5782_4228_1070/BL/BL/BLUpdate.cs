@@ -42,11 +42,19 @@ namespace BL
 
         public void updateCustomerDetails(int id, string name = null, string phone = null)
         {
-            IDal.DO.Customer c = dal.getCustomerById(id);
-            if (c.Equals(null))
+            IDal.DO.Customer c;
+            try
             {
-                throw new Exceptions.ObjNotExistException<IDal.DO.Customer>(c);
+                dal.getCustomerById(id);
             }
+            catch ()
+            {
+
+            }
+            //if (c.Equals(null))
+            //{
+            //    throw new Exceptions.ObjNotExistException<IDal.DO.Customer>(c);
+            //}
             if (name != null)
                 c.Name = name;
             if (phone != null)
@@ -69,15 +77,10 @@ namespace BL
 
         public void freeDroneFromCharging(int droneId, double timeCharging)
         {
-            BLDrone blDrone;
-            try
-            {
-                dronesInBL.First(d => d.Id == droneId && d.Status == DroneStatus.Maintenance);
-            }
-            catch (Exception e)
-            {
-                throw new ObjNotExistException<BLDrone>(blDrone);
-            }
+            BLDrone blDrone = new BLDrone();
+                dronesInBL.Find(d => d.Id == droneId && d.Status == DroneStatus.Maintenance);
+            
+           
 
             blDrone.Status = DroneStatus.Available;
             blDrone.Battery += (double)timeCharging * requestElectricity()[4];
@@ -134,7 +137,6 @@ namespace BL
                             }
                         }
                     }
-
                 }
             }
             if (maxParcel.Weight == 0) //in the beggining parcels' weight = 0 to start compairing ;

@@ -38,7 +38,7 @@ namespace DalObject
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException<DroneCharge>("droneCharge", id);
+                throw new DalExceptions.ObjNotExistException(typeof(DroneCharge), id);
             }
         }
     }

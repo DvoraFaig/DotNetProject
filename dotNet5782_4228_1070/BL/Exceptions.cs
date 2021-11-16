@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
 namespace IBL.BO
 {
-    public partial class Exceptions : Exception
+    public partial class Exceptions:Exception
     {
         public class InvalidStringException : Exception
         {
@@ -28,10 +26,10 @@ namespace IBL.BO
                 : base(String.Format($"The {t.GetType()} with id {id} exist."))
             {
             }
-            //public ObjNotExistException(string message, int id)
-            //    : base(string.format($"the {message} with id: {id} doesn't exist."))
-            //{
-            //}
+            public ObjNotExistException(string m, string messageFromDal)
+                : base(String.Format($"{m}  {messageFromDal}"))
+            {
+            }
         }
         public class ObjExistException : Exception
         {

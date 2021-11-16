@@ -68,7 +68,7 @@ namespace DalObject
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException<Parcel>("parcel", id);
+                throw new DalExceptions.ObjNotExistException(typeof(Parcel), id);
             }
         }
     }

@@ -19,22 +19,27 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new ObjNotExistException(BLDrone, id);
+                throw new ObjNotExistException(typeof(BLDrone), id);
             }
         }
 
         public BLStation getStationById(int id)
         {
-            IDal.DO.Station s = dal.getStationById(id);
-            BLStation BLstation = convertDalToBLStation(s);
-            return BLstation;
+                IDal.DO.Station s = dal.getStationById(id);
+                BLStation BLstation = convertDalToBLStation(s);
+                return BLstation;
+            //}
+            //catch (IDal.DO.DalExceptions.ObjNotExistException t)
+            //{
+            //    throw new ObjNotExistException("free Drone From Charging: ", t.Message);
+            //}
         }
 
         public BLCustomer getCustomerById(int id)
         {
-            IDal.DO.Customer c = dal.getCustomerById(id);
-            BLCustomer BLcustomer = convertDalToBLCustomer(c);
-            return BLcustomer;
+                IDal.DO.Customer c = dal.getCustomerById(id);
+                BLCustomer BLcustomer = convertDalToBLCustomer(c);
+                return BLcustomer;
         }
 
         public BLDrone getDroneById(int id)
