@@ -8,10 +8,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL_ConsoleUI
 {
-    enum Choices { Add = 1, Update, ShowWithId, ShowList, exit }
-    enum objects { Station = 1, Drone, Customer, Parcel, FreeParcel, EmptyCharges }
-    enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
-
+   
     class mainBL_ConsoleUI
     {
         Random r = new Random();
@@ -24,7 +21,7 @@ namespace BL_ConsoleUI
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-             
+
             //dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
@@ -111,7 +108,7 @@ namespace BL_ConsoleUI
             {
                 choice = (UpdateBL)(-1);
             }
-            switch (UpdateBL)
+            switch (choice)
             {
                 case UpdateBL.DronesInfo:
                     Console.WriteLine("Enter drones' id to change its' models' name: ");
@@ -168,58 +165,6 @@ namespace BL_ConsoleUI
                 default:
                     break;
             }
-
-            //switch (choice)
-            //{
-            //    case UpdateObj:
-                   
-            //    case UpdateObj.DroneCollectsAParcel:
-            //        //Console.WriteLine("Enter ID of parcel");
-            //        //int parcelIdToCollect = Convert.ToInt32(Console.ReadLine());
-            //        //Parcel parcelCollect = DalObject.DalObject.getParcelById(parcelIdToCollect);
-            //        //dalObject.DroneCollectsAParcel(parcelCollect);
-            //        break;
-            //    case UpdateObj.CostumerGetsParcel:
-            //        //Console.WriteLine("Enter ID of parcel");
-            //        //int parcelIdGet = Convert.ToInt32(Console.ReadLine());
-            //        //Parcel parcelGet = DalObject.DalObject.getParcelById(parcelIdGet);
-            //        //Drone drone = DalObject.DalObject.getDroneById(parcelGet.DroneId);
-            //        //dalObject.CostumerGetsParcel(drone, parcelGet);
-            //        break;
-            //    case UpdateObj.sendDroneToCharge:
-            //        //Console.WriteLine("Enter ID of drone");
-            //        //int droneId = Convert.ToInt32(Console.ReadLine());
-            //        //Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
-            //        //switch (droneToCharge.Status)
-            //        //{
-            //        //    case DroneStatus.Maintenance:
-            //        //        Console.WriteLine("== Drone is maintenance ==");
-            //        //        break;
-            //        //    case DroneStatus.Delivery:
-            //        //        Console.WriteLine("== Drone in Deliver ==");
-            //        //        break;
-            //        //    case DroneStatus.Available:
-            //        //        dalObject.sendDroneToCharge(droneToCharge);
-            //        //        break;
-            //        //}
-            //        break;
-            //    case UpdateObj.freeDroneFromCharge:
-            //        //Console.WriteLine("Enter Id of drone to charge");
-            //        //int droneIdCharged = Convert.ToInt32(Console.ReadLine());
-            //        //Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
-            //        //if (droneToFree.Status == DroneStatus.Maintenance)
-            //        //{
-            //        //    dalObject.freeDroneFromCharge(droneToFree);
-            //        //}
-            //        //else
-            //        //{
-            //        //    Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
-            //        //}
-            //        break;
-            //    default:
-            //        //Console.WriteLine("== ERROR ==");
-            //        break;
-            //}
         }
         public static void receivesAndDisplaysObjById()
         {
@@ -242,20 +187,20 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    //Station s = DalObject.DalObject.getStationById(id);
-                    //Console.WriteLine(s.ToString());
+                    BLStation s = bl.getStationById(id);
+                    Console.WriteLine(s.ToString());
                     break;
                 case objects.Drone:
-                    //Drone d = DalObject.DalObject.getDroneById(id);
-                    //Console.WriteLine(d.ToString());
+                    BLDrone d = bl.getDroneById(id);
+                    Console.WriteLine(d.ToString());
                     break;
                 case objects.Customer:
-                    //Customer c = DalObject.DalObject.getCustomerById(id);
-                    //Console.WriteLine(c.ToString());
+                    BLCustomer c = bl.getCustomerById(id);
+                    Console.WriteLine(c.ToString());
                     break;
                 case objects.Parcel:
-                    //Parcel p = DalObject.DalObject.getParcelById(id);
-                    //Console.WriteLine(p.ToString());
+                    BLParcel p = bl.getParcelById(id);
+                    Console.WriteLine(p.ToString());
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
@@ -319,10 +264,9 @@ namespace BL_ConsoleUI
         }
         public static void addStation()
         {
-            bool flag = true;
+            int flag = 0; 
             do
             {
-                flag = true;
                 Console.WriteLine("Enter station id: ");
                 int id = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter a station Name: ");
@@ -340,11 +284,11 @@ namespace BL_ConsoleUI
                 catch(Exception e )
                 {
                     Console.WriteLine(e.Message);
-                    Console.WriteLine("Plese try again: ");
-                    flag = false;
+                    Console.WriteLine($"Plese try again:\n You have {3-flag} more times to try.");
+                    flag++;
                 }
-            } while (flag = false);
-                Console.WriteLine("== Cann't add stations ==");
+            } while (flag<3);
+            Console.WriteLine("== Cann't add stations. ==");
         }
         public static void addDrone()
         {
