@@ -119,7 +119,7 @@ namespace BL_ConsoleUI
                     {
                         bl.droneChangeModel(droneId, model);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                     }
@@ -131,7 +131,14 @@ namespace BL_ConsoleUI
                     string sName = Console.ReadLine();
                     Console.WriteLine("Enter amount of Availble charging slots:(optional) ");
                     int chargeSlot = Convert.ToInt32(Console.ReadLine());
-                    bl.stationChangeDetails(stationId, sName, chargeSlot);
+                    try
+                    {
+                        bl.stationChangeDetails(stationId, sName, chargeSlot);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.CustomerInfo:
                     Console.WriteLine("Enter costumer's id: ");
@@ -140,34 +147,76 @@ namespace BL_ConsoleUI
                     string customerName = Console.ReadLine();
                     Console.WriteLine("Enter costumer's Phone: ");
                     string phone = Console.ReadLine();
-                    bl.updateCustomerDetails(customerId, customerName, phone);
+                    try
+                    {
+                        bl.updateCustomerDetails(customerId, customerName, phone);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.sendDroneToCharge:
                     Console.WriteLine("Enter drones' id that's sent to charging: ");
                     int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
-                    bl.sendDroneToCharge(droneIdSentToCharge);
+                    try
+                    {
+                        bl.sendDroneToCharge(droneIdSentToCharge);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.freeDroneFromCharging:
                     Console.WriteLine("Enter drones' id that's freed from charging: ");
                     int droneIdFreeFromCharging = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter time period's on charge: ");
                     int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
-                    bl.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
+                    try
+                    {
+                        bl.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.DroneScheduledWithAParcel://ParcelStatuses.Scheduled
                     Console.WriteLine("Enter drones' id that collects a parcel: ");
                     int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
-                    bl.PairParcelWithDrone(droneIdToPairAParcelWith);
+                    try
+                    {
+                        bl.PairParcelWithDrone(droneIdToPairAParcelWith);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.DronePicksUpParcel://ParcelStatuses.pickUp
                     Console.WriteLine("Enter drones' id that pickes up a parcel: ");
                     int droneIdPickesUpAParcel = Convert.ToInt32(Console.ReadLine());
-                    bl.DronePicksUpParcel(droneIdPickesUpAParcel);
+                    try
+                    {
+                        bl.DronePicksUpParcel(droneIdPickesUpAParcel);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.DeliveryParcelByDrone://ParcelStatuses.delivery
                     Console.WriteLine("Enter drones' id that deliverd a parcel: ");
                     int droneIdDeliveredAParcel = Convert.ToInt32(Console.ReadLine());
-                    bl.deliveryParcelByDrone(droneIdDeliveredAParcel);
+                    try
+                    {
+                        bl.deliveryParcelByDrone(droneIdDeliveredAParcel);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 default:
                     break;
@@ -194,20 +243,48 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    BLStation s = bl.getStationById(id);
-                    Console.WriteLine(s.ToString());
+                    try
+                    {
+                        BLStation s = bl.getStationById(id);
+                        Console.WriteLine(s.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case objects.Drone:
-                    BLDrone d = bl.getDroneById(id);
+                    try
+                    {
+                        BLDrone d = bl.getDroneById(id);
                     Console.WriteLine(d.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case objects.Customer:
-                    BLCustomer c = bl.getCustomerById(id);
+                    try
+                    {
+                        BLCustomer c = bl.getCustomerById(id);
                     Console.WriteLine(c.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case objects.Parcel:
-                    BLParcel p = bl.getParcelById(id);
+                    try
+                    {
+                        BLParcel p = bl.getParcelById(id);
                     Console.WriteLine(p.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
