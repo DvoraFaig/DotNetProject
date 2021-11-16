@@ -257,7 +257,7 @@ namespace BL_ConsoleUI
                     try
                     {
                         BLDrone d = bl.getDroneById(id);
-                    Console.WriteLine(d.ToString());
+                        Console.WriteLine(d.ToString());
                     }
                     catch (Exception e)
                     {
@@ -268,7 +268,7 @@ namespace BL_ConsoleUI
                     try
                     {
                         BLCustomer c = bl.getCustomerById(id);
-                    Console.WriteLine(c.ToString());
+                        Console.WriteLine(c.ToString());
                     }
                     catch (Exception e)
                     {
@@ -279,7 +279,7 @@ namespace BL_ConsoleUI
                     try
                     {
                         BLParcel p = bl.getParcelById(id);
-                    Console.WriteLine(p.ToString());
+                        Console.WriteLine(p.ToString());
                     }
                     catch (Exception e)
                     {
@@ -290,6 +290,7 @@ namespace BL_ConsoleUI
                     Console.WriteLine("== ERROR ==");
                     break;
             }
+
         }
         public static void displayArrObjs<T>(T[] arrObjects)
         {
@@ -337,9 +338,8 @@ namespace BL_ConsoleUI
                     freeParcels.ForEach(s => s.ToString());
                     break;
                 case objects.EmptyCharges:
-                    //IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();
-                    //DroneCharge[] ChargeStandArr = ChargeStand.Cast<DroneCharge>().ToArray();
-                    //displayArrObjs(ChargeStandArr);
+                    List<IBL.BO.BLStation> ChargeStand = bl.displayEmptyDroneCharge();
+                    ChargeStand.ForEach(c => c.ToString());
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");
@@ -506,6 +506,4 @@ namespace BL_ConsoleUI
         //    return p;
         //}
     }
-
-
 }
