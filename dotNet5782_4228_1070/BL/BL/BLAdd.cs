@@ -14,7 +14,7 @@ namespace BL
     {
         public void addStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
-            if (!dal.getStationById(id).Equals(null))
+            if (dal.getStationById(id).Equals(null))
             {
                 throw new ObjExistException("station", id);
             }

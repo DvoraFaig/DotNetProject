@@ -66,7 +66,13 @@ namespace IBL
                 {
                 }
             }
-
+            public class ObjNotAvailableException : Exception
+            {
+                public ObjNotAvailableException(string message)
+                    : base(string.Format($"ERROR: {message}"))
+                {
+                }
+            }
         }
     }
 }

@@ -57,10 +57,12 @@ namespace BL
             if (drone.Status == DroneStatus.Available)
             {
 
+                drone.Status = DroneStatus.Maintenance;
+
             }
             else
             {
-
+                throw new ObjNotAvailableException("Drone not vailable to charge.");
             }
         }
 
@@ -220,7 +222,25 @@ namespace BL
 
         public IDal.DO.Station getMinDistanceFromStation(BLPosition p)
         {
-            return new IDal.DO.Station();
+            List<IDal.DO.Station> stations = (List<IDal.DO.Station>)dal.displayStations();
+            List<DistanceFromStation> distanceFromStations = new List<DistanceFromStation>();
+            foreach (IDal.DO.Station s in stations)
+            {
+                DistanceFromStation ds = new DistanceFromStation()
+                {
+                    Station_ = s,
+                    DistanceFromGivenPosotion = distance(s.Longitude, s.Latitude, p.Longitude, p.Latitude)
+                };
+                distanceFromStations.Add(ds);
+            }
+            DistanceFromStation d = distanceFromStations.Min(station => station.DistanceFromGivenPosotion);
+        }
+
+        //----------------------------
+        private class DistanceFromStation
+        {
+            public IDal.DO.Station Station_ { get; set; }
+            public double DistanceFromGivenPosotion { get; set; }
         }
 
         internal static string checkNullforPrint<T>(T t)
