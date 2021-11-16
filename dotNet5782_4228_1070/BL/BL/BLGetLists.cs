@@ -66,5 +66,18 @@ namespace BL
             }
             return arr;
         }
+        public List<BLStation> displayEmptyDroneCharge()
+        {
+            IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
+            List<BLStation> arr = new List<BLStation>();
+            foreach (var s in dalStations)
+            {
+                if (s.ChargeSlots >= 1)
+                {
+                    arr.Add(convertDalToBLStation(s));
+                }
+            }
+            return arr;
+        }
     }
 }
