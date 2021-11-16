@@ -34,7 +34,7 @@ namespace DalObject
         {
             try
             {
-                return DataSource.DroneCharges.FirstOrDefault(charge => charge.StationId == id);
+                return DataSource.DroneCharges.Find(charge => charge.StationId == id);
             }
             catch (Exception e)
             {
