@@ -30,6 +30,11 @@ namespace IBL
             public string Name { get; set; }
             public int DroneChargeAvailble { get; set; }
             public int DroneChargeOccupied { get; set; }
-        }      
+        }
+        public class DistanceFromStation
+        {
+            public IDal.DO.Station Station_ { get; set; }
+            public double DistanceFromGivenPosotion { get; set; }
+        }
     }
 }

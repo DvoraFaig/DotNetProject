@@ -222,7 +222,7 @@ namespace BL
 
         public IDal.DO.Station getMinDistanceFromStation(BLPosition p)
         {
-            List<IDal.DO.Station> stations = (List<IDal.DO.Station>)dal.displayStations();
+/*            List<IDal.DO.Station> stations = (List<IDal.DO.Station>)dal.displayStations();
             List<DistanceFromStation> distanceFromStations = new List<DistanceFromStation>();
             foreach (IDal.DO.Station s in stations)
             {
@@ -233,15 +233,9 @@ namespace BL
                 };
                 distanceFromStations.Add(ds);
             }
-            DistanceFromStation d = distanceFromStations.Min(station => station.DistanceFromGivenPosotion);
-        }
+            DistanceFromStation d = distanceFromStations.Min<DistanceFromStation>(station => station.DistanceFromGivenPosotion);
+*/        }
 
-        //----------------------------
-        private class DistanceFromStation
-        {
-            public IDal.DO.Station Station_ { get; set; }
-            public double DistanceFromGivenPosotion { get; set; }
-        }
 
         internal static string checkNullforPrint<T>(T t)
         {

@@ -8,7 +8,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL_ConsoleUI
 {
-   
+
     class mainBL_ConsoleUI
     {
         Random r = new Random();
@@ -56,7 +56,7 @@ namespace BL_ConsoleUI
                         Console.WriteLine("== ERROR ==");
                         break;
                 }
-                
+
             } while ((int)choice != 5);
         }
 
@@ -264,7 +264,7 @@ namespace BL_ConsoleUI
         }
         public static void addStation()
         {
-            int flag = 0; 
+            int flag = 0;
             do
             {
                 Console.WriteLine("Enter station id: ");
@@ -281,14 +281,14 @@ namespace BL_ConsoleUI
                 {
                     bl.addStation(id, name, chargeSlot, latitude, longitude);
                 }
-                catch(Exception e )
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    Console.WriteLine($"Plese try again:\n You have {3-flag} more times to try.");
+                    Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
                     flag++;
                 }
-            } while (flag<3);
-            Console.WriteLine("== Cann't add stations. ==");
+            } while (flag < 3);
+            //Console.WriteLine("== Cann't add stations. ==");
         }
         public static void addDrone()
         {
@@ -332,7 +332,7 @@ namespace BL_ConsoleUI
         public static void addCustomer()
         {
             Console.WriteLine("Enter costumer's id: ");
-            int id = Convert.ToInt32(Console.ReadLine()); 
+            int id = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter costumer's Name: ");
             string name = Console.ReadLine();
             Console.WriteLine("Enter costumer's Phone: ");
