@@ -115,7 +115,14 @@ namespace BL_ConsoleUI
                     int droneId = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter a new Model");
                     string model = Console.ReadLine();
-                    bl.droneChangeModel(droneId, model);
+                    try
+                    {
+                        bl.droneChangeModel(droneId, model);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     break;
                 case UpdateBL.StationInfo:
                     Console.WriteLine("Enter station id: ");
@@ -286,28 +293,43 @@ namespace BL_ConsoleUI
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
                     flag++;
+                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
             } while (flag < 3);
-            //Console.WriteLine("== Cann't add stations. ==");
         }
+
         public static void addDrone()
         {
-            Console.WriteLine("Enter the manufacturer serial number: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter a Model");
-            string Model = Console.ReadLine();
-            Console.WriteLine("Enter max weight of drone (category) (Light =1, Medium=2, Heavy=3): ");
-            int MaxWeight = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter station id for charging drone for the initial charging:");
-            int stationId = Convert.ToInt32(Console.ReadLine());
-            bl.addDrone(id, Model, MaxWeight, stationId);
-        }
-        public static void addParcel()
-        {
-            bool flag = true;
+            int flag = 0;
             do
             {
-                flag = true;
+                Console.WriteLine("Enter the manufacturer serial number: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter a Model");
+                string Model = Console.ReadLine();
+                Console.WriteLine("Enter max weight of drone (category) (Light =1, Medium=2, Heavy=3): ");
+                int MaxWeight = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter station id for charging drone for the initial charging:");
+                int stationId = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    bl.addDrone(id, Model, MaxWeight, stationId);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
+                    flag++;
+                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                }
+            } while (flag < 3);
+        }
+
+        public static void addParcel()
+        {
+            int flag = 0;
+            do
+            {
                 Console.WriteLine("Enter sender's id: ");
                 int senderID = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter target's id: ");
@@ -323,29 +345,44 @@ namespace BL_ConsoleUI
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    Console.WriteLine("Plese try again: ");
-                    flag = false;
+                    Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
+                    flag++;
+                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
-            } while (!flag);
+            } while (flag < 3);
         }
 
         public static void addCustomer()
         {
-            Console.WriteLine("Enter costumer's id: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter costumer's Name: ");
-            string name = Console.ReadLine();
-            Console.WriteLine("Enter costumer's Phone: ");
-            string phone = Console.ReadLine();
-            Console.WriteLine("Enter a Latitude: ");
-            int latitude = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter a Longitude: ");
-            int Longitude = Convert.ToInt32(Console.ReadLine());
-            int ChargeSlots = r.Next(0, 200);
-            bl.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = Name, Phone = Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = Longitude, Latitude = Latitude } });
+            Random r = new Random();
+            int flag = 0;
+            do
+            {
+                Console.WriteLine("Enter costumer's id: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter costumer's Name: ");
+                string name = Console.ReadLine();
+                Console.WriteLine("Enter costumer's Phone: ");
+                string phone = Console.ReadLine();
+                Console.WriteLine("Enter a Latitude: ");
+                int latitude = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter a Longitude: ");
+                int longitude = Convert.ToInt32(Console.ReadLine());
+                int ChargeSlots = r.Next(0, 200);
+                try
+                {
+                    bl.AddCustomer(id, name, phone, new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude });
+                    //bl.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = name, Phone = phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude } });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
+                    flag++;
+                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                }
+            } while (flag < 3);
         }
-
-
         //need sometimes to use parcel's detailes - return parcel.
         //public static Parcel addParcel()
         //{

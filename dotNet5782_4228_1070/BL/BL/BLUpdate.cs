@@ -15,7 +15,8 @@ namespace BL
         public void droneChangeModel(int id, string newModel)
         {
             BLDrone d = dronesInBL.Find(drone => drone.Id == id);
-            _ = !d.Equals(null) ? d.Model = newModel : throw new Exception($"ERROR: Drone {id} not found");
+            if (d.Equals(null)) d.Model = newModel;
+            else throw new Exception($"ERROR: Drone {id} not found");
             IDal.DO.Drone dr = dal.getDroneById(id);
             dr.Model = newModel;
             //check if it valid to do it. (the changing of dal - here)

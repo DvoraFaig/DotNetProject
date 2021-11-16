@@ -41,13 +41,13 @@ namespace BL
             dal.AddDrone(convertBLToDalDrone(dr));
         }
 
-        public void AddCustomer(int id, string name, string phone, int longitude, int latitude)
+        public void AddCustomer(int id, string name, string phone, BLPosition position)
         {
             if (!dal.getCustomerById(id).Equals(null))
             {
                 throw new ObjExistException("customer", id);
             }
-            IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = latitude, Longitude = longitude };
+            IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
            
             dal.AddCustomer(c);
         }
@@ -87,3 +87,5 @@ namespace BL
         }
     }
 }
+
+
