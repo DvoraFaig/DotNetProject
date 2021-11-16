@@ -14,8 +14,7 @@ namespace BL
     {
         private BLDrone GetBLDroneById(int id)
         {
-            return new BLDrone();
-            //return dronesInBL.Find(d => d.Id == id);
+            return dronesInBL.Find(d => d.Id == id);
         }
 
         public BLStation getStationById(int id)
