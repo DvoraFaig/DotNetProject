@@ -12,9 +12,6 @@ namespace BL
 {
     public sealed partial class BL
     {
-        //==================================
-        // Get list of objects
-        //==================================
         public List<BLStation> displayStations()
         {
             IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
@@ -25,6 +22,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLCustomer> displayCustomers()
         {
             IEnumerable<IDal.DO.Customer> cList = dal.displayCustomers();
@@ -35,6 +33,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLDrone> displayDrones()
         {
             IEnumerable<IDal.DO.Drone> dList = dal.displayDrone();
@@ -45,6 +44,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLParcel> displayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
@@ -55,6 +55,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLParcel> displayFreeParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayFreeParcels();

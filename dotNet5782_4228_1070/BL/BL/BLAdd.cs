@@ -12,9 +12,6 @@ namespace BL
 {
     public sealed partial class BL
     {
-        //==================================
-        // Add
-        //==================================
         public void addStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
             if (!dal.getStationById(id).Equals(null))
@@ -22,11 +19,12 @@ namespace BL
                 throw new ObjExistException("station", id);
             }
             IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
+            
             dal.AddStation(s);
         }
-        public void addDrone(int id, string model, int maxWeight, int stationId)
-        {  //==//
 
+        public void addDrone(int id, string model, int maxWeight, int stationId)
+        {  
             if (!dal.getDroneById(id).Equals(null))
             {
                 throw new ObjExistException("drone", id);
@@ -39,8 +37,10 @@ namespace BL
             BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
             BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
             dronesInBL.Add(dr);
+            
             dal.AddDrone(convertBLToDalDrone(dr));
         }
+
         public void AddCustomer(int id, string name, string phone, int longitude, int latitude)
         {
             if (!dal.getCustomerById(id).Equals(null))
@@ -48,8 +48,10 @@ namespace BL
                 throw new ObjExistException("customer", id);
             }
             IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = latitude, Longitude = longitude };
+           
             dal.AddCustomer(c);
         }
+
         public void addParcel(int senderId, int targetId, int weight, int priority)
         {
             IDal.DO.Customer dalCustomer;
@@ -71,6 +73,7 @@ namespace BL
             {
                 throw new Exception(e.Message);
             }
+
             p.SenderId = senderId;
             p.TargetId = targetId;
             p.Weight = (IDal.DO.WeightCategories)weight;
@@ -79,6 +82,7 @@ namespace BL
             p.Scheduled = new DateTime(0, 0, 0);
             p.PickUp = new DateTime(0, 0, 0);
             p.Delivered = new DateTime(0, 0, 0);
+
             dal.AddParcel(p);
         }
     }

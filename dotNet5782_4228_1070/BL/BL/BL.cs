@@ -14,7 +14,6 @@ namespace BL
     public sealed partial class BL //: IBL.Ibl
     {
         private List<BLDrone> dronesInBL { get; set; }
-        //static DalObject.DalObject d;
         static public IDal.DO.IDal dal;
 
         private BL()

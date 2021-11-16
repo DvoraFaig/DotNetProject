@@ -12,9 +12,6 @@ namespace BL
 {
     public sealed partial class BL
     {
-        //==================================
-        // Updates
-        //==================================
         public void droneChangeModel(int id, string newModel)
         {
             BLDrone d = dronesInBL.Find(drone => drone.Id == id);
@@ -23,6 +20,7 @@ namespace BL
             dr.Model = newModel;
             //check if it valid to do it. (the changing of dal - here)
         }
+
         public void stationChangeDetails(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
             IDal.DO.Station s = dal.getStationById(id);
@@ -40,6 +38,7 @@ namespace BL
                     throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
             }
         }
+
         public void updateCustomerDetails(int id, string name = null, string phone = null)
         {
             IDal.DO.Customer c = dal.getCustomerById(id);
@@ -85,6 +84,7 @@ namespace BL
             stationChangeDetails(s.Id, null, s.ChargeSlots);
             //dal.removeDroneFromCharge();
         }
+
         public void PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
         {
             IDal.DO.Customer senderP;
@@ -144,6 +144,7 @@ namespace BL
             maxParcel.Scheduled = DateTime.Now;
             updateParcel(maxParcel);
         }
+
         public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             BLDrone bLDrone = dronesInBL.Find(d => d.Id == droneId && d.Status == DroneStatus.Delivery);
@@ -166,6 +167,7 @@ namespace BL
             p.PickUp = DateTime.Now;
             updateParcel(maxParcel);
         }
+
         public void deliveryParcelByDrone(int idDrone) //ParcelStatuses.Delivered.
         {
             BLDrone bLDroneToSuplly = GetBLDroneById(idDrone);
@@ -190,6 +192,7 @@ namespace BL
             updateParcel(parcelToDelivery);
 
         }
+
         private static bool checkNull<T>(T t)
         {
             if (t.Equals(null))
@@ -226,16 +229,19 @@ namespace BL
                 return $"--field {t.GetType()} not filled yet.--";
             return t.ToString();
         }
+
         public void getParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority)
         {
             IDal.DO.Parcel p = new IDal.DO.Parcel() { SenderId = senderId, TargetId = targetId, Priority = priority, Delivered = new DateTime(), Requeasted = DateTime.Now, Scheduled = new DateTime(), Weight = weight, PickUp = new DateTime() };
             dal.AddParcel(p);
         }
+
         private static BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
         {
             BLDrone d = GetBLDroneById(droneId);
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithparcel = d.DronePosition };
         }
+
         private static BLParcelAtCustomer createtDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p, IDal.DO.Customer c)
         {
             //if(p.senderId == c.Id || p.TargetId == c.Id)
