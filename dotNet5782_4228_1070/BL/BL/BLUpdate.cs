@@ -75,7 +75,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new Exceptions.ObjNotExistException<BLDrone>(blDrone);
+                throw new ObjNotExistException<BLDrone>(blDrone);
             }
 
             blDrone.Status = DroneStatus.Available;
@@ -92,7 +92,7 @@ namespace BL
             IDal.DO.Customer senderP;
             IDal.DO.Customer targetP;
             IDal.DO.Customer senderMaxParcel;
-            BLDrone droneToParcel = GetBLDroneById(droneId);
+            BLDrone droneToParcel = getBLDroneById(droneId);
             List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
             IDal.DO.Parcel maxParcel = new IDal.DO.Parcel() { Weight = 0, };//parcels.First(); //check if weght is good=====================
             foreach (IDal.DO.Parcel p in parcels)
@@ -172,7 +172,7 @@ namespace BL
 
         public void deliveryParcelByDrone(int idDrone) //ParcelStatuses.Delivered.
         {
-            BLDrone bLDroneToSuplly = GetBLDroneById(idDrone);
+            BLDrone bLDroneToSuplly = getBLDroneById(idDrone);
             IDal.DO.Parcel parcelToDelivery = dal.getParcelByDroneId(idDrone);
             if (parcelToDelivery.PickUp.Equals(null) && !parcelToDelivery.Delivered.Equals(null))
             {

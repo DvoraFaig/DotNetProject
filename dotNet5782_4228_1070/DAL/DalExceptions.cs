@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace IDal.DO
 {
-    public class DalExceptions:Exception
+    public partial class DalExceptions:Exception
     {
         public class ObjNotExistException<T> : Exception
         {
+            public ObjNotExistException(Type t, int id)
+                : base(String.Format($"The {t.GetType()} with id {id} exist."))
+            {
+            }
             public ObjNotExistException(T obj)
                 : base(String.Format($"The {obj.GetType()} doesn't exist."))
             {

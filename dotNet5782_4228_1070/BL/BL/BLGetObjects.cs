@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text;
 using IDal;
 using IBL.BO;
 using static IBL.BO.Exceptions;
@@ -12,9 +11,16 @@ namespace BL
 {
     public sealed partial class BL
     {
-        private BLDrone GetBLDroneById(int id)
+        private BLDrone getBLDroneById(int id)
         {
-            return dronesInBL.Find(d => d.Id == id);
+            try
+            {
+                return dronesInBL.Find(d => d.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new ObjNotExistException(BLDrone, id);
+            }
         }
 
         public BLStation getStationById(int id)

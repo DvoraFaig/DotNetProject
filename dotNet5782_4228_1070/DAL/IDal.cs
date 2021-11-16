@@ -40,9 +40,6 @@ namespace IDal
             public IEnumerable<Parcel> displayFreeParcels();
             public IEnumerable<DroneCharge> displayDroneCharge();
             public IEnumerable<Customer> displayCustomers();
-
-            //בקשת צריכת חשמל
-            //public double[] electricityUseByDrone(Drone drone);
             double[] electricityUseByDrone();
             public Parcel getParcelByDroneId(int droneId);
 

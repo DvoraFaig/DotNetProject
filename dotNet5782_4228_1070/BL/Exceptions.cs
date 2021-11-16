@@ -1,78 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using IDal.DO;
-using IBL.IBL;
+using System.Threading.Tasks;
 
-namespace IBL
+
+
+namespace IBL.BO
 {
-    namespace BO
+    public partial class Exceptions : Exception
     {
-        public static class Exceptions
-        {   
-            public class InvalidStringException : Exception
+        public class InvalidStringException : Exception
+        {
+            public InvalidStringException(string name)
+                : base(String.Format("Invalid string : {0}", name))
             {
-                public InvalidStringException(string name)
-                    : base(String.Format("Invalid string : {0}", name))
-                {
-                }
             }
-            public class ObjNotExistException<T> : Exception
+        }
+
+        public class ObjNotExistException : Exception
+        {
+            //public ObjNotExistException(T obj)
+            //    : base(String.Format($"The {obj.GetType()} doesn't exist."))
+            //{
+            //}
+            public ObjNotExistException(Type t, int id)
+                : base(String.Format($"The {t.GetType()} with id {id} exist."))
             {
-                public ObjNotExistException( T obj )
-                    : base(String.Format($"The {obj.GetType()} doesn't exist."))
-                {
-                }
             }
-            public class ObjNotExistException<T , S> : Exception
+            //public ObjNotExistException(string message, int id)
+            //    : base(string.format($"the {message} with id: {id} doesn't exist."))
+            //{
+            //}
+        }
+        public class ObjExistException : Exception
+        {
+            public ObjExistException(Type objType, int id)
+                : base(String.Format($"The {objType.GetType()} with id: {id} exist."))
             {
-                public ObjNotExistException(T obj , S message)
-                    : base(String.Format($"The {message.ToString()} {obj.GetType()} doesn't exist."))
-                {
-                }
             }
-            public class ObjNotExistException : Exception
+            public ObjExistException(string objType, int id)
+                : base(String.Format($"The {objType} with id: {id} exist."))
             {
-                public ObjNotExistException( string message , int id)
-                    : base(String.Format($"The {message} with id: {id} doesn't exist."))
-                {
-                }
             }
-            public class ObjExistException<T> : Exception
+        }
+        public class NoDataMatchingBetweenDalandBL<T> : Exception
+        {
+            public NoDataMatchingBetweenDalandBL(T obj)
+                : base(String.Format($"The {obj.GetType()} doesn't exist.\n BL and Dal data are not matching"))
             {
-                public ObjExistException(T obj)
-                    : base(String.Format($"The {obj.GetType()} exist."))
-                {
-                }
             }
-            public class ObjExistException : Exception
+        }
+        public class SerialNumbeExistException<T> : Exception
+        {
+            public SerialNumbeExistException(T obj)
+                : base(String.Format($"The {obj.GetType()} serial number exist.\n"))
             {
-                public ObjExistException(string objType , int id)
-                    : base(String.Format($"The {objType} exist."))
-                {
-                }
             }
-            public class NoDataMatchingBetweenDalandBL<T> : Exception
+        }
+        public class ObjNotAvailableException : Exception
+        {
+            public ObjNotAvailableException(string message)
+                : base(string.Format($"ERROR: {message}"))
             {
-                public NoDataMatchingBetweenDalandBL(T obj)
-                    : base(String.Format($"The {obj.GetType()} doesn't exist.\n BL and Dal data are not matching"))
-                {
-                }
-            }
-            public class SerialNumbeExistException<T> : Exception
-            {
-                public SerialNumbeExistException(T obj)
-                    : base(String.Format($"The {obj.GetType()} serial number exist.\n"))
-                {
-                }
-            }
-            public class ObjNotAvailableException : Exception
-            {
-                public ObjNotAvailableException(string message)
-                    : base(string.Format($"ERROR: {message}"))
-                {
-                }
             }
         }
     }
+
 }
