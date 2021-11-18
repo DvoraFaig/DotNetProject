@@ -12,6 +12,8 @@ namespace IBL
         //public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
         void addDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
+        public void addParcel(int senderId, int targetId, int weight, int priority)
+
 
         //==================================
         // Updates

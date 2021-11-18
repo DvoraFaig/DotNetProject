@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using BL;
 using IBL.BO;
+using IBL;
 using static IBL.BO.Exceptions;
 
 namespace BL_ConsoleUI
@@ -12,16 +13,14 @@ namespace BL_ConsoleUI
     class mainBL_ConsoleUI
     {
         Random r = new Random();
-        public static BL.BL bl;
-
+        public static IBL.Ibl bl = IBL.IBL.BLFactory.factory("BL");
         /// <summary>
         /// The user chooses what to do with the objects:
         /// 1.Add 2.update 3.display obj by id 4.display arr of obj 5.exit.
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-
             //dalObject = new DalObject.DalObject();
             Choices choice; //defaualt 0
             do
