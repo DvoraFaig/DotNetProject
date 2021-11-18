@@ -45,6 +45,10 @@ namespace IBL
             public Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
             public BLCustomerInParcel SenderOrTargetCustomer { get; set; }
+            public override string ToString()
+            {
+                return ($"Id: {Id} , Weight: {Weight} , Priority: {Priority}, ParcelStatus: {ParcelStatus},{SenderOrTargetCustomer}");
+            }
         }
 
         public class BLParcelInTransfer

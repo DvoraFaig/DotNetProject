@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;  
+using IDal.DO;
 
 namespace DalObject
 {
-    internal class DataSource
+    internal static class DataSource
     {
         //Arrays of the classes
         internal static List<Drone> Drones;
@@ -19,6 +19,12 @@ namespace DalObject
 
         public static void Initialize()
         {
+            Drones = new List<Drone>();
+            Stations = new List<Station>();
+            Customers = new List<Customer>();
+            Parcels = new List<Parcel>();
+            DroneCharges = new List<DroneCharge>();
+
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
@@ -27,55 +33,42 @@ namespace DalObject
                 Station s = new Station()
                 {
                     Id = i,
-                    Name = $"station{Stations[i].Id}",
+                    Name = $"station{i}",
                     ChargeSlots = r.Next(0, 10),
                     Latitude = r.Next(0, 400),
                     Longitude = r.Next(0, 400)
                 };
-                //s.Id = i;
-                //s.Name = $"station{Stations[i].Id}";
-                //s.ChargeSlots = r.Next(0, 10);
-                //s.Latitude = r.Next(0, 400);
-                //s.Longitude = r.Next(0, 400);
                 Stations.Add(s);
             }
 
-            int amountDrones = r.Next(5,10);
-            for (int i=1; i<= amountDrones; i++)
+            int amountDrones = r.Next(5, 10);
+            for (int i = 1; i <= amountDrones; i++)
             {
                 Drone d = new Drone()
                 {
                     Id = i,
-                    Model = $"Drone{Drones[i].Id}",
+                    Model = $"Drone{i}",
                     MaxWeight = (WeightCategories)r.Next(0, 3)
                 };
-                //d.Id = i;
-                //d.Model = $"Drone{Drones[i].Id}";
-                //d.MaxWeight = (WeightCategories)r.Next(0, 3);
                 Drones.Add(d);
             }
-            
+
             int amountCustomer = r.Next(10, 100);
             for (int i = 1; i <= amountStations; i++)
             {
                 Customer c = new Customer()
                 {
                     ID = i,
-                    Name = $"Customer{Customers[i].ID}",
+                    Name = $"Customer{i}",
                     Phone = $"{r.Next(10000000, 100000000)}", //Phonenumber of 7 digits
                     Latitude = r.Next(0, 400),
                     Longitude = r.Next(0, 400)
                 };
-                //c.ID = i;
-                //c.Name = $"Customer{Customers[i].ID}";
-                //c.Phone =$"{r.Next(10000000,100000000)}"; //Phonenumber of 7 digits
-                //c.Latitude = r.Next(0, 400);
-                //c.Longitude = r.Next(0, 400);
                 Customers.Add(c);
             }
 
             int amountParcels = r.Next(10, 1000);
-            for(int i =1; i <= amountParcels; i++)
+            for (int i = 1; i <= amountParcels; i++)
             {
                 Parcel p = new Parcel()
                 {
@@ -86,12 +79,6 @@ namespace DalObject
                     Priority = (Priorities)r.Next(0, 3),
                     Requeasted = DateTime.Now
                 };
-                //p.Id = r.Next(0, 1000); 
-                //p.SenderId = r.Next(0, 400);
-                //p.TargetId = r.Next(0, 400);// which costumer
-                //p.Weight = (WeightCategories)r.Next(0,3);
-                //p.Priority = (Priorities)r.Next(0,3);
-                //p.Requeasted =DateTime.Now;
                 Parcels.Add(p);
             }
         }

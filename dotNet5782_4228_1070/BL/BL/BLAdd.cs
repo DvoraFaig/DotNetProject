@@ -18,7 +18,6 @@ namespace BL
                 throw new ObjExistException("station", id);
             }
             IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
-            
             dal.AddStation(s);
         }
 
@@ -81,7 +80,6 @@ namespace BL
             p.Scheduled = new DateTime(0, 0, 0);
             p.PickUp = new DateTime(0, 0, 0);
             p.Delivered = new DateTime(0, 0, 0);
-
             dal.AddParcel(p);
         }
     }

@@ -13,7 +13,7 @@ namespace BL_ConsoleUI
     class mainBL_ConsoleUI
     {
         Random r = new Random();
-        public static IBL.Ibl bl = IBL.IBL.BLFactory.factory("BL");
+        public static IBL.Ibl bl;
         /// <summary>
         /// The user chooses what to do with the objects:
         /// 1.Add 2.update 3.display obj by id 4.display arr of obj 5.exit.
@@ -21,7 +21,7 @@ namespace BL_ConsoleUI
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //dalObject = new DalObject.DalObject();
+            bl = IBL.IBL.BLFactory.factory("BL");
             Choices choice; //defaualt 0
             do
             {
@@ -318,27 +318,27 @@ namespace BL_ConsoleUI
             {
                 case objects.Station:
                     List<IBL.BO.BLStation> stations = bl.displayStations();
-                    stations.ForEach(s => s.ToString());
+                    stations.ForEach(s => Console.WriteLine(s.ToString() + '\n'));
                     break;
                 case objects.Drone:
                     List<IBL.BO.BLDrone> drones = bl.displayDrones();
-                    drones.ForEach(s => s.ToString());
+                    drones.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.Customer:
                     List<IBL.BO.BLCustomer> customers = bl.displayCustomers();
-                    customers.ForEach(s => s.ToString());
+                    customers.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.Parcel:
                     List<IBL.BO.BLParcel> parcels = bl.displayParcel();
-                    parcels.ForEach(s => s.ToString());
+                    parcels.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.FreeParcel:
                     List<IBL.BO.BLParcel> freeParcels = bl.displayFreeParcel();
-                    freeParcels.ForEach(s => s.ToString());
+                    freeParcels.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.EmptyCharges:
                     List<IBL.BO.BLStation> ChargeStand = bl.displayEmptyDroneCharge();
-                    ChargeStand.ForEach(c => c.ToString());
+                    ChargeStand.ForEach(c => Console.WriteLine(c.ToString()));
                     break;
                 default:
                     Console.WriteLine("== ERROR ==");

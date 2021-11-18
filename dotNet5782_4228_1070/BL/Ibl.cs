@@ -12,7 +12,7 @@ namespace IBL
         //public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
         void addDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
-        public void addParcel(int senderId, int targetId, int weight, int priority)
+        public void addParcel(int senderId, int targetId, int weight, int priority);
 
 
         //==================================
@@ -22,6 +22,11 @@ namespace IBL
         public void stationChangeDetails(int id, string name = null, int chargeStand = -1);//-1 is defualt value
         public void updateCustomerDetails(int id, string name = null, string phone = null);
         public void sendDroneToCharge(int droneId);
+        public void freeDroneFromCharging(int droneId, double timeCharging);
+        public void PairParcelWithDrone(int droneId);
+        public void DronePicksUpParcel(int droneId);
+        void deliveryParcelByDrone(int idDrone);
+
         //==================================
         // Get object by ID
         //==================================
@@ -39,6 +44,9 @@ namespace IBL
         public List<BLDrone> displayDrones();
         public List<BLParcel> displayParcel();
         public List<BLParcel> displayFreeParcel();
+        List<BLStation> displayEmptyDroneCharge();
+
+        //void deliveryParcelByDrone(int idDrone);
     }
 
 }
