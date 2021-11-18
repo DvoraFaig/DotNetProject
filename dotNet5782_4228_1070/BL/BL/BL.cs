@@ -38,32 +38,34 @@ namespace BL
             Random r = new Random();
             drones.ForEach(d =>
             {
-                try
+                //try
+                //{
+                p = dal.getParcelByDroneId(d.Id);
+                IDal.DO.Station closestStationToSender = new IDal.DO.Station();
+                sender = dal.getCustomerById(p.SenderId);
+                target = dal.getCustomerById(p.TargetId);
+                senderPosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                targetPosition = new BLPosition() { Latitude = target.Latitude, Longitude = sender.Longitude };
+                if (p.Scheduled != null && p.Delivered == null)
                 {
-                    IDal.DO.Station closestStationToSender = new IDal.DO.Station();
-                    p = dal.getParcelByDroneId(d.Id);
                     sender = dal.getCustomerById(p.SenderId);
-                    target = dal.getCustomerById(p.TargetId);
-                    senderPosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
-                    targetPosition = new BLPosition() { Latitude = target.Latitude, Longitude = sender.Longitude };
-                    if (p.Scheduled != null && p.Delivered == null)
+                    if (p.PickUp == null) //position like the closest station to the sender of parcel.
                     {
-                        sender = dal.getCustomerById(p.SenderId);
-                        if (p.PickUp == null) //position like the closest station to the sender of parcel.
-                        {
-                            closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה?
-                            //אם אינו נכנס למצב הטענה PositionFromClosestStation ()
-                            //אם כן updateDroneCharge
-                            blDrone.DronePosition = new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
-                        }
-                        else if (p.Delivered == null) //else position sender of parcel.
-                        {
-                            blDrone.DronePosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
-                        }
-                        blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
+                        closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה?
+                                                                                                        //אם אינו נכנס למצב הטענה PositionFromClosestStation ()
+                                                                                                        //אם כן updateDroneCharge
+                        blDrone.DronePosition = new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
                     }
+                    else if (p.Delivered == null) //else position sender of parcel.
+                    {
+                        blDrone.DronePosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                    }
+                    blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
                 }
-                catch (Exception e) // if drone is not delivery status
+                //}
+                //catch (Exception e) // if drone is not delivery status
+                //{
+                else
                 {
                     blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
                     if (blDrone.Status == DroneStatus.Maintenance)
@@ -79,9 +81,11 @@ namespace BL
                         blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
                     }
                 }
+                //}
+                dronesInBL.Add(blDrone);
             });
         }
-        private int calcDroneBatteryForDroneDelivery(IDal.DO.Parcel p ,IDal.DO.Station closestStationToSender, BLPosition senderPosition, BLPosition targetPosition )
+        private int calcDroneBatteryForDroneDelivery(IDal.DO.Parcel p, IDal.DO.Station closestStationToSender, BLPosition senderPosition, BLPosition targetPosition)
         {
             Random r = new Random();
             double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
@@ -104,7 +108,7 @@ namespace BL
             List<IDal.DO.Station> stations = dal.displayStations().Cast<IDal.DO.Station>().ToList();
             List<IDal.DO.Station> availbleStations = new List<IDal.DO.Station>();
             int busyChargingSlots;
-            stations.ForEach(s => 
+            stations.ForEach(s =>
             {
                 busyChargingSlots = droneCharges.Count(droneCharge => droneCharge.StationId == s.Id);
                 if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
@@ -132,7 +136,7 @@ namespace BL
                     {
                         minDis = dis;
                     }
-                    else if (minDis > dis);
+                    else if (minDis > dis) ;
                     {
                         minDis = dis;
                         availbleCLosestStation = s;
@@ -144,7 +148,7 @@ namespace BL
 
         private List<IDal.DO.Customer> findCustomersWithDeliveredParcel()
         {
-            List<IDal.DO.Parcel> parcels = dal.displayCustomers().Cast<IDal.DO.Parcel>().ToList();
+            List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
             parcels = parcels.FindAll(p => p.Delivered != null);
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
             parcels.ForEach(p =>
@@ -160,7 +164,7 @@ namespace BL
         }
         public double requestElectricity(int choice)
         {
-            switch ((Electricity) choice)
+            switch ((Electricity)choice)
             {
                 case Electricity.empty:
                     return empty;

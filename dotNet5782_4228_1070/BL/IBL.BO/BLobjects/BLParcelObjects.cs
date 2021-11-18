@@ -24,7 +24,8 @@ namespace IBL
             public DateTime Delivered { get; set; }
             public override string ToString()
             {
-                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\nDrone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
+                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\n" +
+                    $"Drone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
             }
         }
 
@@ -62,6 +63,10 @@ namespace IBL
             public BLPosition SenderPosition { get; set; }
             public BLPosition TargetPosition { get; set; }
             public double distance { get; set; } //.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
+            public override string ToString()
+            {
+                return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},SenderCustomer:{SenderCustomer}, TargetCustomer :{TargetCustomer}, SenderPosition: {SenderPosition}, TargetPosition :{TargetPosition}, distance: {distance} ");
+            }
         }
     }
 }
