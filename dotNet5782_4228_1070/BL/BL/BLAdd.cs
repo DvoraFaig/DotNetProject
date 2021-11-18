@@ -9,7 +9,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
         public void addStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {

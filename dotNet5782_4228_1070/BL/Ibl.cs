@@ -9,7 +9,8 @@ namespace IBL
     {
         public void addStation(int id, string name, int latitude, int longitude, int chargeSlot);
         //public void addStation(int id, string name, BLPosition position, int chargeSlot);
-        public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
+        //public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
+        void addDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
 
         //==================================
@@ -26,6 +27,7 @@ namespace IBL
         public BLStation getStationById(int id);
         public BLCustomer getCustomerById(int id);
         public BLDrone getDroneById(int id);
+        //BLDrone getBLDroneById(int id); //to be private
         public BLParcel getParcelById(int id);
         //==================================
         // Get list of objects

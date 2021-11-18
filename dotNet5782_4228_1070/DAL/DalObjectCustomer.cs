@@ -12,9 +12,9 @@ using IDal;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.DO.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountCustomers()
+        public int amountCustomers()
         {
             return DataSource.Customers.Count;
         }
@@ -47,7 +47,7 @@ namespace DalObject
                 }
             }
         }
-        public static Customer getCustomerById(int id)
+        public Customer getCustomerById(int id)
         {
             try
             {

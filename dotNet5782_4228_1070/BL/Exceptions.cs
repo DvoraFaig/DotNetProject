@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    public partial class Exceptions:Exception
+    public partial class Exceptions
     {
         public class InvalidStringException : Exception
         {

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text;
 using IDal;
 using IBL.BO;
 using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
         public void droneChangeModel(int id, string newModel)
         {
@@ -19,6 +18,7 @@ namespace BL
             else throw new Exception($"ERROR: Drone {id} not found");
             IDal.DO.Drone dr = dal.getDroneById(id);
             dr.Model = newModel;
+            dal.changeDroneInfo(dr);
             //check if it valid to do it. (the changing of dal - here)
         }
 
@@ -38,36 +38,27 @@ namespace BL
                 else
                     throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
             }
+            dal.changeStationInfo(s);
         }
 
         public void updateCustomerDetails(int id, string name = null, string phone = null)
         {
-            IDal.DO.Customer c;
-            try
-            {
-                dal.getCustomerById(id);
-            }
-            catch ()
-            {
-
-            }
-            //if (c.Equals(null))
-            //{
-            //    throw new Exceptions.ObjNotExistException<IDal.DO.Customer>(c);
-            //}
+            IDal.DO.Customer c = dal.getCustomerById(id);
             if (name != null)
                 c.Name = name;
             if (phone != null)
                 c.Phone = phone;
         }
-        public void sendDroneToCharge(int droneId)
+        public void sendDroneToCharge(int droneId) 
         {
             BLDrone drone = dronesInBL.Find(d => d.Id == droneId);
             if (drone.Status == DroneStatus.Available)
             {
-
+                IDal.DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
+                IDal.DO.DroneCharge droneCharge = new IDal.DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
                 drone.Status = DroneStatus.Maintenance;
-
+                dal.AddDroneCharge(droneCharge); 
+                //dal.changeStationInfo // slots????????????????????????
             }
             else
             {
@@ -83,7 +74,7 @@ namespace BL
            
 
             blDrone.Status = DroneStatus.Available;
-            blDrone.Battery += (double)timeCharging * requestElectricity()[4];
+            blDrone.Battery += (double)timeCharging * requestElectricity(4);
             IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeByDroneId(blDrone.Id);
             IDal.DO.Station s = dal.getStationById(droneChargeByStation.StationId);
             s.ChargeSlots++;
@@ -110,10 +101,10 @@ namespace BL
                 senderMaxParcel = dal.getCustomerById(maxParcel.SenderId);
                 double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
                 double disSenderToTarget = distance(senderPosition, targetPosition);
-                IDal.DO.Station MinDisFromTargetTostation = getMinDistanceFromStation(targetPosition);
+                IDal.DO.Station MinDisFromTargetTostation = findAvailbleAndClosestStationForDrone(targetPosition);
                 double disTargetToStation = distance(targetPosition, new BLPosition() { Longitude = MinDisFromTargetTostation.Longitude, Latitude = MinDisFromTargetTostation.Latitude });
                 double disMaxPToSender = distance(droneToParcel.DronePosition, new BLPosition() { Longitude = senderMaxParcel.Longitude, Latitude = senderMaxParcel.Latitude });
-                double droneElectricity = requestElectricity()[(int)p.Weight];
+                double droneElectricity = requestElectricity((int)p.Weight);
                 if (droneToParcel.Battery - (int)(disDroneToSenderP * droneElectricity + disSenderToTarget * droneElectricity + disTargetToStation * droneElectricity) > 0) //[4]
                 {
                     //BLParcel bLParcel = convertDalToBLParcel(p);
@@ -147,7 +138,7 @@ namespace BL
             updateBLDrone(droneToParcel);
             maxParcel.DroneId = droneToParcel.Id;
             maxParcel.Scheduled = DateTime.Now;
-            updateParcel(maxParcel);
+            dal.changeParcelInfo(maxParcel);
         }
 
         public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
@@ -166,11 +157,11 @@ namespace BL
             BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
             double disDroneToSenderP = distance(bLDrone.DronePosition, senderPosition);
 
-            bLDrone.Battery -= disDroneToSenderP * requestElectricity()[(int)p.Weight];
+            bLDrone.Battery -= disDroneToSenderP * requestElectricity((int)p.Weight);
             bLDrone.DronePosition = senderPosition;
             updateBLDrone(bLDrone);
             p.PickUp = DateTime.Now;
-            updateParcel(maxParcel);
+            dal.changeParcelInfo(p);
         }
 
         public void deliveryParcelByDrone(int idDrone) //ParcelStatuses.Delivered.
@@ -188,31 +179,31 @@ namespace BL
             BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
             BLPosition targetPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
             double disSenderToTarget = distance(senderPosition, targetPosition);
-            double ectricity = requestElectricity()[(int)parcelToDelivery.Weight];
-            bLDroneToSuplly.Battery -= ectricity * disSenderToTarget;
+            double electricity = requestElectricity((int)parcelToDelivery.Weight);
+            bLDroneToSuplly.Battery -= electricity * disSenderToTarget;
             bLDroneToSuplly.DronePosition = targetPosition;
             bLDroneToSuplly.Status = DroneStatus.Available;
             updateBLDrone(bLDroneToSuplly);
             parcelToDelivery.Delivered = DateTime.Now;
-            updateParcel(parcelToDelivery);
+            dal.changeParcelInfo(parcelToDelivery);
 
         }
 
         private static bool checkNull<T>(T t)
         {
-            if (t.Equals(null))
+            if (t == null)
                 return false;
             return true;
         } //not in Ibl
         private static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
         {
-            if (p.Requeasted.Equals(null))
+            if (p.Requeasted == DateTime.MinValue)
                 return (ParcelStatuses)0;
-            else if (p.Scheduled.Equals(null))
+            else if (p.Scheduled == DateTime.MinValue)
                 return (ParcelStatuses)1;
-            else if (p.PickUp.Equals(null))
+            else if (p.PickUp== DateTime.MinValue)
                 return (ParcelStatuses)2;
-            else // if (p.Delivered.Equals(null))
+            else // if (p.Delivered == DateTime.MinValue)
                 return (ParcelStatuses)3;
         } //not in Ibl
           // Throw match exception - "drone not available to charge"
@@ -222,23 +213,6 @@ namespace BL
             BLDrone findDrone = dronesInBL.Find(e => e.Id == d.Id);
             findDrone = d;
         }
-
-        public IDal.DO.Station getMinDistanceFromStation(BLPosition p)
-        {
-/*            List<IDal.DO.Station> stations = (List<IDal.DO.Station>)dal.displayStations();
-            List<DistanceFromStation> distanceFromStations = new List<DistanceFromStation>();
-            foreach (IDal.DO.Station s in stations)
-            {
-                DistanceFromStation ds = new DistanceFromStation()
-                {
-                    Station_ = s,
-                    DistanceFromGivenPosotion = distance(s.Longitude, s.Latitude, p.Longitude, p.Latitude)
-                };
-                distanceFromStations.Add(ds);
-            }
-            DistanceFromStation d = distanceFromStations.Min<DistanceFromStation>(station => station.DistanceFromGivenPosotion);
-*/        }
-
 
         internal static string checkNullforPrint<T>(T t)
         {
@@ -255,7 +229,7 @@ namespace BL
 
         private static BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
         {
-            BLDrone d = GetBLDroneById(droneId);
+            BLDrone d = getBLDroneByID(droneId);
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithparcel = d.DronePosition };
         }
 

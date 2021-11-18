@@ -12,36 +12,40 @@ namespace IDal
         public interface IDal
         {
             //Add functions//
-            public void AddDrone(Drone d);
+            void AddDrone(Drone d);
             //public void AddDrone(int id, string Model, DO.WeightCategories MaxWeight, DO.DroneStatus Status, double Battery);
-            public void AddStation(Station s);
-            public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);          
-            public void AddCustomer(Customer c);
-            public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
-            public void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
-            public void AddParcel(Parcel parcel);
+            void AddStation(Station s);
+            //void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);          
+            void AddCustomer(Customer c);
+            void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
+            void AddParcelToDelivery(int id, int Serderid, int TargetId, DO.WeightCategories Weight, DO.Priorities Priority, DateTime requestedTime) { }
+            void AddParcel(Parcel parcel);
+            void AddDroneCharge(DroneCharge parcel);
             //amount for id//
-            public int amountParcels();
+            int amountParcels();
             //Update functions//
-            public string PairAParcelWithADrone(Parcel parcel);
-            public void DroneCollectsAParcel(Parcel parcel);
-            public void CostumerGetsParcel(Drone drone, Parcel parcel);
-            public void sendDroneToCharge(Drone drone);
-            public void freeDroneFromCharge(Drone drone);
-            public Station getStationById(int id);
-            public Drone getDroneById(int id);
-            public Customer getCustomerById(int id);
-            public Parcel getParcelById(int id);
-            public DroneCharge getDroneChargeById(int id);
-            public DroneCharge getDroneChargeByDroneId(int id);
-            public IEnumerable<Station> displayStations();
-            public IEnumerable<Drone> displayDrone();
-            public IEnumerable<Parcel> displayParcels();
-            public IEnumerable<Parcel> displayFreeParcels();
-            public IEnumerable<DroneCharge> displayDroneCharge();
-            public IEnumerable<Customer> displayCustomers();
+            string PairAParcelWithADrone(Parcel parcel);
+            void DroneCollectsAParcel(Parcel parcel);
+            void CostumerGetsParcel(Drone drone, Parcel parcel);
+            void sendDroneToCharge(Drone drone);
+            void freeDroneFromCharge(Drone drone);
+            Station getStationById(int id);
+            Drone getDroneById(int id);
+            Customer getCustomerById(int id);
+            Parcel getParcelById(int id);
+            DroneCharge getDroneChargeById(int id);
+            DroneCharge getDroneChargeByDroneId(int id);
+            IEnumerable<Station> displayStations();
+            IEnumerable<Drone> displayDrone();
+            IEnumerable<Parcel> displayParcels();
+            IEnumerable<Parcel> displayFreeParcels();
+            IEnumerable<DroneCharge> displayDroneCharge();
+            IEnumerable<Customer> displayCustomers();
             double[] electricityUseByDrone();
-            public Parcel getParcelByDroneId(int droneId);
+            Parcel getParcelByDroneId(int droneId);
+            void changeStationInfo(Station s);
+            void changeParcelInfo(Parcel p);
+            void changeDroneInfo(Drone d);
 
         }
     }

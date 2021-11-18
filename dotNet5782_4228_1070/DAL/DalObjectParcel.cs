@@ -61,7 +61,7 @@ namespace DalObject
                 }
             }
         }
-        public static Parcel getParcelById(int id)
+        public Parcel getParcelById(int id)
         {
             try {
                 return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);

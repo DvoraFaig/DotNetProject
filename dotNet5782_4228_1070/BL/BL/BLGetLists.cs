@@ -10,7 +10,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
         public List<BLStation> displayStations()
         {

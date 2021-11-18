@@ -8,7 +8,7 @@ using IBL.BO;
 
 namespace BL
 {
-    public sealed partial class BL //: //IBL.Ibl
+    public sealed partial class BL : IBL.Ibl
     {
         static BL instance;
         public static BL GetInstance

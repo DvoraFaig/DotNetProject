@@ -9,9 +9,9 @@ using IDal;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.DO.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountDrones()
+        public int amountDrones()
         {
             return DataSource.Drones.Count();
         }
@@ -21,8 +21,6 @@ namespace DalObject
             drone.Id = id;
             drone.Model = Model;
             drone.MaxWeight = MaxWeight;
-            //drone.Status = Status;
-            //drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
         public void AddDrone(Drone drone)
@@ -44,7 +42,7 @@ namespace DalObject
                 }
             }
         }
-        public static Drone getDroneById(int id)
+        public Drone getDroneById(int id)
         {
             try
             {

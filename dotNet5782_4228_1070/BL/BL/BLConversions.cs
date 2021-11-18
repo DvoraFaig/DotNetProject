@@ -9,7 +9,7 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
         private IDal.DO.Station convertBLToDalStation(BLStation s)
         {
@@ -80,7 +80,8 @@ namespace BL
 
         private BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
-            BLDrone BLDrone = getBLDroneById(d.Id);   
+            BLDrone BLDrone = getBLDroneById(d.Id);
+            Random r = new Random();
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
 

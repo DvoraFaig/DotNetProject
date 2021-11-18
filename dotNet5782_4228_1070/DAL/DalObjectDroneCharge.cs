@@ -10,15 +10,19 @@ using IDal;
 
 namespace DalObject
 {
-    public partial class DalObject //: IDal.DO.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountDroneCharges()
+        public int amountDroneCharges()
         {
             return DataSource.DroneCharges.Count();
         }
         public void changeDroneChargeInfo(DroneCharge d)
         {
            
+        }
+        public void AddDroneCharge(DroneCharge parcel)
+        {
+            DataSource.DroneCharges.Add(parcel);
         }
         public IEnumerable<DroneCharge> displayDroneCharge()
         {
@@ -30,7 +34,11 @@ namespace DalObject
                 }
             }
         }
-        public static DroneCharge getDroneChargeById(int id)
+        public DroneCharge getDroneChargeByDroneId(int id)
+        {
+            return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
+        }
+        public DroneCharge getDroneChargeById(int id)
         {
             try
             {

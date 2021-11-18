@@ -13,7 +13,7 @@ namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountStations()
+        public int amountStations()
         {
             return DataSource.Stations.Count();
         }

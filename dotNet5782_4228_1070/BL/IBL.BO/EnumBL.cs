@@ -11,6 +11,6 @@ namespace IBL
         public enum UpdateBL { DronesInfo = 1, StationInfo, CustomerInfo, sendDroneToCharge, freeDroneFromCharging, DroneScheduledWithAParcel, DronePicksUpParcel , DeliveryParcelByDrone }
         public enum ParcelStatuses { Requeasted, Scheduled, PickedUp, Delivered  };
         public enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
-
+        public enum Electricity { empty , lightWeight , mediumWeight, heavyWeight, chargingRate }
     }
 }
