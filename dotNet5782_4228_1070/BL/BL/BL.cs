@@ -35,38 +35,39 @@ namespace BL
             IDal.DO.Customer sender, target;
             BLPosition senderPosition, targetPosition;
             BLDrone blDrone = new BLDrone();
+            List<IDal.DO.Parcel> ppppp = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
             Random r = new Random();
+
             drones.ForEach(d =>
             {
-                //try
-                //{
-                p = dal.getParcelByDroneId(d.Id);
-                IDal.DO.Station closestStationToSender = new IDal.DO.Station();
-                sender = dal.getCustomerById(p.SenderId);
-                target = dal.getCustomerById(p.TargetId);
-                senderPosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
-                targetPosition = new BLPosition() { Latitude = target.Latitude, Longitude = sender.Longitude };
-                if (p.Scheduled != null && p.Delivered == null)
+                blDrone = copyDalToBLDroneInfo(d);
+                try
                 {
+                    p = dal.getParcelByDroneId(d.Id);
+                    IDal.DO.Station closestStationToSender = new IDal.DO.Station();
                     sender = dal.getCustomerById(p.SenderId);
-                    if (p.PickUp == null) //position like the closest station to the sender of parcel.
+                    target = dal.getCustomerById(p.TargetId);
+                    blDrone.ParcelInTransfer = createBLParcelInTransfer(p, sender, target);
+                    senderPosition = blDrone.ParcelInTransfer.SenderPosition;
+                    targetPosition = blDrone.ParcelInTransfer.TargetPosition;
+                    //if (p.Scheduled != null && p.Delivered == null)
+                    //{
+                    if (p.PickUp == default(DateTime)) //position like the closest station to the sender of parcel.
                     {
-                        closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה?
-                                                                                                        //אם אינו נכנס למצב הטענה PositionFromClosestStation ()
-                                                                                                        //אם כן updateDroneCharge
+                        closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה? //אם אינו נכנס למצב הטענה PositionFromClosestStation () //אם כן updateDroneCharge
                         blDrone.DronePosition = new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
                     }
-                    else if (p.Delivered == null) //else position sender of parcel.
+                    else if (p.Delivered == default(DateTime)) //else position sender of parcel.
                     {
                         blDrone.DronePosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
                     blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
                 }
                 //}
-                //catch (Exception e) // if drone is not delivery status
-                //{
-                else
+                catch (IDal.DO.DalExceptions.ObjNotExistException e) // if drone is not delivery status
                 {
+                    //else
+                    //{
                     blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
                     if (blDrone.Status == DroneStatus.Maintenance)
                     {
@@ -77,11 +78,13 @@ namespace BL
                     else  //DroneStatus.Available
                     {
                         List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
-                        target = dal.getCustomerById(cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID);
-                        blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
+                        if (cWithDeliveredP.Count > 0)
+                        {
+                            target = dal.getCustomerById(cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID);
+                            blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
+                        }
                     }
                 }
-                //}
                 dronesInBL.Add(blDrone);
             });
         }

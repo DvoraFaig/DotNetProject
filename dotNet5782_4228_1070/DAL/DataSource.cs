@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 
-namespace DalObject
+namespace DalExceptions
 {
     internal static class DataSource
     {
@@ -28,13 +28,13 @@ namespace DalObject
             Random r = new Random();
 
             int amountStations = r.Next(2, 5);
-            for (int i = 0; i < amountStations; i++)
+            for (int i = 1; i <= amountStations; i++)
             {
                 Station s = new Station()
                 {
                     Id = i,
                     Name = $"station{i}",
-                    ChargeSlots = r.Next(0, 10),
+                    ChargeSlots = r.Next(1, 10),
                     Latitude = r.Next(0, 400),
                     Longitude = r.Next(0, 400)
                 };
@@ -48,7 +48,7 @@ namespace DalObject
                 {
                     Id = i,
                     Model = $"Drone{i}",
-                    MaxWeight = (WeightCategories)r.Next(0, 3)
+                    MaxWeight = (WeightCategories)r.Next(1, 4)
                 };
                 Drones.Add(d);
             }
@@ -67,21 +67,50 @@ namespace DalObject
                 Customers.Add(c);
             }
 
-            int amountParcels = r.Next(10, 1000);
+            int amountParcels = r.Next(1, 5);
             for (int i = 1; i <= amountParcels; i++)
             {
                 Parcel p = new Parcel()
                 {
-                    Id = r.Next(0, 1000),
-                    SenderId = r.Next(0, 400),
-                    TargetId = r.Next(0, 400),// which costumer
-                    Weight = (WeightCategories)r.Next(0, 3),
-                    Priority = (Priorities)r.Next(0, 3),
+                    Id = i,
+                    Weight = (WeightCategories)r.Next(1, 4),
+                    Priority = (Priorities)r.Next(1, 4),
                     Requeasted = DateTime.Now
                 };
-                Parcels.Add(p);
+                p.SenderId = Customers[r.Next(0, Customers.Count)].ID;
+                p.TargetId = Customers[r.Next(0, Customers.Count)].ID;
+                do
+                {
+                    p.TargetId = Customers[r.Next(0, Customers.Count)].ID;
+                } while (p.SenderId == p.TargetId);
+                int matchToDrone = r.Next(0, 2);
+                if (matchToDrone == 0)  //find an availble drone with matching weight and no parcel is schedueld with it
+                {
+                    p.DroneId = Drones.Find(d =>
+                    (d.MaxWeight >= p.Weight
+                        &&
+                        Parcels.Find(p => p.DroneId == d.Id).Id == 0)).Id;
+                    Parcels.Add(p);
+                }
             }
+            //DroneCharge
+            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+            //int droneIndex = 0;
+            //for (int i = 0; i < Stations.Count; i++)
+            //{
+            //    if (droneIndex == dronesNotInDelivery.Count)
+            //        break;
+            //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
+            //    {
+            //        if (droneIndex == dronesNotInDelivery.Count)
+            //            break;
+            //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
+            //        droneIndex++;
+                    
+            //    }
+            //}
         }
+
         internal static class Config
         {
             internal static double empty;

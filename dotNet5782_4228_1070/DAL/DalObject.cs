@@ -9,7 +9,7 @@ using IDal;
 
 
 
-namespace DalObject
+namespace DalExceptions
 {
     public partial class DalObject : IDal.DO.IDal
     {

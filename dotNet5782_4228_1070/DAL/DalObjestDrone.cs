@@ -7,7 +7,7 @@ using IDal.DO;
 using IDal;
 
 
-namespace DalObject
+namespace DalExceptions
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -50,7 +50,7 @@ namespace DalObject
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException(typeof(Drone), id);
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
             }
         }
         public double[] electricityUseByDrone(Drone drone)

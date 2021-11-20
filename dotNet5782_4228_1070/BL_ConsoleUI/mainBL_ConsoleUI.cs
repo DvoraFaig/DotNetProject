@@ -362,13 +362,14 @@ namespace BL_ConsoleUI
                 int chargeSlot = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    bl.addStation(id, name, chargeSlot, latitude, longitude);
+                    bl.addStation(id, name, latitude, longitude , chargeSlot);
+                    break;                
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
                     flag++;
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine($"Plese try again:\nYou have {3 - flag} more times to try.");
                     if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
             } while (flag < 3);
@@ -390,12 +391,13 @@ namespace BL_ConsoleUI
                 try
                 {
                     bl.addDrone(id, Model, MaxWeight, stationId);
+                    break;
                 }
                 catch (Exception e)
                 {
+                    flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    flag++;
                     if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
             } while (flag < 3);
@@ -417,12 +419,13 @@ namespace BL_ConsoleUI
                 try
                 {
                     bl.addParcel(senderID, targetId, weight, priority);
+                    break;
                 }
                 catch (Exception e)
                 {
+                    flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    flag++;
                     if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
             } while (flag < 3);
@@ -449,12 +452,13 @@ namespace BL_ConsoleUI
                 {
                     bl.AddCustomer(id, name, phone, new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude });
                     //bl.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = name, Phone = phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude } });
+                    break;
                 }
                 catch (Exception e)
                 {
+                    flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    flag++;
                     if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
                 }
             } while (flag < 3);

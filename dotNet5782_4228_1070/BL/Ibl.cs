@@ -10,7 +10,7 @@ namespace IBL
         public void addStation(int id, string name, int latitude, int longitude, int chargeSlot);
         //public void addStation(int id, string name, BLPosition position, int chargeSlot);
         //public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
-        void addDrone(int id, string model, int maxWeight, int stationId);
+        public void addDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
         public void addParcel(int senderId, int targetId, int weight, int priority);
 

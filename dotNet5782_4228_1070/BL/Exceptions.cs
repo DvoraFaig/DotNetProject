@@ -26,8 +26,8 @@ namespace IBL.BO
                 : base(String.Format($"The {t.GetType()} with id {id} exist."))
             {
             }
-            public ObjNotExistException(string m, string messageFromDal)
-                : base(String.Format($"{m}  {messageFromDal}"))
+            public ObjNotExistException( string messageFromDal)
+                : base(String.Format($"{messageFromDal}"))
             {
             }
         }

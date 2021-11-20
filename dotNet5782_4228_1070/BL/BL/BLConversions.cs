@@ -84,6 +84,12 @@ namespace BL
             Random r = new Random();
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
+        private BLDrone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
+        {
+            Random r = new Random();
+            //why random status????
+            return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)};
+        }
 
         private BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
         {
@@ -112,6 +118,12 @@ namespace BL
                 PickUp = p.PickUp,
                 Delivered = p.Delivered
             };
+        }
+        private BLParcelInTransfer createBLParcelInTransfer(IDal.DO.Parcel p , IDal.DO.Customer sender, IDal.DO.Customer target)
+        {
+            BLPosition senderP =  new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+            BLPosition targetP = new BLPosition() { Latitude = target.Latitude, Longitude = target.Longitude };
+            return new BLParcelInTransfer(){ };
         }
     }
 }

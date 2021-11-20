@@ -15,9 +15,9 @@ namespace BL
         {
             try
             {
-                return dronesInBL.Find(d => d.Id == id);
+                return dronesInBL.First(d => d.Id == id);
             }
-            catch (Exception e)
+            catch (InvalidOperationException e)
             {
                 throw new ObjNotExistException(typeof(BLDrone), id);
             }

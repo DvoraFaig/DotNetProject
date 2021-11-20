@@ -9,7 +9,7 @@ using IDal;
 
 
 
-namespace DalObject
+namespace DalExceptions
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -40,11 +40,11 @@ namespace DalObject
         {
             try
             {
-                return DataSource.Stations.FirstOrDefault(station => station.Id == id);
+                return DataSource.Stations.First(station => station.Id == id);
             }
-            catch (Exception e)
+            catch (InvalidOperationException e)
             {
-                throw new DalExceptions.ObjNotExistException(typeof(Station), id);
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Station), id);
             }
         }
     }
