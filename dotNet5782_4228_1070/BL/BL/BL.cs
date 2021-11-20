@@ -11,351 +11,265 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL //: IBL.Ibl
+    public sealed partial class BL : IBL.Ibl
     {
-        private List<BLDrone> dronesInBL;
-        //static DalObject.DalObject d;
         static public IDal.DO.IDal dal;
+        private double empty { get; set; }
+        private double lightWeight { get; set; }
+        private double mediumWeight { get; set; }
+        private double heavyWeight { get; set; }
+        private double chargingRate { get; set; }
         private BL()
         {
             dronesInBL = new List<BLDrone>();
-            dal = IDal.DalFactory.factory("DalObject");
-            /*
-            //יש לבקש משכבת הנתונים ולשמור בשדות נפרדים את צריכת החשמל ע"י
-            //הרחפנים ואת קצב טעינתם -בהתאם למה שרשום לעיל
+            dal = IDal.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
+            empty = dal.electricityUseByDrone()[0];
+            lightWeight = dal.electricityUseByDrone()[1];
+            mediumWeight = dal.electricityUseByDrone()[2];
+            heavyWeight = dal.electricityUseByDrone()[3];
+            chargingRate = dal.electricityUseByDrone()[4];
 
-            IDal.DO.Drone[] dronesInDal = (IDal.DO.Drone[])dal.displayDrone();
-            foreach (IDal.DO.Drone dr in dronesInDal)
+            List<IDal.DO.Drone> drones = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
+            IDal.DO.Parcel p;
+            IDal.DO.Station s;
+            IDal.DO.Customer sender, target;
+            BLPosition senderPosition, targetPosition;
+            BLDrone blDrone = new BLDrone();
+            Random r = new Random();
+            drones.ForEach(d =>
             {
-                //BL הוראות בבנאי מופע של
-                //כאן יש דברים שקשורים לבטריות ושטויות אחרות. להתייחס בהמשך
-                Drone d = new Drone(dr.Id, dr.Model,*//*maxWeight ,Status,*//* dr.Battery);
-
-            }*/
+                //try
+                //{
+                p = dal.getParcelByDroneId(d.Id);
+                IDal.DO.Station closestStationToSender = new IDal.DO.Station();
+                sender = dal.getCustomerById(p.SenderId);
+                target = dal.getCustomerById(p.TargetId);
+                senderPosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                targetPosition = new BLPosition() { Latitude = target.Latitude, Longitude = sender.Longitude };
+                if (p.Scheduled != null && p.Delivered == null)
+                {
+                    sender = dal.getCustomerById(p.SenderId);
+                    if (p.PickUp == null) //position like the closest station to the sender of parcel.
+                    {
+                        closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה?
+                                                                                                        //אם אינו נכנס למצב הטענה PositionFromClosestStation ()
+                                                                                                        //אם כן updateDroneCharge
+                        blDrone.DronePosition = new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
+                    }
+                    else if (p.Delivered == null) //else position sender of parcel.
+                    {
+                        blDrone.DronePosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                    }
+                    blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
+                }
+                //}
+                //catch (Exception e) // if drone is not delivery status
+                //{
+                else
+                {
+                    blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
+                    if (blDrone.Status == DroneStatus.Maintenance)
+                    {
+                        s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
+                        blDrone.DronePosition = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
+                        blDrone.Battery = r.Next(0, 20);
+                    }
+                    else  //DroneStatus.Available
+                    {
+                        List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
+                        target = dal.getCustomerById(cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID);
+                        blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
+                    }
+                }
+                //}
+                dronesInBL.Add(blDrone);
+            });
         }
-        //==================================
-        // Add
-        //==================================
-        public void addStation(int id, string name, BLPosition position, int chargeSlot)
-        {
-            IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Latitude = position.Latitude, Longitude = position.Longitude, ChargeSlots = chargeSlot };
-            dal.AddStation(s);
-        }
-        public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId)
+        private int calcDroneBatteryForDroneDelivery(IDal.DO.Parcel p, IDal.DO.Station closestStationToSender, BLPosition senderPosition, BLPosition targetPosition)
         {
             Random r = new Random();
-            int battery = r.Next(20, 40);
-            IDal.DO.Station s = dal.getStationById(stationId);
-            BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeight, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-            dronesInBL.Add(dr);
-            dal.AddDrone(convertBLToDalDrone(dr));
-        }
-        public void AddCustomer(int id, string name, string phone, BLPosition position)
-        {
-            IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
-            dal.AddCustomer(c);
-        }
-        //==================================
-        // Updates
-        //==================================
-        public void droneChangeModel(int id, string newModel)
-        {
-            BLDrone d = dronesInBL.Find(drone => drone.Id == id);
-            _ = !d.Equals(null) ? d.Model = newModel : throw new Exception($"ERROR: Drone {id} not found");
-            IDal.DO.Drone dr = dal.getDroneById(id);
-            dr.Model = newModel;
-            //check if it valid to do it. (the changing of dal - here)
-        }
-        public void stationChangeDetails(int id, string name = null, int chargeStand = -1)//-1 is defualt value
-        {
-
-        }
-        public void customerupdateDetails(int id, string name = null, string phone = null)
-        {
-
-        }
-        public void sendDroneToCharge(int droneId)
-        {
-            BLDrone drone = dronesInBL.Find(d => d.Id == droneId);
-            if (drone.Status == DroneStatus.Available)
+            double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
+            double disFromSenderToCustomer = distance(senderPosition, targetPosition);
+            //from target to closest station;
+            IDal.DO.Station closestAvailbleStationFromTarget = findAvailbleAndClosestStationForDrone(targetPosition);
+            double disFromTargetTostation = distance(targetPosition, new BLPosition() { Latitude = closestAvailbleStationFromTarget.Latitude, Longitude = closestAvailbleStationFromTarget.Longitude });
+            if (p.PickUp == null)
             {
-                IDal.DO.Station s = nearStationToCharge(drone.DronePosition);
-                if (!s.Equals(null){
-                    drone.DronePosition = new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude };
-                    //drone.Battery = לחשב כמה בטריה רחפן צריך כדי להגיע לתחנה
-                    drone.Status = DroneStatus.Maintenance;
-                    s.ChargeSlots -= 1;
-
-                        }
-                else { throw new Exception("ERROR: No available station to charge drone")}
+                disFromStationToSender = distance(new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude }, senderPosition);
             }
-            else
-            {
-                // Throw match exception - "drone not available to charge"
-            }
+            double sumDisForDrone = disFromStationToSender + disFromSenderToCustomer + disFromTargetTostation;
+            double sumBattery = sumDisForDrone * requestElectricity()[(int)p.Weight];
+            return r.Next((int)sumBattery, 100);
+
         }
-        private IDal.DO.Station nearStationToCharge(BLPosition position)
+        private List<IDal.DO.Station> findAvailbleStationForDrone()
         {
-            IDal.DO.Station minDistanceStation = new IDal.DO.Station();
-            double minDistance = 0;
-            List<IDal.DO.Station> d = (List<IDal.DO.Station>)dal.displayStations();
-            BLPosition p = new BLPosition({ });
-            d.ForEach(d =>
+            List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
+            List<IDal.DO.Station> stations = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+            List<IDal.DO.Station> availbleStations = new List<IDal.DO.Station>();
+            int busyChargingSlots;
+            stations.ForEach(s =>
             {
-                p.Latitude = d.Latitude; p.Longitude = d.Longitude;
-                double dis = distance(position, p);
-                if (minDistance > dis & d.ChargeSlots>0)
+                busyChargingSlots = droneCharges.Count(droneCharge => droneCharge.StationId == s.Id);
+                if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
                 {
-                    minDistance = dis;
-                    minDistanceStation = d;
+                    availbleStations.Add(s);
                 }
             });
-            return minDistanceStation;
+            return availbleStations;
         }
-        //==================================
-        // Findong a drone in the BL array
-        //==================================
-        private BLDrone GetBLDroneById(int id)
+        private IDal.DO.Station findAvailbleAndClosestStationForDrone(BLPosition d)
         {
-            return dronesInBL.Find(d => d.Id == id);
-        }
-        //==================================
-        // Conversions
-        //==================================
-        private IDal.DO.Station convertBLToDalStation(BLStation s)
-        {
-            return new IDal.DO.Station() { Id = s.ID, Name = s.Name, ChargeSlots = s.DroneChargeAvailble + s.ChargingDrone.Count(), Longitude = s.StationPosition.Longitude, Latitude = s.StationPosition.Latitude };
-        }
-        private IDal.DO.Drone convertBLToDalDrone(BLDrone d)
-        {
-            return new IDal.DO.Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight,/* Battery = d.Battery , Status = d.Status*/};
-        }
-        private IDal.DO.Customer convertBLToDalCustomer(BLCustomer c)
-        {
-            return new IDal.DO.Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, Longitude = c.CustomerPosition.Longitude, Latitude = c.CustomerPosition.Latitude, };
-        }
-        private IDal.DO.Parcel convertBLToDalParcel(BLParcel p)
-        {
-            //IDal.DO.Customer sender = convertBLToDalCustomer(p.Sender);
-            //IDal.DO.Customer target = convertBLToDalCustomer(p.Target);
-            //IDal.DO.Drone drone = convertBLToDalDrone(p.Drone);
-            return new IDal.DO.Parcel() { Id = p.Id, SenderId = p.Sender.ID, TargetId = p.Target.ID, Weight = p.Weight, Priority = p.Priority, DroneId = p.Drone.Id, Requeasted = p.Requeasted, Scheduled = p.Scheduled, PickUp = p.PickUp, Delivered = p.Delivered };
-        }
-        private BLStation convertDalToBLStation(IDal.DO.Station s)
-        {
-            return new BLStation() { ID = s.Id, Name = s.Name, DroneChargeAvailble = s.ChargeSlots, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude } };
-        }
-        private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
-        {
-            return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude } };
-        }
-        public BLDrone convertDalToBLDrone(IDal.DO.Drone d)////////////////////////////////////////////
-        {
-            try
+            List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
+            List<IDal.DO.Station> stations = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+            IDal.DO.Station availbleCLosestStation = new IDal.DO.Station();
+            double dis = -1;
+            double minDis = -1;
+            int busyChargingSlots;
+            stations.ForEach(s =>
             {
-                return GetBLDroneById(d.Id); //if there is no such BLdrone -> there is an error becuase the obj is in DAL Obj
-            }
-            catch
+                busyChargingSlots = droneCharges.Count(droneCharge => droneCharge.StationId == s.Id);
+                if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
+                {
+                    dis = distance(d, new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude });
+                    if (minDis == -1)
+                    {
+                        minDis = dis;
+                    }
+                    else if (minDis > dis) ;
+                    {
+                        minDis = dis;
+                        availbleCLosestStation = s;
+                    }
+                }
+            });
+            return availbleCLosestStation;
+        }
+
+        private List<IDal.DO.Customer> findCustomersWithDeliveredParcel()
+        {
+            List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
+            parcels = parcels.FindAll(p => p.Delivered != null);
+            List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
+            parcels.ForEach(p =>
             {
-                throw new NoDataMatchingBetweenDalandBL<IDal.DO.Drone>(d);
+                customersWithDeliveredParcels.Add(dal.getCustomerById(p.TargetId));
+            });
+            return customersWithDeliveredParcels;
+        }
+
+        public double[] requestElectricity()
+        {
+            return dal.electricityUseByDrone();
+        }
+        public double requestElectricity(int choice)
+        {
+            switch ((Electricity)choice)
+            {
+                case Electricity.empty:
+                    return empty;
+                    break;
+                case Electricity.lightWeight:
+                    return lightWeight;
+                    break;
+                case Electricity.mediumWeight:
+                    return mediumWeight;
+                    break;
+                case Electricity.heavyWeight:
+                    return chargingRate;
+                    break;
+                case Electricity.chargingRate:
+                    return chargingRate;
+                    break;
+                default://///////////////////////////////////////
+                    return 0;
             }
-            //return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight ,/*Battery = d.Battery , Status = d.Status*//*++++++++++++++++++++*/
         }
 
-        private BLParcel convertDalToBLParcel(IDal.DO.Parcel p)
+        public static void addDrone()
         {
-            BLCustomer sender = convertDalToBLCustomer(dal.getCustomerById(p.SenderId));
-            BLCustomer target = convertDalToBLCustomer(dal.getCustomerById(p.TargetId));
-            BLDrone drone = convertDalToBLDrone(dal.getDroneById(p.DroneId));
-            return new BLParcel() { Id = p.Id, Sender = sender, Target = target, Weight = p.Weight, PickUp = p.PickUp, Drone = drone, Requeasted = p.Requeasted, Scheduled = p.Scheduled, /* PickUp = p.PickUp,*/ Delivered = p.Delivered };
+            Random r = new Random();
+            int amountD = DalObject.DalObject.amountDrones();
+            if (amountD >= 10)
+            {
+                throw new InvalidOperationException("== Cann't add Drones ==");
+            }
+            Console.WriteLine("Enter a Model");
+            string Model = Console.ReadLine();
+            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
+            DroneStatus Status = DroneStatus.Available;
+            double Battery = 100;
+            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
         }
-        //==================================
-        // Get object by ID
-        //==================================
-        public void getParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority)
+        public static Customer addCustomer()
         {
-            IDal.DO.Parcel p = new IDal.DO.Parcel() { SenderId = senderId, TargetId = targetId, Priority = priority, Delivered = new DateTime(), Requeasted = DateTime.Now, Scheduled = new DateTime(), Weight = weight, PickUp = new DateTime() };
-            dal.AddParcelToDelivery(p);
+            Random r = new Random();
+            Customer c;
+            int amountC = DalObject.DalObject.amountCustomers();
+            if (amountC >= 100)
+            {
+                throw new InvalidOperationException("== Cann't add costumers ==");
+            }
+            int id = 0;
+            do
+            {
+                id = r.Next(100, 1000);
+                c = DalObject.DalObject.getCustomerById(id);
+            } while (!c.Equals(null)); //check if the id exist
+            Console.WriteLine("Enter costumer's Name: ");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Enter costumer's Phone: ");
+            string Phone = Console.ReadLine();
+            Console.WriteLine("Enter a Latitude: ");
+            int Latitude = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter a Longitude: ");
+            int Longitude = Convert.ToInt32(Console.ReadLine());
+            int ChargeSlots = r.Next(0, 200);
+            dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
+            return c;
         }
-        public BLStation getStationById(int id)
+        //need sometimes to use parcel's detailes - return parcel.
+        public static Parcel addParcel()
         {
-            IDal.DO.Station s = dal.getStationById(id);
-            BLStation BLstation = convertDalToBLStation(s);
-            return BLstation;
-        }
-        public BLCustomer getCustomerById(int id)
-        {
-            IDal.DO.Customer c = dal.getCustomerById(id);
-            BLCustomer BLcustomer = convertDalToBLCustomer(c);
-            return BLcustomer;
-        }
-        public BLDrone getDroneById(int id)
-        {
-            IDal.DO.Drone d = dal.getDroneById(id);
-            BLDrone BLdrone = convertDalToBLDrone(d);
-            return BLdrone;
-        }
-        public BLParcel getParcelById(int id)
-        {
-            IDal.DO.Parcel p = dal.getParcelById(id);
-            BLParcel BLparcel = convertDalToBLParcel(p);
-            return BLparcel;
-        }
-        //==================================
-        // Get list of objects
-        //==================================
-        public List<BLStation> displayStations()
-        {
-            List<IDal.DO.Station> sList = dal.displayStations().Cast<IDal.DO.Station>().ToList();
-            List<BLStation> arr = new List<BLStation>();
-            sList.ForEach(s => arr.Add(convertDalToBLStation(s)));
-            return arr;
-        }
-        public List<BLCustomer> displayCustomers()
-        {
-            List<IDal.DO.Customer> cList = dal.displayCustomers().Cast<IDal.DO.Customer>().ToList();
-            List<BLCustomer> arr = new List<BLCustomer>();
-            cList.ForEach(c => arr.Add(convertDalToBLCustomer(c)));
-            return arr;
-        }
-        public List<BLDrone> displayDrones()
-        {
-            List<IDal.DO.Drone> dList = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
-            List<BLDrone> arr = new List<BLDrone>();
-            dList.ForEach(d => arr.Add(convertDalToBLDrone(d)));
-            return arr;
-        }
-        public List<BLParcel> displayParcel()
-        {
-            List<IDal.DO.Parcel> pList = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            List<BLParcel> arr = new List<BLParcel>();
-            pList.ForEach(s => arr.Add(new BLParcel() { Id = s.Id,/* SenderId = s.SenderId, TargetId = s.TargetId,*/ PickUp = s.PickUp, Priority = s.Priority, Weight = s.Weight }));
-            return arr;
-        }
-        public List<BLParcel> displayFreeParcel()
-        {
-            List<IDal.DO.Parcel> pList = dal.displayFreeParcels().Cast<IDal.DO.Parcel>().ToList();
-            List<BLParcel> arr = new List<BLParcel>();
-            pList.ForEach(s => arr.Add(new BLParcel() { Id = s.Id,/* SenderId = s.SenderId, TargetId = s.TargetId,*/ PickUp = s.PickUp, Priority = s.Priority, Weight = s.Weight }));
-            return arr;
-        }
-        private double distance(BLPosition p, BLPosition p1)
-        {
-            // Calculating distance
-            return Math.Sqrt(Math.Pow(p1.Latitude - p.Latitude, 2) + Math.Pow(p1.Longitude - p.Longitude, 2) * 1.0);
-        }
-    }
-}
-
-
-/*static DalObject.DalObject dalObject; //static - to enable it to call a non static func from a static func;
-
-
-
-public static void addStation()
-{
-    Random r = new Random();
-    int amountS = DalObject.DalObject.amountStations();
-    if (amountS >= 5)
-    {
-        // Find 
-        throw new InvalidOperationException("== Cann't add stations =="); 
-    }
-    Console.WriteLine("Enter a station Name: ");
-    string Name = Console.ReadLine();
-    int ChargeSlots = r.Next(0, 5);
-    Console.WriteLine("Enter a Latitude");
-    int Latitude = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Enter a Longitude");
-    int Longitude = Convert.ToInt32(Console.ReadLine());
-    dalObject.AddStation(amountS, Name, ChargeSlots, Longitude, Latitude);
-}
-
-public static void addDrone()
-{
-    Random r = new Random();
-    int amountD = DalObject.DalObject.amountDrones();
-    if (amountD >= 10)
-    {
-        throw new InvalidOperationException("== Cann't add Drones ==");
-    }
-    Console.WriteLine("Enter a Model");
-    string Model = Console.ReadLine();
-    Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-    WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-    DroneStatus Status = DroneStatus.Available;
-    double Battery = 100;
-    dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
-}
-public static Customer addCustomer()
-{
-    Random r = new Random();
-    Customer c;
-    int amountC = DalObject.DalObject.amountCustomers();
-    if (amountC >= 100)
-    {
-        throw new InvalidOperationException("== Cann't add costumers ==");
-    }
-    int id = 0;
-    do
-    {
-        id = r.Next(100, 1000);
-        c = DalObject.DalObject.getCustomerById(id);
-    } while (!c.Equals(null)); //check if the id exist
-    Console.WriteLine("Enter costumer's Name: ");
-    string Name = Console.ReadLine();
-    Console.WriteLine("Enter costumer's Phone: ");
-    string Phone = Console.ReadLine();
-    Console.WriteLine("Enter a Latitude: ");
-    int Latitude = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Enter a Longitude: ");
-    int Longitude = Convert.ToInt32(Console.ReadLine());
-    int ChargeSlots = r.Next(0, 200);
-    dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
-    return c;
-}
-//need sometimes to use parcel's detailes - return parcel.
-public static Parcel addParcel()
-{
-    Random r = new Random();
-    int id = 0;
-    Parcel p;
-    int amountP = DalObject.DalObject.amountParcels();
-    if (amountP >= 1000)
-    {
-        throw new InvalidOperationException("== Cann't add costumers ==");
-    }
-    do
-    {
-        id = r.Next(1000, 10000);
-        p = DalObject.DalObject.getParcelById(id);
-    } while (!p.Equals(null)); //check if the id exist
-    int Serderid;
-    int TargetId;
-    do
-    {
-        Console.WriteLine("Enter the sending costumer's id: ");
-        Serderid = Convert.ToInt32(Console.ReadLine());///////
-        if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-        {
-            Console.WriteLine("Error: no found customer");
-        }
-    } while (DalObject.DalObject.getCustomerById(Serderid).Equals(null));
-    do
-    {
-        Console.WriteLine("Enter the receiving costumer's id: ");
-        TargetId = Convert.ToInt32(Console.ReadLine());
-        if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-        {
-            Console.WriteLine("Error: no found customer");
-        }
-    } while (DalObject.DalObject.getCustomerById(TargetId).Equals(null));
-    Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-    WeightCategories Weight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Enter priority (1, 2 or 3):");
-    Priorities Priority = (Priorities)Convert.ToInt32(Console.ReadLine());
-    DateTime requestedTime = DateTime.Now;
-    dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
-    return p;
-}*/
+            Random r = new Random();
+            int id = 0;
+            Parcel p;
+            int amountP = DalObject.DalObject.amountParcels();
+            if (amountP >= 1000)
+            {
+                throw new InvalidOperationException("== Cann't add costumers ==");
+            }
+            do
+            {
+                id = r.Next(1000, 10000);
+                p = DalObject.DalObject.getParcelById(id);
+            } while (!p.Equals(null)); //check if the id exist
+            int Serderid;
+            int TargetId;
+            do
+            {
+                Console.WriteLine("Enter the sending costumer's id: ");
+                Serderid = Convert.ToInt32(Console.ReadLine());///////
+                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
+                {
+                    Console.WriteLine("Error: no found customer");
+                }
+            } while (DalObject.DalObject.getCustomerById(Serderid).Equals(null));
+            do
+            {
+                Console.WriteLine("Enter the receiving costumer's id: ");
+                TargetId = Convert.ToInt32(Console.ReadLine());
+                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
+                {
+                    Console.WriteLine("Error: no found customer");
+                }
+            } while (DalObject.DalObject.getCustomerById(TargetId).Equals(null));
+            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
+            WeightCategories Weight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter priority (1, 2 or 3):");
+            Priorities Priority = (Priorities)Convert.ToInt32(Console.ReadLine());
+            DateTime requestedTime = DateTime.Now;
+            dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
+            return p;
+        }*/

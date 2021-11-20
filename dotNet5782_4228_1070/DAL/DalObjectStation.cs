@@ -13,13 +13,18 @@ namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountStations()
+        public int amountStations()
         {
             return DataSource.Stations.Count();
         }
         public void AddStation(Station s)
         {
             DataSource.Stations.Add(s);
+        }
+        public void changeStationInfo(Station s)
+        {
+            Station sToChange = getStationById(s.Id);
+            sToChange = s;
         }
         public IEnumerable<Station> displayStations()
         {
@@ -33,7 +38,14 @@ namespace DalObject
         }
         public Station getStationById(int id)
         {
-            return DataSource.Stations.FirstOrDefault(station => station.Id == id);
+            try
+            {
+                return DataSource.Stations.FirstOrDefault(station => station.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException(typeof(Station), id);
+            }
         }
     }
 }

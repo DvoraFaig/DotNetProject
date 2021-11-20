@@ -8,11 +8,13 @@ using IDal;
 
 
 
+
+
 namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountCustomers()
+        public int amountCustomers()
         {
             return DataSource.Customers.Count;
         }
@@ -30,6 +32,11 @@ namespace DalObject
         {
             DataSource.Customers.Add(customer);
         }
+        public void changeCustomerInfo(Customer c)
+        {
+            Customer cToChange = getCustomerById(c.ID);
+            cToChange = c;
+        }
         public IEnumerable<Customer> displayCustomers()
         {
             foreach (Customer customer in DataSource.Customers)
@@ -40,9 +47,16 @@ namespace DalObject
                 }
             }
         }
-        public static Customer getCustomerById(int id)
+        public Customer getCustomerById(int id)
         {
-            return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
+            try
+            {
+                return DataSource.Customers.Find(customer => customer.ID == id);
+            }
+            catch (Exception e)
+            {
+                throw new DalExceptions.ObjNotExistException(typeof(Customer), id);
+            }
         }
     }
 }

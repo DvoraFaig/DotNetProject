@@ -7,59 +7,47 @@ namespace IBL
 {
     public interface Ibl
     {
-        ////Add functions//
-        //public void AddDrone(int id, string Model, WeightCategories MaxWeight, BO.DroneStatus Status, double Battery);
-        //public void AddStation(int id, string Name, int ChargeSlots, double Longitude, double Latitude);
-        public void AddStation(BLStation s);
-        //public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude);
-        public void AddCustomer(BLCustomer c);
+        public void addStation(int id, string name, int latitude, int longitude, int chargeSlot);
+        //public void addStation(int id, string name, BLPosition position, int chargeSlot);
+        //public void addDrone(int id, string model, IDal.DO.WeightCategories maxWeight, int stationId);
+        void addDrone(int id, string model, int maxWeight, int stationId);
+        public void AddCustomer(int id, string name, string phone, BLPosition position);
+        public void addParcel(int senderId, int targetId, int weight, int priority);
 
-        //public void AddParcelToDelivery(int id, int Serderid, int TargetId, BO.WeightCategories Weight, BO.Priorities Priority, DateTime requestedTime) { }
 
-        ////Update functions//
-        //public string PairAParcelWithADrone(Parcel parcel);
-        //public void DroneCollectsAParcel(Parcel parcel);
-        //public void CostumerGetsParcel(Drone drone, Parcel parcel);
-        //public void sendDroneToCharge(Drone drone);
-        //public void freeDroneFromCharge(Drone drone);
-        //public Station getStationById(int id);
-        //public Drone getDroneById(int id);
+        //==================================
+        // Updates
+        //==================================
+        public void droneChangeModel(int id, string newModel);
+        public void stationChangeDetails(int id, string name = null, int chargeStand = -1);//-1 is defualt value
+        public void updateCustomerDetails(int id, string name = null, string phone = null);
+        public void sendDroneToCharge(int droneId);
+        public void freeDroneFromCharging(int droneId, double timeCharging);
+        public void PairParcelWithDrone(int droneId);
+        public void DronePicksUpParcel(int droneId);
+        void deliveryParcelByDrone(int idDrone);
 
-        //public Parcel getParcelById(int id);
-        //public DroneCharge getDroneChargeById(int id);
-        //public DroneCharge getDroneChargeByDroneId(int id);
-        //public IEnumerable<Station> displayStations();
-        //public IEnumerable<Drone> displayDrone();
-        //public IEnumerable<Parcel> displayParcels();
-        //public IEnumerable<Parcel> displayFreeParcels();
-        //public IEnumerable<DroneCharge> displayDroneCharge();
-        //public IEnumerable<Customer> displayCustomers();
-
-        public BLDrone GetBLDroneById(int id);
-        public BLStation convertDalToBLStation(IDal.DO.Station s);
-        public BLCustomer convertDalToBLCustomer(IDal.DO.Customer c);
-        public BLDrone convertDalToBLDrone(IDal.DO.Drone d);
-        public BLParcel convertDalToBLParcel(IDal.DO.Parcel p);
-        public  IDal.DO.Station convertBLToDalStation(BLStation s);
-        public IDal.DO.Drone convertBLToDalDrone(BLDrone d);
-        public IDal.DO.Customer convertBLToDalCustomer(BLCustomer c);
-        public IDal.DO.Parcel convertBLToDalParcel(BLParcel p);
-
+        //==================================
+        // Get object by ID
+        //==================================
+        public void getParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority);
         public BLStation getStationById(int id);
         public BLCustomer getCustomerById(int id);
         public BLDrone getDroneById(int id);
+        //BLDrone getBLDroneById(int id); //to be private
         public BLParcel getParcelById(int id);
+        //==================================
+        // Get list of objects
+        //==================================
         public List<BLStation> displayStations();
-        public List<BLDrone> displayDrones();
         public List<BLCustomer> displayCustomers();
+        public List<BLDrone> displayDrones();
         public List<BLParcel> displayParcel();
         public List<BLParcel> displayFreeParcel();
+        List<BLStation> displayEmptyDroneCharge();
 
-
-
-        public BLStation convertDalStationToBLStation(IDal.DO.Station s);
-
-        public double distance(float x1, float y1, float x2, float y2);
-
+        //void deliveryParcelByDrone(int idDrone);
     }
+
 }
+

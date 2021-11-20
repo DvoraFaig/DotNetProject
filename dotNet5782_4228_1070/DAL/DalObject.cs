@@ -28,16 +28,18 @@ namespace DalObject
                 return instance;
             }
         }
-
+        public double[] electricityUseByDrone()
+        {
+            double[] arr = { DataSource.Config.empty, DataSource.Config.lightWeight, DataSource.Config.mediumWeight, DataSource.Config.heavyWeight, DataSource.Config.chargingRate };
+            return arr;
+        }
         /// <summary>
         /// Function get id of drone and return drone charge object.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static DroneCharge getDroneChargeByDroneId(int id)
-        {
-            return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
-        }
+
+
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
         //Pair between a customer and parcel to a drone;
@@ -102,7 +104,7 @@ namespace DalObject
             else
             {
                 parcel.PickUp = DateTime.Now;
-                Drone droneCollect = DalObject.getDroneById(parcel.DroneId);
+                Drone droneCollect = getDroneById(parcel.DroneId);
                 //droneCollect.Status = DroneStatus.Delivery;
             }
         }
