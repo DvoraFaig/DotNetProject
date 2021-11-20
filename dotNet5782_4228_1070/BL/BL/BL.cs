@@ -188,15 +188,12 @@ namespace BL
                     return 0;
             }
         }
-
+    }
+}
+        /*
         public static void addDrone()
         {
             Random r = new Random();
-            int amountD = DalObject.DalObject.amountDrones();
-            if (amountD >= 10)
-            {
-                throw new InvalidOperationException("== Cann't add Drones ==");
-            }
             Console.WriteLine("Enter a Model");
             string Model = Console.ReadLine();
             Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
@@ -209,15 +206,11 @@ namespace BL
         {
             Random r = new Random();
             Customer c;
-            int amountC = DalObject.DalObject.amountCustomers();
-            if (amountC >= 100)
-            {
-                throw new InvalidOperationException("== Cann't add costumers ==");
-            }
             int id = 0;
             do
             {
                 id = r.Next(100, 1000);
+                c = dal.getCustomerById(id);
                 c = DalObject.DalObject.getCustomerById(id);
             } while (!c.Equals(null)); //check if the id exist
             Console.WriteLine("Enter costumer's Name: ");

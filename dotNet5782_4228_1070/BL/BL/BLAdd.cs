@@ -27,7 +27,7 @@ namespace BL
 
         public void addDrone(int id, string model, int maxWeight, int stationId)
         {  
-            if (!dal.getDroneById(id).Equals(default(IDal.DO.Drone)))
+            if (!dal.getDroneById(id).Equals(default(IDal.DO.Drone).Id))
             {
                 throw new ObjExistException("drone", id);
             }
@@ -51,7 +51,7 @@ namespace BL
 
         public void AddCustomer(int id, string name, string phone, BLPosition position)
         {
-            if (!dal.getCustomerById(id).Equals(default(IDal.DO.Customer)))
+            if (!dal.getCustomerById(id).Equals(default(IDal.DO.Customer).ID))
             {
                 throw new ObjExistException("customer", id);
             }

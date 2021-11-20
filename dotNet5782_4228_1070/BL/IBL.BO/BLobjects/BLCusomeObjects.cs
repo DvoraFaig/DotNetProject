@@ -45,7 +45,7 @@ namespace IBL
             public string name { get; set; }
             public override string ToString()
             {
-                return ($"id: {Id} , name: {name} ");
+                return ($"Id: {Id} , Name: {name} ");
             }
         }
     }

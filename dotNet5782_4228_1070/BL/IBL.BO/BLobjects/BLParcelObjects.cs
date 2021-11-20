@@ -55,7 +55,10 @@ namespace IBL
         public class BLParcelInTransfer
         {
             public int Id { get; set; }
-            public bool parcelStatus { get; set; } //ממתין לאיסוף =false\ בדרך ליעד=true
+            /// <summary>
+            /// Awaiting collection =false\ On the way to the destination=true
+            /// </summary>
+            public bool parcelStatus { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public BLCustomerInParcel SenderCustomer { get; set; }

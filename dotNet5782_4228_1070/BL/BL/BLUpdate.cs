@@ -14,7 +14,7 @@ namespace BL
         public void droneChangeModel(int id, string newModel)
         {
             BLDrone d = dronesInBL.Find(drone => drone.Id == id);
-            if (d.Equals(null)) d.Model = newModel;
+            if (d.Equals(default(BLDrone))) d.Model = newModel;
             else throw new Exception($"ERROR: Drone {id} not found");
             IDal.DO.Drone dr = dal.getDroneById(id);
             dr.Model = newModel;
@@ -92,7 +92,7 @@ namespace BL
             IDal.DO.Parcel maxParcel = new IDal.DO.Parcel() { Weight = 0, };//parcels.First(); //check if weght is good=====================
             foreach (IDal.DO.Parcel p in parcels)
             {
-                if (p.Requeasted.Equals(null))
+                if (p.Requeasted.Equals(default(IDal.DO.Parcel).Requeasted))
                     break;
                 senderP = dal.getCustomerById(p.SenderId);
                 targetP = dal.getCustomerById(p.TargetId);
@@ -145,11 +145,11 @@ namespace BL
         {
             BLDrone bLDrone = dronesInBL.Find(d => d.Id == droneId && d.Status == DroneStatus.Delivery);
             IDal.DO.Parcel p = dal.getParcelByDroneId(droneId);
-            if (!p.PickUp.Equals(null))
+            if (!p.PickUp.Equals(default(IDal.DO.Parcel).PickUp))
             {
                 throw new Exception("The parcel is collected already");
             }
-            if (p.Scheduled.Equals(null))
+            if (p.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled))
             {
                 throw new Exception("The parcel is not schedueld.");
             }
@@ -168,7 +168,7 @@ namespace BL
         {
             BLDrone bLDroneToSuplly = getBLDroneById(idDrone);
             IDal.DO.Parcel parcelToDelivery = dal.getParcelByDroneId(idDrone);
-            if (parcelToDelivery.PickUp.Equals(null) && !parcelToDelivery.Delivered.Equals(null))
+            if (parcelToDelivery.PickUp.Equals(default(IDal.DO.Parcel).PickUp) && !parcelToDelivery.Delivered.Equals(default(IDal.DO.Parcel).Delivered))
             {
                 throw new Exception("Drone cann't deliver this parcel.");
             }
@@ -216,7 +216,7 @@ namespace BL
 
         internal static string checkNullforPrint<T>(T t)
         {
-            if (t.Equals(null))
+            if (t.Equals(default(T)))
                 return $"--field {t.GetType()} not filled yet.--";
             return t.ToString();
         }
