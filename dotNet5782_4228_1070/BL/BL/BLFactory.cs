@@ -9,7 +9,7 @@ namespace IBL.IBL
 {
     public static class BLFactory 
     {
-        public static Ibl factory(string objName)
+        public static Ibl Factory(string objName)
         {
             switch (objName)
             {

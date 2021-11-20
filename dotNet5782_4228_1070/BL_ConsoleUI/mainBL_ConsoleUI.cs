@@ -21,7 +21,7 @@ namespace BL_ConsoleUI
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            bl = IBL.IBL.BLFactory.factory("BL");
+            bl = IBL.IBL.BLFactory.Factory("BL");
             Choices choice; //defaualt 0
             do
             {
@@ -116,7 +116,7 @@ namespace BL_ConsoleUI
                     string model = Console.ReadLine();
                     try
                     {
-                        bl.droneChangeModel(droneId, model);
+                        bl.DroneChangeModel(droneId, model);
                     }
                     catch (Exception e)
                     {
@@ -132,7 +132,7 @@ namespace BL_ConsoleUI
                     int chargeSlot = Convert.ToInt32(Console.ReadLine());
                     try
                     {
-                        bl.stationChangeDetails(stationId, sName, chargeSlot);
+                        bl.StationChangeDetails(stationId, sName, chargeSlot);
                     }
                     catch (Exception e)
                     {
@@ -148,7 +148,7 @@ namespace BL_ConsoleUI
                     string phone = Console.ReadLine();
                     try
                     {
-                        bl.updateCustomerDetails(customerId, customerName, phone);
+                        bl.UpdateCustomerDetails(customerId, customerName, phone);
                     }
                     catch (Exception e)
                     {
@@ -160,7 +160,7 @@ namespace BL_ConsoleUI
                     int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
                     try
                     {
-                        bl.sendDroneToCharge(droneIdSentToCharge);
+                        bl.SendDroneToCharge(droneIdSentToCharge);
                     }
                     catch (Exception e)
                     {
@@ -174,7 +174,7 @@ namespace BL_ConsoleUI
                     int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
                     try
                     {
-                        bl.freeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
+                        bl.FreeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
                     }
                     catch (Exception e)
                     {
@@ -210,7 +210,7 @@ namespace BL_ConsoleUI
                     int droneIdDeliveredAParcel = Convert.ToInt32(Console.ReadLine());
                     try
                     {
-                        bl.deliveryParcelByDrone(droneIdDeliveredAParcel);
+                        bl.DeliveryParcelByDrone(droneIdDeliveredAParcel);
                     }
                     catch (Exception e)
                     {
@@ -244,7 +244,7 @@ namespace BL_ConsoleUI
                 case objects.Station:
                     try
                     {
-                        BLStation s = bl.getStationById(id);
+                        BLStation s = bl.GetStationById(id);
                         Console.WriteLine(s.ToString());
                     }
                     catch (Exception e)
@@ -255,7 +255,7 @@ namespace BL_ConsoleUI
                 case objects.Drone:
                     try
                     {
-                        BLDrone d = bl.getDroneById(id);
+                        BLDrone d = bl.GetDroneById(id);
                         Console.WriteLine(d.ToString());
                     }
                     catch (Exception e)
@@ -266,7 +266,7 @@ namespace BL_ConsoleUI
                 case objects.Customer:
                     try
                     {
-                        BLCustomer c = bl.getCustomerById(id);
+                        BLCustomer c = bl.GetCustomerById(id);
                         Console.WriteLine(c.ToString());
                     }
                     catch (Exception e)
@@ -277,7 +277,7 @@ namespace BL_ConsoleUI
                 case objects.Parcel:
                     try
                     {
-                        BLParcel p = bl.getParcelById(id);
+                        BLParcel p = bl.GetParcelById(id);
                         Console.WriteLine(p.ToString());
                     }
                     catch (Exception e)
@@ -317,27 +317,27 @@ namespace BL_ConsoleUI
             switch (obj)
             {
                 case objects.Station:
-                    List<IBL.BO.BLStation> stations = bl.displayStations();
+                    List<IBL.BO.BLStation> stations = bl.DisplayStations();
                     stations.ForEach(s => Console.WriteLine(s.ToString() + '\n'));
                     break;
                 case objects.Drone:
-                    List<IBL.BO.BLDrone> drones = bl.displayDrones();
+                    List<IBL.BO.BLDrone> drones = bl.DisplayDrones();
                     drones.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.Customer:
-                    List<IBL.BO.BLCustomer> customers = bl.displayCustomers();
+                    List<IBL.BO.BLCustomer> customers = bl.DisplayCustomers();
                     customers.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.Parcel:
-                    List<IBL.BO.BLParcel> parcels = bl.displayParcel();
+                    List<IBL.BO.BLParcel> parcels = bl.DisplayParcel();
                     parcels.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.FreeParcel:
-                    List<IBL.BO.BLParcel> freeParcels = bl.displayFreeParcel();
+                    List<IBL.BO.BLParcel> freeParcels = bl.DisplayFreeParcel();
                     freeParcels.ForEach(s => Console.WriteLine(s.ToString()));
                     break;
                 case objects.EmptyCharges:
-                    List<IBL.BO.BLStation> ChargeStand = bl.displayEmptyDroneCharge();
+                    List<IBL.BO.BLStation> ChargeStand = bl.DisplayEmptyDroneCharge();
                     ChargeStand.ForEach(c => Console.WriteLine(c.ToString()));
                     break;
                 default:
@@ -390,7 +390,7 @@ namespace BL_ConsoleUI
                 int stationId = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    bl.addDrone(id, Model, MaxWeight, stationId);
+                    bl.AddDrone(id, Model, MaxWeight, stationId);
                     break;
                 }
                 catch (Exception e)
@@ -418,7 +418,7 @@ namespace BL_ConsoleUI
                 int priority = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    bl.addParcel(senderID, targetId, weight, priority);
+                    bl.AddParcel(senderID, targetId, weight, priority);
                     break;
                 }
                 catch (Exception e)

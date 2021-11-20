@@ -18,10 +18,6 @@ namespace IBL.BO
 
         public class ObjNotExistException : Exception
         {
-            //public ObjNotExistException(T obj)
-            //    : base(String.Format($"The {obj.GetType()} doesn't exist."))
-            //{
-            //}
             public ObjNotExistException(Type t, int id)
                 : base(String.Format($"The {t.GetType()} with id {id} exist."))
             {

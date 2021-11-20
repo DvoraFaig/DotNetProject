@@ -105,6 +105,7 @@ namespace BL
             return r.Next((int)sumBattery, 100);
 
         }
+
         private List<IDal.DO.Station> findAvailbleStationForDrone()
         {
             List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
@@ -121,6 +122,7 @@ namespace BL
             });
             return availbleStations;
         }
+
         private IDal.DO.Station findAvailbleAndClosestStationForDrone(BLPosition d)
         {
             List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
@@ -161,11 +163,12 @@ namespace BL
             return customersWithDeliveredParcels;
         }
 
-        public double[] requestElectricity()
+        private double[] requestElectricity()
         {
             return dal.electricityUseByDrone();
         }
-        public double requestElectricity(int choice)
+
+        private double requestElectricity(int choice)
         {
             switch ((Electricity)choice)
             {
@@ -190,82 +193,3 @@ namespace BL
         }
     }
 }
-        /*
-        public static void addDrone()
-        {
-            Random r = new Random();
-            Console.WriteLine("Enter a Model");
-            string Model = Console.ReadLine();
-            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-            WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-            DroneStatus Status = DroneStatus.Available;
-            double Battery = 100;
-            dalObject.AddDrone(amountD, Model, MaxWeight, Status, Battery);
-        }
-        public static Customer addCustomer()
-        {
-            Random r = new Random();
-            Customer c;
-            int id = 0;
-            do
-            {
-                id = r.Next(100, 1000);
-                c = dal.getCustomerById(id);
-                c = DalObject.DalObject.getCustomerById(id);
-            } while (!c.Equals(null)); //check if the id exist
-            Console.WriteLine("Enter costumer's Name: ");
-            string Name = Console.ReadLine();
-            Console.WriteLine("Enter costumer's Phone: ");
-            string Phone = Console.ReadLine();
-            Console.WriteLine("Enter a Latitude: ");
-            int Latitude = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter a Longitude: ");
-            int Longitude = Convert.ToInt32(Console.ReadLine());
-            int ChargeSlots = r.Next(0, 200);
-            dalObject.AddCustomer(id, Name, Phone, Longitude, Latitude);
-            return c;
-        }
-        //need sometimes to use parcel's detailes - return parcel.
-        public static Parcel addParcel()
-        {
-            Random r = new Random();
-            int id = 0;
-            Parcel p;
-            int amountP = DalObject.DalObject.amountParcels();
-            if (amountP >= 1000)
-            {
-                throw new InvalidOperationException("== Cann't add costumers ==");
-            }
-            do
-            {
-                id = r.Next(1000, 10000);
-                p = DalObject.DalObject.getParcelById(id);
-            } while (!p.Equals(null)); //check if the id exist
-            int Serderid;
-            int TargetId;
-            do
-            {
-                Console.WriteLine("Enter the sending costumer's id: ");
-                Serderid = Convert.ToInt32(Console.ReadLine());///////
-                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-                {
-                    Console.WriteLine("Error: no found customer");
-                }
-            } while (DalObject.DalObject.getCustomerById(Serderid).Equals(null));
-            do
-            {
-                Console.WriteLine("Enter the receiving costumer's id: ");
-                TargetId = Convert.ToInt32(Console.ReadLine());
-                if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-                {
-                    Console.WriteLine("Error: no found customer");
-                }
-            } while (DalObject.DalObject.getCustomerById(TargetId).Equals(null));
-            Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-            WeightCategories Weight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter priority (1, 2 or 3):");
-            Priorities Priority = (Priorities)Convert.ToInt32(Console.ReadLine());
-            DateTime requestedTime = DateTime.Now;
-            dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
-            return p;
-        }*/

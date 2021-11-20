@@ -11,7 +11,7 @@ namespace BL
 {
     public sealed partial class BL : IBL.Ibl
     {
-        public void addStation(int id, string name, int latitude, int longitude, int chargeSlot)
+        public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
             //!dal.getStationById(id).Equals(default(IDal.DO.Station))) 
             try
@@ -25,7 +25,7 @@ namespace BL
             }
         }
 
-        public void addDrone(int id, string model, int maxWeight, int stationId)
+        public void AddDrone(int id, string model, int maxWeight, int stationId)
         {  
             if (!dal.getDroneById(id).Equals(default(IDal.DO.Drone).Id))
             {
@@ -60,7 +60,7 @@ namespace BL
             dal.AddCustomer(c);
         }
 
-        public void addParcel(int senderId, int targetId, int weight, int priority)
+        public void AddParcel(int senderId, int targetId, int weight, int priority)
         {
             IDal.DO.Customer dalCustomer;
             IDal.DO.Parcel p = new IDal.DO.Parcel();
