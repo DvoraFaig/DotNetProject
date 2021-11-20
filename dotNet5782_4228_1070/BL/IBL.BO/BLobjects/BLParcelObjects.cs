@@ -65,7 +65,7 @@ namespace IBL
             public BLCustomerInParcel TargetCustomer { get; set; }
             public BLPosition SenderPosition { get; set; }
             public BLPosition TargetPosition { get; set; }
-            public double distance { get; set; } //.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
+            public double distance { get; set; } 
             public override string ToString()
             {
                 return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},SenderCustomer:{SenderCustomer}, TargetCustomer :{TargetCustomer}, SenderPosition: {SenderPosition}, TargetPosition :{TargetPosition}, distance: {distance} ");

@@ -19,7 +19,7 @@ namespace BL
                 dal.getStationById(id);
                 throw new ObjExistException("station", id);
             }
-            catch (IDal.DO.DalExceptions.ObjNotExistException e) {
+            catch (IDal.DO.DalExceptions.ObjNotExistException ) {
                 IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
                 dal.AddStation(s);
             }

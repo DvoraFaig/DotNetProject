@@ -64,7 +64,7 @@ namespace BL
                     blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
                 }
                 //}
-                catch (IDal.DO.DalExceptions.ObjNotExistException e) // if drone is not delivery status
+                catch (IDal.DO.DalExceptions.ObjNotExistException ) // if drone is not delivery status
                 {
                     //else
                     //{
@@ -96,7 +96,7 @@ namespace BL
             //from target to closest station;
             IDal.DO.Station closestAvailbleStationFromTarget = findAvailbleAndClosestStationForDrone(targetPosition);
             double disFromTargetTostation = distance(targetPosition, new BLPosition() { Latitude = closestAvailbleStationFromTarget.Latitude, Longitude = closestAvailbleStationFromTarget.Longitude });
-            if (p.PickUp == null)
+            if (p.PickUp == new DateTime())
             {
                 disFromStationToSender = distance(new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude }, senderPosition);
             }
@@ -141,7 +141,7 @@ namespace BL
                     {
                         minDis = dis;
                     }
-                    else if (minDis > dis) ;
+                    else if (minDis > dis)
                     {
                         minDis = dis;
                         availbleCLosestStation = s;
@@ -154,7 +154,7 @@ namespace BL
         private List<IDal.DO.Customer> findCustomersWithDeliveredParcel()
         {
             List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            parcels = parcels.FindAll(p => p.Delivered != null);
+            parcels = parcels.FindAll(p => (p.Delivered != new DateTime()));
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
             parcels.ForEach(p =>
             {
@@ -174,20 +174,15 @@ namespace BL
             {
                 case Electricity.empty:
                     return empty;
-                    break;
                 case Electricity.lightWeight:
                     return lightWeight;
-                    break;
                 case Electricity.mediumWeight:
                     return mediumWeight;
-                    break;
                 case Electricity.heavyWeight:
                     return chargingRate;
-                    break;
                 case Electricity.chargingRate:
                     return chargingRate;
-                    break;
-                default://///////////////////////////////////////
+                default:
                     return 0;
             }
         }

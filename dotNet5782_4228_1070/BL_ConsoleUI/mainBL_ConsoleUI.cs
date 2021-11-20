@@ -362,7 +362,7 @@ namespace BL_ConsoleUI
                 int chargeSlot = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    bl.addStation(id, name, latitude, longitude , chargeSlot);
+                    bl.AddStation(id, name, latitude, longitude , chargeSlot);
                     break;                
                 }
                 catch (Exception e)

@@ -22,7 +22,7 @@ namespace BL
                 dr.Model = newModel;
                 dal.changeDroneInfo(dr);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new InvalidOperationException();
             }
@@ -74,7 +74,7 @@ namespace BL
                     throw new ObjNotAvailableException("Drone not vailable to charge.");
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new InvalidOperationException();
             }
@@ -94,7 +94,7 @@ namespace BL
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new InvalidOperationException();
             }
@@ -183,7 +183,7 @@ namespace BL
                 p.PickUp = DateTime.Now;
                 dal.changeParcelInfo(p);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new InvalidOperationException();
             }
@@ -232,7 +232,7 @@ namespace BL
                 BLDrone findDrone = dronesInBL.First(e => e.Id == d.Id);
                 findDrone = d;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new InvalidOperationException();
             }
