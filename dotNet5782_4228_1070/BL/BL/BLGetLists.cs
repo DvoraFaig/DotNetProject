@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text;
+//using System.Text;
 using IDal;
 using IBL.BO;
 using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
-        public List<BLStation> displayStations()
+        public List<BLStation> DisplayStations()
         {
             IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
             List<BLStation> arr = new List<BLStation>();
@@ -23,7 +23,7 @@ namespace BL
             return arr;
         }
 
-        public List<BLCustomer> displayCustomers()
+        public List<BLCustomer> DisplayCustomers()
         {
             IEnumerable<IDal.DO.Customer> cList = dal.displayCustomers();
             List<BLCustomer> arr = new List<BLCustomer>();
@@ -34,7 +34,7 @@ namespace BL
             return arr;
         }
 
-        public List<BLDrone> displayDrones()
+        public List<BLDrone> DisplayDrones()
         {
             IEnumerable<IDal.DO.Drone> dList = dal.displayDrone();
             List<BLDrone> arr = new List<BLDrone>();
@@ -45,7 +45,7 @@ namespace BL
             return arr;
         }
 
-        public List<BLParcel> displayParcel()
+        public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
             List<BLParcel> arr = new List<BLParcel>();
@@ -56,7 +56,7 @@ namespace BL
             return arr;
         }
 
-        public List<BLParcel> displayFreeParcel()
+        public List<BLParcel> DisplayFreeParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayFreeParcels();
             List<BLParcel> arr = new List<BLParcel>();
@@ -66,7 +66,7 @@ namespace BL
             }
             return arr;
         }
-        public List<BLStation> displayEmptyDroneCharge()
+        public List<BLStation> DisplayEmptyDroneCharge()
         {
             IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
             List<BLStation> arr = new List<BLStation>();

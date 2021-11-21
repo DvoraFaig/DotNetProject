@@ -4,16 +4,16 @@ using IBL;
 
 
 
-namespace BL
-{
-    class Program
-    {
+//namespace BL
+//{
+//    class Program
+//    {
 
-        //private static Ibl blObject;
-        static void Main(string[] args)
-        {
-           // blObject = new BL();
+//        //private static Ibl blObject;
+//        static void Main(string[] args)
+//        {
+//           // blObject = new BL();
             
-        }
-    }
-}
+//        }
+//    }
+//}

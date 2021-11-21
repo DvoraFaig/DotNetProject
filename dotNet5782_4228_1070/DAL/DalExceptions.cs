@@ -9,18 +9,18 @@ namespace IDal.DO
 {
     public partial class DalExceptions:Exception
     {
-        public class ObjNotExistException<T> : Exception
+        public class ObjNotExistException : Exception
         {
             public ObjNotExistException(Type t, int id)
-                : base(String.Format($"The {t.GetType()} with id {id} exist."))
+                : base(String.Format($"The {t.GetType()} with id {id} doesn't exist."))
             {
             }
-            public ObjNotExistException(T obj)
-                : base(String.Format($"The {obj.GetType()} doesn't exist."))
-            {
-            }
-            public ObjNotExistException(string message , int id)
-                : base(String.Format($"The {message}with id: {id} doesn't exist."))
+            //public ObjNotExistException(T obj)
+            //    : base(String.Format($"The {obj.GetType()} doesn't exist."))
+            //{
+            //}
+            public ObjNotExistException(string message )
+                : base(String.Format($"The {message}"))
             {
             }
 

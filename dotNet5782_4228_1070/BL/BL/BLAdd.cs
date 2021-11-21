@@ -9,40 +9,49 @@ using static IBL.BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL
+    public sealed partial class BL : IBL.Ibl
     {
-        public void addStation(int id, string name, int latitude, int longitude, int chargeSlot)
+        public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
-            if (dal.getStationById(id).Equals(null))
+            //!dal.getStationById(id).Equals(default(IDal.DO.Station))) 
+            try
             {
+                dal.getStationById(id);
                 throw new ObjExistException("station", id);
             }
-            IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
-            
-            dal.AddStation(s);
+            catch (IDal.DO.DalExceptions.ObjNotExistException ) {
+                IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
+                dal.AddStation(s);
+            }
         }
 
-        public void addDrone(int id, string model, int maxWeight, int stationId)
+        public void AddDrone(int id, string model, int maxWeight, int stationId)
         {  
-            if (!dal.getDroneById(id).Equals(null))
+            if (!dal.getDroneById(id).Equals(default(IDal.DO.Drone).Id))
             {
                 throw new ObjExistException("drone", id);
             }
             IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
-
             Random r = new Random();
             int battery = r.Next(20, 40);
             IDal.DO.Station s = dal.getStationById(stationId);
-            BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-            BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-            dronesInBL.Add(dr);
-            
-            dal.AddDrone(convertBLToDalDrone(dr));
+            BLStation sBL = convertDalToBLStation(s);
+            if (s.ChargeSlots - sBL.DronesCharging.Count > 0) { 
+                BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
+                BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                dronesInBL.Add(dr);
+                dal.AddDroneCharge(new IDal.DO.DroneCharge() { StationId = s.Id, DroneId = id });
+                dal.AddDrone(convertBLToDalDrone(dr));
+            }
+            else
+            {
+                throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
+            }
         }
 
         public void AddCustomer(int id, string name, string phone, BLPosition position)
         {
-            if (!dal.getCustomerById(id).Equals(null))
+            if (!dal.getCustomerById(id).Equals(default(IDal.DO.Customer).ID))
             {
                 throw new ObjExistException("customer", id);
             }
@@ -51,7 +60,7 @@ namespace BL
             dal.AddCustomer(c);
         }
 
-        public void addParcel(int senderId, int targetId, int weight, int priority)
+        public void AddParcel(int senderId, int targetId, int weight, int priority)
         {
             IDal.DO.Customer dalCustomer;
             IDal.DO.Parcel p = new IDal.DO.Parcel();
@@ -81,7 +90,6 @@ namespace BL
             p.Scheduled = new DateTime(0, 0, 0);
             p.PickUp = new DateTime(0, 0, 0);
             p.Delivered = new DateTime(0, 0, 0);
-
             dal.AddParcel(p);
         }
     }

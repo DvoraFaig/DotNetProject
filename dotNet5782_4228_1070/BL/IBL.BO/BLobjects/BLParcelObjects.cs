@@ -24,7 +24,8 @@ namespace IBL
             public DateTime Delivered { get; set; }
             public override string ToString()
             {
-                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\nDrone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
+                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\n" +
+                    $"Drone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
             }
         }
 
@@ -45,19 +46,30 @@ namespace IBL
             public Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
             public BLCustomerInParcel SenderOrTargetCustomer { get; set; }
+            public override string ToString()
+            {
+                return ($"Id: {Id} , Weight: {Weight} , Priority: {Priority}, ParcelStatus: {ParcelStatus},{SenderOrTargetCustomer}");
+            }
         }
 
         public class BLParcelInTransfer
         {
             public int Id { get; set; }
-            public bool parcelStatus { get; set; } //ממתין לאיסוף =false\ בדרך ליעד=true
+            /// <summary>
+            /// Awaiting collection =false\ On the way to the destination=true
+            /// </summary>
+            public bool parcelStatus { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public BLCustomerInParcel SenderCustomer { get; set; }
             public BLCustomerInParcel TargetCustomer { get; set; }
             public BLPosition SenderPosition { get; set; }
             public BLPosition TargetPosition { get; set; }
-            public double distance { get; set; } //.............. } //sqrt(pow(SenderPosition.Latitude+TargetPosition.Latitude,2)+ pow(SenderPosition.Longitude+TargetPosition.Longitude,2),2)}
+            public double distance { get; set; } 
+            public override string ToString()
+            {
+                return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},SenderCustomer:{SenderCustomer}, TargetCustomer :{TargetCustomer}, SenderPosition: {SenderPosition}, TargetPosition :{TargetPosition}, distance: {distance} ");
+            }
         }
     }
 }

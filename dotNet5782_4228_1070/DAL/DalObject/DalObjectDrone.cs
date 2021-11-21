@@ -7,11 +7,11 @@ using IDal.DO;
 using IDal;
 
 
-namespace DalObject
+namespace DalExceptions
 {
-    public partial class DalObject //: IDal.DO.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountDrones()
+        public int amountDrones()
         {
             return DataSource.Drones.Count();
         }
@@ -21,8 +21,6 @@ namespace DalObject
             drone.Id = id;
             drone.Model = Model;
             drone.MaxWeight = MaxWeight;
-            //drone.Status = Status;
-            //drone.Battery = Battery;
             DataSource.Drones.Add(drone);
         }
         public void AddDrone(Drone drone)
@@ -44,7 +42,7 @@ namespace DalObject
                 }
             }
         }
-        public static Drone getDroneById(int id)
+        public Drone getDroneById(int id)
         {
             try
             {
@@ -52,7 +50,7 @@ namespace DalObject
             }
             catch (Exception e)
             {
-                throw new DalExceptions.ObjNotExistException<Drone>("drone", id);
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
             }
         }
         public double[] electricityUseByDrone(Drone drone)

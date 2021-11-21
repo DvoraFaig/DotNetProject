@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 using IDal;
-//using IDal.DO.DalExceptions;
 
 
 
-namespace DalObject
+
+
+namespace DalExceptions
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public static int amountCustomers()
+        public int amountCustomers()
         {
             return DataSource.Customers.Count;
         }
@@ -46,15 +47,15 @@ namespace DalObject
                 }
             }
         }
-        public static Customer getCustomerById(int id)
+        public Customer getCustomerById(int id)
         {
             try
             {
-                return DataSource.Customers.FirstOrDefault(customer => customer.ID == id);
+                return DataSource.Customers.First(customer => customer.ID == id);
             }
-            catch (Exception e)
+            catch (InvalidOperationException e)
             {
-                throw new DalExceptions.ObjNotExistException<Customer>("customer", id);
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
             }
         }
     }

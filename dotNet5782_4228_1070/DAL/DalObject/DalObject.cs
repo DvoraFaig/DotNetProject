@@ -9,9 +9,9 @@ using IDal;
 
 
 
-namespace DalObject
+namespace DalExceptions
 {
-    public partial class DalObject //: IDal.DO.IDal
+    public partial class DalObject : IDal.DO.IDal
     {
 
         public DalObject()
@@ -38,10 +38,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static DroneCharge getDroneChargeByDroneId(int id)
-        {
-            return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
-        }
+
 
         //Update functions//
         //find an availeble drone and send it to the sending costumer.
@@ -107,7 +104,7 @@ namespace DalObject
             else
             {
                 parcel.PickUp = DateTime.Now;
-                Drone droneCollect = DalObject.getDroneById(parcel.DroneId);
+                Drone droneCollect = getDroneById(parcel.DroneId);
                 //droneCollect.Status = DroneStatus.Delivery;
             }
         }

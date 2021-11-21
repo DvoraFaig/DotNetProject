@@ -20,7 +20,8 @@ namespace IBL
             public List<BLParcelAtCustomer> CustomerAsTarget { get; set; }
             public override string ToString()
             {
-                return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, CustomerPosition: {CustomerPosition.ToString()} ,\nCustomerAsSender: {CustomerAsSender} ,CustomerAsTarget: {CustomerAsTarget}\n");
+                return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, CustomerPosition: {CustomerPosition.ToString()} ,\n"+
+                  $"CustomerAsSenderAmount:  { CustomerAsSender.Count()/*string.Join(", ", CustomerAsSender)*/}\nCustomerAsTargetAmount: {CustomerAsTarget.Count()/*string.Join(", ", CustomerAsTarget)*/} " );
             }
         }
 
@@ -42,6 +43,10 @@ namespace IBL
         {
             public int Id { get; set; }
             public string name { get; set; }
+            public override string ToString()
+            {
+                return ($"Id: {Id} , Name: {name} ");
+            }
         }
     }
 }
