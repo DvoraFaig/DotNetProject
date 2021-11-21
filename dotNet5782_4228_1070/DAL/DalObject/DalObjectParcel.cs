@@ -43,10 +43,11 @@ namespace DalExceptions
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), droneId);
             }
         }
-        public void changeParcelInfo(Parcel p)
+        public void changeParcelInfo(Parcel goodParcel)
         {
-            Parcel pToChange = getParcelById(p.Id);
-            pToChange = p;
+            Parcel pToErase = getParcelById(goodParcel.Id);
+            DataSource.Parcels.Remove(pToErase);
+            DataSource.Parcels.Add(goodParcel);
         }
         public IEnumerable<Parcel> displayParcels()
         {

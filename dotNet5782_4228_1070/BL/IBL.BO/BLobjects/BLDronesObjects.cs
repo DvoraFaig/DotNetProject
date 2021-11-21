@@ -21,7 +21,7 @@ namespace IBL
             public BLPosition DronePosition { get; set; }
             public override string ToString()
             {
-                return ($"drone id: {Id}, drone model{Model}, drone MaxWeight {MaxWeight},drone battery {Battery} , drone status{Status}, \nParcelInTransfer:{"ParcelInTransfer..."}\n DronePosition : {DronePosition}");
+                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status{Status}, \nParcelInTransfer:{" ParcelInTransfer..."}\n DronePosition : {DronePosition}");
             }
         }   
 

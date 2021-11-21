@@ -27,10 +27,12 @@ namespace DalExceptions
         {
             DataSource.Drones.Add(drone);
         }
-        public void changeDroneInfo(Drone d)
+        public void changeDroneInfo(int id , string newModel)
         {
-            Drone dToChange = getDroneById(d.Id);
-            dToChange = d;
+            Drone dToChange = getDroneById(id);
+            DataSource.Drones.Remove(dToChange);
+            dToChange.Model = newModel;
+            DataSource.Drones.Add(dToChange);
         }
         public IEnumerable<Drone> displayDrone()
         {

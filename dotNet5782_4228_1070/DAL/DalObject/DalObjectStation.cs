@@ -21,10 +21,11 @@ namespace DalExceptions
         {
             DataSource.Stations.Add(s);
         }
-        public void changeStationInfo(Station s)
+        public void changeStationInfo(Station goodStation)
         {
-            Station sToChange = getStationById(s.Id);
-            sToChange = s;
+            Station sToErase = getStationById(goodStation.Id);
+            DataSource.Stations.Remove(sToErase);
+            DataSource.Stations.Add(goodStation);
         }
         public IEnumerable<Station> displayStations()
         {

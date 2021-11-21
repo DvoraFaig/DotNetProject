@@ -58,7 +58,10 @@ namespace BL_ConsoleUI
 
             } while ((int)choice != 5);
         }
-
+        
+        /// <summary>
+        /// Add an object by request
+        /// </summary>
         public static void chooseObjToAdd()
         {
             Console.WriteLine("Enter your choice to add:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
@@ -95,9 +98,13 @@ namespace BL_ConsoleUI
                     break;
             }
         }
+        
+        /// <summary>
+        /// update
+        /// </summary>
         public static void UpdateFunc()
         {
-            Console.WriteLine("Enter your choice to update:\n 1.Drone receives parcel \n 2.Drone collects a parcel\n 3.Costumer gets parcel\n 4.send drone to charge\n 5.free drone from harge ");
+            Console.WriteLine("Enter your choice to update:\n 1.DronesInfo \n 2.StationInfo\n 3.CustomerInfo\n 4.sendDroneToCharge\n 5.freeDroneFromCharging\n6.DroneScheduledWithAParcel.\n7.DronePicksUpParcel.\n8.DeliveryParcelByDrone. ");
             UpdateBL choice;
             try
             {
@@ -110,13 +117,22 @@ namespace BL_ConsoleUI
             switch (choice)
             {
                 case UpdateBL.DronesInfo:
-                    Console.WriteLine("Enter drones' id to change its' models' name: ");
-                    int droneId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter a new Model");
-                    string model = Console.ReadLine();
                     try
                     {
+                        Console.WriteLine("Enter drones' id to change its' models' name: ");
+                        int droneId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter a new Model");
+                        string model = Console.ReadLine();
+
                         bl.DroneChangeModel(droneId, model);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -124,15 +140,23 @@ namespace BL_ConsoleUI
                     }
                     break;
                 case UpdateBL.StationInfo:
-                    Console.WriteLine("Enter station id: ");
-                    int stationId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter a station Name:(optional) ");
-                    string sName = Console.ReadLine();
-                    Console.WriteLine("Enter amount of Availble charging slots:(optional) ");
-                    int chargeSlot = Convert.ToInt32(Console.ReadLine());
                     try
                     {
+                        Console.WriteLine("Enter station id: ");
+                        int stationId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter a station Name:(optional) ");
+                        string sName = Console.ReadLine();
+                        Console.WriteLine("Enter amount of Availble charging slots:(optional) ");
+                        int chargeSlot = Convert.ToInt32(Console.ReadLine());
                         bl.StationChangeDetails(stationId, sName, chargeSlot);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -140,15 +164,23 @@ namespace BL_ConsoleUI
                     }
                     break;
                 case UpdateBL.CustomerInfo:
-                    Console.WriteLine("Enter costumer's id: ");
-                    int customerId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter costumer's Name: ");
-                    string customerName = Console.ReadLine();
-                    Console.WriteLine("Enter costumer's Phone: ");
-                    string phone = Console.ReadLine();
                     try
                     {
+                        Console.WriteLine("Enter costumer's id: ");
+                        int customerId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter costumer's Name: ");
+                        string customerName = Console.ReadLine();
+                        Console.WriteLine("Enter costumer's Phone: ");
+                        string phone = Console.ReadLine();
                         bl.UpdateCustomerDetails(customerId, customerName, phone);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -156,11 +188,19 @@ namespace BL_ConsoleUI
                     }
                     break;
                 case UpdateBL.sendDroneToCharge:
-                    Console.WriteLine("Enter drones' id that's sent to charging: ");
-                    int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
                     try
                     {
+                        Console.WriteLine("Enter drones' id that's sent to charging: ");
+                        int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
                         bl.SendDroneToCharge(droneIdSentToCharge);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -168,13 +208,21 @@ namespace BL_ConsoleUI
                     }
                     break;
                 case UpdateBL.freeDroneFromCharging:
-                    Console.WriteLine("Enter drones' id that's freed from charging: ");
-                    int droneIdFreeFromCharging = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter time period's on charge: ");
-                    int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
                     try
                     {
+                        Console.WriteLine("Enter drones' id that's freed from charging: ");
+                        int droneIdFreeFromCharging = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter time period's on charge: ");
+                        int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
                         bl.FreeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -182,11 +230,19 @@ namespace BL_ConsoleUI
                     }
                     break;
                 case UpdateBL.DroneScheduledWithAParcel://ParcelStatuses.Scheduled
-                    Console.WriteLine("Enter drones' id that collects a parcel: ");
-                    int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
                     try
                     {
+                        Console.WriteLine("Enter drones' id that collects a parcel: ");
+                        int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
                         bl.PairParcelWithDrone(droneIdToPairAParcelWith);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
                     }
                     catch (Exception e)
                     {
@@ -200,6 +256,14 @@ namespace BL_ConsoleUI
                     {
                         bl.DronePicksUpParcel(droneIdPickesUpAParcel);
                     }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
@@ -212,6 +276,14 @@ namespace BL_ConsoleUI
                     {
                         bl.DeliveryParcelByDrone(droneIdDeliveredAParcel);
                     }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("== ERROR receiving data ==");
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
@@ -221,6 +293,10 @@ namespace BL_ConsoleUI
                     break;
             }
         }
+        
+        /// <summary>
+        /// display an object by id
+        /// </summary>
         public static void receivesAndDisplaysObjById()
         {
             Console.WriteLine("Enter your choice to display:\n 1.Station \n 2.Drone\n 3.CLient\n 4.Parcel ");
@@ -286,18 +362,11 @@ namespace BL_ConsoleUI
                     }
                     break;
                 default:
-                    Console.WriteLine("== ERROR ==");
+                    Console.WriteLine("== ERROR displaying data ==");
                     break;
             }
-
         }
-        public static void displayArrObjs<T>(T[] arrObjects)
-        {
-            foreach (T obj in arrObjects)
-            {
-                Console.WriteLine(obj.ToString());
-            }
-        }
+        
         /// <summary>
         /// Receives an array the objects. (according to a switch)
         /// and send the array to displayArrObjs.
@@ -314,56 +383,80 @@ namespace BL_ConsoleUI
             {
                 obj = (objects)(-1);
             }
-            switch (obj)
+            try
             {
-                case objects.Station:
-                    List<IBL.BO.BLStation> stations = bl.DisplayStations();
-                    stations.ForEach(s => Console.WriteLine(s.ToString() + '\n'));
-                    break;
-                case objects.Drone:
-                    List<IBL.BO.BLDrone> drones = bl.DisplayDrones();
-                    drones.ForEach(s => Console.WriteLine(s.ToString()));
-                    break;
-                case objects.Customer:
-                    List<IBL.BO.BLCustomer> customers = bl.DisplayCustomers();
-                    customers.ForEach(s => Console.WriteLine(s.ToString()));
-                    break;
-                case objects.Parcel:
-                    List<IBL.BO.BLParcel> parcels = bl.DisplayParcel();
-                    parcels.ForEach(s => Console.WriteLine(s.ToString()));
-                    break;
-                case objects.FreeParcel:
-                    List<IBL.BO.BLParcel> freeParcels = bl.DisplayFreeParcel();
-                    freeParcels.ForEach(s => Console.WriteLine(s.ToString()));
-                    break;
-                case objects.EmptyCharges:
-                    List<IBL.BO.BLStation> ChargeStand = bl.DisplayEmptyDroneCharge();
-                    ChargeStand.ForEach(c => Console.WriteLine(c.ToString()));
-                    break;
-                default:
-                    Console.WriteLine("== ERROR ==");
-                    break;
+                switch (obj)
+                {
+                    case objects.Station:
+                        List<IBL.BO.BLStation> stations = bl.DisplayStations();
+                        stations.ForEach(s => Console.WriteLine(s.ToString() + '\n'));
+                        break;
+                    case objects.Drone:
+                        List<IBL.BO.BLDrone> drones = bl.DisplayDrones();
+                        drones.ForEach(s => Console.WriteLine(s.ToString()));
+                        break;
+                    case objects.Customer:
+                        List<IBL.BO.BLCustomer> customers = bl.DisplayCustomers();
+                        customers.ForEach(s => Console.WriteLine(s.ToString()));
+                        break;
+                    case objects.Parcel:
+                        List<IBL.BO.BLParcel> parcels = bl.DisplayParcel();
+                        parcels.ForEach(s => Console.WriteLine(s.ToString()));
+                        break;
+                    case objects.FreeParcel:
+                        List<IBL.BO.BLParcel> freeParcels = bl.DisplayFreeParcel();
+                        freeParcels.ForEach(s => Console.WriteLine(s.ToString()));
+                        break;
+                    case objects.EmptyCharges:
+                        List<IBL.BO.BLStation> ChargeStand = bl.DisplayEmptyDroneCharge();
+                        ChargeStand.ForEach(c => Console.WriteLine(c.ToString()));
+                        break;
+                    default:
+                        Console.WriteLine("== ERROR ==");
+                        break;
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("== ERROR displaying data ==");
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("== ERROR displaying data ==");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
+        
         public static void addStation()
         {
             int flag = 0;
             do
             {
-                Console.WriteLine("Enter station id: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a station Name: ");
-                string name = Console.ReadLine();
-                Console.WriteLine("Enter a Latitude");
-                int latitude = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a Longitude");
-                int longitude = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter amount of Availble charging slots: ");
-                int chargeSlot = Convert.ToInt32(Console.ReadLine());
                 try
                 {
-                    bl.AddStation(id, name, latitude, longitude , chargeSlot);
-                    break;                
+                    Console.WriteLine("Enter station id: ");
+                    int id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a station Name: ");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Enter a Latitude");
+                    int latitude = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a Longitude");
+                    int longitude = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter amount of Availble charging slots: ");
+                    int chargeSlot = Convert.ToInt32(Console.ReadLine());
+                    bl.AddStation(id, name, latitude, longitude, chargeSlot);
+                    break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
                 }
                 catch (Exception e)
                 {
@@ -380,18 +473,27 @@ namespace BL_ConsoleUI
             int flag = 0;
             do
             {
-                Console.WriteLine("Enter the manufacturer serial number: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a Model");
-                string Model = Console.ReadLine();
-                Console.WriteLine("Enter max weight of drone (category) (Light =1, Medium=2, Heavy=3): ");
-                int MaxWeight = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter station id for charging drone for the initial charging:");
-                int stationId = Convert.ToInt32(Console.ReadLine());
                 try
                 {
+                    Console.WriteLine("Enter the manufacturer serial number: ");
+                    int id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a Model");
+                    string Model = Console.ReadLine();
+                    Console.WriteLine("Enter max weight of drone (category) (Light =1, Medium=2, Heavy=3): ");
+                    int MaxWeight = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter station id for charging drone for the initial charging:");
+                    int stationId = Convert.ToInt32(Console.ReadLine());
+
                     bl.AddDrone(id, Model, MaxWeight, stationId);
                     break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
                 }
                 catch (Exception e)
                 {
@@ -408,18 +510,26 @@ namespace BL_ConsoleUI
             int flag = 0;
             do
             {
-                Console.WriteLine("Enter sender's id: ");
-                int senderID = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter target's id: ");
-                int targetId = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter weight of parcel (Light =1, Medium=2, Heavy=3): ");
-                int weight = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter priority of parcel (Regular=1, Fast=2, Emergency=3 ): ");
-                int priority = Convert.ToInt32(Console.ReadLine());
                 try
                 {
+                    Console.WriteLine("Enter sender's id: ");
+                    int senderID = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter target's id: ");
+                    int targetId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter weight of parcel (Light =1, Medium=2, Heavy=3): ");
+                    int weight = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter priority of parcel (Regular=1, Fast=2, Emergency=3 ): ");
+                    int priority = Convert.ToInt32(Console.ReadLine());
                     bl.AddParcel(senderID, targetId, weight, priority);
                     break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
                 }
                 catch (Exception e)
                 {
@@ -437,22 +547,29 @@ namespace BL_ConsoleUI
             int flag = 0;
             do
             {
-                Console.WriteLine("Enter costumer's id: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter costumer's Name: ");
-                string name = Console.ReadLine();
-                Console.WriteLine("Enter costumer's Phone: ");
-                string phone = Console.ReadLine();
-                Console.WriteLine("Enter a Latitude: ");
-                int latitude = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter a Longitude: ");
-                int longitude = Convert.ToInt32(Console.ReadLine());
-                int ChargeSlots = r.Next(0, 200);
                 try
                 {
+                    Console.WriteLine("Enter costumer's id: ");
+                    int id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter costumer's Name: ");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Enter costumer's Phone: ");
+                    string phone = Console.ReadLine();
+                    Console.WriteLine("Enter a Latitude: ");
+                    int latitude = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter a Longitude: ");
+                    int longitude = Convert.ToInt32(Console.ReadLine());
+                    int ChargeSlots = r.Next(0, 200);
                     bl.AddCustomer(id, name, phone, new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude });
-                    //bl.AddCustomer(new IBL.BO.BLCustomer() { ID = id, Name = name, Phone = phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude } });
                     break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("== ERROR receiving data ==");
                 }
                 catch (Exception e)
                 {
@@ -463,50 +580,5 @@ namespace BL_ConsoleUI
                 }
             } while (flag < 3);
         }
-        //need sometimes to use parcel's detailes - return parcel.
-        //public static Parcel addParcel()
-        //{
-        //    Random r = new Random();
-        //    int id = 0;
-        //    Parcel p = new Parcel();
-        //    int amountP = DalObject.DalObject.amountParcels();
-        //    if (amountP >= 1000)
-        //    {
-        //        Console.WriteLine("== Cann't add costumers ==");
-        //        return p;
-        //    }
-        //    do
-        //    {
-        //        id = r.Next(1000, 10000);
-        //        p = DalObject.DalObject.getParcelById(id);
-        //    } while (!p.Equals(null)); //check if the id exist
-        //    int Serderid;
-        //    int TargetId;
-        //    do
-        //    {
-        //        Console.WriteLine("Enter the sending costumer's id: ");
-        //        Serderid = Convert.ToInt32(Console.ReadLine());///////
-        //        if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-        //        {
-        //            Console.WriteLine("Error: no found customer");
-        //        }
-        //    } while (DalObject.DalObject.getCustomerById(Serderid).Equals(null));
-        //    do
-        //    {
-        //        Console.WriteLine("Enter the receiving costumer's id: ");
-        //        TargetId = Convert.ToInt32(Console.ReadLine());
-        //        if (DalObject.DalObject.getCustomerById(Serderid).Equals(null))
-        //        {
-        //            Console.WriteLine("Error: no found customer");
-        //        }
-        //    } while (DalObject.DalObject.getCustomerById(TargetId).Equals(null));
-        //    Console.WriteLine("Enter WeightCategory (1, 2 or 3):");
-        //    WeightCategories Weight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
-        //    Console.WriteLine("Enter priority (1, 2 or 3):");
-        //    Priorities Priority = (Priorities)Convert.ToInt32(Console.ReadLine());
-        //    DateTime requestedTime = DateTime.Now;
-        //    dalObject.AddParcelToDelivery(id, Serderid, TargetId, Weight, Priority, requestedTime);
-        //    return p;
-        //}
     }
 }

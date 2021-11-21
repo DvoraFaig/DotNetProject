@@ -16,13 +16,17 @@ namespace BL
             try
             {
                 BLDrone d = dronesInBL.First(drone => drone.Id == id);
-                if (d.Equals(default(BLDrone))) d.Model = newModel;
-                else throw new Exception($"ERROR: Drone {id} not found");
-                IDal.DO.Drone dr = dal.getDroneById(id);
-                dr.Model = newModel;
-                dal.changeDroneInfo(dr);
+                if (d.Equals(default(BLDrone)))
+                    throw new Exception($"ERROR: Drone {id} not found");
+                else
+                {
+                    dronesInBL.Remove(d);
+                    d.Model = newModel;
+                    dronesInBL.Add(d);
+                    dal.changeDroneInfo(id,newModel);
+                }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -52,10 +56,11 @@ namespace BL
             IDal.DO.Customer c = dal.getCustomerById(id);
             if (name != null)
                 c.Name = name;
-            if (phone != null)
+            if (phone != null && phone.Length >=9 && phone.Length <=10)
                 c.Phone = phone;
+            dal.changeCustomerInfo(c);
         }
-        
+
         public void SendDroneToCharge(int droneId)
         {
             try
@@ -74,7 +79,7 @@ namespace BL
                     throw new ObjNotAvailableException("Drone not vailable to charge.");
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -94,7 +99,7 @@ namespace BL
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -183,7 +188,7 @@ namespace BL
                 p.PickUp = DateTime.Now;
                 dal.changeParcelInfo(p);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -232,7 +237,7 @@ namespace BL
                 BLDrone findDrone = dronesInBL.First(e => e.Id == d.Id);
                 findDrone = d;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }

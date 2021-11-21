@@ -34,8 +34,9 @@ namespace DalExceptions
         }
         public void changeCustomerInfo(Customer c)
         {
-            Customer cToChange = getCustomerById(c.ID);
-            cToChange = c;
+            Customer cToErase = getCustomerById(c.ID);
+            DataSource.Customers.Remove(cToErase);
+            DataSource.Customers.Add(c);
         }
         public IEnumerable<Customer> displayCustomers()
         {
