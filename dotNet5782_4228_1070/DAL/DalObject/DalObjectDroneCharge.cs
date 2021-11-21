@@ -44,7 +44,7 @@ namespace DalExceptions
             {
                 return DataSource.DroneCharges.Find(charge => charge.StationId == id);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(DroneCharge), id);
             }

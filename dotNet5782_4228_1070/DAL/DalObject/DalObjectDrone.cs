@@ -48,7 +48,7 @@ namespace DalExceptions
             {
                 return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
             }

@@ -38,7 +38,7 @@ namespace DalExceptions
             {
                 return DataSource.Parcels.First(p => p.DroneId == droneId);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), droneId);
             }
@@ -73,7 +73,7 @@ namespace DalExceptions
             try {
                 return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), id);
             }

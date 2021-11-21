@@ -42,7 +42,7 @@ namespace DalExceptions
             {
                 return DataSource.Stations.First(station => station.Id == id);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Station), id);
             }
