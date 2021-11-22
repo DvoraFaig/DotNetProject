@@ -100,7 +100,7 @@ namespace BL_ConsoleUI
         }
         
         /// <summary>
-        /// update
+        /// update objects details
         /// </summary>
         public static void UpdateFunc()
         {
