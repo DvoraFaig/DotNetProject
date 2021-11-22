@@ -60,7 +60,7 @@ namespace DalExceptions
                 {
                     ID = i,
                     Name = $"Customer{i}",
-                    Phone = $"{r.Next(10000000, 100000000)}", //Phonenumber of 7 digits
+                    Phone = $"{r.Next(100000000, 1000000000)}", //Phonenumber of 7 digits
                     Latitude = r.Next(0, 400),
                     Longitude = r.Next(0, 400)
                 };
