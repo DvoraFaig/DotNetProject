@@ -54,7 +54,7 @@ namespace DalExceptions
             {
                 return DataSource.Customers.First(customer => customer.ID == id);
             }
-            catch (InvalidOperationException )
+            catch (InvalidOperationException)
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
             }
@@ -64,4 +64,4 @@ namespace DalExceptions
             return DataSource.Customers.Any(c => c.ID == id);
         }
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}

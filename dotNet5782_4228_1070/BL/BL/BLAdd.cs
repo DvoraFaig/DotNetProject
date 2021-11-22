@@ -13,12 +13,11 @@ namespace BL
     {
         public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
-            try
+            if (dal.IsStationById(id))
             {
-                dal.getStationById(id);
                 throw new ObjExistException("station", id);
             }
-            catch (IDal.DO.DalExceptions.ObjNotExistException)
+            else
             {
                 IDal.DO.Station s = new IDal.DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
                 dal.AddStation(s);
@@ -27,12 +26,11 @@ namespace BL
 
         public void AddDrone(int id, string model, int maxWeight, int stationId)
         {
-            try
+            if (dal.IsDroneById(id))
             {
-                dal.getDroneById(id);
                 throw new ObjExistException("drone", id);
             }
-            catch (IDal.DO.DalExceptions.ObjNotExistException)
+            else
             {
                 IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
                 Random r = new Random();
@@ -56,12 +54,11 @@ namespace BL
 
         public void AddCustomer(int id, string name, string phone, BLPosition position)
         {
-            try
+            if (dal.IsCustomerById(id))
             {
-                dal.getCustomerById(id);
                 throw new ObjExistException("customer", id);
             }
-            catch (IDal.DO.DalExceptions.ObjNotExistException)
+            else
             {
                 IDal.DO.Customer c = new IDal.DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
                 dal.AddCustomer(c);
@@ -70,46 +67,26 @@ namespace BL
 
         public void AddParcel(int senderId, int targetId, int weight, int priority)
         {
-
-            try
+            if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))
             {
-                dal.getCustomerById(senderId);
-                dal.getCustomerById(targetId);
+                IDal.DO.Parcel p = new IDal.DO.Parcel()
+                {
+                    Id = dal.amountParcels() + 1,
+                    SenderId = senderId,
+                    TargetId = targetId,
+                    Weight = (IDal.DO.WeightCategories)weight,
+                    Priority = (IDal.DO.Priorities)priority,
+                    Requeasted = DateTime.Now,
+                    Scheduled = new DateTime(0, 0, 0),
+                    PickUp = new DateTime(0, 0, 0),
+                    Delivered = new DateTime(0, 0, 0)
+                };
+                dal.AddParcel(p);
             }
-            catch (ObjNotExistException e)
+            else
             {
-                throw new Exception(e.Message);
+                throw new ObjNotExistException($"sender customer {senderId} or terget customer {targetId} not exsist");
             }
-            IDal.DO.Parcel p = new IDal.DO.Parcel() {
-
-            };
-            p.Id = dal.amountParcels() + 1;
-            try
-            {
-                dal.getCustomerById(senderId);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            try
-            {
-                dal.getCustomerById(targetId);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
-            p.SenderId = senderId;
-            p.TargetId = targetId;
-            p.Weight = (IDal.DO.WeightCategories)weight;
-            p.Priority = (IDal.DO.Priorities)priority;
-            p.Requeasted = DateTime.Now;
-            p.Scheduled = new DateTime(0, 0, 0);
-            p.PickUp = new DateTime(0, 0, 0);
-            p.Delivered = new DateTime(0, 0, 0);
-            dal.AddParcel(p);
         }
     }
 }
