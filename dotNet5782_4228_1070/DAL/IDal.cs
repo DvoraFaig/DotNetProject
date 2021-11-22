@@ -57,6 +57,13 @@ namespace IDal
             public void changeCustomerInfo(Customer c);
             //===================
             double[] electricityUseByDrone();
+            //======================
+            //check if object exsist
+            //======================
+            public Boolean IsCustomerById(int id);
+            public Boolean IsParcelById(int id);
+            public Boolean IsDroneById(int id);
+            public Boolean IsStationById(int id);
         }
     }
 }

@@ -59,5 +59,9 @@ namespace DalExceptions
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
             }
         }
+        public Boolean IsCustomerById(int id)
+        {
+            return DataSource.Customers.Any(c => c.ID == id);
+        }
     }
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
