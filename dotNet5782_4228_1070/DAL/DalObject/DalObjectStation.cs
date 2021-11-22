@@ -29,7 +29,7 @@ namespace DalExceptions
         }
         public IEnumerable<Station> displayStations()
         {
-            foreach (Station station in DataSource.Stations)
+                foreach (Station station in DataSource.Stations)
             {
                 if (station.Id != 0)
                 {
