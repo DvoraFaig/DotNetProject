@@ -29,7 +29,7 @@ namespace DalExceptions
         }
         public IEnumerable<Station> displayStations()
         {
-            foreach (Station station in DataSource.Stations)
+                foreach (Station station in DataSource.Stations)
             {
                 if (station.Id != 0)
                 {
@@ -47,6 +47,10 @@ namespace DalExceptions
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Station), id);
             }
+        }
+        public Boolean IsStationById(int id)
+        {
+            return DataSource.Stations.Any(s => s.Id == id);
         }
     }
 }

@@ -72,12 +72,16 @@ namespace DalExceptions
         public Parcel getParcelById(int id)
         {
             try {
-                return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
+                return DataSource.Parcels.First(parcel => parcel.Id == id);
             }
             catch (Exception )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), id);
             }
+        }
+        public Boolean IsParcelById(int id)
+        {
+            return DataSource.Parcels.Any(p => p.Id == id);
         }
     }
 }

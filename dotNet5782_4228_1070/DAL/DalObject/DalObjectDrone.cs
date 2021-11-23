@@ -48,13 +48,14 @@ namespace DalExceptions
         {
             try
             {
-                return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
+                return DataSource.Drones.First(drone => drone.Id == id);
             }
             catch (Exception )
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
             }
         }
+
         public double[] electricityUseByDrone(Drone drone)
         {
             double[] droneInfo = new double[5];
@@ -64,6 +65,11 @@ namespace DalExceptions
             droneInfo[3] = DataSource.Config.heavyWeight;
             droneInfo[4] = DataSource.Config.chargingRate;
             return droneInfo;
+        }
+
+        public Boolean IsDroneById(int id)
+        {
+            return DataSource.Drones.Any(d => d.Id == id);
         }
     }
 }

@@ -28,11 +28,6 @@ namespace BL
                 IDal.DO.Station s = dal.getStationById(id);
                 BLStation BLstation = convertDalToBLStation(s);
                 return BLstation;
-            //}
-            //catch (IDal.DO.DalExceptions.ObjNotExistException t)
-            //{
-            //    throw new ObjNotExistException("free Drone From Charging: ", t.Message);
-            //}
         }
 
         public BLCustomer GetCustomerById(int id)
