@@ -35,7 +35,7 @@ namespace IDal
             Drone getDroneById(int id);
             Customer getCustomerById(int id);
             Parcel getParcelById(int id);
-            DroneCharge getDroneChargeById(int id);
+            DroneCharge getDroneChargeByStationId(int id);
             DroneCharge getDroneChargeByDroneId(int id);
             Parcel getParcelByDroneId(int droneId);
 
