@@ -22,12 +22,19 @@ namespace IBL
             public DateTime? Scheduled { get; set; } //pair a parcel to drone
             public DateTime? PickUp { get; set; }
             public DateTime? Delivered { get; set; }
+            //public override string ToString()
+            //{
+            //    return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\n" +
+            //        $"Drone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) ?  }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
+            //}
             public override string ToString()
             {
+                string notFilled = "not filled";
                 return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\n" +
-                    $"Drone: {BL.BL.checkNullforPrint(Drone)} parcel Requeasted: { BL.BL.checkNullforPrint(Requeasted) }, parcel scheduled {BL.BL.checkNullforPrint(Scheduled)}, parcel pickUp{BL.BL.checkNullforPrint(PickUp)}, parcel delivered: {BL.BL.checkNullforPrint(Delivered)}\n");
+                    $"Drone: {(!Drone.Equals(default(BLDroneInParcel))? Drone.ToString() : (char)'-') } " +
+                    $"parcel Requeasted: {(Requeasted != null? Requeasted : (char)'-' )}, parcel scheduled: {(Scheduled != null ? Scheduled :  (char)'-' )}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
             }
-        }
+        } 
 
         public class BLParcelToList
         {

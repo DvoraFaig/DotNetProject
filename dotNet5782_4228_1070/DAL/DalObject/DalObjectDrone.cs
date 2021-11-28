@@ -7,7 +7,7 @@ using IDal.DO;
 using IDal;
 
 
-namespace DalExceptions
+namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {

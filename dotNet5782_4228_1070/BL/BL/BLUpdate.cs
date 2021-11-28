@@ -243,11 +243,20 @@ namespace BL
             }
         }
 
-        internal static string checkNullforPrint<T>(T t)
+        internal static bool checkNullforPrint<T>(T t)
         {
-            if (t.Equals(default(T)))
-                return $"--field {t.GetType()} not filled yet.--";
-            return t.ToString();
+            if (t == null)
+                return false;
+            return true;
+            //if (t == null)
+            //    return $"--field {t.GetType()} not filled yet.--";
+            //return t.ToString();
+        }
+        internal static bool c<T>(T t)
+        {
+            if (t == null)
+                return false;
+            return true;
         }
 
         public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority)
@@ -256,9 +265,9 @@ namespace BL
             dal.AddParcel(p);
         }
 
-        private static BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
+        private BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
         {
-            BLDrone d = new BLDrone();//= getBLDroneByID(droneId);
+            BLDrone d = getBLDroneById(droneId);
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
 

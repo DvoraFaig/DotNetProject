@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DalExceptions;
+using DalObject;
 
 namespace IDal
 {
@@ -64,6 +64,12 @@ namespace IDal
             public Boolean IsParcelById(int id);
             public Boolean IsDroneById(int id);
             public Boolean IsStationById(int id);
+
+            //======================
+            //Predicate
+            //======================
+            public IEnumerable<Parcel> GetAllMatchedEntities(Func<Parcel, bool> predicate);
+
         }
     }
 }

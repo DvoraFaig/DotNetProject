@@ -1,26 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using System.Reflection;
 
 /// <summary>
 /// Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
 /// Provides a method for performing a deep copy of an object.
 /// Binary Serialization is used to perform the copy.
 /// </summary>
-//public static class ObjectCopier
-//{
-//    /// <summary>
-//    /// Perform a deep copy of the object via serialization.
-//    /// </summary>
-//    /// <typeparam name="T">The type of object being copied.</typeparam>
-//    /// <param name="source">The object instance to copy.</param>
-//    /// <returns>A deep copy of the object.</returns>
-//    public static T Clone<T>(T source)
-//    {
 
-//        return source;
-//    }
-//}
 
 
 //[Serializable]
@@ -46,10 +37,18 @@ public static class Extensions
 }
 
 
-        //X obj = new X();
-        //obj.str = "Hello!";
-        //obj.i = 5;
 
-        //X copy = obj.DeepClone();
-        //Console.WriteLine(copy.str + "  " + obj.i);
- 
+namespace DAL.DO
+{
+    static class Cloning
+    {
+        public static T Clone<T>(this T original) where T : new()
+        {
+            T newObj = new T();
+            foreach (PropertyInfo prop in typeof(T).GetProperties())
+                prop.SetValue(newObj, prop.GetValue(original, null), null);
+            return newObj;
+        }
+    }
+}
+

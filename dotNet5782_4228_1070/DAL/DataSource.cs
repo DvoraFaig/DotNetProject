@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDal.DO;
 
-namespace DalExceptions
+namespace DalObject
 {
     internal static class DataSource
     {

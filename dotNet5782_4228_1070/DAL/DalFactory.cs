@@ -13,7 +13,7 @@ namespace IDal
             switch (objName)
             {
                 case "DalObject":
-                    return DalExceptions.DalObject.GetInstance; 
+                    return DalObject.DalObject.GetInstance; 
                 default:
                     throw new Exception();
             }
