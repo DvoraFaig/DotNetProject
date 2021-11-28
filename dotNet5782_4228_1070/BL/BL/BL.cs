@@ -50,8 +50,6 @@ namespace BL
                     blDrone.ParcelInTransfer = createBLParcelInTransfer(p, sender, target);
                     senderPosition = blDrone.ParcelInTransfer.SenderPosition;
                     targetPosition = blDrone.ParcelInTransfer.TargetPosition;
-                    //if (p.Scheduled != null && p.Delivered == null)
-                    //{
                     if (p.PickUp == default(DateTime)) //position like the closest station to the sender of parcel.
                     {
                         closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה? //אם אינו נכנס למצב הטענה PositionFromClosestStation () //אם כן updateDroneCharge
@@ -63,11 +61,9 @@ namespace BL
                     }
                     blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
                 }
-                //}
+
                 catch (IDal.DO.DalExceptions.ObjNotExistException ) // if drone is not delivery status
                 {
-                    //else
-                    //{
                     blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
                     if (blDrone.Status == DroneStatus.Maintenance)
                     {
@@ -103,7 +99,6 @@ namespace BL
             double sumDisForDrone = disFromStationToSender + disFromSenderToCustomer + disFromTargetTostation;
             double sumBattery = sumDisForDrone * requestElectricity()[(int)p.Weight];
             return r.Next((int)sumBattery, 100);
-
         }
 
         private List<IDal.DO.Station> findAvailbleStationForDrone()
