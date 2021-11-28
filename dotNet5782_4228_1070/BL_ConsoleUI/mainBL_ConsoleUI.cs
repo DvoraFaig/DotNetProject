@@ -9,7 +9,6 @@ using static IBL.BO.Exceptions;
 
 namespace BL_ConsoleUI
 {
-
     class mainBL_ConsoleUI
     {
         Random r = new Random();
