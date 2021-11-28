@@ -21,18 +21,15 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        public string ShowDronesList;
         Ibl blObjectH;
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;
-            ListBox droneList = new ListBox();
-            droneList.Margin = new Thickness(154, 0, 0, 0);
             List<IBL.BO.BLDrone> drones = blObject.DisplayDrones();
             foreach(IBL.BO.BLDrone drone in drones)
             {
-                droneList.Items.Add(drone);
+                DroneList.Items.Add(drone);
             }
         }
 
@@ -44,19 +41,28 @@ namespace PL
             switch (item.Name)
             {
                 case "Available":
-                    ShowDronesList = "available drones";
+                    DroneList.Items.Clear();
                     //ShowDronesList = blObjectH.DisplayAvailableDrones();
                     break;
                 case "Maintenance":
-                    ShowDronesList = "Maintenance drones";
+                    DroneList.Items.Clear();
+                    //ShowDronesList = "Maintenance drones";
                     break;
                 case "Delivery":
-                    ShowDronesList = "Delivery drones";
+                    this.Dispatcher.BeginInvoke();
+                    //ShowDronesList = "Delivery drones";
                     //ShowDronesList = blObjectH.DisplayDeliveryDrones();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var win2 = new MainWindow();
+            win2.Show();
+            this.Close();
         }
     }
 }
