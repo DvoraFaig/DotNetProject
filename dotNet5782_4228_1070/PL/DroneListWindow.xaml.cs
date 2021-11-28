@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BL;
 using IBL;
@@ -18,21 +17,20 @@ using IBL;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DroneListWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DroneListWindow : Window
     {
-        public Ibl blObject;
-        public MainWindow()
+        public string ShowDronesList;
+        public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
-            blObject = IBL.IBL.BLFactory.Factory("BL");
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var win2 = new DroneListWindow(blObject);
-            win2.Show();
+            ListBox droneList = new ListBox();
+            List<IBL.BO.BLDrone> drones = blObject.DisplayDrones();
+            foreach(IBL.BO.BLDrone drone in drones)
+            {
+                droneList.Items.Add(drone);
+            }
         }
     }
 }
