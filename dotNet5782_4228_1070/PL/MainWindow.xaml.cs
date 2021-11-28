@@ -33,6 +33,7 @@ namespace PL
         {
             var win2 = new DroneListWindow(blObject);
             win2.Show();
+            this.Close();
         }
     }
 }

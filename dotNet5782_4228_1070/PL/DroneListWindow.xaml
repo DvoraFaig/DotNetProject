@@ -10,12 +10,13 @@
 
         <TextBox Text="Filters" TextWrapping="Wrap" Width="120" Margin="46,10,634,378" UndoLimit="99" SelectionOpacity="-5"/>
         <TextBox Text="Status:" TextWrapping="Wrap" Width="120" Margin="46,64,634,317" UndoLimit="99" SelectionOpacity="-5"/>
-        <ComboBox Height="53" HorizontalAlignment="Left" Margin="185,64,0,0" 
+        <ComboBox Height="53" HorizontalAlignment="Left" Margin="206,64,0,0" 
                   Name="StatusList" VerticalAlignment="Top" Width="120" SelectedIndex="0" VerticalContentAlignment="Center"
                   SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem>Available</ComboBoxItem>
             <ComboBoxItem>Maintenance</ComboBoxItem>
             <ComboBoxItem>Delivery</ComboBoxItem>
         </ComboBox>
+        <Button Content="Button" HorizontalAlignment="Left" Height="33" Margin="46,374,0,0" VerticalAlignment="Top" Width="77"/>
     </Grid>
 </Window>
