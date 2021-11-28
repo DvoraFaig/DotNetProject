@@ -44,17 +44,17 @@ namespace DalObject
                 }
             }
         }
-        public Drone getDroneById(int id)
-        {
-            try
-            {
-                return DataSource.Drones.First(drone => drone.Id == id);
-            }
-            catch (Exception )
-            {
-                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
-            }
-        }
+        //public Drone getDroneById(int id)
+        //{
+        //    try
+        //    {
+        //        return DataSource.Drones.First(drone => drone.Id == id);
+        //    }
+        //    catch (Exception )
+        //    {
+        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
+        //    }
+        //}
 
         public void changeDroneInfo(Drone d)
         {

@@ -48,17 +48,17 @@ namespace DalObject
                 }
             }
         }
-        public Customer getCustomerById(int id)
-        {
-            try
-            {
-                return DataSource.Customers.First(customer => customer.ID == id);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
-            }
-        }
+        //public Customer getCustomerById(int id)
+        //{
+        //    try
+        //    {
+        //        return DataSource.Customers.First(customer => customer.ID == id);
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
+        //    }
+        //}
         public Boolean IsCustomerById(int id)
         {
             return DataSource.Customers.Any(c => c.ID == id);

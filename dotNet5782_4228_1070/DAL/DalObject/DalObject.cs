@@ -86,7 +86,7 @@ namespace DalObject
                 Console.WriteLine(charge.ToString());
             }
             int choose = Convert.ToInt32(Console.ReadLine());
-            DroneCharge droneCharge = getDroneChargeById(choose);
+            DroneCharge droneCharge = getDroneChargeByStationId(choose);
             if (droneCharge.StationId != -1)
             {
                 droneCharge.DroneId = drone.Id;

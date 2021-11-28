@@ -45,27 +45,6 @@ namespace BL
             }
             return arr;
         }
-        //public Expression<Func<IDal.DO.Parcel, bool>> IsMatchedExpression()
-        //{
-        //    var parameterExpression = Expression.Parameter(typeof(IDal.DO.Parcel));
-        //    var propertyOrField = Expression.PropertyOrField(parameterExpression, "DroneId");
-        //    var binaryExpression = Expression.GreaterThan(propertyOrField, Expression.Constant(2));
-        //    return Expression.Lambda<Func<IDal.DO.Parcel, bool>>(binaryExpression, parameterExpression);
-        //}
-        //private readonly Func<IDal.DO.Parcel, bool> IsMatch = x => x.DroneId > 1;
-
-        //public List<BLParcel> DisplayParcel()
-        //{
-        //    //Expression<Func<IDal.DO.Parcel, bool>> a = IsMatchedExpression();
-        //    //IEnumerable<IDal.DO.Parcel> pList = IDal.DO.IDal.GetAllMatchedEntities(a);
-        //    IEnumerable<IDal.DO.Parcel> pList = dal.GetAllMatchedEntities(IsMatch);
-        //    List<BLParcel> arr = new List<BLParcel>();
-        //    foreach (var p in pList)
-        //    {
-        //        arr.Add(convertDalToBLParcel(p));
-        //    }
-        //    return arr;
-        //}
         public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
