@@ -54,6 +54,7 @@ namespace IDal
             void changeStationInfo(Station s);
             void changeParcelInfo(Parcel p);
             void changeDroneInfo(int id, string newModel);
+            public void changeDroneInfo(Drone d);
             public void changeCustomerInfo(Customer c);
             //===================
             double[] electricityUseByDrone();

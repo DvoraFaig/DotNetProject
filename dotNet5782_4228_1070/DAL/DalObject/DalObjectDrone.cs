@@ -56,6 +56,11 @@ namespace DalExceptions
             }
         }
 
+        public void changeDroneInfo(Drone d)
+        {
+            DataSource.Drones.Remove(d);
+            DataSource.Drones.Add(d);
+        }
         public double[] electricityUseByDrone(Drone drone)
         {
             double[] droneInfo = new double[5];

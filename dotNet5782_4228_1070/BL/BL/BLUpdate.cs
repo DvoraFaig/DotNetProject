@@ -70,8 +70,13 @@ namespace BL
                 {
                     IDal.DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
                     IDal.DO.DroneCharge droneCharge = new IDal.DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
+                    drone.Battery = (distance(drone.DronePosition, new BLPosition() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude }))*(int)Electricity.empty;
                     drone.Status = DroneStatus.Maintenance;
+                    drone.DronePosition = new BLPosition() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
+                    availbleSforCharging.ChargeSlots--;
                     dal.AddDroneCharge(droneCharge);
+                    dal.changeStationInfo(availbleSforCharging);
+                    dal.changeDroneInfo(convertBLToDalDrone(drone));
                     //dal.changeStationInfo // slots????????????????????????
                 }
                 else
