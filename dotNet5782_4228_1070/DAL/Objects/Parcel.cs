@@ -18,7 +18,7 @@ namespace IDal
             public int DroneId { get; set; }
             public DateTime? Requeasted { get; set; }
             public DateTime? Scheduled { get; set; } //pair a parcel to drone
-            public DateTime? PickUp { get { return PickUp; } set { this.PickUp = value; } }
+            public DateTime? PickUp { get; set; }
             public DateTime? Delivered { get; set; }
             public override string ToString()
             {
