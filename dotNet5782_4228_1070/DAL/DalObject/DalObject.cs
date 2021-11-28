@@ -39,40 +39,7 @@ namespace DalObject
         /// <returns></returns>
 
 
-        //Update functions//
-        //find an availeble drone and send it to the sending costumer.
-        //Pair between a customer and parcel to a drone;
-
-
-
-        /*public void assignParcelToDrone(int parcelId)
-        {
-            Parcel p = getParcelById(parcelId);
-            for (int i = 0; i < DataSource.Drones.Count; i++)
-            {
-                if (DataSource.Drones[i].Status == DroneStatus.Available)
-                {
-
-                }
-            }
-            foreach(Drone drone in DataSource.Drones)
-            {
-                if (drone.Status == DroneStatus.Available)
-                {
-                    
-                }
-            }
-            
-        }*/
-
-        /*        private bool isFreeDrone(Drone d)
-                {
-                    if (d.Status == DroneStatus.Available)
-                    {
-                        return true;
-                    }
-                    return false;
-                }*/
+        
         /// <summary>
         /// Function get parcel object and find drone to take it.
         /// </summary>
@@ -104,13 +71,11 @@ namespace DalObject
             {
                 parcel.PickUp = DateTime.Now;
                 Drone droneCollect = getDroneById(parcel.DroneId);
-                //droneCollect.Status = DroneStatus.Delivery;
             }
         }
         public void CostumerGetsParcel(Drone drone, Parcel parcel)
         {
             parcel.Delivered = DateTime.Now;
-            //drone.Status = DroneStatus.Available;
         }
         public void sendDroneToCharge(Drone drone)
         {
@@ -124,14 +89,11 @@ namespace DalObject
             DroneCharge droneCharge = getDroneChargeById(choose);
             if (droneCharge.StationId != -1)
             {
-                //drone.Status = DroneStatus.Maintenance;
                 droneCharge.DroneId = drone.Id;
             }
         }
         public void freeDroneFromCharge(Drone drone)
         {
-            //drone.Status = DroneStatus.Available;
-            //drone.Battery = 100;
             DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
             chargeToFree.StationId = -1;
         }

@@ -11,13 +11,13 @@ namespace DalObject
     public partial class DalObject : IDal.DO.IDal
     {
         public Predicate<T> GetObjByIdP<T>(Predicate<T> findBy)
-        {
+{
             return findBy;
         }
         public IEnumerable<Parcel> GetAllMatchedEntities(Func<Parcel, Boolean> predicate)
-        {
+    {
             return displayParcels().Where<Parcel>(predicate);
         }
-    }      
+    }
 }
    

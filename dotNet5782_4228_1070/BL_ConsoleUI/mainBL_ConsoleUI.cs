@@ -125,11 +125,11 @@ namespace BL_ConsoleUI
 
                         bl.DroneChangeModel(droneId, model);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -149,11 +149,11 @@ namespace BL_ConsoleUI
                         int chargeSlot = Convert.ToInt32(Console.ReadLine());
                         bl.StationChangeDetails(stationId, sName, chargeSlot);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -173,11 +173,11 @@ namespace BL_ConsoleUI
                         string phone = Console.ReadLine();
                         bl.UpdateCustomerDetails(customerId, customerName, phone);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -193,11 +193,11 @@ namespace BL_ConsoleUI
                         int droneIdSentToCharge = Convert.ToInt32(Console.ReadLine());
                         bl.SendDroneToCharge(droneIdSentToCharge);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -215,11 +215,11 @@ namespace BL_ConsoleUI
                         int timePeriodOnCharge = Convert.ToInt32(Console.ReadLine());
                         bl.FreeDroneFromCharging(droneIdFreeFromCharging, timePeriodOnCharge);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -235,11 +235,11 @@ namespace BL_ConsoleUI
                         int droneIdToPairAParcelWith = Convert.ToInt32(Console.ReadLine());
                         bl.PairParcelWithDrone(droneIdToPairAParcelWith);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -255,11 +255,11 @@ namespace BL_ConsoleUI
                     {
                         bl.DronePicksUpParcel(droneIdPickesUpAParcel);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -275,11 +275,11 @@ namespace BL_ConsoleUI
                     {
                         bl.DeliveryParcelByDrone(droneIdDeliveredAParcel);
                     }
-                    catch (FormatException e)
+                    catch (FormatException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
-                    catch (OverflowException e)
+                    catch (OverflowException )
                     {
                         Console.WriteLine("== ERROR receiving data ==");
                     }
@@ -415,11 +415,11 @@ namespace BL_ConsoleUI
                         break;
                 }
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException )
             {
                 Console.WriteLine("== ERROR displaying data ==");
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException )
             {
                 Console.WriteLine("== ERROR displaying data ==");
             }
@@ -449,11 +449,11 @@ namespace BL_ConsoleUI
                     bl.AddStation(id, name, latitude, longitude, chargeSlot);
                     break;
                 }
-                catch (FormatException e)
+                catch (FormatException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
-                catch (OverflowException e)
+                catch (OverflowException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
@@ -486,11 +486,11 @@ namespace BL_ConsoleUI
                     bl.AddDrone(id, Model, MaxWeight, stationId);
                     break;
                 }
-                catch (FormatException e)
+                catch (FormatException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
-                catch (OverflowException e)
+                catch (OverflowException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
@@ -522,11 +522,11 @@ namespace BL_ConsoleUI
                     bl.AddParcel(senderID, targetId, weight, priority);
                     break;
                 }
-                catch (FormatException e)
+                catch (FormatException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
-                catch (OverflowException e)
+                catch (OverflowException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
@@ -562,11 +562,11 @@ namespace BL_ConsoleUI
                     bl.AddCustomer(id, name, phone, new IBL.BO.BLPosition() { Longitude = longitude, Latitude = latitude });
                     break;
                 }
-                catch (FormatException e)
+                catch (FormatException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
-                catch (OverflowException e)
+                catch (OverflowException )
                 {
                     Console.WriteLine("== ERROR receiving data ==");
                 }
