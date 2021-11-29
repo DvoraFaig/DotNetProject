@@ -76,14 +76,42 @@ namespace BL
 
         private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
         {
-            List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            List<IDal.DO.Parcel> sendingParcels = parcels.FindAll(p => p.SenderId == c.ID);
-            List<IDal.DO.Parcel> targetParcels = parcels.FindAll(p => p.TargetId == c.ID);
-            List<BLParcelAtCustomer> customerAsSender = new List<BLParcelAtCustomer>();
-            List<BLParcelAtCustomer> customerAsTarget = new List<BLParcelAtCustomer>();
-            sendingParcels.ForEach(p => customerAsSender.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
-            targetParcels.ForEach(p => customerAsTarget.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
+            IEnumerable<IDal.DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.ID);
+            IEnumerable<IDal.DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.ID);
+            List<BLParcelAtCustomer> customerAsSender = createBLParcelAtCustomer(sendingParcels, true);
+            List<BLParcelAtCustomer> customerAsTarget = createBLParcelAtCustomer(targetParcels , false);
+            //sendingParcels.ForEach(p => customerAsSender.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
+            //targetParcels.ForEach(p => customerAsTarget.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
             return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsSender };
+        }
+        private List<BLParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<IDal.DO.Parcel> pp, bool senderOrTaget)
+        {
+            List<BLParcelAtCustomer> parcelCustomers = new List<BLParcelAtCustomer>();
+            BLCustomerInParcel bLCustomerInParcel = new BLCustomerInParcel();
+            ParcelStatuses parcelStatusesTemp;
+            foreach (IDal.DO.Parcel p in pp)
+            {
+                if (senderOrTaget) //sender
+                {
+                    bLCustomerInParcel.Id = p.SenderId;
+                    bLCustomerInParcel.name = dal.getCustomerById(p.SenderId).Name;
+                }
+                else //target
+                {
+                    bLCustomerInParcel.Id = p.TargetId;
+                    bLCustomerInParcel.name = dal.getCustomerById(p.TargetId).Name;
+                }
+                if (p.Delivered != null)
+                    parcelStatusesTemp = ParcelStatuses.Delivered;
+                else if (p.PickUp != null)
+                    parcelStatusesTemp = ParcelStatuses.PickedUp;
+                if (p.Requeasted != null)
+                    parcelStatusesTemp = ParcelStatuses.Requeasted;
+                else
+                    parcelStatusesTemp = ParcelStatuses.Scheduled;
+                parcelCustomers.Add(new BLParcelAtCustomer() { Id = p.Id, Priority = p.Priority, Weight = p.Weight, SenderOrTargetCustomer = bLCustomerInParcel, ParcelStatus = parcelStatusesTemp });
+            }
+            return parcelCustomers;
         }
 
         private BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
@@ -92,7 +120,7 @@ namespace BL
             Random r = new Random();
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
-        
+
         private BLDrone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             Random r = new Random();
@@ -153,7 +181,7 @@ namespace BL
                 TargetCustomer = convertDalToBLCustomerInTransfer(target),
                 parcelStatus = false,
                 Priority = p.Priority,
-                distance = distance(senderP,targetP),
+                distance = distance(senderP, targetP),
                 Weight = p.Weight
             };
         }

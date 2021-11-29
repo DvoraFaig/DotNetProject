@@ -75,9 +75,15 @@ namespace DalObject
         }
         public DroneCharge getDroneChargeByDroneId(int id)
         {
-            try { 
-            //return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
-            return getDroneChargeWithSpecificCondition(charge => charge.DroneId == id).First();
+            try
+            {
+                //return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
+                return getDroneChargeWithSpecificCondition(charge => charge.DroneId == id).First();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(DroneCharge), id);
+            }
 
         }
         public DroneCharge getDroneChargeByStationId(int id)

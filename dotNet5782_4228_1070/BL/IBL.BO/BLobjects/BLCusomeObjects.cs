@@ -14,13 +14,13 @@ namespace IBL
         {
             public int ID
             {
-                get { return ID; }
-                set
-                {
-                    if (value > 100000000 && value < 10000000000)
-                        ID = value;
-                    else throw new Exception("Id not in the right lenght");
-                }
+                get;set;
+                //{
+                //    if (value > 99999999 && value < 1000000000)
+                //        ID = value;
+                //    else 
+                //        throw new Exception("Id not in the right lenght");
+                //}
             }
             public string Name { get; set; }
             public string Phone { get; set; }

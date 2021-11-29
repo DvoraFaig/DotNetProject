@@ -49,7 +49,7 @@ namespace IBL
         //===================
         //predicat
         //===================
-        public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate)
+        public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate);
 
     }
 

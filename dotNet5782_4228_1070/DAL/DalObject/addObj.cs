@@ -6,35 +6,17 @@ using System.Threading.Tasks;
 using IDal.DO;
 using IDal;
 
-
-
-
-
 namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
-        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight)
+        public void AddParcel(Parcel parcel)
         {
-            Drone drone = new Drone();
-            drone.Id = id;
-            drone.Model = Model;
-            drone.MaxWeight = MaxWeight;
-            DataSource.Drones.Add(drone);
+            DataSource.Parcels.Add(parcel);
         }
         public void AddDrone(Drone drone)
         {
             DataSource.Drones.Add(drone);
-        }
-        public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
-        {
-            Customer customer = new Customer();
-            customer.ID = id;
-            customer.Name = Name;
-            customer.Phone = Phone;
-            customer.Longitude = Longitude;
-            customer.Latitude = Latitude;
-            DataSource.Customers.Add(customer);
         }
         public void AddCustomer(Customer customer)
         {
@@ -59,10 +41,23 @@ namespace DalObject
             parcel.Requeasted = requestedTime;
             DataSource.Parcels.Add(parcel);
         }
-        public void AddParcel(Parcel parcel)
+        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight)
         {
-            DataSource.Parcels.Add(parcel);
+            Drone drone = new Drone();
+            drone.Id = id;
+            drone.Model = Model;
+            drone.MaxWeight = MaxWeight;
+            DataSource.Drones.Add(drone);
         }
-
+        public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
+        {
+            Customer customer = new Customer();
+            customer.ID = id;
+            customer.Name = Name;
+            customer.Phone = Phone;
+            customer.Longitude = Longitude;
+            customer.Latitude = Latitude;
+            DataSource.Customers.Add(customer);
+        }
     }
 }

@@ -14,15 +14,15 @@ namespace BL
     public sealed partial class BL : IBL.Ibl
     {
 
-        public Expression<Func<IDal.DO.Parcel, bool>> IsMatchedExpression()
-        {
-            var parameterExpression = Expression.Parameter(typeof(IDal.DO.Parcel));
-            var propertyOrField = Expression.PropertyOrField(parameterExpression, "DroneId");
-            var binaryExpression = Expression.GreaterThan(propertyOrField, Expression.Constant(2));
-            return Expression.Lambda<Func<IDal.DO.Parcel, bool>>(binaryExpression, parameterExpression);
-        }
+        //public Expression<Func<IDal.DO.Parcel, bool>> IsMatchedExpression()
+        //{
+        //    var parameterExpression = Expression.Parameter(typeof(IDal.DO.Parcel));
+        //    var propertyOrField = Expression.PropertyOrField(parameterExpression, "DroneId");
+        //    var binaryExpression = Expression.GreaterThan(propertyOrField, Expression.Constant(2));
+        //    return Expression.Lambda<Func<IDal.DO.Parcel, bool>>(binaryExpression, parameterExpression);
+        //}
 
-        private readonly Func<IDal.DO.Parcel, bool> gtPredicatObjectId = x => x.DroneId > 1;
+        //private readonly Func<IDal.DO.Parcel, bool> gtPredicatObjectId = x => x.DroneId > 1;
         //public List<BLParcel> DisplayParcel()
         //{
         //    //Expression<Func<IDal.DO.Parcel, bool>> a = IsMatchedExpression();

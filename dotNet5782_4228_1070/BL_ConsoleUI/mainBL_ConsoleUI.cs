@@ -463,9 +463,9 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\nYou have {3 - flag} more times to try.");
-                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
                 }
-            } while (flag < 3);
+            } while (flag < 2);
         }
 
         public static void addDrone()
@@ -500,9 +500,9 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
                 }
-            } while (flag < 3);
+            } while (flag < 2);
         }
 
         public static void addParcel()
@@ -536,9 +536,9 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
                 }
-            } while (flag < 3);
+            } while (flag < 2);
         }
 
         public static void addCustomer()
@@ -576,9 +576,9 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 3) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
                 }
-            } while (flag < 3);
+            } while (flag < 2);
         }
     }
 }

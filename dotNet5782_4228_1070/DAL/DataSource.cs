@@ -58,7 +58,7 @@ namespace DalObject
             {
                 Customer c = new Customer()
                 {
-                    ID = i,
+                    ID = r.Next(100000000, 1000000000),
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
                     Latitude = r.Next(0, 400),

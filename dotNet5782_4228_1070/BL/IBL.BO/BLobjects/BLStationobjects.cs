@@ -18,11 +18,10 @@ namespace IBL
             public BLPosition StationPosition { get; set; }
             public int DroneChargeAvailble { get; set; }
             public List<BLChargingDrone> DronesCharging { get; set; }
-            public object ChargingDrone { get; private set; }
-
+            public object ChargingDrone { get; private set; }//??????????????????????????
             public override string ToString()
             {
-                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n { StationPosition.ToString()}, ChargingDrone: {string.Join(", ", ChargingDrone)}";
+                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n { StationPosition.ToString()}, ChargingDrone: { string.Join(", ", ChargingDrone)}";
             }
 
         }

@@ -276,10 +276,10 @@ namespace BL
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
 
-        private static BLParcelAtCustomer createtDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p, IDal.DO.Customer c)
-        {
-            //if(p.senderId == c.Id || p.TargetId == c.Id)
-            return new BLParcelAtCustomer() { Id = p.Id, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p), SenderOrTargetCustomer = new BLCustomerInParcel() { Id = c.ID, name = c.Name } };
-        }
+        //private static BLParcelAtCustomer createtDalParcelToBLParcelAtCustomer(IDal.DO.Parcel p, IDal.DO.Customer c)
+        //{
+        //    //if(p.senderId == c.Id || p.TargetId == c.Id)
+        //    return new BLParcelAtCustomer() { Id = p.Id, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p), SenderOrTargetCustomer = new BLCustomerInParcel() { Id = c.ID, name = c.Name } };
+        //}
     }
 }
