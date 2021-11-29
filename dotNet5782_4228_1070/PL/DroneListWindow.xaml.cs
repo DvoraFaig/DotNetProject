@@ -49,7 +49,7 @@ namespace PL
                     //ShowDronesList = "Maintenance drones";
                     break;
                 case "Delivery":
-                    this.Dispatcher.BeginInvoke();
+                    //this.Dispatcher.BeginInvoke();
                     //ShowDronesList = "Delivery drones";
                     //ShowDronesList = blObjectH.DisplayDeliveryDrones();
                     break;
