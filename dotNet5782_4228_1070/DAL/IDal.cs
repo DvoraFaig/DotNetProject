@@ -45,7 +45,6 @@ namespace IDal
             IEnumerable<Station> displayStations();
             IEnumerable<Drone> displayDrone();
             IEnumerable<Parcel> displayParcels();
-            IEnumerable<Parcel> displayFreeParcels();
             IEnumerable<DroneCharge> displayDroneCharge();
             IEnumerable<Customer> displayCustomers();
             //==================
@@ -54,8 +53,8 @@ namespace IDal
             void changeStationInfo(Station s);
             void changeParcelInfo(Parcel p);
             void changeDroneInfo(int id, string newModel);
-            public void changeDroneInfo(Drone d);
-            public void changeCustomerInfo(Customer c);
+            void changeDroneInfo(Drone d);
+            void changeCustomerInfo(Customer c);
             //===================
             double[] electricityUseByDrone();
             //======================

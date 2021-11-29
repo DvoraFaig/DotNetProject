@@ -23,6 +23,9 @@ namespace IBL
         public List<BLParcel> DisplayParcel();
         public List<BLParcel> DisplayFreeParcel();
         public List<BLStation> DisplayEmptyDroneCharge();
+        public IEnumerable<BLDrone> DisplayMaintenanceDrones();
+        public IEnumerable<BLDrone> DisplayDeliveryDrones();
+        public IEnumerable<BLDrone> DisplayAvailableDrones();
         //================
         // Get object
         //================
@@ -46,6 +49,8 @@ namespace IBL
         //===================
         //predicat
         //===================
+        public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate)
+
     }
 
 }

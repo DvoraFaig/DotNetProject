@@ -15,7 +15,7 @@ namespace BL
     {
         public List<BLStation> DisplayStations()
         {
-            IEnumerable<IDal.DO.Station> dalStations = dal.getStationWithSpecificCondition(s => s.Id > 0);
+            IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
             List<BLStation> arr = new List<BLStation>();
             foreach (var s in dalStations)
             {
@@ -26,7 +26,7 @@ namespace BL
 
         public List<BLCustomer> DisplayCustomers()
         {
-            IEnumerable<IDal.DO.Customer> cList = dal.getCustomerWithSpecificCondition( c => c.ID>0);//c.id>100000000
+            IEnumerable<IDal.DO.Customer> cList = dal.displayCustomers();//c.id>100000000
             List<BLCustomer> arr = new List<BLCustomer>();
             foreach (var c in cList)
             {
@@ -37,7 +37,7 @@ namespace BL
 
         public List<BLDrone> DisplayDrones()
         {
-            IEnumerable<IDal.DO.Drone> dList = dal.getDroneWithSpecificCondition(d => d.Id > 0);
+            IEnumerable<IDal.DO.Drone> dList = dal.displayDrone();
             List<BLDrone> arr = new List<BLDrone>();
             foreach (var d in dList)
             {
@@ -45,16 +45,6 @@ namespace BL
             }
             return arr;
         }
-/*        public List<BLParcel> DisplayParcel()
-        {
-            IEnumerable<IDal.DO.Parcel> pList = dal.getParcelWithSpecificCondition(p => p.Id > 0);
-            List<BLParcel> arr = new List<BLParcel>();
-            foreach (var p in pList)
-            {
-                arr.Add(convertDalToBLParcel(p));
-            }
-            return arr;
-        }*/
 
         public List<BLParcel> DisplayFreeParcel()
         {
@@ -81,20 +71,20 @@ namespace BL
             }
             return arrEmptySlots;
         }
-
-        public IEnumerable<BLDrone> DisplayAvailableDrones()
-        {
-            // return all drones that has staus - available
-        }
         
         public IEnumerable<BLDrone> DisplayMaintenanceDrones()
         {
-            // return all drones that has staus - maintenance
+            return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Maintenance);
         }
 
         public IEnumerable<BLDrone> DisplayDeliveryDrones()
         {
-            // return all drones that has staus - delivery
+            return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Delivery);
+        }
+
+        public IEnumerable<BLDrone> DisplayAvailableDrones()
+        {
+           return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Available);
         }
     }
 }
