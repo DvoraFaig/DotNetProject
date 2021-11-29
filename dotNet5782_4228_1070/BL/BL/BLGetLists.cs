@@ -66,6 +66,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLStation> DisplayEmptyDroneCharge()
         {
             IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
@@ -78,6 +79,21 @@ namespace BL
                 }
             }
             return arr;
+        }
+
+        public IEnumerable<BLDrone> DisplayAvailableDrones()
+        {
+            // return all drones that has staus - available
+        }
+        
+        public IEnumerable<BLDrone> DisplayMaintenanceDrones()
+        {
+            // return all drones that has staus - maintenance
+        }
+
+        public IEnumerable<BLDrone> DisplayDeliveryDrones()
+        {
+            // return all drones that has staus - delivery
         }
     }
 }
