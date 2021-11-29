@@ -37,7 +37,7 @@ namespace DalObject
                 }
             }
         }
-        public Station getStationById(int id)
+/*        public Station getStationById(int id)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace DalObject
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Station), id);
             }
-        }
+        }*/
         public Boolean IsStationById(int id)
         {
             return DataSource.Stations.Any(s => s.Id == id);

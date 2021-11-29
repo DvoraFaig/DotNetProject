@@ -27,10 +27,11 @@ namespace PL
             InitializeComponent();
             blObjectH = blObject;
             List<IBL.BO.BLDrone> drones = blObject.DisplayDrones();
-            foreach(IBL.BO.BLDrone drone in drones)
+            DroneList.ItemsSource = drones;
+            /*foreach (IBL.BO.BLDrone drone in drones)
             {
                 DroneList.Items.Add(drone);
-            }
+            }*/
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,24 +39,23 @@ namespace PL
             if (!IsInitialized) return;
 
             ComboBoxItem item = StatusList.SelectedItem as ComboBoxItem;
-            switch (item.Name)
+            List<IBL.BO.BLDrone> b;
+            switch (item.Content)
             {
                 case "Available":
-                    DroneList.Items.Clear();
                     //ShowDronesList = blObjectH.DisplayAvailableDrones();
+                    b = blObjectH.DisplayAvailableDrones();
                     break;
                 case "Maintenance":
-                    DroneList.Items.Clear();
-                    //ShowDronesList = "Maintenance drones";
+                    b = blObjectH.DisplayMaintenanceDrones();
                     break;
                 case "Delivery":
-                    //this.Dispatcher.BeginInvoke();
-                    //ShowDronesList = "Delivery drones";
-                    //ShowDronesList = blObjectH.DisplayDeliveryDrones();
+                    b = blObjectH.DisplayDeliveryDrones();
                     break;
                 default:
                     break;
             }
+            DroneList.ItemsSource = b;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -45,7 +45,7 @@ namespace BL
             }
             return arr;
         }
-        public List<BLParcel> DisplayParcel()
+/*        public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.getParcelWithSpecificCondition(p => p.Id > 0);
             List<BLParcel> arr = new List<BLParcel>();
@@ -54,7 +54,7 @@ namespace BL
                 arr.Add(convertDalToBLParcel(p));
             }
             return arr;
-        }
+        }*/
 
         public List<BLParcel> DisplayFreeParcel()
         {
@@ -66,6 +66,7 @@ namespace BL
             }
             return arr;
         }
+
         public List<BLStation> DisplayEmptyDroneCharge()
         {
             IEnumerable<IDal.DO.Station> dalStations = dal.displayStations();
@@ -79,6 +80,21 @@ namespace BL
                 }
             }
             return arrEmptySlots;
+        }
+
+        public IEnumerable<BLDrone> DisplayAvailableDrones()
+        {
+            // return all drones that has staus - available
+        }
+        
+        public IEnumerable<BLDrone> DisplayMaintenanceDrones()
+        {
+            // return all drones that has staus - maintenance
+        }
+
+        public IEnumerable<BLDrone> DisplayDeliveryDrones()
+        {
+            // return all drones that has staus - delivery
         }
     }
 }
