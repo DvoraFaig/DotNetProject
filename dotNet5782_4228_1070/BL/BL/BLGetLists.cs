@@ -45,7 +45,7 @@ namespace BL
             }
             return arr;
         }
-        public List<BLParcel> DisplayParcel()
+/*        public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
             List<BLParcel> arr = new List<BLParcel>();
@@ -54,7 +54,7 @@ namespace BL
                 arr.Add(convertDalToBLParcel(p));
             }
             return arr;
-        }
+        }*/
 
         public List<BLParcel> DisplayFreeParcel()
         {

@@ -69,7 +69,7 @@ namespace IDal
             //======================
             //Predicate
             //======================
-            public IEnumerable<Parcel> GetAllMatchedEntities(Func<Parcel, bool> predicate);
+            //public IEnumerable<Parcel> GetAllMatchedEntities(Func<Parcel, bool> predicate);
             public IEnumerable<Parcel> getParcelWithSpecificCondition(Func<Parcel, Boolean> predicate);
             public IEnumerable<Drone> getDroneWithSpecificCondition(Func<Drone, Boolean> predicate);
             public IEnumerable<Station> getStationWithSpecificCondition(Func<Station, Boolean> predicate);
