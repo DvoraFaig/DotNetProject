@@ -50,12 +50,12 @@ namespace BL
                     blDrone.ParcelInTransfer = createBLParcelInTransfer(p, sender, target);
                     senderPosition = blDrone.ParcelInTransfer.SenderPosition;
                     targetPosition = blDrone.ParcelInTransfer.TargetPosition;
-                    if (p.PickUp == default(DateTime)) //position like the closest station to the sender of parcel.
+                    if (p.PickUp == null) //position like the closest station to the sender of parcel.
                     {
                         closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה? //אם אינו נכנס למצב הטענה PositionFromClosestStation () //אם כן updateDroneCharge
                         blDrone.DronePosition = new BLPosition() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
                     }
-                    else if (p.Delivered == default(DateTime)) //else position sender of parcel.
+                    else if (p.Delivered == null) //else position sender of parcel.
                     {
                         blDrone.DronePosition = new BLPosition() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
@@ -149,7 +149,7 @@ namespace BL
         private List<IDal.DO.Customer> findCustomersWithDeliveredParcel()
         {
             List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            parcels = parcels.FindAll(p => (p.Delivered != new DateTime()));
+            parcels = parcels.FindAll(p => (p.Delivered != null));
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
             parcels.ForEach(p =>
             {

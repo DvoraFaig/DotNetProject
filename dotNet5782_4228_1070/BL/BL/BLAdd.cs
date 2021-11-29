@@ -76,10 +76,7 @@ namespace BL
                     TargetId = targetId,
                     Weight = (IDal.DO.WeightCategories)weight,
                     Priority = (IDal.DO.Priorities)priority,
-                    Requeasted = DateTime.Now,
-                    Scheduled = new DateTime(0, 0, 0),
-                    PickUp = new DateTime(0, 0, 0),
-                    Delivered = new DateTime(0, 0, 0)
+                    Requeasted = DateTime.Now
                 };
                 dal.AddParcel(p);
             }
