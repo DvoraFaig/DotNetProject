@@ -22,7 +22,7 @@ namespace IBL
 
             public override string ToString()
             {
-                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n { StationPosition.ToString()}, ChargingDrone: {string.Join(", ", ChargingDrone)/*ChargingDrone.ForEach(e => e.ToString())*/}";
+                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n { StationPosition.ToString()}, ChargingDrone: {string.Join(", ", ChargingDrone)}";
             }
 
         }

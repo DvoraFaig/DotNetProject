@@ -1,0 +1,23 @@
+﻿<Window x:Class="PL.DroneListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="DroneListWindow" Height="450" Width="800">
+    <Grid>
+
+        <TextBox Text="Filters" TextWrapping="Wrap" Width="120" Margin="46,10,634,378" UndoLimit="99" SelectionOpacity="-5"/>
+        <TextBox Text="Status:" TextWrapping="Wrap" Width="120" Margin="46,64,634,317" UndoLimit="99" SelectionOpacity="-5"/>
+        <ComboBox Height="53" HorizontalAlignment="Left" Margin="206,64,0,0" 
+                  Name="StatusList" VerticalAlignment="Top" Width="120" SelectedIndex="0" VerticalContentAlignment="Center"
+                  SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBoxItem>Available</ComboBoxItem>
+            <ComboBoxItem>Maintenance</ComboBoxItem>
+            <ComboBoxItem>Delivery</ComboBoxItem>
+        </ComboBox>
+        <Button Content="Back" HorizontalAlignment="Left" Height="33" Margin="46,374,0,0" VerticalAlignment="Top" Width="77" Click="Button_Click"/>
+        <ListBox Name="DroneList" HorizontalAlignment="Left" Height="397" Margin="369,10,0,0" VerticalAlignment="Top" Width="405"/>
+    </Grid>
+</Window>

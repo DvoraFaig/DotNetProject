@@ -8,7 +8,7 @@ using IDal;
 
 
 
-namespace DalExceptions
+namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -43,10 +43,11 @@ namespace DalExceptions
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), droneId);
             }
         }
-        public void changeParcelInfo(Parcel p)
+        public void changeParcelInfo(Parcel goodParcel)
         {
-            Parcel pToChange = getParcelById(p.Id);
-            pToChange = p;
+            Parcel pToErase = getParcelById(goodParcel.Id);
+            DataSource.Parcels.Remove(pToErase);
+            DataSource.Parcels.Add(goodParcel);
         }
         public IEnumerable<Parcel> displayParcels()
         {
@@ -68,15 +69,19 @@ namespace DalExceptions
                 }
             }
         }
-        public Parcel getParcelById(int id)
+        //public Parcel getParcelById(int id)
+        //{
+        //    try {
+        //        return DataSource.Parcels.First(parcel => parcel.Id == id);
+        //    }
+        //    catch (Exception )
+        //    {
+        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), id);
+        //    }
+        //}
+        public Boolean IsParcelById(int id)
         {
-            try {
-                return DataSource.Parcels.FirstOrDefault(parcel => parcel.Id == id);
-            }
-            catch (Exception )
-            {
-                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Parcel), id);
-            }
+            return DataSource.Parcels.Any(p => p.Id == id);
         }
     }
 }

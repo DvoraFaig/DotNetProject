@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DalExceptions;
+using DalObject;
 
 namespace IDal
 {
@@ -20,33 +20,61 @@ namespace IDal
             void AddParcel(Parcel parcel);
             void AddDroneCharge(DroneCharge parcel);
             int amountParcels();
+            //==================
             //Update functions//
+            //==================
             string PairAParcelWithADrone(Parcel parcel);
             void DroneCollectsAParcel(Parcel parcel);
             void CostumerGetsParcel(Drone drone, Parcel parcel);
             void sendDroneToCharge(Drone drone);
             void freeDroneFromCharge(Drone drone);
+            //==================
             //get objects
+            //==================
             Station getStationById(int id);
             Drone getDroneById(int id);
             Customer getCustomerById(int id);
             Parcel getParcelById(int id);
-            DroneCharge getDroneChargeById(int id);
+            DroneCharge getDroneChargeByStationId(int id);
             DroneCharge getDroneChargeByDroneId(int id);
+            Parcel getParcelByDroneId(int droneId);
+
+            //==================
             //display lists
+            //==================
             IEnumerable<Station> displayStations();
             IEnumerable<Drone> displayDrone();
             IEnumerable<Parcel> displayParcels();
             IEnumerable<Parcel> displayFreeParcels();
             IEnumerable<DroneCharge> displayDroneCharge();
             IEnumerable<Customer> displayCustomers();
-
-            double[] electricityUseByDrone();
-            Parcel getParcelByDroneId(int droneId);
+            //==================
+            //change info
+            //==================
             void changeStationInfo(Station s);
             void changeParcelInfo(Parcel p);
-            void changeDroneInfo(Drone d);
+            void changeDroneInfo(int id, string newModel);
+            public void changeDroneInfo(Drone d);
+            public void changeCustomerInfo(Customer c);
+            //===================
+            double[] electricityUseByDrone();
+            //======================
+            //check if object exsist
+            //======================
+            public Boolean IsCustomerById(int id);
+            public Boolean IsParcelById(int id);
+            public Boolean IsDroneById(int id);
+            public Boolean IsStationById(int id);
 
+            //======================
+            //Predicate
+            //======================
+            public IEnumerable<Parcel> GetAllMatchedEntities(Func<Parcel, bool> predicate);
+            public IEnumerable<Parcel> getParcelWithSpecificCondition(Func<Parcel, Boolean> predicate);
+            public IEnumerable<Drone> getDroneWithSpecificCondition(Func<Drone, Boolean> predicate);
+            public IEnumerable<Station> getStationWithSpecificCondition(Func<Station, Boolean> predicate);
+            public IEnumerable<Customer> getCustomerWithSpecificCondition(Func<Customer, Boolean> predicate);
+            public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Func<DroneCharge, Boolean> predicate);
         }
     }
 }

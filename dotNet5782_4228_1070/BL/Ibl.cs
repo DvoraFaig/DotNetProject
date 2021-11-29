@@ -42,6 +42,10 @@ namespace IBL
         public void DronePicksUpParcel(int droneId);
         public void DeliveryParcelByDrone(int idDrone);
         public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority);
+
+        //===================
+        //predicat
+        //===================
     }
 
 }

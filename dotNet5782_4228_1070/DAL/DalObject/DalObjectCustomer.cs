@@ -10,7 +10,7 @@ using IDal;
 
 
 
-namespace DalExceptions
+namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -34,8 +34,9 @@ namespace DalExceptions
         }
         public void changeCustomerInfo(Customer c)
         {
-            Customer cToChange = getCustomerById(c.ID);
-            cToChange = c;
+            Customer cToErase = getCustomerById(c.ID);
+            DataSource.Customers.Remove(cToErase);
+            DataSource.Customers.Add(c);
         }
         public IEnumerable<Customer> displayCustomers()
         {
@@ -47,16 +48,20 @@ namespace DalExceptions
                 }
             }
         }
-        public Customer getCustomerById(int id)
+        //public Customer getCustomerById(int id)
+        //{
+        //    try
+        //    {
+        //        return DataSource.Customers.First(customer => customer.ID == id);
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
+        //    }
+        //}
+        public Boolean IsCustomerById(int id)
         {
-            try
-            {
-                return DataSource.Customers.First(customer => customer.ID == id);
-            }
-            catch (InvalidOperationException )
-            {
-                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Customer), id);
-            }
+            return DataSource.Customers.Any(c => c.ID == id);
         }
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}

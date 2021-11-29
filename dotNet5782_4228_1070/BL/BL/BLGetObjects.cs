@@ -25,21 +25,16 @@ namespace BL
 
         public BLStation GetStationById(int id)
         {
-                IDal.DO.Station s = dal.getStationById(id);
-                BLStation BLstation = convertDalToBLStation(s);
-                return BLstation;
-            //}
-            //catch (IDal.DO.DalExceptions.ObjNotExistException t)
-            //{
-            //    throw new ObjNotExistException("free Drone From Charging: ", t.Message);
-            //}
+            IDal.DO.Station s = dal.getStationById(id);
+            BLStation BLstation = convertDalToBLStation(s);
+            return BLstation;
         }
 
         public BLCustomer GetCustomerById(int id)
         {
-                IDal.DO.Customer c = dal.getCustomerById(id);
-                BLCustomer BLcustomer = convertDalToBLCustomer(c);
-                return BLcustomer;
+            IDal.DO.Customer c = dal.getCustomerById(id);
+            BLCustomer BLcustomer = convertDalToBLCustomer(c);
+            return BLcustomer;
         }
 
         public BLDrone GetDroneById(int id)

@@ -7,7 +7,7 @@ using IDal.DO;
 using IDal;
 
 
-namespace DalExceptions
+namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -27,10 +27,12 @@ namespace DalExceptions
         {
             DataSource.Drones.Add(drone);
         }
-        public void changeDroneInfo(Drone d)
+        public void changeDroneInfo(int id , string newModel)
         {
-            Drone dToChange = getDroneById(d.Id);
-            dToChange = d;
+            Drone dToChange = getDroneById(id);
+            DataSource.Drones.Remove(dToChange);
+            dToChange.Model = newModel;
+            DataSource.Drones.Add(dToChange);
         }
         public IEnumerable<Drone> displayDrone()
         {
@@ -42,16 +44,22 @@ namespace DalExceptions
                 }
             }
         }
-        public Drone getDroneById(int id)
+        //public Drone getDroneById(int id)
+        //{
+        //    try
+        //    {
+        //        return DataSource.Drones.First(drone => drone.Id == id);
+        //    }
+        //    catch (Exception )
+        //    {
+        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
+        //    }
+        //}
+
+        public void changeDroneInfo(Drone d)
         {
-            try
-            {
-                return DataSource.Drones.FirstOrDefault(drone => drone.Id == id);
-            }
-            catch (Exception )
-            {
-                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Drone), id);
-            }
+            DataSource.Drones.Remove(d);
+            DataSource.Drones.Add(d);
         }
         public double[] electricityUseByDrone(Drone drone)
         {
@@ -62,6 +70,11 @@ namespace DalExceptions
             droneInfo[3] = DataSource.Config.heavyWeight;
             droneInfo[4] = DataSource.Config.chargingRate;
             return droneInfo;
+        }
+
+        public Boolean IsDroneById(int id)
+        {
+            return DataSource.Drones.Any(d => d.Id == id);
         }
     }
 }

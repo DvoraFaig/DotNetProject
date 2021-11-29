@@ -16,13 +16,17 @@ namespace BL
             try
             {
                 BLDrone d = dronesInBL.First(drone => drone.Id == id);
-                if (d.Equals(default(BLDrone))) d.Model = newModel;
-                else throw new Exception($"ERROR: Drone {id} not found");
-                IDal.DO.Drone dr = dal.getDroneById(id);
-                dr.Model = newModel;
-                dal.changeDroneInfo(dr);
+                if (d.Equals(default(BLDrone)))
+                    throw new Exception($"ERROR: Drone {id} not found");
+                else
+                {
+                    dronesInBL.Remove(d);
+                    d.Model = newModel;
+                    dronesInBL.Add(d);
+                    dal.changeDroneInfo(id,newModel);
+                }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -52,10 +56,11 @@ namespace BL
             IDal.DO.Customer c = dal.getCustomerById(id);
             if (name != null)
                 c.Name = name;
-            if (phone != null)
+            if (phone != null && phone.Length >=9 && phone.Length <=10)
                 c.Phone = phone;
+            dal.changeCustomerInfo(c);
         }
-        
+
         public void SendDroneToCharge(int droneId)
         {
             try
@@ -65,8 +70,13 @@ namespace BL
                 {
                     IDal.DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
                     IDal.DO.DroneCharge droneCharge = new IDal.DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
+                    drone.Battery = (distance(drone.DronePosition, new BLPosition() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude }))*(int)Electricity.empty;
                     drone.Status = DroneStatus.Maintenance;
+                    drone.DronePosition = new BLPosition() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
+                    availbleSforCharging.ChargeSlots--;
                     dal.AddDroneCharge(droneCharge);
+                    dal.changeStationInfo(availbleSforCharging);
+                    dal.changeDroneInfo(convertBLToDalDrone(drone));
                     //dal.changeStationInfo // slots????????????????????????
                 }
                 else
@@ -74,7 +84,7 @@ namespace BL
                     throw new ObjNotAvailableException("Drone not vailable to charge.");
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -94,7 +104,7 @@ namespace BL
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -183,7 +193,7 @@ namespace BL
                 p.PickUp = DateTime.Now;
                 dal.changeParcelInfo(p);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
@@ -232,17 +242,26 @@ namespace BL
                 BLDrone findDrone = dronesInBL.First(e => e.Id == d.Id);
                 findDrone = d;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new InvalidOperationException();
             }
         }
 
-        internal static string checkNullforPrint<T>(T t)
+        internal static bool checkNullforPrint<T>(T t)
         {
-            if (t.Equals(default(T)))
-                return $"--field {t.GetType()} not filled yet.--";
-            return t.ToString();
+            if (t == null)
+                return false;
+            return true;
+            //if (t == null)
+            //    return $"--field {t.GetType()} not filled yet.--";
+            //return t.ToString();
+        }
+        internal static bool c<T>(T t)
+        {
+            if (t == null)
+                return false;
+            return true;
         }
 
         public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority)
@@ -251,9 +270,9 @@ namespace BL
             dal.AddParcel(p);
         }
 
-        private static BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
+        private BLDroneInParcel createBLDroneInParcel(IDal.DO.Parcel p, int droneId)
         {
-            BLDrone d = new BLDrone();//= getBLDroneByID(droneId);
+            BLDrone d = getBLDroneById(droneId);
             return new BLDroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
 

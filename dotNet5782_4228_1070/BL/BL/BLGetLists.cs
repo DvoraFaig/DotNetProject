@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IDal;
 using IBL.BO;
 using static IBL.BO.Exceptions;
+using System.Linq.Expressions;
 
 namespace BL
 {
@@ -44,7 +45,6 @@ namespace BL
             }
             return arr;
         }
-
         public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();

@@ -9,7 +9,7 @@ using IDal;
 
 
 
-namespace DalExceptions
+namespace DalObject
 {
     public partial class DalObject : IDal.DO.IDal
     {
@@ -21,14 +21,15 @@ namespace DalExceptions
         {
             DataSource.Stations.Add(s);
         }
-        public void changeStationInfo(Station s)
+        public void changeStationInfo(Station goodStation)
         {
-            Station sToChange = getStationById(s.Id);
-            sToChange = s;
+            Station sToErase = getStationById(goodStation.Id);
+            DataSource.Stations.Remove(sToErase);
+            DataSource.Stations.Add(goodStation);
         }
         public IEnumerable<Station> displayStations()
         {
-            foreach (Station station in DataSource.Stations)
+                foreach (Station station in DataSource.Stations)
             {
                 if (station.Id != 0)
                 {
@@ -46,6 +47,10 @@ namespace DalExceptions
             {
                 throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(Station), id);
             }
+        }
+        public Boolean IsStationById(int id)
+        {
+            return DataSource.Stations.Any(s => s.Id == id);
         }
     }
 }
