@@ -29,16 +29,16 @@ namespace BL
             heavyWeight = dal.electricityUseByDrone()[3];
             chargingRate = dal.electricityUseByDrone()[4];
 
-            List<IDal.DO.Drone> drones = dal.displayDrone().Cast<IDal.DO.Drone>().ToList();
+            IEnumerable<IDal.DO.Drone> drones = dal.displayDrone();
             IDal.DO.Parcel p;
             IDal.DO.Station s;
             IDal.DO.Customer sender, target;
             BLPosition senderPosition, targetPosition;
             BLDrone blDrone = new BLDrone();
-            List<IDal.DO.Parcel> ppppp = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            Random r = new Random();
+            //List<IDal.DO.Parcel> ppppp = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
+            //Random r = new Random();
 
-            drones.ForEach(d =>
+            foreach(IDal.DO.Drone d in drones )
             {
                 blDrone = copyDalToBLDroneInfo(d);
                 try
@@ -82,11 +82,10 @@ namespace BL
                     }
                 }
                 dronesInBL.Add(blDrone);
-            });
+            }
         }
         private int calcDroneBatteryForDroneDelivery(IDal.DO.Parcel p, IDal.DO.Station closestStationToSender, BLPosition senderPosition, BLPosition targetPosition)
         {
-            Random r = new Random();
             double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
             double disFromSenderToCustomer = distance(senderPosition, targetPosition);
             //from target to closest station;
@@ -103,33 +102,31 @@ namespace BL
 
         private List<IDal.DO.Station> findAvailbleStationForDrone()
         {
-            List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
-            List<IDal.DO.Station> stations = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+            IEnumerable<IDal.DO.Station> stations = dal.displayStations();
             List<IDal.DO.Station> availbleStations = new List<IDal.DO.Station>();
             int busyChargingSlots;
-            stations.ForEach(s =>
+            foreach(IDal.DO.Station s in stations)
             {
-                busyChargingSlots = droneCharges.Count(droneCharge => droneCharge.StationId == s.Id);
+                busyChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == s.Id).Count();
                 if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
                 {
                     availbleStations.Add(s);
                 }
-            });
+            }
             return availbleStations;
         }
 
         private IDal.DO.Station findAvailbleAndClosestStationForDrone(BLPosition d)
         {
-            List<IDal.DO.DroneCharge> droneCharges = dal.displayDroneCharge().Cast<IDal.DO.DroneCharge>().ToList();
-            List<IDal.DO.Station> stations = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+            IEnumerable<IDal.DO.Station> stations = dal.displayStations();
             IDal.DO.Station availbleCLosestStation = new IDal.DO.Station();
             double dis = -1;
             double minDis = -1;
             int busyChargingSlots;
-            stations.ForEach(s =>
+            foreach(IDal.DO.Station s in stations)
             {
-                busyChargingSlots = droneCharges.Count(droneCharge => droneCharge.StationId == s.Id);
-                if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
+                busyChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == s.Id).Count();
+                if (s.ChargeSlots - busyChargingSlots > 0) //has empty charging slots
                 {
                     dis = distance(d, new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude });
                     if (minDis == -1)
@@ -142,19 +139,18 @@ namespace BL
                         availbleCLosestStation = s;
                     }
                 }
-            });
+            }
             return availbleCLosestStation;
         }
 
         private List<IDal.DO.Customer> findCustomersWithDeliveredParcel()
         {
-            List<IDal.DO.Parcel> parcels = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            parcels = parcels.FindAll(p => (p.Delivered != null));
+            IEnumerable<IDal.DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null));
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
-            parcels.ForEach(p =>
+            foreach(IDal.DO.Parcel p in parcels)
             {
                 customersWithDeliveredParcels.Add(dal.getCustomerById(p.TargetId));
-            });
+            }
             return customersWithDeliveredParcels;
         }
 

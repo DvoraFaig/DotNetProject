@@ -22,8 +22,8 @@ namespace IBL
             public override string ToString()
             {
                 if (DronePosition == null)
-                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status{Status}");
-                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status{Status}\nDronePosition : {DronePosition}");
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}");
+                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
             }
         }
 
@@ -45,7 +45,7 @@ namespace IBL
             public BLPosition droneWithParcel { get; set; }
             public override string ToString()
             {
-                return ($"id: {Id} , battery: {Battery},{droneWithParcel} ");
+                return ($"id: {Id} , battery: {Battery},\n\tdrone position: {droneWithParcel} \n");
             }
         }
 

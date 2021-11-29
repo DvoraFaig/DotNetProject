@@ -11,6 +11,7 @@ namespace BL
 {
     public sealed partial class BL : IBL.Ibl
     {
+        Random r = new Random();
         public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
         {
             if (dal.IsStationById(id))
@@ -33,7 +34,6 @@ namespace BL
             else
             {
                 IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
-                Random r = new Random();
                 int battery = r.Next(20, 40);
                 IDal.DO.Station s = dal.getStationById(stationId);
                 BLStation sBL = convertDalToBLStation(s);

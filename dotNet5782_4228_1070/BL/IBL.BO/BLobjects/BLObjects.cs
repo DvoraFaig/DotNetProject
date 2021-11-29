@@ -17,7 +17,7 @@ namespace IBL
             public double Longitude { get; set; }
             public override string ToString()
             {
-                return ($"Position: ({Latitude},{Longitude})");
+                return ($"Position: ({Latitude},{Longitude}).\n");
             }
         }
     }

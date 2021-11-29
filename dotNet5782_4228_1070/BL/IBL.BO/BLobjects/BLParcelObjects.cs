@@ -25,9 +25,9 @@ namespace IBL
             public override string ToString()
             {
                 string notFilled = "not filled";
-                return ($"parcel ID: {Id}, Sender {Sender.ToString()}, Target: {Target.ToString()}, parcel Priority: {Priority}, parcel weight: {Weight},\n" +
-                    $"Drone: {(!Drone.Equals(default(BLDroneInParcel))? Drone.ToString() : (char)'-') } " +
-                    $"parcel Requeasted: {(Requeasted != null? Requeasted : (char)'-' )}, parcel scheduled: {(Scheduled != null ? Scheduled :  (char)'-' )}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
+                return ($"parcel ID: {Id}, \n\tSender: {Sender.ToString()}, \tTarget: {Target.ToString()}, \tparcel Priority: {Priority}, parcel weight: {Weight},\n" +
+                    $"\n\tDrone: {(!Drone.Equals(default(BLDroneInParcel))? Drone.ToString() : (char)'-') } " +
+                    $"\n\tparcel Requeasted: {(Requeasted != null? Requeasted : (char)'-' )}, parcel scheduled: {(Scheduled != null ? Scheduled :  (char)'-' )}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
             }
         } 
 
@@ -50,7 +50,7 @@ namespace IBL
             public BLCustomerInParcel SenderOrTargetCustomer { get; set; }
             public override string ToString()
             {
-                return ($"Id: {Id} , Weight: {Weight} , Priority: {Priority}, ParcelStatus: {ParcelStatus},{SenderOrTargetCustomer}");
+                return ($"Id: {Id} , Weight: {Weight} , Priority: {Priority}, ParcelStatus: {ParcelStatus},{SenderOrTargetCustomer}\n");
             }
         }
 
@@ -70,7 +70,7 @@ namespace IBL
             public double distance { get; set; } 
             public override string ToString()
             {
-                return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},SenderCustomer:{SenderCustomer}, TargetCustomer :{TargetCustomer}, SenderPosition: {SenderPosition}, TargetPosition :{TargetPosition}, distance: {distance} ");
+                return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},\n\tSenderCustomer:{SenderCustomer}, \tTargetCustomer :{TargetCustomer}, \tSenderPosition: {SenderPosition}, \tTargetPosition: {TargetPosition}, distance: {distance} ");
             }
         }
     }

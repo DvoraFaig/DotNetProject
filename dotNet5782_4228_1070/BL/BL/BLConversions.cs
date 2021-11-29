@@ -65,13 +65,12 @@ namespace BL
         private BLStation convertDalToBLStation(IDal.DO.Station s)
         {
             List<BLChargingDrone> blDroneChargingByStation = new List<BLChargingDrone>();
-            List<IDal.DO.DroneCharge> droneChargesByStation = dal.displayDroneCharge().ToList();
-            droneChargesByStation = droneChargesByStation.FindAll(d => d.StationId == s.Id);
-            droneChargesByStation.ForEach(d =>
+            IEnumerable<IDal.DO.DroneCharge> droneChargesByStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == s.Id);
+            foreach(IDal.DO.DroneCharge d in droneChargesByStation)
             {
                 blDroneChargingByStation.Add(new BLChargingDrone() { Id = d.DroneId, Battery = getBLDroneById(d.DroneId).Battery });
-            });
-            return new BLStation() { ID = s.Id, Name = s.Name, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots, DronesCharging = blDroneChargingByStation };
+            };
+            return new BLStation() { ID = s.Id, Name = s.Name, StationPosition = new IBL.BO.BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots - blDroneChargingByStation.Count(), DronesCharging = blDroneChargingByStation };
         }
 
         private BLCustomer convertDalToBLCustomer(IDal.DO.Customer c)
@@ -80,9 +79,7 @@ namespace BL
             IEnumerable<IDal.DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.ID);
             List<BLParcelAtCustomer> customerAsSender = createBLParcelAtCustomer(sendingParcels, true);
             List<BLParcelAtCustomer> customerAsTarget = createBLParcelAtCustomer(targetParcels , false);
-            //sendingParcels.ForEach(p => customerAsSender.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
-            //targetParcels.ForEach(p => customerAsTarget.Add(createtDalParcelToBLParcelAtCustomer(p, c)));
-            return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsSender };
+            return new BLCustomer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.BLPosition() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
         }
         private List<BLParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<IDal.DO.Parcel> pp, bool senderOrTaget)
         {
@@ -117,14 +114,11 @@ namespace BL
         private BLDrone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             BLDrone BLDrone = getBLDroneById(d.Id);
-            Random r = new Random();
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
 
         private BLDrone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
-            Random r = new Random();
-            //why random status????
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100) };
         }
 

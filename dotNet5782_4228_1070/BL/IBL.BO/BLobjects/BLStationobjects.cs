@@ -21,7 +21,7 @@ namespace IBL
             public object ChargingDrone { get; private set; }//??????????????????????????
             public override string ToString()
             {
-                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n { StationPosition.ToString()}, ChargingDrone: { string.Join(", ", ChargingDrone)}";
+                return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n\t{StationPosition.ToString()}, \tChargingDrone: { string.Join(", ", ChargingDrone)}";
             }
 
         }
