@@ -31,7 +31,7 @@ namespace IBL
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
-            public DroneStatus droneStatus { get; set; } //DroneStatus ?? the same name
+            public DroneStatus droneStatus { get; set; }
             public BLPosition DronePosition { get; set; }
             public int IdParcel { get; set; } //if there is
         }

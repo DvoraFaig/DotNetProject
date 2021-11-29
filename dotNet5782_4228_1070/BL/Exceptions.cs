@@ -27,6 +27,7 @@ namespace IBL.BO
             {
             }
         }
+
         public class ObjExistException : Exception
         {
             public ObjExistException(Type objType, int id)
@@ -38,6 +39,7 @@ namespace IBL.BO
             {
             }
         }
+
         public class NoDataMatchingBetweenDalandBL<T> : Exception
         {
             public NoDataMatchingBetweenDalandBL(T obj)
@@ -45,6 +47,7 @@ namespace IBL.BO
             {
             }
         }
+
         public class SerialNumbeExistException<T> : Exception
         {
             public SerialNumbeExistException(T obj)
@@ -52,6 +55,7 @@ namespace IBL.BO
             {
             }
         }
+
         public class ObjNotAvailableException : Exception
         {
             public ObjNotAvailableException(string message)
@@ -60,5 +64,4 @@ namespace IBL.BO
             }
         }
     }
-
 }
