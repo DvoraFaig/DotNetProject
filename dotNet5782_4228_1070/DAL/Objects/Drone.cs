@@ -17,7 +17,6 @@ namespace IDal
             public override string ToString()
             {
                 return ($"drone id: {Id}, drone model{Model}\n");
-                //drone MaxWeight {MaxWeight}, drone status{Status},
             }
         }
     }

@@ -23,20 +23,20 @@ namespace BL
         }
 
         private readonly Func<IDal.DO.Parcel, bool> gtPredicatObjectId = x => x.DroneId > 1;
-        public List<BLParcel> DisplayParcel()
-        {
-            //Expression<Func<IDal.DO.Parcel, bool>> a = IsMatchedExpression();
-            //IEnumerable<IDal.DO.Parcel> pList = IDal.DO.IDal.GetAllMatchedEntities(a);
-            IEnumerable<IDal.DO.Parcel> pList = dal.getParcelWithSpecificCondition(gtPredicatObjectId);
-            IEnumerable<IDal.DO.Parcel> pList2 = dal.getParcelWithSpecificCondition(x => x.Id > 0);
+        //public List<BLParcel> DisplayParcel()
+        //{
+        //    //Expression<Func<IDal.DO.Parcel, bool>> a = IsMatchedExpression();
+        //    //IEnumerable<IDal.DO.Parcel> pList = IDal.DO.IDal.GetAllMatchedEntities(a);
+        //    IEnumerable<IDal.DO.Parcel> pList = dal.getParcelWithSpecificCondition(gtPredicatObjectId);
+        //    IEnumerable<IDal.DO.Parcel> pList2 = dal.getParcelWithSpecificCondition(x => x.Id > 0);
 
-            List<BLParcel> arr = new List<BLParcel>();
-            foreach (var p in pList)
-            {
-                arr.Add(convertDalToBLParcel(p));
-            }
-            return arr;
-        }
+        //    List<BLParcel> arr = new List<BLParcel>();
+        //    foreach (var p in pList)
+        //    {
+        //        arr.Add(convertDalToBLParcel(p));
+        //    }
+        //    return arr;
+        //}
 
 
         //public Predicate<IDal.DO.Parcel> GetObjByIdP(int id, List<IDal.DO.Parcel> parcels)

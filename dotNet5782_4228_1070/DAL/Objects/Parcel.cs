@@ -15,7 +15,7 @@ namespace IDal
             public int TargetId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public int DroneId { get; set; }
+            public int? DroneId { get; set; }
             public DateTime? Requeasted { get; set; }
             public DateTime? Scheduled { get; set; } //pair a parcel to drone
             public DateTime? PickUp { get; set; }

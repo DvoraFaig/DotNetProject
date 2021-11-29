@@ -63,14 +63,14 @@ namespace DalObject
         }
         public void DroneCollectsAParcel(Parcel parcel)
         {
-            if (parcel.DroneId == 0) //doesn't have a Drone 
+            if (parcel.DroneId == null) //doesn't have a Drone 
             {
                 Console.WriteLine("Error! The parcel doesn't have a Drone.\n Please enter DroneReceivesParcel");
             }
             else
             {
                 parcel.PickUp = DateTime.Now;
-                Drone droneCollect = getDroneById(parcel.DroneId);
+                Drone droneCollect = getDroneById((int)parcel.DroneId);
             }
         }
         public void CostumerGetsParcel(Drone drone, Parcel parcel)

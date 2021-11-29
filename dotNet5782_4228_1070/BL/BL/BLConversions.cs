@@ -114,7 +114,7 @@ namespace BL
             BLDroneInParcel drone = null;
             if (!p.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled)) //if the parcel is paired with a drone
             {
-                drone = createBLDroneInParcel(p, getBLDroneById(p.DroneId).Id);
+                drone = createBLDroneInParcel(p, getBLDroneById((int)p.DroneId).Id);
             }
 
             return new BLParcel()
@@ -123,7 +123,7 @@ namespace BL
                 Sender = new BLCustomerInParcel() { Id = p.SenderId, name = dal.getCustomerById(p.SenderId).Name },
                 Target = new BLCustomerInParcel() { Id = p.TargetId, name = dal.getCustomerById(p.TargetId).Name },
                 Weight = p.Weight,
-                Drone = createBLDroneInParcel(p, p.DroneId),
+                Drone = createBLDroneInParcel(p, (int)p.DroneId),
                 Requeasted = p.Requeasted,
                 Scheduled = p.Scheduled,
                 PickUp = p.PickUp,

@@ -34,20 +34,20 @@ namespace DalObject
                 }
             }
         }
-        //public DroneCharge getDroneChargeByDroneId(int id)
-        //{
-        //    return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
-        //}
-        //public DroneCharge getDroneChargeByStationId(int id)
-        //{
-        //    try
-        //    {
-        //        return DataSource.DroneCharges.Find(charge => charge.StationId == id);
-        //    }
-        //    catch (Exception )
-        //    {
-        //        throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(DroneCharge), id);
-        //    }
-        //}
+        public DroneCharge getDroneChargeByDroneId(int id)
+        {
+            return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
+        }
+        public DroneCharge getDroneChargeByStationId(int id)
+        {
+            try
+            {
+                return DataSource.DroneCharges.Find(charge => charge.StationId == id);
+            }
+            catch (Exception)
+            {
+                throw new IDal.DO.DalExceptions.ObjNotExistException(typeof(DroneCharge), id);
+            }
+        }
     }
 }
