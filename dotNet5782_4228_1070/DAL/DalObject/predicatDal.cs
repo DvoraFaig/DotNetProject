@@ -19,16 +19,31 @@ namespace DalObject
         ////{
         ////    findBy(DataSource.Parcels)       
         ////}
-        public Parcel GetAllMatchedEntities(Func<Parcel, Boolean> predicate)
+        //public IEnumerable<Parcel> getParcelWithSpecificCondition(Func<Parcel, Boolean> predicate)
+        //{
+        //    return DataSource.Parcels.Where<Parcel>(predicate);
+        //}
+        public IEnumerable<Parcel> getParcelWithSpecificCondition(Func<Parcel, Boolean> predicate)
         {
-            return DataSource.Parcels.Where<Parcel>(predicate).First();
-
+            return DataSource.Parcels.Where<Parcel>(predicate);
         }
-        public T GetAllMatchedEntities<T>(Func<T, Boolean> predicate)
+        public IEnumerable<Drone> getDroneWithSpecificCondition(Func<Drone, Boolean> predicate)
         {
-            return DataSource.T.Where<Station>(predicate).First();
-
+            return DataSource.Drones.Where<Drone>(predicate);
         }
+        public IEnumerable<Station> getStationWithSpecificCondition(Func<Station, Boolean> predicate)
+        {
+            return DataSource.Stations.Where<Station>(predicate);
+        }
+        public IEnumerable<Customer> getCustomerWithSpecificCondition(Func<Customer, Boolean> predicate)
+        {
+            return DataSource.Customers.Where<Customer>(predicate);
+        }
+        public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Func<DroneCharge, Boolean> predicate)
+        {
+            return DataSource.DroneCharges.Where<DroneCharge>(predicate);
+        }
+
         public Drone getDroneById(int id)
         {
             return (from drone in DataSource.Drones
@@ -52,7 +67,7 @@ namespace DalObject
             return (from station in DataSource.Stations
                     where id == station.Id
                     select station).First();
-        } 
+        }
         public DroneCharge getDroneChargeByDroneId(int id)
         {
             return (from DroneCharge in DataSource.DroneCharges

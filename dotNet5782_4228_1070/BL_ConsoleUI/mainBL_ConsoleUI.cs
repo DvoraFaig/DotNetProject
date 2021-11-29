@@ -287,6 +287,7 @@ namespace BL_ConsoleUI
                     {
                         Console.WriteLine(e.Message);
                     }
+
                     break;
                 default:
                     break;

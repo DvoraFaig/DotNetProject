@@ -21,14 +21,15 @@ namespace BL
             var binaryExpression = Expression.GreaterThan(propertyOrField, Expression.Constant(2));
             return Expression.Lambda<Func<IDal.DO.Parcel, bool>>(binaryExpression, parameterExpression);
         }
-        //private readonly Func<T list, int id,> IsMatch = x => x.DroneId > 1;
 
         private readonly Func<IDal.DO.Parcel, bool> gtPredicatObjectId = x => x.DroneId > 1;
         public List<BLParcel> DisplayParcel()
         {
             //Expression<Func<IDal.DO.Parcel, bool>> a = IsMatchedExpression();
             //IEnumerable<IDal.DO.Parcel> pList = IDal.DO.IDal.GetAllMatchedEntities(a);
-            IEnumerable<IDal.DO.Parcel> pList = dal.GetAllMatchedEntities(IsMatch);
+            IEnumerable<IDal.DO.Parcel> pList = dal.getParcelWithSpecificCondition(gtPredicatObjectId);
+            IEnumerable<IDal.DO.Parcel> pList2 = dal.getParcelWithSpecificCondition(x => x.Id > 0);
+
             List<BLParcel> arr = new List<BLParcel>();
             foreach (var p in pList)
             {
@@ -38,13 +39,13 @@ namespace BL
         }
 
 
-        public Predicate<IDal.DO.Parcel> GetObjByIdP(int id, List<IDal.DO.Parcel> parcels)
-        {
-            var predicat =  from item in parcels
-                   where id == item.Id
-                   select item;
-            return predicat;
-        }
+        //public Predicate<IDal.DO.Parcel> GetObjByIdP(int id, List<IDal.DO.Parcel> parcels)
+        //{
+        //    var predicat =  from item in parcels
+        //           where id == item.Id
+        //           select item;
+        //    return predicat;
+        //}
 
 
 
@@ -60,32 +61,32 @@ namespace BL
         //};
 
         //int result = multiplyByFive(7);
-        public BLStation GetStationByIdP(int id)
-        {
-            IDal.DO.Station s = dal.getStationById(id);
-            BLStation BLstation = convertDalToBLStation(s);
-            return BLstation;
-        }
+        //public BLStation GetStationByIdP(int id)
+        //{
+        //    IDal.DO.Station s = dal.getStationById(id);
+        //    BLStation BLstation = convertDalToBLStation(s);
+        //    return BLstation;
+        //}
 
-        public BLCustomer GetCustomerByIdP(int id)
-        {
-            IDal.DO.Customer c = dal.getCustomerById(id);
-            BLCustomer BLcustomer = convertDalToBLCustomer(c);
-            return BLcustomer;
-        }
+        //public BLCustomer GetCustomerByIdP(int id)
+        //{
+        //    IDal.DO.Customer c = dal.getCustomerById(id);
+        //    BLCustomer BLcustomer = convertDalToBLCustomer(c);
+        //    return BLcustomer;
+        //}
 
-        public BLDrone GetDroneByIdP(int id)
-        {
-            IDal.DO.Drone d = dal.getDroneById(id);
-            BLDrone BLdrone = convertDalToBLDrone(d);
-            return BLdrone;
-        }
+        //public BLDrone GetDroneByIdP(int id)
+        //{
+        //    IDal.DO.Drone d = dal.getDroneById(id);
+        //    BLDrone BLdrone = convertDalToBLDrone(d);
+        //    return BLdrone;
+        //}
 
-        public BLParcel GetParcelByIdP(int id)
-        {
-            IDal.DO.Parcel p = dal.getParcelById(id);
-            BLParcel BLparcel = convertDalToBLParcel(p);
-            return BLparcel;
-        }
+        //public BLParcel GetParcelByIdP(int id)
+        //{
+        //    IDal.DO.Parcel p = dal.getParcelById(id);
+        //    BLParcel BLparcel = convertDalToBLParcel(p);
+        //    return BLparcel;
+        //}
     }
 }
