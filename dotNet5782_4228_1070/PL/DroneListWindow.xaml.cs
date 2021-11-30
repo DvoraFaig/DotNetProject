@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        Ibl blObjectH;
+        Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();

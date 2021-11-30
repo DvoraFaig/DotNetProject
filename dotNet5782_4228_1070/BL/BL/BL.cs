@@ -35,8 +35,6 @@ namespace BL
             IDal.DO.Customer sender, target;
             BLPosition senderPosition, targetPosition;
             BLDrone blDrone = new BLDrone();
-            //List<IDal.DO.Parcel> ppppp = dal.displayParcels().Cast<IDal.DO.Parcel>().ToList();
-            //Random r = new Random();
 
             foreach(IDal.DO.Drone d in drones )
             {
