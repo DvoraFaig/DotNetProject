@@ -17,7 +17,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.Stations.First(s => s.Id == id);
                 return getStationWithSpecificCondition(s => s.Id == id).First();
             }
             catch (Exception)
@@ -29,7 +28,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.Drones.First(drone => drone.Id == id);
                 return getDroneWithSpecificCondition(drone => drone.Id == id).First();
             }
             catch (Exception)
@@ -41,7 +39,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.Parcels.First(parcel => parcel.Id == id);
                 return getParcelWithSpecificCondition(parcel => parcel.Id == id).First();
             }
             catch (Exception)
@@ -53,7 +50,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.Parcels.First(p => p.DroneId == droneId);
                 return getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
             }
             catch (InvalidOperationException)
@@ -65,7 +61,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.Customers.First(customer => customer.ID == id);
                 return getCustomerWithSpecificCondition(customer => customer.ID == id).First();
             }
             catch (InvalidOperationException)
@@ -77,7 +72,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.DroneCharges.FirstOrDefault(charge => charge.DroneId == id);
                 return getDroneChargeWithSpecificCondition(charge => charge.DroneId == id).First();
             }
             catch (InvalidOperationException)
@@ -90,7 +84,6 @@ namespace DalObject
         {
             try
             {
-                //return DataSource.DroneCharges.Find(charge => charge.StationId == id);
                 return getDroneChargeWithSpecificCondition(charge => charge.StationId == id).First();
             }
             catch (Exception)

@@ -91,12 +91,12 @@ namespace BL
                 if (senderOrTaget) //sender
                 {
                     bLCustomerInParcel.Id = p.SenderId;
-                    bLCustomerInParcel.name = dal.getCustomerById(p.SenderId).Name;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First().Name;
                 }
                 else //target
                 {
                     bLCustomerInParcel.Id = p.TargetId;
-                    bLCustomerInParcel.name = dal.getCustomerById(p.TargetId).Name;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First().Name;
                 }
                 if (p.Delivered != null)
                     parcelStatusesTemp = ParcelStatuses.Delivered;
@@ -122,12 +122,12 @@ namespace BL
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100) };
         }
 
-        private BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge d) //convertDalToBLChargingDrone the opposite BL to DAL
+        private BLChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge droneCharge) //convertDalToBLChargingDrone the opposite BL to DAL
         {
             return new BLChargingDrone()
             {
-                Id = d.DroneId,
-                Battery = getBLDroneById(d.DroneId).Battery
+                Id = droneCharge.DroneId,
+                Battery = getBLDroneWithSpecificCondition(d => d.Id == droneCharge.DroneId).First().Battery
             };
         }
 
@@ -136,14 +136,14 @@ namespace BL
             BLDroneInParcel drone = null;
             if (!p.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled)) //if the parcel is paired with a drone
             {
-                drone = createBLDroneInParcel(p, getBLDroneById((int)p.DroneId).Id);
+                drone = createBLDroneInParcel(p, getBLDroneWithSpecificCondition(d => d.Id == (int)p.DroneId).First().Id);
             }
 
             return new BLParcel()
             {
                 Id = p.Id,
-                Sender = new BLCustomerInParcel() { Id = p.SenderId, name = dal.getCustomerById(p.SenderId).Name },
-                Target = new BLCustomerInParcel() { Id = p.TargetId, name = dal.getCustomerById(p.TargetId).Name },
+                Sender = new BLCustomerInParcel() { Id = p.SenderId, name = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First().Name },
+                Target = new BLCustomerInParcel() { Id = p.TargetId, name = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First().Name },
                 Weight = p.Weight,
                 Drone = createBLDroneInParcel(p, (int)p.DroneId),
                 Requeasted = p.Requeasted,

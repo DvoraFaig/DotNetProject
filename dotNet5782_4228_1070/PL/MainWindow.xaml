@@ -6,7 +6,19 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800">
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" Opacity="0.98">
+        <Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
+            <Rectangle.Fill >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="0.0" />
+                    <GradientStop Color="Red" Offset="0.25" />
+                    <GradientStop Color="Blue" Offset="0.75" />
+                    <GradientStop Color="LimeGreen" Offset="1.0" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Image Margin="0,-130,-154,-62" Stretch="Fill" Source="drone.jpg" Grid.ColumnSpan="2" Opacity="0.7"/>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
