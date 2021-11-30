@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
+using IBL.BO;
 using IBL;
 
 namespace PL
@@ -21,47 +22,43 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
+        private Ibl blObjectH;
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;
-            List<IBL.BO.BLDrone> drones = blObject.DisplayDrones();
-            DroneList.ItemsSource = drones;
-            /*foreach (IBL.BO.BLDrone drone in drones)
-            {
-                DroneList.Items.Add(drone);
-            }*/
+            DroneListView.ItemsSource = blObjectH.DisplayDrones();
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!IsInitialized) return;
-
-            ComboBoxItem item = StatusList.SelectedItem as ComboBoxItem;
-            IEnumerable<IBL.BO.BLDrone> b;
-            switch (item.Content)
-            {
-                case "Available":
-                    //ShowDronesList = blObjectH.DisplayAvailableDrones();
-                    b = blObjectH.DisplayAvailableDrones();
-                    break;
-                case "Maintenance":
-                    b = blObjectH.DisplayMaintenanceDrones();
-                    break;
-                case "Delivery":
-                    b = blObjectH.DisplayDeliveryDrones();
-                    break;
-                default:
-                    break;
-            }
-            //DroneList.ItemsSource = b;
+            object item = StatusSelector.SelectedItem;
+            List<BLDrone> b = blObjectH.DisplayDroneByStatus((DroneStatus)item);
+            DroneListView.ItemsSource = b;
+        }
+        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            object item = WeightSelector.SelectedItem;
+            List<BLDrone> b = blObjectH.DisplayDroneByWeight((IDal.DO.WeightCategories)item);
+            DroneListView.ItemsSource = b;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            var win2 = new MainWindow();
-            win2.Show();
+            this.Close();
+        }
+
+        private void AddDroneButton_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneWindow(blObjectH).Show();
+            this.Close();
+        }
+
+        private void DroneSelection(object sender, MouseButtonEventArgs e)
+        {
+            new DroneWindow(blObjectH, (BLDrone)DroneListView.SelectedItem);
             this.Close();
         }
 

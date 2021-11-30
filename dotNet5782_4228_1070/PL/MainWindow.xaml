@@ -43,6 +43,21 @@ https://thumbs.dreamstime.com/z/order-delivery-status-post-parcel-package-tracki
         </Image>
 
         <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418"/>
+        Title="MainWindow" Height="640" Width="800">
+    <Grid x:Name="MainGrid" Opacity="0.98">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Drone List" Height="41"  Width="116" Click="Button_Click" Grid.Row="0"/>
 
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+        </Grid>
     </Grid>
 </Window>
