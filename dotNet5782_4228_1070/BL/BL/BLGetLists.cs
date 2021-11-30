@@ -37,13 +37,7 @@ namespace BL
 
         public List<BLDrone> DisplayDrones()
         {
-            IEnumerable<IDal.DO.Drone> dList = dal.displayDrone();
-            List<BLDrone> arr = new List<BLDrone>();
-            foreach (var d in dList)
-            {
-                arr.Add(convertDalToBLDrone(d));
-            }
-            return arr;
+            return dronesInBL;
         }
         public List<BLParcel> DisplayParcel()
         {
@@ -74,27 +68,35 @@ namespace BL
             foreach (IDal.DO.Station s in dalStations)
             {
                 int amountDroneChargeFullInStation = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == s.Id).Count();
-                if(s.ChargeSlots > amountDroneChargeFullInStation)
+                if (s.ChargeSlots > amountDroneChargeFullInStation)
                 {
                     arrEmptySlots.Add(convertDalToBLStation(s));
                 }
             }
             return arrEmptySlots;
         }
-        
-        public IEnumerable<BLDrone> DisplayMaintenanceDrones()
+
+        public List<BLDrone> DisplayDroneByWeight(IDal.DO.WeightCategories weight)
         {
-            return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Maintenance);
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == weight);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return list;
         }
 
-        public IEnumerable<BLDrone> DisplayDeliveryDrones()
+        public List<BLDrone> DisplayDroneByStatus(DroneStatus status)
         {
-            return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Delivery);
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.Status == status);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return list;
         }
 
-        public IEnumerable<BLDrone> DisplayAvailableDrones()
-        {
-           return getBLDroneWithSpecificCondition(d => d.Status == DroneStatus.Available);
-        }
     }
 }

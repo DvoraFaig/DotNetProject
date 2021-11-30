@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
-    <Grid>
+    <!--<Grid>
 
         <TextBox Text="Filters" TextWrapping="Wrap" Width="120" Margin="46,10,634,378" UndoLimit="99" SelectionOpacity="-5"/>
         <TextBox Text="Status:" TextWrapping="Wrap" Width="120" Margin="46,64,634,317" UndoLimit="99" SelectionOpacity="-5"/>
@@ -19,5 +19,31 @@
         </ComboBox>
         <Button Content="Back" HorizontalAlignment="Left" Height="33" Margin="46,374,0,0" VerticalAlignment="Top" Width="77" Click="Button_Click"/>
         <ListBox Name="DroneList" HorizontalAlignment="Left" Height="397" Margin="369,10,0,0" VerticalAlignment="Top" Width="405"/>
+    </Grid>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Name="StatusSelector" SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10"/>
+            <ComboBox Name="WeightSelector" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="2" Margin="15,10" SelectionChanged="WeightSelector_SelectionChanged"/>
+            <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
+            <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
+        </Grid>
+        <ListView Grid.Row="1" x:Name="DroneListView" Background="Crimson">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
+
 </Window>

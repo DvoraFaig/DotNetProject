@@ -23,9 +23,8 @@ namespace IBL
         public List<BLParcel> DisplayParcel();
         public List<BLParcel> DisplayFreeParcel();
         public List<BLStation> DisplayEmptyDroneCharge();
-        public IEnumerable<BLDrone> DisplayMaintenanceDrones();
-        public IEnumerable<BLDrone> DisplayDeliveryDrones();
-        public IEnumerable<BLDrone> DisplayAvailableDrones();
+        public List<BLDrone> DisplayDroneByWeight(IDal.DO.WeightCategories weight);
+        public List<BLDrone> DisplayDroneByStatus(DroneStatus status);
         //================
         // Get object
         //================

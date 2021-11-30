@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Ibl blObject;
+        private Ibl blObject;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,9 +31,8 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var win2 = new DroneListWindow(blObject);
-            win2.Show();
-            this.Close();
+            new DroneListWindow(blObject).Show();
+            //this.Close();
         }
     }
 }
