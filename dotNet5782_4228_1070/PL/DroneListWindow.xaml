@@ -7,7 +7,16 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
-
+        <Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
+            <Rectangle.Fill >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="0.0" />
+                    <GradientStop Color="Red" Offset="0.25" />
+                    <GradientStop Color="Blue" Offset="0.75" />
+                    <GradientStop Color="LimeGreen" Offset="1.0" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBox Text="Filters" TextWrapping="Wrap" Width="120" Margin="46,10,634,378" UndoLimit="99" SelectionOpacity="-5"/>
         <TextBox Text="Status:" TextWrapping="Wrap" Width="120" Margin="46,64,634,317" UndoLimit="99" SelectionOpacity="-5"/>
         <ComboBox Height="53" HorizontalAlignment="Left" Margin="206,64,0,0" 

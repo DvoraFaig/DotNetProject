@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid >
-        <Rectangle Opacity="0.69" >
+    <Grid x:Name="GridMain" Opacity="0.98">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>-->
+        <Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
             <Rectangle.Fill >
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="Yellow" Offset="0.0" />
@@ -17,7 +21,8 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Button Content="Done List" HorizontalAlignment="Left" Height="41" Margin="46,74,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click"/>
+        <Image Margin="0,-130,-154,-62" Stretch="Fill" Source="drone.jpg" Grid.ColumnSpan="2" Opacity="0.7"/>
+        <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="28,34,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7"/>
 
     </Grid>
 </Window>
