@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
+using IBL.BO;
 using IBL;
 
 namespace PL
@@ -27,20 +28,20 @@ namespace PL
             InitializeComponent();
             blObjectH = blObject;
             DroneListView.ItemsSource = blObjectH.DisplayDrones();
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object item = StatusSelector.SelectedItem;
-            List<IBL.BO.BLDrone> b = blObjectH.DisplayDroneByStatus((IBL.BO.DroneStatus)item);
+            List<BLDrone> b = blObjectH.DisplayDroneByStatus((DroneStatus)item);
             DroneListView.ItemsSource = b;
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object item = WeightSelector.SelectedItem;
-            List<IBL.BO.BLDrone> b = blObjectH.DisplayDroneByWeight((IDal.DO.WeightCategories)item);
+            List<BLDrone> b = blObjectH.DisplayDroneByWeight((IDal.DO.WeightCategories)item);
             DroneListView.ItemsSource = b;
         }
 
@@ -52,6 +53,12 @@ namespace PL
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
             new DroneWindow(blObjectH).Show();
+            this.Close();
+        }
+
+        private void DroneSelection(object sender, MouseButtonEventArgs e)
+        {
+            new DroneWindow(blObjectH, (BLDrone)DroneListView.SelectedItem);
             this.Close();
         }
     }

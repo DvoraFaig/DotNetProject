@@ -7,17 +7,6 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
-        <Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
-            <Rectangle.Fill >
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="Yellow" Offset="0.0" />
-                    <GradientStop Color="Red" Offset="0.25" />
-                    <GradientStop Color="Blue" Offset="0.75" />
-                    <GradientStop Color="LimeGreen" Offset="1.0" />
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
@@ -34,7 +23,7 @@
             <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
             <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="DroneListView" Background="Crimson">
+        <ListView Grid.Row="1" x:Name="DroneListView" Background="Crimson" MouseDoubleClick="DroneSelection">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
