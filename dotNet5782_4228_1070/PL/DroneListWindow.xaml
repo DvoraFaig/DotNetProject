@@ -27,6 +27,7 @@
             <ComboBoxItem>Delivery</ComboBoxItem>
         </ComboBox>
         <Button Content="Back" HorizontalAlignment="Left" Height="33" Margin="46,374,0,0" VerticalAlignment="Top" Width="77" Click="Button_Click"/>
-        <ListBox Name="DroneList" HorizontalAlignment="Left" Height="397" Margin="369,10,0,0" VerticalAlignment="Top" Width="405"/>
+        <ListBox Name="DroneList" HorizontalAlignment="Left" Height="397" Margin="369,10,0,0" VerticalAlignment="Top" Width="405" SelectionChanged="DroneList_SelectionChanged" />
+
     </Grid>
 </Window>

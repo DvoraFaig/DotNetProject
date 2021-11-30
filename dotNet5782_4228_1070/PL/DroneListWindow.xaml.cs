@@ -64,5 +64,10 @@ namespace PL
             win2.Show();
             this.Close();
         }
+
+        private void DroneList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

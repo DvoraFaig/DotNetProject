@@ -11,7 +11,7 @@
             <ColumnDefinition Width="17*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>-->
-        <Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
+        <!--<Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
             <Rectangle.Fill >
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="Yellow" Offset="0.0" />
@@ -20,9 +20,29 @@
                     <GradientStop Color="LimeGreen" Offset="1.0" />
                 </LinearGradientBrush>
             </Rectangle.Fill>
-        </Rectangle>
-        <Image Margin="0,-130,-154,-62" Stretch="Fill" Source="drone.jpg" Grid.ColumnSpan="2" Opacity="0.7"/>
-        <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="28,34,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7"/>
+        </Rectangle>-->
+        <!--<Image Margin="0,-130,-154,-62" Stretch="Fill" Source="drone.jpg" Grid.ColumnSpan="2" Opacity="0.7"/>-->
+        <!--<Grid Background="Black">
+            <Image  Margin="-24,160,395,-2" Stretch="Fill" Source="target1.jpg" />
+        </Grid>
+        <Image Source="/target2.jpg" Margin="242,164,136,0" Grid.ColumnSpan="2"/>
+        <Image Source="/sender and target 1.jpg" Margin="194,10,70,275" Grid.ColumnSpan="2"/>
+        <Image Source="/service1.jpg" Margin="485,258,0,0" Panel.ZIndex="2" />
+        <Image Source="/service.jpg" Margin="492,5,-2,167" />-->
+        <!--<Image Source="https://thumbs.dreamstime.com/b/courier%EF%BC%8C%E5%8C%85%E8%A3%85-%E2%80%94-%E4%BA%A4%E8%B4%A7%E6%A6%82%E5%BF%B5-d%E5%91%88%E7%8E%B0-courier%EF%BC%8C%E5%8C%85-d%E6%B8%B2%E6%9F%93%EF%BC%8C%E7%99%BD%E8%89%B2%E8%83%8C%E6%99%AF-164363623.jpg" />-->
+        <Image Source="
+https://thumbs.dreamstime.com/z/order-delivery-status-post-parcel-package-tracking-vector-icons-processing-bar-ship-transit-signs-express-courier-app-168093921.jpg" Margin="-9,113,1,-192" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.595"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="2.39"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+        <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418"/>
 
     </Grid>
 </Window>
