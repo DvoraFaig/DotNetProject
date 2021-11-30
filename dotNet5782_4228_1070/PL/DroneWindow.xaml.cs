@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using IBL.BO;
 
 namespace PL
 {
@@ -20,6 +21,7 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private IBL.Ibl blObjectD;
+        BLDrone dr;
         public DroneWindow(IBL.Ibl blObject)
         {
             InitializeComponent();
@@ -30,6 +32,14 @@ namespace PL
         {
             InitializeComponent();
             blObjectD = blObject;
+            dr = drone;
+            CancelButton.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            this.Close();
         }
     }
 }
