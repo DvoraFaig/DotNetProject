@@ -27,6 +27,7 @@ namespace PL
         {
             InitializeComponent();
             blObject = IBL.IBL.BLFactory.Factory("BL");
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

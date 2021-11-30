@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        /*static public*/ Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
+        Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace PL
                 default:
                     break;
             }
-            DroneList.ItemsSource = b;
+            //DroneList.ItemsSource = b;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

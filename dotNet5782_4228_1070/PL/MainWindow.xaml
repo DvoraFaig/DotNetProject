@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid >
+        <Rectangle Opacity="0.69" >
+            <Rectangle.Fill >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="0.0" />
+                    <GradientStop Color="Red" Offset="0.25" />
+                    <GradientStop Color="Blue" Offset="0.75" />
+                    <GradientStop Color="LimeGreen" Offset="1.0" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Button Content="Done List" HorizontalAlignment="Left" Height="41" Margin="46,74,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click"/>
 
     </Grid>
