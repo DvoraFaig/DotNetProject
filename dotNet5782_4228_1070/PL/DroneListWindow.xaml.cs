@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
+        /*static public*/ Ibl blObjectH; // = IBL.BLFactory.Factory("BL"); //inilize
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace PL
             if (!IsInitialized) return;
 
             ComboBoxItem item = StatusList.SelectedItem as ComboBoxItem;
-            List<IBL.BO.BLDrone> b;
+            IEnumerable<IBL.BO.BLDrone> b;
             switch (item.Content)
             {
                 case "Available":
