@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,21 +26,30 @@ namespace PL
         public DroneWindow(IBL.Ibl blObject)
         {
             InitializeComponent();
+            UpdateDroneDisplay.Visibility = Visibility.Hidden;
             blObjectD = blObject;
+
+        }
+        private void OnClosing1(object sender, CancelEventArgs e)
+        {
+           e.Cancel = true;
         }
 
         public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
         {
             InitializeComponent();
+            AddDroneDisplay.Visibility = Visibility.Hidden;
             blObjectD = blObject;
             dr = drone;
-            CancelButton.Visibility = Visibility.Hidden;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
             this.Close();
+        }
+
+        private void onClosing1(object sender, EventArgs e)
+        {
         }
     }
 }

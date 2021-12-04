@@ -35,6 +35,7 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(blObject).Show();
+            this.Hide();
             //this.Close();
         }
     }

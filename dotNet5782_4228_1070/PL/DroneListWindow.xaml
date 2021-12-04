@@ -7,18 +7,6 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Text="Filters" TextWrapping="Wrap" Width="120" Margin="46,10,634,378" UndoLimit="99" SelectionOpacity="-5"/>
-        <TextBox Text="Status:" TextWrapping="Wrap" Width="120" Margin="46,64,634,317" UndoLimit="99" SelectionOpacity="-5"/>
-        <ComboBox Height="53" HorizontalAlignment="Left" Margin="206,64,0,0" 
-                  Name="StatusList" VerticalAlignment="Top" Width="120" SelectedIndex="0" VerticalContentAlignment="Center"
-                  SelectionChanged="ComboBox_SelectionChanged">
-            <ComboBoxItem>Available</ComboBoxItem>
-            <ComboBoxItem>Maintenance</ComboBoxItem>
-            <ComboBoxItem>Delivery</ComboBoxItem>
-        </ComboBox>
-        <Button Content="Back" HorizontalAlignment="Left" Height="33" Margin="46,374,0,0" VerticalAlignment="Top" Width="77" Click="Button_Click"/>
-        <ListBox Name="DroneList" HorizontalAlignment="Left" Height="397" Margin="369,10,0,0" VerticalAlignment="Top" Width="405" SelectionChanged="DroneList_SelectionChanged" />
-
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
@@ -35,7 +23,8 @@
             <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
             <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="DroneListView" Background="Crimson" MouseDoubleClick="DroneSelection">
+        <Image Source="https://i.pinimg.com/736x/19/a3/61/19a361bd9faa1c3963ceee824e22651a.jpg" Panel.ZIndex="9" Margin="645,263,0,0"></Image>
+        <ListView Grid.Row="1" x:Name="DroneListView" Background="White" MouseDoubleClick="DroneSelection" SelectionChanged="DroneListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
