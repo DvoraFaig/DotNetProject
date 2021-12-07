@@ -32,6 +32,8 @@ namespace BL
             IEnumerable<IDal.DO.Drone> drones = dal.displayDrone();
             IDal.DO.Parcel p;
             IDal.DO.Station s;
+
+
             IDal.DO.Customer sender, target;
             BLPosition senderPosition, targetPosition;
             BLDrone blDrone = new BLDrone();
@@ -41,11 +43,11 @@ namespace BL
                 blDrone = copyDalToBLDroneInfo(d);
                 try
                 {
-                    p = dal.getParcelByDroneId(d.Id);
+                    p = dal.getParcelWithSpecificCondition(p=> p.DroneId == d.Id).First();
                     IDal.DO.Station closestStationToSender = new IDal.DO.Station();
-                    sender = dal.getCustomerById(p.SenderId);
-                    target = dal.getCustomerById(p.TargetId);
-                    blDrone.ParcelInTransfer = createBLParcelInTransfer(p, sender, target);
+                    sender = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.SenderId).First();
+                    target = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.TargetId).First();
+                    blDrone.ParcelInTransfer = createBLParcelInTransfer(p, sender, target);//.First();
                     senderPosition = blDrone.ParcelInTransfer.SenderPosition;
                     targetPosition = blDrone.ParcelInTransfer.TargetPosition;
                     if (p.PickUp == null) //position like the closest station to the sender of parcel.
@@ -74,7 +76,7 @@ namespace BL
                         List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
                         if (cWithDeliveredP.Count > 0)
                         {
-                            target = dal.getCustomerById(cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID);
+                            target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
                             blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
                         }
                     }
@@ -147,7 +149,7 @@ namespace BL
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
             foreach(IDal.DO.Parcel p in parcels)
             {
-                customersWithDeliveredParcels.Add(dal.getCustomerById(p.TargetId));
+                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First);
             }
             return customersWithDeliveredParcels;
         }

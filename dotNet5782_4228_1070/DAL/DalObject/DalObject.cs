@@ -70,7 +70,7 @@ namespace DalObject
             else
             {
                 parcel.PickUp = DateTime.Now;
-                Drone droneCollect = getDroneById((int)parcel.DroneId);
+                Drone droneCollect = getDroneWithSpecificCondition(d => d.Id == (int)parcel.DroneId).First();
             }
         }
         public void CostumerGetsParcel(Drone drone, Parcel parcel)
@@ -86,7 +86,7 @@ namespace DalObject
                 Console.WriteLine(charge.ToString());
             }
             int choose = Convert.ToInt32(Console.ReadLine());
-            DroneCharge droneCharge = getDroneChargeByStationId(choose);
+            DroneCharge droneCharge = getDroneChargeWithSpecificCondition(d => d.StationId == choose).First();
             if (droneCharge.StationId != -1)
             {
                 droneCharge.DroneId = drone.Id;
@@ -94,7 +94,7 @@ namespace DalObject
         }
         public void freeDroneFromCharge(Drone drone)
         {
-            DroneCharge chargeToFree = getDroneChargeByDroneId(drone.Id);
+            DroneCharge chargeToFree = getDroneChargeWithSpecificCondition(d=> d.DroneId == drone.Id).First();
             chargeToFree.StationId = -1;
         }
     }

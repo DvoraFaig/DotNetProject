@@ -27,22 +27,22 @@ namespace DalObject
         }
         public void changeDroneInfo(int id, string newModel)
         {
-            Drone dToChange = getDroneById(id);
+            Drone dToChange = getDroneWithSpecificCondition(d => d.Id == id).First();
             DataSource.Drones.Remove(dToChange);
             dToChange.Model = newModel;
             DataSource.Drones.Add(dToChange);
         }
         public void changeParcelInfo(Parcel goodParcel)
         {
-            Parcel pToErase = getParcelById(goodParcel.Id);
+            Parcel pToErase = getParcelWithSpecificCondition(p => p.Id == goodParcel.Id).First();
             DataSource.Parcels.Remove(pToErase);
             DataSource.Parcels.Add(goodParcel);
         }
-        public void changeCustomerInfo(Customer c)
+        public void changeCustomerInfo(Customer customer)
         {
-            Customer cToErase = getCustomerById(c.ID);
+            Customer cToErase = getCustomerWithSpecificCondition( c => c.ID == customer.ID ).First();
             DataSource.Customers.Remove(cToErase);
-            DataSource.Customers.Add(c);
+            DataSource.Customers.Add(customer);
         }
     }
 }

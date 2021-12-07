@@ -96,8 +96,8 @@ namespace BL
                 BLDrone blDrone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
                 blDrone.Battery += (double)timeCharging * requestElectricity(4);
-                IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeByDroneId(blDrone.Id);
-                IDal.DO.Station s = dal.getStationById(droneChargeByStation.StationId);
+                IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId ==  blDrone.Id).First();
+                IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id ==  droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }

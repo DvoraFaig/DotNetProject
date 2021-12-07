@@ -35,7 +35,7 @@ namespace BL
             {
                 IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
                 int battery = r.Next(20, 40);
-                IDal.DO.Station s = dal.getStationById(stationId);
+                IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
                 BLStation sBL = convertDalToBLStation(s);
                 if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
                 {
