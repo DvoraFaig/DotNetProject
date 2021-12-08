@@ -16,14 +16,23 @@
 
         <Grid  x:Name ="AddDroneDisplay">
             <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="115*"/>
+                <ColumnDefinition Width="18*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="127*"/>
+                <ColumnDefinition Width="133*"/>
             </Grid.ColumnDefinitions>
-            
-            <Button x:Name="CancelButton" Grid.Row="0" Grid.Column="0" Content="Cancel" HorizontalAlignment="Center"  VerticalAlignment="Center"  Click="Button_Click"/>
-            <Button x:Name="AddlButton"  Content="Add" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="324,28,0,0" Height="24" Width="52" Click="Button_Click" />
 
+            <Button x:Name="CancelButton" Grid.Column="0" Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="Button_Click" Margin="47,0,0,0"/>
+            <Button x:Name="AddlButton"  Content="Add" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="57,28,0,0" Height="24" Width="52" Click="Button_Click" Grid.Column="4" />
+            
+            <Label Grid.ColumnSpan="4" Margin="94,157,105,-132">ID</Label>
+            <TextBox x:Name="IdTextBox"  Grid.ColumnSpan="2" Margin="37,156,89,-130" Grid.Column="3">id....</TextBox>
+            <!--<TextBox x:Name="IdTextBox" TextChanged="the text is changed" Grid.ColumnSpan="2" Margin="37,138,89,-112" Grid.Column="3">id....</TextBox>-->
+            <Label Margin="90,191,109,-173" Grid.ColumnSpan="4">MODEL</Label>
+            <TextBox x:Name="ModelTextBox" Grid.ColumnSpan="2" Margin="36,194,91,-169" Grid.Column="3" >Model....</TextBox>
+            <Label Margin="90,231,109,-213" Grid.ColumnSpan="4">weight</Label>
+            <ComboBox Name="WeightSelector" Grid.Column="3" Margin="36,235,89,-214" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2"/>
         </Grid>
         <Grid  x:Name ="UpdateDroneDisplay">
 
