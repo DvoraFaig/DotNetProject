@@ -7,14 +7,74 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="GridMain" Opacity="0.98">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>-->
+        <!--<Rectangle Opacity="0.7" Grid.ColumnSpan="2" >
+            <Rectangle.Fill >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="0.0" />
+                    <GradientStop Color="Red" Offset="0.25" />
+                    <GradientStop Color="Blue" Offset="0.75" />
+                    <GradientStop Color="LimeGreen" Offset="1.0" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>-->
+        <!--<Image Margin="0,-130,-154,-62" Stretch="Fill" Source="drone.jpg" Grid.ColumnSpan="2" Opacity="0.7"/>-->
+        <!--<Grid Background="Black">
+            <Image  Margin="-24,160,395,-2" Stretch="Fill" Source="target1.jpg" />
+        </Grid>
+        <Image Source="/target2.jpg" Margin="242,164,136,0" Grid.ColumnSpan="2"/>
+        <Image Source="/sender and target 1.jpg" Margin="194,10,70,275" Grid.ColumnSpan="2"/>
+        <Image Source="/service1.jpg" Margin="485,258,0,0" Panel.ZIndex="2" />
+        <Image Source="/service.jpg" Margin="492,5,-2,167" />-->
+        <!--<Image Source="https://thumbs.dreamstime.com/b/courier%EF%BC%8C%E5%8C%85%E8%A3%85-%E2%80%94-%E4%BA%A4%E8%B4%A7%E6%A6%82%E5%BF%B5-d%E5%91%88%E7%8E%B0-courier%EF%BC%8C%E5%8C%85-d%E6%B8%B2%E6%9F%93%EF%BC%8C%E7%99%BD%E8%89%B2%E8%83%8C%E6%99%AF-164363623.jpg" />-->
+
+        <!--<Title="MainWindow" Height="640" Width="800"/>-->
         <Grid x:Name="MainGrid" Opacity="0.98">
             <Grid.RowDefinitions>
+                <RowDefinition Height="247*"/>
+                <RowDefinition Height="187*"/>
+            </Grid.RowDefinitions>
+            <!--<Image Source="
+https://thumbs.dreamstime.com/z/order-delivery-status-post-parcel-package-tracking-vector-icons-processing-bar-ship-transit-signs-express-courier-app-168093921.jpg" Margin="-9,113,1,-192" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.595"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="2.39"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>-->
+            <Image Source="/pic/drone.jpg" />
+
+            <Image Source="https://thumbs.dreamstime.com/b/d-delivery-concept-cartoon-character-push-cart-packages-great-topics-like-transpiration-etc-65526039.jpg" Margin="-60,155,286,99" Grid.RowSpan="2" Panel.ZIndex="1" />
+            <Image Source="https://thumbs.dreamstime.com/b/courier%EF%BC%8C%E5%8C%85%E8%A3%85-%E2%80%94-%E4%BA%A4%E8%B4%A7%E6%A6%82%E5%BF%B5-d%E5%91%88%E7%8E%B0-courier%EF%BC%8C%E5%8C%85-d%E6%B8%B2%E6%9F%93%EF%BC%8C%E7%99%BD%E8%89%B2%E8%83%8C%E6%99%AF-164363623.jpg" Margin="-25,68,619,0" Panel.ZIndex="1" Grid.Row="1" />
+            <!--<Image Source="https://thumbs.dreamstime.com/z/airplane-parcel-delivery-icon-simple-style-illustration-vector-web-design-isolated-white-background-153392325.jpg" Margin="34,12,-247,-154" Grid.RowSpan="2" />-->
+            <Image Source="https://www.main-kfz-gutachter.de/wp-content/uploads/2015/07/22.-KFZ-Gutachter-Frankfurt-am-Main-Downloads.png" Margin="-152,101,310,46" Panel.ZIndex="1"></Image>
+            <Image Source="http://ubx.in/images/hm1.jpg" Margin="-103,10,221,132"></Image>
+            <Image Source="https://trade-king.biz/wp-content/uploads/2014/07/NewImage2.png" Margin="154,188,-128,-14" Grid.RowSpan="2"/>
+            <Image Source="https://shredabox.com/Content/siteimages/3d-worker-delivering-a-package.jpg" Margin="14,7,97,92" Panel.ZIndex="1"></Image>
+            <Image Source="https://cdn-grid.fotosearch.com/CSP/CSP663/3d-small-people-unloading-cargo-stock-illustration__k44361816.jpg" Margin="255,22,-223,16" Panel.ZIndex="-1"></Image>
+            <Image Source="https://tooriistakeskus.ee/images/htmlimg/kuller.jpg" Margin="-226,200,397,126" Grid.RowSpan="2"></Image>
+            <Image Source="https://www.quickstoragegateshead.co.uk/wp-content/uploads/2018/09/boxes-1.png" Margin="-79,102,272,-8" Grid.Row="1"/>
+            <Image Source="https://fred-llc.com/wp-content/uploads/2020/10/Drone-Delivery-Vector.png" Margin="314,6,102,170"/>
+            
+            
+            <Image Source="https://fred-llc.com/wp-content/uploads/2020/10/Drone-Delivery-Vector.png" Margin="507,71,-115,10" RenderTransformOrigin="1.436,6.382" Grid.Row="1"/>
+            <Image Source="https://fred-llc.com/wp-content/uploads/2020/10/Drone-Delivery-Vector.png" Margin="-270,108,409,63"/>
+
+
+            <!--<Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="400*"/>
-            </Grid.RowDefinitions>
-            <Button Content="Drone List" Height="41"  Width="116" Click="Button_Click" Grid.Row="0"/>
+            </Grid.RowDefinitions>-->
+            <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418"/>
+            <Button Content="Drone List" Height="41"  Width="116" Click="Button_Click" Grid.Row="0" Margin="342,192,342,14"/>
 
-            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -24,5 +84,4 @@
             </Grid>
         </Grid>
     </Grid>
-
 </Window>

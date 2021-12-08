@@ -23,7 +23,8 @@
             <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
             <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="DroneListView" Background="Crimson" MouseDoubleClick="DroneSelection">
+        <Image Source="https://i.pinimg.com/736x/19/a3/61/19a361bd9faa1c3963ceee824e22651a.jpg" Panel.ZIndex="9" Margin="645,263,0,0"></Image>
+        <ListView Grid.Row="1" x:Name="DroneListView" Background="White" MouseDoubleClick="DroneSelection" SelectionChanged="DroneListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

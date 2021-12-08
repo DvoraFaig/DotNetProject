@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneWindow" Height="450" Width="400">
+        Title="DroneWindow" Height="450" Width="400" Closing="OnClosing1">
     <Grid Opacity="0.8">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -14,12 +14,20 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="CancelButton" Grid.Row="0" Grid.Column="0" Content="Cancel" HorizontalAlignment="Center"  VerticalAlignment="Center"  Click="Button_Click"/>
-        <Button x:Name="AddlButton"  Content="Add" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="324,28,0,0" Height="24" Width="52" Click="Button_Click" />
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid  x:Name ="AddDroneDisplay">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Name="CancelButton" Grid.Row="0" Grid.Column="0" Content="Cancel" HorizontalAlignment="Center"  VerticalAlignment="Center"  Click="Button_Click"/>
+            <Button x:Name="AddlButton"  Content="Add" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="324,28,0,0" Height="24" Width="52" Click="Button_Click" />
+
+        </Grid>
+        <Grid  x:Name ="UpdateDroneDisplay">
+
+        </Grid>
+
     </Grid>
 </Window>
