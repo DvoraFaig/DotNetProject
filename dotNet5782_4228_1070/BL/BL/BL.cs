@@ -32,8 +32,6 @@ namespace BL
             IEnumerable<IDal.DO.Drone> drones = dal.displayDrone();
             IDal.DO.Parcel p;
             IDal.DO.Station s;
-
-
             IDal.DO.Customer sender, target;
             BLPosition senderPosition, targetPosition;
             BLDrone blDrone = new BLDrone();
@@ -41,9 +39,9 @@ namespace BL
             foreach(IDal.DO.Drone d in drones )
             {
                 blDrone = copyDalToBLDroneInfo(d);
-                try
-                {
-                    p = dal.getParcelWithSpecificCondition(p=> p.DroneId == d.Id).First();
+                p = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == d.Id).FirstOrDefault();
+                if (!(p.Scheduled == (null)) && p.Delivered == (null) && !p.Equals(default(IDal.DO.Parcel)) )// pair a parcel to drone but not yed delivered.
+                { 
                     IDal.DO.Station closestStationToSender = new IDal.DO.Station();
                     sender = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.SenderId).First();
                     target = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.TargetId).First();
@@ -62,7 +60,7 @@ namespace BL
                     blDrone.Battery = calcDroneBatteryForDroneDelivery(p, closestStationToSender, senderPosition, targetPosition);
                 }
 
-                catch (IDal.DO.DalExceptions.ObjNotExistException ) // if drone is not delivery status
+                else // if drone is not delivery status
                 {
                     blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
                     if (blDrone.Status == DroneStatus.Maintenance)
