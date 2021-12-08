@@ -149,7 +149,7 @@ namespace BL
             List<IDal.DO.Customer> customersWithDeliveredParcels = new List<IDal.DO.Customer>();
             foreach(IDal.DO.Parcel p in parcels)
             {
-                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First);
+                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First());
             }
             return customersWithDeliveredParcels;
         }
