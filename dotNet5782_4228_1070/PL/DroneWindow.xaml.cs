@@ -54,10 +54,63 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             this.Close();
         }
 
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_ClickAdd(object sender, RoutedEventArgs e)
+        {
+            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)WeightSelector.SelectedIndex);
+            try
+            {
+                blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, weightCategory, Convert.ToInt32(StationIdTextBox.Text));
+                TextBlock addedDrone= new TextBlock();
+                addedDrone.TextDecorations = TextDecorations.Strikethrough;
+                // Create an underline text decoration. Default is underline.
+                TextDecoration myUnderline = new TextDecoration();
+
+                // Create a solid color brush pen for the text decoration.
+                myUnderline.Pen = new Pen(Brushes.Red, 1);
+                myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
+
+                // Set the underline decoration to a TextDecorationCollection and add it to the text block.
+                TextDecorationCollection myCollection = new TextDecorationCollection();
+                myCollection.Add(myUnderline);
+                addedDrone.TextDecorations = myCollection;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Drone Error");
+            }
+
+        }
+
+        private void Button_ClickCancel(object sender, RoutedEventArgs e)
+        {
+
+            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
+            if (messageBoxClosing == MessageBoxResult.OK)
+            {
+                this.Close();
+            }
+            else
+            {
+
+            }
+        }
+
+        private void StationIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ModelTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

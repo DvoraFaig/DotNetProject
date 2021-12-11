@@ -7,34 +7,56 @@
         mc:Ignorable="d"
         Title="DroneWindow" Height="450" Width="400" Closing="OnClosing1">
     <Grid Opacity="0.8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <Grid  x:Name ="AddDroneDisplay">
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="115*"/>
-                <ColumnDefinition Width="18*"/>
-                <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="127*"/>
-                <ColumnDefinition Width="133*"/>
-            </Grid.ColumnDefinitions>
+        <Label  x:Name="labelAddADrone" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="auto" Width="300"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="57,20,0,0" Grid.ColumnSpan="5">
+            <Label.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+            </Label.Background> Add a Drone</Label>
+        <Button x:Name="CancelButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickCancel" Margin="14,127,0,0" Grid.RowSpan="2" />
+        <Button x:Name="AddlButton"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Add"    HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickAdd" Margin="26,127,0,0" Grid.RowSpan="2"/>
+        <!--<Button x:Name="GoBackButton" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Height="30" Width="125"  Content="" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickGoBackButton"/>-->
 
-            <Button x:Name="CancelButton" Grid.Column="0" Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="Button_Click" Margin="47,0,0,0"/>
-            <Button x:Name="AddlButton"  Content="Add" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="57,28,0,0" Height="24" Width="52" Click="Button_Click" Grid.Column="4" />
-            
-            <Label Grid.ColumnSpan="4" Margin="94,157,105,-132">ID</Label>
-            <TextBox x:Name="IdTextBox"  Grid.ColumnSpan="2" Margin="37,156,89,-130" Grid.Column="3">id....</TextBox>
-            <!--<TextBox x:Name="IdTextBox" TextChanged="the text is changed" Grid.ColumnSpan="2" Margin="37,138,89,-112" Grid.Column="3">id....</TextBox>-->
-            <Label Margin="90,191,109,-173" Grid.ColumnSpan="4">MODEL</Label>
-            <TextBox x:Name="ModelTextBox" Grid.ColumnSpan="2" Margin="36,194,91,-169" Grid.Column="3" >Model....</TextBox>
-            <Label Margin="90,231,109,-213" Grid.ColumnSpan="4">weight</Label>
-            <ComboBox Name="WeightSelector" Grid.Column="3" Margin="36,235,89,-214" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2"/>
+        <Grid  x:Name ="AddDroneDisplay" Height="250" Grid.Column="1"  Grid.ColumnSpan="4" Grid.RowSpan="4" Grid.Row="1" Background="LightGray">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="117*"/>
+                <ColumnDefinition Width="117*"/>
+                <ColumnDefinition Width="35*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+            </Grid.RowDefinitions>
+
+
+            <Label x:Name="IdTextBoxLabel"        Grid.Column="1" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2" >Id...</Label>
+            <TextBox x:Name="IdTextBox"           Grid.Column="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2" >id....</TextBox>
+            <Label x:Name="ModelTextBoxLabel"     Grid.Column="1" Grid.Row="1" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">MODEL</Label>
+            <TextBox x:Name="ModelTextBox"        Grid.Column="2" Grid.Row="1" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">Model....</TextBox>
+            <Label x:Name="WeightSelectorLabel"   Grid.Column="1" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">weight</Label>
+            <ComboBox x:Name="WeightSelector"     Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2"/>
+            <Label x:Name="StationIdTextBoxLabel" Grid.Column="1" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
+            <TextBox x:Name="StationIdTextBox"    Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" TextChanged="StationIdTextBox_TextChanged" Grid.ColumnSpan="2" >Station id...</TextBox>
         </Grid>
-        <Grid  x:Name ="UpdateDroneDisplay">
+        <Grid  x:Name ="UpdateDroneDisplay" Margin="0,124,0,93" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
 
         </Grid>
 
