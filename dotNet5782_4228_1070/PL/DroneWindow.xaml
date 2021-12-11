@@ -27,12 +27,13 @@
         <Label  x:Name="labelAddADrone" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="auto" Width="300"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="57,20,0,0" Grid.ColumnSpan="5">
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
-            </Label.Background> Add a Drone</Label>
+            </Label.Background> Add a Drone
+        </Label>
         <Button x:Name="CancelButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickCancel" Margin="14,127,0,0" Grid.RowSpan="2" />
         <Button x:Name="AddlButton"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Add"    HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickAdd" Margin="26,127,0,0" Grid.RowSpan="2"/>
         <!--<Button x:Name="GoBackButton" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Height="30" Width="125"  Content="" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickGoBackButton"/>-->
 
-        <Grid  x:Name ="AddDroneDisplay" Height="250" Grid.Column="1"  Grid.ColumnSpan="4" Grid.RowSpan="4" Grid.Row="1" Background="LightGray">
+        <Grid  x:Name ="AddDroneDisplay" Height="250"  Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="33,45,33,25">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="117*"/>
@@ -52,7 +53,7 @@
             <Label x:Name="ModelTextBoxLabel"     Grid.Column="1" Grid.Row="1" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">MODEL</Label>
             <TextBox x:Name="ModelTextBox"        Grid.Column="2" Grid.Row="1" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">Model....</TextBox>
             <Label x:Name="WeightSelectorLabel"   Grid.Column="1" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">weight</Label>
-            <ComboBox x:Name="WeightSelector"     Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2"/>
+            <ComboBox x:Name="WeightSelector"     Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2">Drone's weight</ComboBox>
             <Label x:Name="StationIdTextBoxLabel" Grid.Column="1" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
             <TextBox x:Name="StationIdTextBox"    Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Center" TextChanged="StationIdTextBox_TextChanged" Grid.ColumnSpan="2" >Station id...</TextBox>
         </Grid>
