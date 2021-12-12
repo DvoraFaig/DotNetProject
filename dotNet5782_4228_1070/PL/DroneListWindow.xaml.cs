@@ -23,12 +23,10 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private Ibl blObjectH;
-        private MainWindow mainWindowForBacking;
-        public DroneListWindow(Ibl blObject, MainWindow mainWindow)
+        public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;
-            mainWindowForBacking = mainWindow;
             DroneListView.ItemsSource = blObjectH.DisplayDrones();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
@@ -49,20 +47,20 @@ namespace PL
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            mainWindowForBacking.Show();
+            new MainWindow(blObjectH).Show();
             this.Close();
         }
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(blObjectH, this).Show();
-            this.Hide();
+            new DroneWindow(blObjectH).Show();
+            this.Close();
         }
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            new DroneWindow(blObjectH, (BLDrone)DroneListView.SelectedItem, this).Show();
-            this.Hide();
+            new DroneWindow(blObjectH, (BLDrone)DroneListView.SelectedItem).Show();
+            this.Close();
         }
 
         private void DroneList_SelectionChanged(object sender, SelectionChangedEventArgs e)
