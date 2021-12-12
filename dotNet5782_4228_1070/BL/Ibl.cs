@@ -35,7 +35,7 @@ namespace IBL
         //================
         // Updates
         //================
-        public void DroneChangeModel(int id, string newModel);
+        public void DroneChangeModel(BLDrone drone);
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1);
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public void SendDroneToCharge(int droneId);

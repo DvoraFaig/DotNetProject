@@ -11,20 +11,20 @@ namespace BL
 {
     public sealed partial class BL : IBL.Ibl
     {
-        public void DroneChangeModel(int id, string newModel)
+        public void DroneChangeModel(BLDrone newDrone)
         {
             try
             {
-                BLDrone d = getBLDroneWithSpecificCondition(drone => drone.Id == id).First();
-                if (d.Equals(default(BLDrone)))
-                    throw new Exception($"ERROR: Drone {id} not found");
+                //BLDrone d = getBLDroneWithSpecificCondition(drone => drone.Id == drone.Id).First();
+               /* if (d.Equals(default(BLDrone)))
+                    throw new Exception($"ERROR: Drone {drone.Id} not found");
                 else
-                {
-                    dronesInBL.Remove(d);
-                    d.Model = newModel;
-                    dronesInBL.Add(d);
-                    dal.changeDroneInfo(id, newModel);
-                }
+                {*/
+                    dronesInBL.Remove(newDrone);
+                    //d.Model = drone.Model;
+                    dronesInBL.Add(newDrone);
+                    dal.changeDroneInfo(newDrone.Id, newDrone.Model);
+                /*}*/
             }
             catch (Exception)
             {
