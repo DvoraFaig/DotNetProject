@@ -20,6 +20,8 @@ namespace IDal
             void AddParcel(Parcel parcel);
             void AddDroneCharge(DroneCharge parcel);
             int amountParcels();
+            int amountStations();
+
             //==================
             //Update functions//
             //==================

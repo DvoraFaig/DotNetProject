@@ -22,7 +22,7 @@ namespace IBL
             public override string ToString()
             {
                 if (DronePosition == null)
-                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}");
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {Status}");
                 return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
             }
         }
