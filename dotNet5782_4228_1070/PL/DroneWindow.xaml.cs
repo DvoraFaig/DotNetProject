@@ -23,38 +23,67 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         BLDrone dr;
+        #region the closing button
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        #endregion
         public DroneWindow(IBL.Ibl blObject)
         {
+            Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
             UpdateDroneDisplay.Visibility = Visibility.Hidden;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            blObjectD = blObject;
+            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             IdTextBox.Text = "Drone id....";
             ModelTextBox.Text = "Model id....";
+            StationIdTextBox.Text = "Station Id...";
             blObjectD = blObject;
-
         }
-
-        private void OnClosing1(object sender, CancelEventArgs e)
+        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
         {
-           e.Cancel = true;
+            blObjectD = blObject;
+            Loaded += ToolWindow_Loaded; // the x button
+            InitializeComponent();
+            AddDroneDisplay.Visibility = Visibility.Hidden;
+            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            IdTextBox.Text = "Drone id....";
+            ModelTextBox.Text = "Model id....";
+            labelAddADrone.Visibility = Visibility.Hidden;
+            IdTextBoxUpdate.Text =$"{drone.Id}";
+            ModelTextBoxUpdate.Text = $"{ drone.Id}";
+            DroneWeightUpdate.Text = $"{drone.MaxWeight}";
+            BatteryTextBox.Text = $"{drone.Battery}";
+            StatusTextBox.Text = $"{drone.Status}";
+            //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            if (drone.ParcelInTransfer == null)
+            {
+                
+               // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
+            }
+            blObjectD = blObject;
+            dr = drone;
         }
+        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+        }
+
         // TextChangedEventHandler delegate method.
         private void textChangedEventHandler(object sender, TextChangedEventArgs args)
         {
             // Omitted Code: Insert code that does something whenever
             // the text changes...
         } // end textChangedEventHandler
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
-        {
-            InitializeComponent();
-            AddDroneDisplay.Visibility = Visibility.Hidden;
-            blObjectD = blObject;
-            dr = drone;
-        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             this.Close();
         }
 
@@ -62,61 +91,85 @@ namespace PL
         {
 
         }
+        private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
 
         private void Button_ClickAdd(object sender, RoutedEventArgs e)
         {
-            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)WeightSelector.SelectedIndex);
+            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex+1);
             try
             {
-                blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, weightCategory, Convert.ToInt32(StationIdTextBox.Text));
-                TextBlock addedDrone= new TextBlock();
-                addedDrone.TextDecorations = TextDecorations.Strikethrough;
-                // Create an underline text decoration. Default is underline.
-                TextDecoration myUnderline = new TextDecoration();
+                blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
+                TextBlock addedDrone = new TextBlock();
+                //addedDrone.TextDecorations = TextDecorations.Strikethrough;
+                //// Create an underline text decoration. Default is underline.
+                //TextDecoration myUnderline = new TextDecoration();
 
-                // Create a solid color brush pen for the text decoration.
-                myUnderline.Pen = new Pen(Brushes.Red, 1);
-                myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
+                //// Create a solid color brush pen for the text decoration.
+                //myUnderline.Pen = new Pen(Brushes.Red, 1);
+                //myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
 
-                // Set the underline decoration to a TextDecorationCollection and add it to the text block.
-                TextDecorationCollection myCollection = new TextDecorationCollection();
-                myCollection.Add(myUnderline);
-                addedDrone.TextDecorations = myCollection;
+                //// Set the underline decoration to a TextDecorationCollection and add it to the text block.
+                //TextDecorationCollection myCollection = new TextDecorationCollection();
+                //myCollection.Add(myUnderline);
+                //addedDrone.TextDecorations = myCollection;
+                new DroneListWindow(blObjectD).Show();
+                this.Hide();
 
             }
-            catch (Exception e)
+            catch (FormatException)
             {
-                MessageBox.Show(e.Message, "Drone Error");
+                Console.WriteLine("== ERROR receiving data ==");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("== ERROR receiving data ==");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cann't add a drone", "Drone Error");
+
+                // MessageBox.Show(e.Message, "Drone Error");
             }
 
         }
 
-        private void Button_ClickCancel(object sender, RoutedEventArgs e)
+        private void Button_ClickRestart(object sender, RoutedEventArgs e)
         {
+            IdTextBox.Text = "Id...";
+            ModelTextBox.Text = "Model....";
+            DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            StationIdTextBox.Text = "Station id...";
+        }
+        //private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
 
+        //    //IdTextBox.Text = " ";
+        //}
+        //private void ModelTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //}
+        //private void StationIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //}
+
+        private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
+        {
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
-                this.Close();
-            }
-            else
-            {
-
+                new DroneListWindow(blObjectD).Show();
+                this.Hide();
             }
         }
 
-        private void StationIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ModelTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
 
         }
-
-        private void ModelTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        //private void onClosing1(object sender, EventArgs e)
-        //{
-        //}
     }
 }

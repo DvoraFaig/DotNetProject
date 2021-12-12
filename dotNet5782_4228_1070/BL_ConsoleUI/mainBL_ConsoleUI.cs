@@ -500,7 +500,7 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add drone. ==");
                 }
             } while (flag < 2);
         }
@@ -536,7 +536,7 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add parcel. ==");
                 }
             } while (flag < 2);
         }
@@ -576,7 +576,7 @@ namespace BL_ConsoleUI
                     flag++;
                     Console.WriteLine(e.Message);
                     Console.WriteLine($"Plese try again:\n You have {3 - flag} more times to try.");
-                    if (flag == 2) Console.WriteLine("== Cann't add stations. ==");
+                    if (flag == 2) Console.WriteLine("== Cann't add customer. ==");
                 }
             } while (flag < 2);
         }
