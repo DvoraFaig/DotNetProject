@@ -225,6 +225,12 @@ namespace PL
 
         }
 
-
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            dr.Model = ModelTextBox.Text;
+            blObjectD.DroneChangeModel(dr);
+            droneListWindowForBacking.Show();
+            this.Close();
+        }
     }
 }
