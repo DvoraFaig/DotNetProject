@@ -7,13 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="GridMain" Opacity="0.98">
- 
+        <Grid.Background >
+            <ImageBrush ImageSource="/pic/drone.jpg" Opacity="80"></ImageBrush>
+        </Grid.Background>
         <Grid x:Name="MainGrid" Opacity="0.98">
             <Grid.RowDefinitions>
                 <RowDefinition Height="247*"/>
                 <RowDefinition Height="187*"/>
             </Grid.RowDefinitions>
-           
+
             <!--<Image Source="/pic/drone.jpg" />
 
             <Image Source="https://thumbs.dreamstime.com/b/d-delivery-concept-cartoon-character-push-cart-packages-great-topics-like-transpiration-etc-65526039.jpg" Margin="-60,155,286,99" Grid.RowSpan="2" Panel.ZIndex="1" />
@@ -32,13 +34,11 @@
             <Image Source="/pic/service.jpg" />
             <Image Source="/pic/sender and target 1.jpg" />
             <Image Source="/pic/target2.jpg" />
-            <Image Source="/pic/target1.jpg" />
+            <Image Source="/pic/target1.jpg" />-->
 
-            <Image Source=""></Image>-->
-            
-            
-            <Button Content="Done List" Background="White" Padding="5" BorderBrush="Black" BorderThickness="2"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418"/>
 
+
+            <Button  x:Name="GoToDroneListWindow" Content="Drone List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
             <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

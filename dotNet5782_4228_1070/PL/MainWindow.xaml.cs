@@ -37,5 +37,16 @@ namespace PL
             new DroneListWindow(blObject, this).Show();
             this.Hide();
         }
+
+        private void ChangeBackGround(object sender, MouseEventArgs e)
+        {
+             GoToDroneListWindow.Background = Brushes.Transparent;
+        }
+
+        private void ChangeBackTheBackGround(object sender, MouseEventArgs e)
+        {
+            GoToDroneListWindow.Background = Brushes.White;
+
+        }
     }
 }

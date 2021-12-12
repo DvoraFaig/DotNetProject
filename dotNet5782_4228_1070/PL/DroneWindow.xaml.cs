@@ -71,10 +71,9 @@ namespace PL
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            if (updateOrAddWindow == false) //show update window
-                visibility = Visibility.Hidden;
-            else
-                visibility = Visibility.Visible;
+            //false == show update window
+            //true == show add window
+            visibility = (updateOrAddWindow == false) ? Visibility.Hidden: visibility = Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
             IdTextBox.Visibility = visibility;
@@ -87,10 +86,7 @@ namespace PL
             RestartButton.Visibility = visibility;
             AddlButton.Visibility = visibility;
 
-            if (visibility == Visibility.Hidden)
-                visibility = Visibility.Visible;
-            else
-                visibility = Visibility.Hidden;
+            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible: Visibility.Hidden;
             if (updateOrAddWindow == false)//if Add Drone don't go in
             {
                 IdTextBoxLabel.Visibility = visibility;
@@ -109,7 +105,7 @@ namespace PL
             PositionDroneTextBox.Visibility = visibility;
             ParcelTextBoxLabel.Visibility = visibility;
             ParcelIdIdTextBox.Visibility = visibility;
-            UpdateImage.Visibility = visibility;
+            UpdateButton.Visibility = visibility;
         }
 
         private static void TrueOrFalseDisplay()
