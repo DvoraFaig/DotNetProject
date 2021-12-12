@@ -23,6 +23,7 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         BLDrone dr;
+        private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -31,13 +32,13 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        bool update
         public DroneWindow(IBL.Ibl blObject)
         {
             Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
-            UpdateDroneDisplay.Visibility = Visibility.Hidden;
             blObjectD = blObject;
+            updateOrAddWindow = true;
+            displayWindowAddOrUpdate();
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             IdTextBox.Text = "Drone id....";
             ModelTextBox.Text = "Model id....";
@@ -49,27 +50,72 @@ namespace PL
             blObjectD = blObject;
             Loaded += ToolWindow_Loaded; // the x button
             InitializeComponent();
-            RestartButton.Visibility = Visibility.Hidden;
-            AddlButton.Visibility = Visibility.Hidden;
-            AddDroneDisplay.Visibility = Visibility.Hidden;
-            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
-            IdTextBox.Text = "Drone id....";
-            ModelTextBox.Text = "Model id....";
-            labelAddADrone.Visibility = Visibility.Hidden;
-            IdTextBoxUpdate.Text =$"{drone.Id}";
-            ModelTextBoxUpdate.Text = $"{ drone.Model}";
+            updateOrAddWindow = false;
+            //AddDroneDisplay.Visibility = Visibility.Hidden;
+            displayWindowAddOrUpdate();
+            ////RestartButton.Visibility = Visibility.Hidden;
+            ////AddlButton.Visibility = Visibility.Hidden;
+            ////AddDroneDisplay.Visibility = Visibility.Hidden;
+            ////DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            ////IdTextBox.Text = "Drone id....";
+            ////ModelTextBox.Text = "Model id....";
+            ////labelAddADrone.Visibility = Visibility.Hidden;
+            IdTextBox.Text = $"{drone.Id}";
+            ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
             if (drone.ParcelInTransfer == null)
             {
-                
-               // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
+
+                // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
             }
             blObjectD = blObject;
             dr = drone;
         }
+        private void displayWindowAddOrUpdate()
+        {
+            Visibility visibility;
+            if (updateOrAddWindow == false)
+                visibility = Visibility.Hidden;
+            else
+                visibility = Visibility.Visible;
+
+            IdTextBoxLabel.Visibility = visibility;
+            IdTextBox.Visibility = visibility;
+            ModelTextBoxLabel.Visibility = visibility;
+            ModelTextBox.Visibility = visibility;
+            DroneWeightSelectorLabel.Visibility = visibility;
+            DroneWeightSelector.Visibility = visibility;
+            StationIdTextBoxLabel.Visibility = visibility;
+            StationIdTextBox.Visibility = visibility;
+
+            if (visibility == Visibility.Hidden)
+                visibility = Visibility.Visible;
+            else
+                visibility = Visibility.Hidden;
+            IdTextBoxLabel.Visibility = visibility;
+            IdTextBox.Visibility = visibility;
+            ModelTextBoxLabel.Visibility = visibility;
+            ModelTextBox.Visibility = visibility;
+            DroneWeightSelectorLabelUpdate.Visibility = visibility;
+            DroneWeightUpdate.Visibility = visibility;
+            BatteryTextBoxLabel.Visibility = visibility;
+            BatteryTextBox.Visibility = visibility;
+            StatusTextBoxLabel.Visibility = visibility;
+            StatusTextBox.Visibility = visibility;
+            PositionDroneTLabel.Visibility = visibility;
+            PositionDroneTextBox.Visibility = visibility;
+            ParcelTextBoxLabel.Visibility = visibility;
+            ParcelIdIdTextBox.Visibility = visibility;
+        }
+
+        private static void TrueOrFalseDisplay()
+        {
+
+        }
+
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -101,7 +147,7 @@ namespace PL
 
         private void Button_ClickAdd(object sender, RoutedEventArgs e)
         {
-            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex+1);
+            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
                 blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
