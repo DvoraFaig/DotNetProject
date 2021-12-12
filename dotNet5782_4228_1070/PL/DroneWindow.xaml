@@ -37,6 +37,9 @@
         <Button x:Name="RestartButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Restart" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickRestart" Margin="14,127,0,0" Grid.RowSpan="2" />
         <Button x:Name="AddlButton"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Height="30" Width="125"  Content="Add"    HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickAdd" Margin="26,127,0,0" Grid.RowSpan="2"/>
         <Button x:Name="UpdateButton" Grid.Column="6" Grid.Row="2" Height="30" Width="125" Content="Update Details" Click="UpdateButton_Click"/>
+        <Button x:Name="ChargeButton" Grid.Column="6" Grid.Row="3" Height="30" Width="125" Content="Send To Charge" Click="ChargeButton_Click"/>
+        <TextBox x:Name="TimeTocharge" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="3" Text="Enter time to charge" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="24,66,0,0"/>
+        <Button x:Name="SendDroneToCharge" Grid.Column="6" Grid.Row="4" Height="30" Width="125" Content="Send Drone To Charge" Click="SendDroneToCharge_Click" Margin="24,27,14,58"/>
         <!--<Button x:Name="GoBackButton" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Height="30" Width="125"  Content="" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickGoBackButton"/>-->
         <Grid  x:Name ="AddDroneDisplay"  Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="33,45,33,10">
             <Grid.ColumnDefinitions >

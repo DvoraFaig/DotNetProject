@@ -23,7 +23,6 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         BLDrone dr;
-        private DroneListWindow droneListWindowForBacking;
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -33,11 +32,10 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneWindow(IBL.Ibl blObject, DroneListWindow droneListWindow)
+        public DroneWindow(IBL.Ibl blObject)
         {
             Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
-            droneListWindowForBacking = droneListWindow;
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
@@ -47,11 +45,10 @@ namespace PL
             StationIdTextBox.Text = "Station Id...";
             blObjectD = blObject;
         }
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone, DroneListWindow droneListWindow)
+        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
         {
             Loaded += ToolWindow_Loaded; // the x button
             InitializeComponent();
-            droneListWindowForBacking = droneListWindow;
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
             IdTextBox.Text = $"{drone.Id}";
@@ -60,11 +57,13 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            
             if (drone.ParcelInTransfer == null)
             {
 
                 // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
             }
+            ChargeButton.IsEnabled = drone.Status == DroneStatus.Available ? true : false;
             blObjectD = blObject;
             dr = drone;
         }
@@ -163,7 +162,7 @@ namespace PL
                 //myCollection.Add(myUnderline);
                 //addedDrone.TextDecorations = myCollection;
                 //new DroneListWindow(blObjectD).Show();
-                droneListWindowForBacking.Show();
+                new DroneListWindow(blObjectD).Show();
                 this.Close();
 
             }
@@ -211,8 +210,7 @@ namespace PL
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
-                //new DroneListWindow(blObjectD).Show();
-                droneListWindowForBacking.Show();
+                new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
         }
@@ -226,8 +224,49 @@ namespace PL
         {
             dr.Model = ModelTextBox.Text;
             blObjectD.DroneChangeModel(dr);
-            droneListWindowForBacking.Show();
+            new DroneListWindow(blObjectD).Show();
             this.Close();
+        }
+
+        private void ChargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                blObjectD.SendDroneToCharge(dr.Id);
+            }
+            catch(Exception)
+            {
+                
+            }
+        }
+
+        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            //if The text was changed send to the function
+            /*if (TimeTocharge)
+            try
+            {
+                blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+            }
+            catch (Exception)
+            {
+
+            }*/
+        }
+
+        private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PickParcel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PackageDelivery_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
