@@ -35,8 +35,8 @@ namespace PL
         #endregion
         public DroneWindow(IBL.Ibl blObject, DroneListWindow droneListWindow)
         {
-            Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
+            Loaded += ToolWindow_Loaded;//The x button
             droneListWindowForBacking = droneListWindow;
             blObjectD = blObject;
             updateOrAddWindow = true;
@@ -49,8 +49,8 @@ namespace PL
         }
         public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone, DroneListWindow droneListWindow)
         {
-            Loaded += ToolWindow_Loaded; // the x button
             InitializeComponent();
+            Loaded += ToolWindow_Loaded; //The x button
             droneListWindowForBacking = droneListWindow;
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
@@ -75,7 +75,7 @@ namespace PL
                 visibility = Visibility.Hidden;
             else
                 visibility = Visibility.Visible;
-
+            labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
             IdTextBox.Visibility = visibility;
             ModelTextBoxLabel.Visibility = visibility;
@@ -84,6 +84,8 @@ namespace PL
             DroneWeightSelector.Visibility = visibility;
             StationIdTextBoxLabel.Visibility = visibility;
             StationIdTextBox.Visibility = visibility;
+            RestartButton.Visibility = visibility;
+            AddlButton.Visibility = visibility;
 
             if (visibility == Visibility.Hidden)
                 visibility = Visibility.Visible;
@@ -95,9 +97,9 @@ namespace PL
                 IdTextBox.Visibility = visibility;
                 IdTextBox.IsReadOnly = true;
                 ModelTextBoxLabel.Visibility = visibility;
-                ModelTextBox.Visibility = visibility;
-                DroneWeightLabel.Visibility = visibility;
+                ModelTextBox.Visibility = visibility;                
             }
+            DroneWeightLabel.Visibility = visibility;
             DroneWeightUpdate.Visibility = visibility;
             BatteryTextBoxLabel.Visibility = visibility;
             BatteryTextBox.Visibility = visibility;
@@ -107,6 +109,7 @@ namespace PL
             PositionDroneTextBox.Visibility = visibility;
             ParcelTextBoxLabel.Visibility = visibility;
             ParcelIdIdTextBox.Visibility = visibility;
+            UpdateImage.Visibility = visibility;
         }
 
         private static void TrueOrFalseDisplay()
@@ -221,5 +224,7 @@ namespace PL
         {
 
         }
+
+
     }
 }
