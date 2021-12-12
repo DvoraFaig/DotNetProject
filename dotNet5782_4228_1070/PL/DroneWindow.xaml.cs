@@ -71,7 +71,7 @@ namespace PL
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            if (updateOrAddWindow == false)
+            if (updateOrAddWindow == false) //show update window
                 visibility = Visibility.Hidden;
             else
                 visibility = Visibility.Visible;
@@ -89,11 +89,15 @@ namespace PL
                 visibility = Visibility.Visible;
             else
                 visibility = Visibility.Hidden;
-            IdTextBoxLabel.Visibility = visibility;
-            IdTextBox.Visibility = visibility;
-            ModelTextBoxLabel.Visibility = visibility;
-            ModelTextBox.Visibility = visibility;
-            DroneWeightSelectorLabelUpdate.Visibility = visibility;
+            if (updateOrAddWindow == false)//if Add Drone don't go in
+            {
+                IdTextBoxLabel.Visibility = visibility;
+                IdTextBox.Visibility = visibility;
+                IdTextBox.IsReadOnly = true;
+                ModelTextBoxLabel.Visibility = visibility;
+                ModelTextBox.Visibility = visibility;
+                DroneWeightLabel.Visibility = visibility;
+            }
             DroneWeightUpdate.Visibility = visibility;
             BatteryTextBoxLabel.Visibility = visibility;
             BatteryTextBox.Visibility = visibility;
