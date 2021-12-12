@@ -48,6 +48,8 @@ namespace PL
             blObjectD = blObject;
             Loaded += ToolWindow_Loaded; // the x button
             InitializeComponent();
+            RestartButton.Visibility = Visibility.Hidden;
+            AddlButton.Visibility = Visibility.Hidden;
             AddDroneDisplay.Visibility = Visibility.Hidden;
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             IdTextBox.Text = "Drone id....";
@@ -159,7 +161,8 @@ namespace PL
 
         private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
                 new DroneListWindow(blObjectD).Show();
