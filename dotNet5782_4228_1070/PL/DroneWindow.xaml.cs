@@ -33,13 +33,11 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        bool update
         public DroneWindow(IBL.Ibl blObject, DroneListWindow droneListWindow)
         {
             Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
             droneListWindowForBacking = droneListWindow;
-            UpdateDroneDisplay.Visibility = Visibility.Hidden;
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
@@ -55,15 +53,7 @@ namespace PL
             InitializeComponent();
             droneListWindowForBacking = droneListWindow;
             updateOrAddWindow = false;
-            //AddDroneDisplay.Visibility = Visibility.Hidden;
             displayWindowAddOrUpdate();
-            ////RestartButton.Visibility = Visibility.Hidden;
-            ////AddlButton.Visibility = Visibility.Hidden;
-            ////AddDroneDisplay.Visibility = Visibility.Hidden;
-            ////DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
-            ////IdTextBox.Text = "Drone id....";
-            ////ModelTextBox.Text = "Model id....";
-            ////labelAddADrone.Visibility = Visibility.Hidden;
             IdTextBox.Text = $"{drone.Id}";
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
