@@ -105,6 +105,7 @@ namespace BL
                 busyChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == s.Id).Count();
                 if (s.ChargeSlots - busyChargingSlots > 0)//has empty charging slots
                 {
+
                     availbleStations.Add(s);
                 }
             }
