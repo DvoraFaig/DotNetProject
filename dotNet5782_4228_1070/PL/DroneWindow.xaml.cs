@@ -31,6 +31,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
+        bool update
         public DroneWindow(IBL.Ibl blObject)
         {
             Loaded += ToolWindow_Loaded;// the x button

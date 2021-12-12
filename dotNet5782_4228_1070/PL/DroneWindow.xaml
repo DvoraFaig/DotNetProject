@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneWindow" Height="450" Width="400" >
+        Title="DroneWindow" Height="450" Width="800" >
     <Grid Opacity="0.8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -13,6 +13,9 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="100*"/>
+
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -46,6 +49,10 @@
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
             </Grid.RowDefinitions>
             <Label x:Name="IdTextBoxLabel"         Grid.Column="1" Grid.Row="0" Width="120" Height="35" HorizontalAlignment="Left"   FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" >Drones' id:</Label>
             <TextBox x:Name="IdTextBox"            Grid.Column="2" Grid.Row="0" Width="120" Height="35" HorizontalAlignment="Left"   FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2"  />
@@ -55,8 +62,8 @@
             <ComboBox x:Name="DroneWeightSelector" Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left"   FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2" />
             <Label x:Name="StationIdTextBoxLabel"  Grid.Column="1" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left"   FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
             <TextBox x:Name="StationIdTextBox"     Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left"   FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        </Grid>
-        <Grid  x:Name ="UpdateDroneDisplay"  Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="33,40,33,10">
+        <!--</Grid>-->
+        <!--<Grid  x:Name ="UpdateDroneDisplay"  Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="33,40,33,10">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="180*"/>
@@ -71,45 +78,26 @@
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="54*"/>
-            </Grid.RowDefinitions>
-            <Label x:Name="IdTextBoxLabelUpdate"        Grid.Column="1" Grid.Row="0" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" >Drones' id:</Label>
-            <TextBox x:Name="IdTextBoxUpdate"           Grid.Column="2" Grid.Row="0" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
-            <Label x:Name="ModelTextBoxLabelUpdate"     Grid.Column="1" Grid.Row="1" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Drones' model:</Label>
-            <TextBox x:Name="ModelTextBoxUpdate"        Grid.Column="2" Grid.Row="1" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,18,0"/>
-         <Label x:Name="DroneWeightSelectorLabelUpdate" Grid.Column="1" Grid.Row="2" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Drones' weight:</Label>
-            <TextBox x:Name="DroneWeightUpdate"         Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
-            <Label x:Name="BatteryTextBoxLabel"         Grid.Column="1" Grid.Row="3" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" >Battery:</Label>
-            <TextBox x:Name="BatteryTextBox"            Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"  />
-            <Label x:Name="StatusTextBoxLabel"          Grid.Column="1" Grid.Row="4" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Status:</Label>
-            <TextBox x:Name="StatusTextBox"             Grid.Column="2" Grid.Row="4" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
-            <Label x:Name="PositionDroneTLabel"         Grid.Column="1" Grid.Row="5" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"  Grid.ColumnSpan="2" >Postion:</Label>
-            <TextBox x:Name="PositionDroneTextBox"      Grid.Column="2" Grid.Row="5" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
-            <Label x:Name="ParcelTextBoxLabel"          Grid.Column="1" Grid.Row="6" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"   Grid.ColumnSpan="2" />
-            <TextBox x:Name="ParcelIdIdTextBox"         Grid.Column="2" Grid.Row="6" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"  Grid.ColumnSpan="2" IsReadOnly="True" >Parcel....</TextBox>
+            </Grid.RowDefinitions>-->
+            <Label x:Name="IdTextBoxLabelUpdate"        Grid.Column="1" Grid.Row="3" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" >Drones' id:</Label>
+            <TextBox x:Name="IdTextBoxUpdate"           Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
+            <Label x:Name="ModelTextBoxLabelUpdate"     Grid.Column="1" Grid.Row="2" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Drones' model:</Label>
+            <TextBox x:Name="ModelTextBoxUpdate"        Grid.Column="2" Grid.Row="2" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="20" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,18,0"/>
+         <Label x:Name="DroneWeightSelectorLabelUpdate" Grid.Column="1" Grid.Row="3" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Drones' weight:</Label>
+            <TextBox x:Name="DroneWeightUpdate"         Grid.Column="2" Grid.Row="3" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
+            <Label x:Name="BatteryTextBoxLabel"         Grid.Column="1" Grid.Row="4" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" >Battery:</Label>
+            <TextBox x:Name="BatteryTextBox"            Grid.Column="2" Grid.Row="4" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"  />
+            <Label x:Name="StatusTextBoxLabel"          Grid.Column="1" Grid.Row="5" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center">Status:</Label>
+            <TextBox x:Name="StatusTextBox"             Grid.Column="2" Grid.Row="5" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
+            <Label x:Name="PositionDroneTLabel"         Grid.Column="1" Grid.Row="6" Width="173" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"  Grid.ColumnSpan="2" >Postion:</Label>
+            <TextBox x:Name="PositionDroneTextBox"      Grid.Column="2" Grid.Row="6" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
+            <Label x:Name="ParcelTextBoxLabel"          Grid.Column="1" Grid.Row="7" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"   Grid.ColumnSpan="2" />
+            <TextBox x:Name="ParcelIdIdTextBox"         Grid.Column="2" Grid.Row="7" Width="120" Height="35" HorizontalAlignment="Left" Padding="2" FontFamily="Tahoma" FontSize="18" VerticalAlignment="Center"  Grid.ColumnSpan="2" IsReadOnly="True" >Parcel....</TextBox>
 
-            <!--<Grid  x:Name ="ParcelOfDroneInfo"  Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="5" Background="LightGray" >
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="180*"/>
-                    <ColumnDefinition Width="117*" />
-                    <ColumnDefinition Width="35*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="54*"/>
-                    <RowDefinition Height="54*"/>
-                    <RowDefinition Height="54*"/>
-                    <RowDefinition Height="54*"/>
-                </Grid.RowDefinitions>
-                <Label>Parcel in transfor...</Label>
-            </Grid>
-        </Grid>-->
-
-
-            <!--<Grid  x:Name ="UpdateDroneDisplay" Margin="0,124,0,93" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
-
-        </Grid>-->
+            
+        <!--</Grid>-->
         </Grid>
-        
+
 
     </Grid>
 </Window>

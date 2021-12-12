@@ -5,9 +5,6 @@ using IDal;
 using IBL.BO;
 using System.Linq;
 using static IBL.BO.Exceptions;
-/*ChargeSlots = s.DroneChargeAvailble ????????????*/
-
-
 
 namespace BL
 {
