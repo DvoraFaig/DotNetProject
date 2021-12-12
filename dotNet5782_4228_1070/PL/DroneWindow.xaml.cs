@@ -54,7 +54,7 @@ namespace PL
             ModelTextBox.Text = "Model id....";
             labelAddADrone.Visibility = Visibility.Hidden;
             IdTextBoxUpdate.Text =$"{drone.Id}";
-            ModelTextBoxUpdate.Text = $"{ drone.Id}";
+            ModelTextBoxUpdate.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
