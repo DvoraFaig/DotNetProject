@@ -25,13 +25,7 @@ namespace PL
         private Ibl blObject;
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-            }catch(Exception )
-            {
-                
-            }
+            try { InitializeComponent(); } catch { }
             blObject = IBL.IBL.BLFactory.Factory("BL");
             Image img = new Image();
             img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
@@ -40,9 +34,8 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(blObject).Show();
+            new DroneListWindow(blObject, this).Show();
             this.Hide();
-            //this.Close();
         }
     }
 }

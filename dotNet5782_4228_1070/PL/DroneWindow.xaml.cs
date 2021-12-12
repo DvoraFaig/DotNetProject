@@ -23,6 +23,7 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         BLDrone dr;
+        private DroneListWindow droneListWindowForBacking;
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -32,10 +33,13 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneWindow(IBL.Ibl blObject)
+        bool update
+        public DroneWindow(IBL.Ibl blObject, DroneListWindow droneListWindow)
         {
             Loaded += ToolWindow_Loaded;// the x button
             InitializeComponent();
+            droneListWindowForBacking = droneListWindow;
+            UpdateDroneDisplay.Visibility = Visibility.Hidden;
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
@@ -45,11 +49,11 @@ namespace PL
             StationIdTextBox.Text = "Station Id...";
             blObjectD = blObject;
         }
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
+        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone, DroneListWindow droneListWindow)
         {
-            blObjectD = blObject;
             Loaded += ToolWindow_Loaded; // the x button
             InitializeComponent();
+            droneListWindowForBacking = droneListWindow;
             updateOrAddWindow = false;
             //AddDroneDisplay.Visibility = Visibility.Hidden;
             displayWindowAddOrUpdate();
@@ -131,11 +135,11 @@ namespace PL
         } // end textChangedEventHandler
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /*private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
+*/
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -164,8 +168,9 @@ namespace PL
                 //TextDecorationCollection myCollection = new TextDecorationCollection();
                 //myCollection.Add(myUnderline);
                 //addedDrone.TextDecorations = myCollection;
-                new DroneListWindow(blObjectD).Show();
-                this.Hide();
+                //new DroneListWindow(blObjectD).Show();
+                droneListWindowForBacking.Show();
+                this.Close();
 
             }
             catch (FormatException)
@@ -212,8 +217,9 @@ namespace PL
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
-                new DroneListWindow(blObjectD).Show();
-                this.Hide();
+                //new DroneListWindow(blObjectD).Show();
+                droneListWindowForBacking.Show();
+                this.Close();
             }
         }
 
