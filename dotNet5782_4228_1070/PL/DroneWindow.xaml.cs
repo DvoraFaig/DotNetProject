@@ -36,7 +36,6 @@ namespace PL
         {
             InitializeComponent();
             Loaded += ToolWindow_Loaded;//The x button
-            droneListWindowForBacking = droneListWindow;
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
@@ -50,7 +49,6 @@ namespace PL
         {
             InitializeComponent();
             Loaded += ToolWindow_Loaded; //The x button
-            droneListWindowForBacking = droneListWindow;
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
             IdTextBox.Text = $"{drone.Id}";
