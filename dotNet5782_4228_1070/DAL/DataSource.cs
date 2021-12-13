@@ -92,23 +92,61 @@ namespace DalObject
                         Parcels.Find(p => p.DroneId == d.Id).Id == 0)).Id;
                     Parcels.Add(p);
                 }
+                if (p.DroneId > 0)
+                {
+                    int amountTimesToStart = r.Next(0, 3);
+                    switch (amountTimesToStart)
+                    {
+                        case 0:
+                            p.Scheduled = DateTime.Now;
+                            break;
+                        case 1:
+                            p.Scheduled = DateTime.Now;
+                            p.PickUp = DateTime.Now;
+                            break;
+                        case 2:
+                            p.Scheduled = DateTime.Now;
+                            p.PickUp = DateTime.Now;
+                            p.Delivered = DateTime.Now;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                Parcels.Add(p);
             }
-            //DroneCharge
-            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-            //int droneIndex = 0;
-            //for (int i = 0; i < Stations.Count; i++)
-            //{
-            //    if (droneIndex == dronesNotInDelivery.Count)
-            //        break;
-            //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
-            //    {
-            //        if (droneIndex == dronesNotInDelivery.Count)
-            //            break;
-            //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
-            //        droneIndex++;
-                    
-            //    }
-            //}
+
+                //DroneCharge
+                //int indexStation;
+                //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+                //for (int i = 0; i < dronesNotInDelivery.Count; i++)
+                //{
+                //    int fullChargingSlotsInStation;
+                //    indexStation = r.Next(0, Stations.Count);
+                //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
+                //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
+                //    {
+                //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
+                //    }
+                //}
+
+
+                //DroneCharge
+                //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+                //int droneIndex = 0;
+                //for (int i = 0; i < Stations.Count; i++)
+                //{
+                //    if (droneIndex == dronesNotInDelivery.Count)
+                //        break;
+                //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
+                //    {
+                //        if (droneIndex == dronesNotInDelivery.Count)
+                //            break;
+                //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
+                //        droneIndex++;
+
+                //    }
+                //}
         }
 
         internal static class Config

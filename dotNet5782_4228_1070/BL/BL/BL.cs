@@ -69,31 +69,33 @@ namespace BL
                     if (blDrone.Status == DroneStatus.Maintenance)
                     {
                         List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
-                        
+
 
                         //if it supposed to be in charging find an avilable station with empty charging slots.
-                        //int amountChargingDronesInStation;
-                        //int amountStation = dal.amountStations();
-                        //foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
-                        //{
-                        //    amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                        //    if(station.ChargeSlots > amountChargingDronesInStation)
-                        //    {
-                        //        dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
-                        //        blDrone.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
-                        //        break;
-                        //    }
-                        //}
-                        s = stationsToFindPlaceToCharge[r.Next(0, stationsToFindPlaceToCharge.Count())];
+                        int amountChargingDronesInStation;
+                        int amountStation = dal.amountStations();
+                        foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
+                        {
+                            amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+                            if (station.ChargeSlots > amountChargingDronesInStation)
+                            {
+                                dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
+                                blDrone.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
+                                blDrone.Battery = r.Next(0, 20);
+                                break;
+                            }
+                        }
+                        ////s = stationsToFindPlaceToCharge[r.Next(0, stationsToFindPlaceToCharge.Count())];
                         //s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
-                        blDrone.DronePosition = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-                        blDrone.Battery = r.Next(0, 20);
+                        //blDrone.DronePosition = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
+                        //blDrone.Battery = r.Next(0, 20);
                     }
                     else  //DroneStatus.Available
                     {
                         List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
                         if (cWithDeliveredP.Count > 0)
                         {
+                            //Drones' position will randomly be a customers position who received a package. //doesn't have to be the same drone.
                             target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
                             blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
                             s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
