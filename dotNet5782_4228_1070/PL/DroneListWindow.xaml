@@ -29,14 +29,22 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Name="StatusSelector" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10"/>
-            <ComboBox Name="WeightSelector" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
-            <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
-            <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
-        </Grid>
+            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10"/>
+            <!--<ComboBox SelectedIndex="0" 
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <ListBoxItem>Please Select</ListBoxItem>
+                        <CollectionContainer Collection="{Binding Source={StaticResource YOURDATASOURCE}}" />
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+            </ComboBox>-->
 
-        <ListView  ItemsSource="{Binding}" Margin="0" FontSize="18" FontFamily="Tehoma" FontWeight="SemiBold"
-          IsSynchronizedWithCurrentItem="False" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="DroneListView" Background="White" MouseDoubleClick="DroneSelection" SelectionChanged="DroneListView_SelectionChanged">
+            <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
+            <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
+            <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
+        </Grid>
+        <ListView  ItemsSource="{Binding}" Margin="0" FontSize="15" FontFamily="Tahoma" FontWeight="SemiBold"
+            Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="DroneListView" Background="White" MouseDoubleClick="DroneSelection" SelectionChanged="DroneListView_SelectionChanged">
             <ListView.Resources>
                 <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="Visibility" Value="Collapsed"  />
@@ -44,21 +52,18 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" Width="50" DisplayMemberBinding="{Binding Id}" >
-                        <!--<GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Background ="Black"  Height="120" Width="40" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>-->
+                    <GridViewColumn Header="Id" Width="30" DisplayMemberBinding="{Binding Id}" >
+                        <!--<GridViewColumn.CellTemplate><DataTemplate><Border Background ="Black"  Height="120" Width="40" /></DataTemplate></GridViewColumn.CellTemplate>-->
                     </GridViewColumn>
-                    <GridViewColumn Header="Model" Width="90" DisplayMemberBinding="{Binding Model}" />
+                    <GridViewColumn Header="Model" Width="100" DisplayMemberBinding="{Binding Model}" />
                     <GridViewColumn Header="MaxWeight" Width="120" DisplayMemberBinding="{Binding MaxWeight}" />
-                    <GridViewColumn Header="Battery" Width="90" DisplayMemberBinding="{Binding Battery}" />
-                    <GridViewColumn Header="droneStatus" Width="120" DisplayMemberBinding="{Binding droneStatus}" />
-                    <GridViewColumn Header="DronePosition" Width="140" DisplayMemberBinding="{Binding DronePosition}" />
-                    <GridViewColumn Header="IdParcel" Width="100" DisplayMemberBinding="{Binding IdParcel}" />
+                    <GridViewColumn Header="Battery" Width="80" DisplayMemberBinding="{Binding Battery}" />
+                    <GridViewColumn Header="droneStatus" Width="150" DisplayMemberBinding="{Binding droneStatus}" />
+                    <GridViewColumn Header="DronePosition" Width="120" DisplayMemberBinding="{Binding DronePosition}" />
+                    <GridViewColumn Header="IdParcel" Width="110" DisplayMemberBinding="{Binding IdParcel}" />
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Width="120" Height="25" FontFamily="Tahoma" Click="DisplayFullList" Margin="0,66,238,9" Grid.RowSpan="2" Grid.Column="1" >Display full List</Button>
     </Grid>
 </Window>

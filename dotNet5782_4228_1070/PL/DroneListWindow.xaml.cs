@@ -27,41 +27,24 @@ namespace PL
         {
             InitializeComponent();
             blObjectH = blObject;
-            //List<TextBlock> drones = new List<TextBlock>();
-            //TextBlock oneDrone = new TextBlock();
-            //oneDrone.Background = Brushes.LightGray;
-            //List<BLDroneToList> blDrones = blObjectH.DisplayDronesToList();
-            //foreach (BLDroneToList d in blDrones)
-            //{
-            //    oneDrone = new TextBlock();
-            //    oneDrone.Text = d.ToString();
-            //    drones.Add(oneDrone);
-            //}
-            //DroneListView.ItemsSource = drones;//blObjectH.DisplayDronesToList();//blObjectH.DisplayDrones();
             DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            object item = StatusSelector.SelectedItem;
-            List<BLDroneToList> b = blObjectH.DisplayDroneToListByStatus((DroneStatus)item);
-            DroneListView.ItemsSource = b;
-        }
-        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            object item = WeightSelector.SelectedItem;
-            List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeight((IDal.DO.WeightCategories)item);
-            DroneListView.ItemsSource = b;
-        }
+        /// <summary>
+        /// Display DroneToList occurding to both conditions: 
+        /// StatusSelector.SelectedItem and WeightSelector.SelectedItem;
+        /// if they are null = -1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
-            weight = (weight == null)? -1 : WeightSelector.SelectedItem;
-            status = (weight == null) ? -1 : StatusSelector.SelectedItem;
-
+            weight = (weight == null )? -1 : WeightSelector.SelectedItem;
+            status = (weight == null ) ? -1 : StatusSelector.SelectedItem;
             List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
             DroneListView.ItemsSource = b;
         }
@@ -95,5 +78,27 @@ namespace PL
 
         }
 
+        private void DisplayFullList(object sender, RoutedEventArgs e)
+        {
+            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
+            StatusSelector.SelectedItem = -1;
+            WeightSelector.SelectedItem = -1;
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+        }
     }
 }
+
+
+//private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+//{
+//    object item = StatusSelector.SelectedItem;
+//    List<BLDroneToList> b = blObjectH.DisplayDroneToListByStatus((DroneStatus)item);
+//    DroneListView.ItemsSource = b;
+//}
+//private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+//{
+//    object item = WeightSelector.SelectedItem;
+//    List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeight((IDal.DO.WeightCategories)item);
+//    DroneListView.ItemsSource = b;
+//}

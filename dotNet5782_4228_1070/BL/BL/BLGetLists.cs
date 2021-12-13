@@ -123,7 +123,12 @@ namespace BL
             }
             return convertBLDroneToBLDronesToList(list);
         }
-
+        /// <summary>
+        /// Receive weight and status and returns List<BLDroneToList> accurding to the conditions 
+        /// </summary>
+        /// <param name="weight">if 3>weight>-1 == values of DroneStatus. if weight==-1 weight is null</param>
+        /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
+        /// <returns></returns>
         public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status)
         {
             List<BLDrone> list = new List<BLDrone>();
