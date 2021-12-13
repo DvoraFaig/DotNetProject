@@ -36,6 +36,14 @@ namespace IBL
             public DroneStatus droneStatus { get; set; }
             public BLPosition DronePosition { get; set; }
             public int IdParcel { get; set; } //if there is
+            public override string ToString()
+            {
+                if (DronePosition == null)
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {droneStatus}");
+                if(IdParcel == 0)
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition} , Parcel Id: -- no parcel -- ");
+                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition}" );
+            }
         }
 
         public class BLDroneInParcel //drone in pacel

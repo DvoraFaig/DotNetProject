@@ -27,7 +27,7 @@ namespace PL
         {
             InitializeComponent();
             blObjectH = blObject;
-            DroneListView.ItemsSource = blObjectH.DisplayDrones();
+            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();//blObjectH.DisplayDrones();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
         }
@@ -35,13 +35,13 @@ namespace PL
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object item = StatusSelector.SelectedItem;
-            List<BLDrone> b = blObjectH.DisplayDroneByStatus((DroneStatus)item);
+            List<BLDroneToList> b = blObjectH.DisplayDroneToListByStatus((DroneStatus)item);
             DroneListView.ItemsSource = b;
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object item = WeightSelector.SelectedItem;
-            List<BLDrone> b = blObjectH.DisplayDroneByWeight((IDal.DO.WeightCategories)item);
+            List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeight((IDal.DO.WeightCategories)item);
             DroneListView.ItemsSource = b;
         }
 

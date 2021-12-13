@@ -116,6 +116,20 @@ namespace BL
             BLDrone BLDrone = getBLDroneById(d.Id);
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
         }
+        private List<BLDroneToList> convertBLDroneToBLDronesToList(List<BLDrone> drones )
+        {
+            List<BLDroneToList> listDrones = new List<BLDroneToList>();
+            BLDroneToList toAdd = new BLDroneToList();
+            foreach (BLDrone d in drones)
+            {
+                if(d.ParcelInTransfer == (null))
+                    toAdd = new BLDroneToList() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, droneStatus = d.Status, Battery = d.Battery, DronePosition = d.DronePosition};
+                else
+                    toAdd = new BLDroneToList() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, droneStatus = d.Status, Battery = d.Battery, DronePosition = d.DronePosition, IdParcel = d.ParcelInTransfer.Id };
+                listDrones.Add(toAdd);
+            }
+            return listDrones;
+        }
 
         private BLDrone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {

@@ -38,6 +38,10 @@ namespace BL
         {
             return dronesInBL;
         }
+        public List<BLDroneToList> DisplayDronesToList()
+        {
+            return convertBLDroneToBLDronesToList(dronesInBL);
+        }
         public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
@@ -85,6 +89,7 @@ namespace BL
             }
             return list;
         }
+        
 
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status)
         {
@@ -96,6 +101,29 @@ namespace BL
             }
             return list;
         }
+        //added check if i could erase the other ones.
+        public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.Status == status);
+
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
+        public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == weight);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
+
 
     }
 }
