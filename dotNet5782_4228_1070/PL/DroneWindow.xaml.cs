@@ -22,7 +22,8 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private IBL.Ibl blObjectD;
-        BLDrone dr;
+        BLDroneToList dr;
+        //BLDrone dr;
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -76,10 +77,44 @@ namespace PL
             DeliveryStatusButton.Content = 
             // ======================================
             blObjectD = blObject;
+            //dr = drone;///////////////////////////////////dr == droneToList
+        }
+        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDroneToList drone)
+        {
+            InitializeComponent();
+            Loaded += ToolWindow_Loaded; //The x button
+            updateOrAddWindow = false;
+            displayWindowAddOrUpdate();
+            IdTextBox.Text = $"{drone.Id}";
+            ModelTextBox.Text = $"{ drone.Model}";
+            DroneWeightUpdate.Text = $"{drone.MaxWeight}";
+            BatteryTextBox.Text = $"{drone.Battery}";
+            StatusTextBox.Text = $"{drone.droneStatus}";
+            PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            if (drone.IdParcel == null)
+                ParcelIdIdTextBox.Text = "---";
+            else
+                ParcelIdIdTextBox.Text = $"{drone.IdParcel}";
+            // ======================================
+            // set type of buttons
+            // ======================================
+            // charge Button
+            ChargeButton.Content = drone.droneStatus == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge";
+            if (!(drone.droneStatus == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
+            ChargeButton.IsEnabled = drone.droneStatus == DroneStatus.Maintenance ? false : true;
+            // Delivery status Button
+            DeliveryStatusButton.IsEnabled = drone.droneStatus == DroneStatus.Maintenance ? false : true;
+            string contentButton = actionAlowedDrone(drone);
+            DeliveryStatusButton.Content =
+            // ======================================
+            blObjectD = blObject;
             dr = drone;
         }
-
         private string actionAlowedDrone(BLDrone drone)
+        {
+            return "";
+        }
+        private string actionAlowedDrone(BLDroneToList drone)
         {
             return "";
         }
@@ -206,19 +241,7 @@ namespace PL
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             StationIdTextBox.Text = "Station id...";
         }
-        //private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //    //IdTextBox.Text = " ";
-        //}
-        //private void ModelTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //}
-        //private void StationIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //}
+     
 
         private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
@@ -231,10 +254,6 @@ namespace PL
             }
         }
 
-        private void ModelTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -271,16 +290,6 @@ namespace PL
         }
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void PickParcel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void PackageDelivery_Click(object sender, RoutedEventArgs e)
         {
 
         }

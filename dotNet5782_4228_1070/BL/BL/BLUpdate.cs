@@ -31,6 +31,25 @@ namespace BL
                 throw new InvalidOperationException();
             }
         }
+        public void DroneChangeModel(BLDroneToList newDrone)
+        {
+            try
+            {
+                BLDrone d = getBLDroneWithSpecificCondition(drone => drone.Id == newDrone.Id).First();
+                /* if (d.Equals(default(BLDrone)))
+                     throw new Exception($"ERROR: Drone {drone.Id} not found");
+                 else
+                 {*/
+                dronesInBL.Remove(d);
+                //d.Model = drone.Model;
+                dronesInBL.Add(d);
+                dal.changeDroneInfo(d.Id, d.Model);
+            }
+            catch (Exception)
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {

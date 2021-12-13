@@ -89,7 +89,7 @@ namespace BL
             }
             return list;
         }
-        
+
 
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status)
         {
@@ -124,6 +124,21 @@ namespace BL
             return convertBLDroneToBLDronesToList(list);
         }
 
-
+        public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
+            if (weight >= 0 && status == -1)
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight);
+            else if (weight == -1 && status >= 0)
+                IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
+            else if (weight >= 0 && status >= 0)
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
     }
 }
