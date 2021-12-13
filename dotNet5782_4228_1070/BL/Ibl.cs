@@ -20,11 +20,14 @@ namespace IBL
         public List<BLStation> DisplayStations();
         public List<BLCustomer> DisplayCustomers();
         public List<BLDrone> DisplayDrones();
+        public List<BLDroneToList> DisplayDronesToList();
         public List<BLParcel> DisplayParcel();
         public List<BLParcel> DisplayFreeParcel();
         public List<BLStation> DisplayEmptyDroneCharge();
         public List<BLDrone> DisplayDroneByWeight(IDal.DO.WeightCategories weight);
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status);
+        public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight);
+        public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status);
         //================
         // Get object
         //================

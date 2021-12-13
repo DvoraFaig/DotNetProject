@@ -63,10 +63,27 @@ namespace PL
 
                 // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
             }
-            ChargeButton.IsEnabled = drone.Status == DroneStatus.Available ? true : false;
+            // ======================================
+            // set type of buttons
+            // ======================================
+            // charge Button
+            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
+            if (!(drone.Status == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
+            ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+            // Delivery status Button
+            DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+            string contentButton = actionAlowedDrone(drone);
+            DeliveryStatusButton.Content = 
+            // ======================================
             blObjectD = blObject;
             dr = drone;
         }
+
+        private string actionAlowedDrone(BLDrone drone)
+        {
+            return "";
+        }
+
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;

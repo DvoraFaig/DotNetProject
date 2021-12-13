@@ -35,10 +35,16 @@ namespace BL
 
             foreach(IDal.DO.Drone d in drones )
             {
-                blDrone = copyDalToBLDroneInfo(d);
                 p = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == d.Id).FirstOrDefault();
+                s = new IDal.DO.Station();
+                blDrone = new BLDrone();
+                blDrone.Id = d.Id; /*copyDalToBLDroneInfo(d);*/
+                blDrone.Model = d.Model;
+                blDrone.MaxWeight =  d.MaxWeight;
+
                 if (!(p.Scheduled == (null)) && p.Delivered == (null) && !p.Equals(default(IDal.DO.Parcel)) )// pair a parcel to drone but not yed delivered.
-                { 
+                {
+                    blDrone.Status = DroneStatus.Delivery;
                     IDal.DO.Station closestStationToSender = new IDal.DO.Station();
                     sender = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.SenderId).First();
                     target = dal.getCustomerWithSpecificCondition(parcel => parcel.ID == p.TargetId).First();
@@ -59,10 +65,27 @@ namespace BL
 
                 else // if drone is not delivery status
                 {
-                    blDrone.Status = (DroneStatus)r.Next(0, 1); // Available / Maintenance
+                    blDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
                     if (blDrone.Status == DroneStatus.Maintenance)
                     {
-                        s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
+                        List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
+                        
+
+                        //if it supposed to be in charging find an avilable station with empty charging slots.
+                        //int amountChargingDronesInStation;
+                        //int amountStation = dal.amountStations();
+                        //foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
+                        //{
+                        //    amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+                        //    if(station.ChargeSlots > amountChargingDronesInStation)
+                        //    {
+                        //        dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
+                        //        blDrone.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
+                        //        break;
+                        //    }
+                        //}
+                        s = stationsToFindPlaceToCharge[r.Next(0, stationsToFindPlaceToCharge.Count())];
+                        //s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
                         blDrone.DronePosition = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
                         blDrone.Battery = r.Next(0, 20);
                     }
@@ -73,6 +96,10 @@ namespace BL
                         {
                             target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
                             blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
+                            s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
+                            double distanceBetweenDroneAndStation = distance(new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude }, blDrone.DronePosition);
+                            blDrone.Battery = r.Next(0,(int)distanceBetweenDroneAndStation);
+
                         }
                     }
                 }
