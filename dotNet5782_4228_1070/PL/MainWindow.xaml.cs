@@ -25,24 +25,34 @@ namespace PL
         private Ibl blObject;
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-            }catch(Exception )
-            {
-                
-            }
+            InitializeComponent();
             blObject = IBL.IBL.BLFactory.Factory("BL");
             Image img = new Image();
             img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
-
+        }
+        public MainWindow(Ibl bl)
+        {
+            InitializeComponent();
+            blObject = bl;
+            Image img = new Image();
+            img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(blObject).Show();
-            this.Hide();
-            //this.Close();
+            this.Close();
+        }
+
+        private void ChangeBackGround(object sender, MouseEventArgs e)
+        {
+             GoToDroneListWindow.Background = Brushes.Transparent;
+        }
+
+        private void ChangeBackTheBackGround(object sender, MouseEventArgs e)
+        {
+            GoToDroneListWindow.Background = Brushes.White;
+
         }
     }
 }

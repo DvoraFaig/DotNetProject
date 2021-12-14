@@ -38,6 +38,10 @@ namespace BL
         {
             return dronesInBL;
         }
+        public List<BLDroneToList> DisplayDronesToList()
+        {
+            return convertBLDroneToBLDronesToList(dronesInBL);
+        }
         public List<BLParcel> DisplayParcel()
         {
             IEnumerable<IDal.DO.Parcel> pList = dal.displayParcels();
@@ -86,6 +90,7 @@ namespace BL
             return list;
         }
 
+
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status)
         {
             List<BLDrone> list = new List<BLDrone>();
@@ -96,6 +101,49 @@ namespace BL
             }
             return list;
         }
+        //added check if i could erase the other ones.
+        public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.Status == status);
 
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
+        public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == weight);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
+        /// <summary>
+        /// Receive weight and status and returns List<BLDroneToList> accurding to the conditions 
+        /// </summary>
+        /// <param name="weight">if 3>weight>-1 == values of DroneStatus. if weight==-1 weight is null</param>
+        /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
+        /// <returns></returns>
+        public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status)
+        {
+            List<BLDrone> list = new List<BLDrone>();
+            IEnumerable<BLDrone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
+            if (weight >= 0 && status == -1)
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight);
+            else if (weight == -1 && status >= 0)
+                IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
+            else if (weight >= 0 && status >= 0)
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLDroneToBLDronesToList(list);
+        }
     }
 }

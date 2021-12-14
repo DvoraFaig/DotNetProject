@@ -20,6 +20,8 @@ namespace IDal
             void AddParcel(Parcel parcel);
             void AddDroneCharge(DroneCharge parcel);
             int amountParcels();
+            int amountStations();
+
             //==================
             //Update functions//
             //==================
@@ -28,17 +30,7 @@ namespace IDal
             void CostumerGetsParcel(Drone drone, Parcel parcel);
             void sendDroneToCharge(Drone drone);
             void freeDroneFromCharge(Drone drone);
-            //==================
-            //get objects
-            //==================
-            Station getStationById(int id);
-            Drone getDroneById(int id);
-            Customer getCustomerById(int id);
-            Parcel getParcelById(int id);
-            DroneCharge getDroneChargeByStationId(int id);
-            DroneCharge getDroneChargeByDroneId(int id);
-            Parcel getParcelByDroneId(int droneId);
-
+            
             //==================
             //display lists
             //==================

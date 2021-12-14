@@ -20,11 +20,17 @@ namespace IBL
         public List<BLStation> DisplayStations();
         public List<BLCustomer> DisplayCustomers();
         public List<BLDrone> DisplayDrones();
+        public List<BLDroneToList> DisplayDronesToList();
         public List<BLParcel> DisplayParcel();
         public List<BLParcel> DisplayFreeParcel();
         public List<BLStation> DisplayEmptyDroneCharge();
         public List<BLDrone> DisplayDroneByWeight(IDal.DO.WeightCategories weight);
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status);
+        public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight);
+        public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status);
+        //public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(IDal.DO.WeightCategories weight, DroneStatus status);
+        public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
+
         //================
         // Get object
         //================
@@ -35,7 +41,8 @@ namespace IBL
         //================
         // Updates
         //================
-        public void DroneChangeModel(int id, string newModel);
+        public void DroneChangeModel(BLDrone drone);
+        public void DroneChangeModel(BLDroneToList drone);
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1);
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public void SendDroneToCharge(int droneId);

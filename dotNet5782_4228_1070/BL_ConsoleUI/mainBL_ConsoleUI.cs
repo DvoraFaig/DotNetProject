@@ -123,7 +123,7 @@ namespace BL_ConsoleUI
                         Console.WriteLine("Enter a new Model");
                         string model = Console.ReadLine();
 
-                        bl.DroneChangeModel(droneId, model);
+                        //bl.DroneChangeModel(droneId, model);
                     }
                     catch (FormatException )
                     {
