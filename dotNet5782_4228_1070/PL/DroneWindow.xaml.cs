@@ -86,6 +86,7 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            new DroneListWindow(blObjectD).Show();
             this.Close();
         }
 
@@ -173,6 +174,12 @@ namespace PL
         private void ModelTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneListWindow(blObjectD).Show();
+            this.Close();
         }
     }
 }
