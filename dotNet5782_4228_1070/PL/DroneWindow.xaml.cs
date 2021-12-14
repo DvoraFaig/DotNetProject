@@ -61,6 +61,16 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            
+
+
+
+
+            if (drone.ParcelInTransfer == null)
+            {
+
+                // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
+            }
             // ======================================
             // set type of buttons
             // ======================================

@@ -66,47 +66,77 @@ namespace BL
                 else // if drone is not delivery status
                 {
                     blDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
-                    if (blDrone.Status == DroneStatus.Maintenance)
-                    {
-                        List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
-
-
-                        //if it supposed to be in charging find an avilable station with empty charging slots.
-                        int amountChargingDronesInStation;
-                        int amountStation = dal.amountStations();
-                        foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
-                        {
-                            amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                            if (station.ChargeSlots > amountChargingDronesInStation)
-                            {
-                                dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
-                                blDrone.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
-                                blDrone.Battery = r.Next(0, 20);
-                                break;
-                            }
-                        }
-                        ////s = stationsToFindPlaceToCharge[r.Next(0, stationsToFindPlaceToCharge.Count())];
-                        //s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
-                        //blDrone.DronePosition = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-                        //blDrone.Battery = r.Next(0, 20);
-                    }
-                    else  //DroneStatus.Available
+                    bool AvailbeDroneWithPosition = false; 
+                    if (blDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
                         List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
                         if (cWithDeliveredP.Count > 0)
                         {
-                            //Drones' position will randomly be a customers position who received a package. //doesn't have to be the same drone.
+                            AvailbeDroneWithPosition = true;
                             target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
                             blDrone.DronePosition = new BLPosition() { Longitude = target.Longitude, Latitude = target.Latitude };
                             s = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
                             double distanceBetweenDroneAndStation = distance(new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude }, blDrone.DronePosition);
-                            blDrone.Battery = r.Next(0,(int)distanceBetweenDroneAndStation);
-
+                            blDrone.Battery = r.Next(0, (int)distanceBetweenDroneAndStation);
                         }
+                        else //couldn't find a delivered parcel.
+                        {
+                            List<IDal.DO.Station> stationsToFindPlaceToCharge = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+                            int amountStation = dal.amountStations();
+                            int randomStation = r.Next(0, amountStation);
+                            blDrone.DronePosition = new BLPosition() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            blDrone.Battery = r.Next(20, 100);
+                        }
+
+                    }
+                    if (blDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
+                    {
+                        List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
+                        //If drone is supposed to be in charging find an avilable station with empty charging slots.
+                        //for not having all the drones in the same place:
+                        //Try random station if station didn't have an empty place go threw all the stations
+                        int amountStation = dal.amountStations();
+                        #region Find random station
+                        int randomStation = r.Next(0, amountStation);
+                        BLDrone temp = new BLDrone();
+                        temp = findStationForDrone(blDrone, stationsToFindPlaceToCharge[randomStation]);
+                        if (temp != null)
+                        {
+                            blDrone.DronePosition = new BLPosition() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            blDrone.Battery = r.Next(0, 20);
+                        }
+                        #endregion
+                        #region go threw all the stations
+                        else
+                        {
+                            foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
+                            {
+                                temp = findStationForDrone(blDrone, stationsToFindPlaceToCharge[randomStation]);
+                                if (temp != null)
+                                {
+                                    blDrone.DronePosition = new BLPosition() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                                    blDrone.Battery = r.Next(0, 20);
+                                    break;
+                                }
+                            }
+                        }
+                        #endregion
                     }
                 }
                 dronesInBL.Add(blDrone);
             }
+        }
+        private BLDrone findStationForDrone(BLDrone d , IDal.DO.Station station)
+        {
+            int amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+            if (station.ChargeSlots > amountChargingDronesInStation)
+            {
+                dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
+                d.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
+                d.Battery = r.Next(0, 20);
+                return d;
+            }
+            return null;
         }
         private int calcDroneBatteryForDroneDelivery(IDal.DO.Parcel p, IDal.DO.Station closestStationToSender, BLPosition senderPosition, BLPosition targetPosition)
         {

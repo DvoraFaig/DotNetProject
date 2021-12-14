@@ -23,6 +23,7 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private Ibl blObjectH;
+
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
@@ -30,6 +31,9 @@ namespace PL
             DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            ChosenStatus.Visibility = Visibility.Hidden;
+            ChosenWeight.Visibility = Visibility.Hidden;
+
         }
 
         /// <summary>
@@ -43,8 +47,33 @@ namespace PL
         {
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
-            weight = (weight == null )? -1 : WeightSelector.SelectedItem;
-            status = (weight == null ) ? -1 : StatusSelector.SelectedItem;
+            if (weight!=null)
+            {
+                weight = WeightSelector.SelectedItem;
+                ChosenWeight.Visibility = Visibility.Visible;
+                ChosenWeightText.Text = WeightSelector.SelectedItem.ToString();
+            }
+            else
+            {
+                weight = -1;
+                ChosenWeight.Visibility = Visibility.Hidden;
+            }
+            if (status != null)
+            {
+                status = StatusSelector.SelectedItem;
+                ChosenStatus.Visibility = Visibility.Visible;
+                ChosenStatusText.Text = StatusSelector.SelectedItem.ToString();
+            }
+            else
+            {
+                status = -1;
+                ChosenStatus.Visibility = Visibility.Hidden;
+            }
+            //weight = (weight == null )? -1 : WeightSelector.SelectedItem;
+            //status = (status == null ) ? -1 : StatusSelector.SelectedItem;
+            
+
+
             List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
             DroneListView.ItemsSource = b;
         }
@@ -73,17 +102,25 @@ namespace PL
 
         }
 
-        private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
+        //private void DisplayFullList(object sender, RoutedEventArgs e)
+        //{
+        //    StatusSelector.SelectedItem = null;
+        //    WeightSelector.SelectedItem = null;
+        //    StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+        //    WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+        //}
 
-        private void DisplayFullList(object sender, RoutedEventArgs e)
+        private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
-            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
-            StatusSelector.SelectedItem = -1;
-            WeightSelector.SelectedItem = -1;
+            StatusSelector.SelectedItem = null;
+            ChosenStatus.Visibility = Visibility.Hidden;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+        }
+        private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
+        {
+            WeightSelector.SelectedItem = null;
+            ChosenWeight.Visibility = Visibility.Hidden;
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
         }
     }
