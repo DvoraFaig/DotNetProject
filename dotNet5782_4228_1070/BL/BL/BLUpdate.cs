@@ -15,20 +15,14 @@ namespace BL
         {
             try
             {
-                //BLDrone d = getBLDroneWithSpecificCondition(drone => drone.Id == drone.Id).First();
-               /* if (d.Equals(default(BLDrone)))
-                    throw new Exception($"ERROR: Drone {drone.Id} not found");
-                else
-                {*/
-                    dronesInBL.Remove(newDrone);
-                    //d.Model = drone.Model;
-                    dronesInBL.Add(newDrone);
-                    dal.changeDroneInfo(newDrone.Id, newDrone.Model);
-                /*}*/
+                dronesInBL.Remove(newDrone);
+                dronesInBL.Add(newDrone);
+                dal.changeDroneInfo(newDrone.Id, newDrone.Model);
             }
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                //throw new InvalidOperationException("Couldn't change Model");
+                throw new Exception("Couldn't change Model");
             }
         }
         public void DroneChangeModel(BLDroneToList newDrone)
@@ -36,18 +30,13 @@ namespace BL
             try
             {
                 BLDrone d = getBLDroneWithSpecificCondition(drone => drone.Id == newDrone.Id).First();
-                /* if (d.Equals(default(BLDrone)))
-                     throw new Exception($"ERROR: Drone {drone.Id} not found");
-                 else
-                 {*/
                 dronesInBL.Remove(d);
-                //d.Model = drone.Model;
                 dronesInBL.Add(d);
                 dal.changeDroneInfo(d.Id, d.Model);
             }
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                throw new InvalidStringException("Drones' Model");
             }
         }
 
@@ -71,12 +60,20 @@ namespace BL
 
         public void UpdateCustomerDetails(int id, string name = null, string phone = null)
         {
-            IDal.DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.ID == id).First();
-            if (name != null)
-                c.Name = name;
-            if (phone != null && phone.Length >= 9 && phone.Length <= 10)
-                c.Phone = phone;
-            dal.changeCustomerInfo(c);
+            IDal.DO.Customer c;
+            try
+            {
+                c = dal.getCustomerWithSpecificCondition(c => c.ID == id).First();
+                if (name != null)
+                    c.Name = name;
+                if (phone != null && phone.Length >= 9 && phone.Length <= 10)
+                    c.Phone = phone;
+                dal.changeCustomerInfo(c);
+            }
+            catch (Exception)
+            {
+                throw new ObjNotExistException(typeof(IDal.DO.Customer), id);
+            }
         }
 
         public void SendDroneToCharge(int droneId)
@@ -95,7 +92,6 @@ namespace BL
                     dal.AddDroneCharge(droneCharge);
                     dal.changeStationInfo(availbleSforCharging);
                     dal.changeDroneInfo(convertBLToDalDrone(drone));
-                    //dal.changeStationInfo // slots????????????????????????
                 }
                 else
                 {
@@ -104,7 +100,7 @@ namespace BL
             }
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                throw new ObjNotExistException(typeof(BLDrone), droneId);
             }
         }
 
@@ -115,71 +111,75 @@ namespace BL
                 BLDrone blDrone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
                 blDrone.Battery += (double)timeCharging * requestElectricity(4);
-                IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId ==  blDrone.Id).First();
-                IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id ==  droneChargeByStation.StationId).First();
+                IDal.DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
+                IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                throw new ObjNotExistException(typeof(BLDrone), droneId);
+                //throw new InvalidOperationException();
             }
         }
 
         public void PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
         {
-            IDal.DO.Customer senderP;
-            IDal.DO.Customer targetP;
-            IDal.DO.Customer senderMaxParcel;
-            double disMaxPToSender = Math.Pow(2,53); // the biggest number
-            BLDrone droneToParcel = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
-            IEnumerable<IDal.DO.Parcel> parcels = dal.displayParcels();
-            IDal.DO.Parcel maxParcel = new IDal.DO.Parcel();// = new IDal.DO.Parcel() { Weight = 0 };//parcels.First(); //check if weight is good=====================
-            foreach (IDal.DO.Parcel p in parcels)
+            try
             {
-                if (!p.Requeasted.Equals(default(IDal.DO.Parcel).Requeasted))
+                IDal.DO.Customer senderP;
+                IDal.DO.Customer targetP;
+                IDal.DO.Customer senderMaxParcel;
+                double disMaxPToSender = Math.Pow(2, 53); // the biggest number
+                BLDrone droneToParcel = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+                IEnumerable<IDal.DO.Parcel> parcels = dal.displayParcels();
+                IDal.DO.Parcel maxParcel = new IDal.DO.Parcel();// = new IDal.DO.Parcel() { Weight = 0 };//parcels.First(); //check if weight is good=====================
+                foreach (IDal.DO.Parcel p in parcels)
                 {
-                    senderP = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First();
-                    targetP = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First();
-                    BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
-                    BLPosition targetPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
-                    double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
-                    double disSenderToTarget = distance(senderPosition, targetPosition);
-                    IDal.DO.Station MinDisFromTargetTostation = findAvailbleAndClosestStationForDrone(targetPosition);
-                    double disTargetToStation = distance(targetPosition, new BLPosition() { Longitude = MinDisFromTargetTostation.Longitude, Latitude = MinDisFromTargetTostation.Latitude });
-                    double droneElectricity = requestElectricity((int)p.Weight);
-                    //senderMaxParcel = dal.getCustomerWithSpecificCondition(c => c.ID == maxParcel.SenderId).First();
-                    //disMaxPToSender = distance(droneToParcel.DronePosition, new BLPosition() { Longitude = senderMaxParcel.Longitude, Latitude = senderMaxParcel.Latitude });
-                    if (droneToParcel.Battery - (int)(disDroneToSenderP * droneElectricity + disSenderToTarget * droneElectricity + disTargetToStation * droneElectricity) > 0) //[4]
+                    if (!p.Requeasted.Equals(default(IDal.DO.Parcel).Requeasted))
                     {
-                        if (p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
+                        senderP = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First();
+                        targetP = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First();
+                        BLPosition senderPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+                        BLPosition targetPosition = new BLPosition() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+                        double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
+                        double disSenderToTarget = distance(senderPosition, targetPosition);
+                        IDal.DO.Station MinDisFromTargetTostation = findAvailbleAndClosestStationForDrone(targetPosition);
+                        double disTargetToStation = distance(targetPosition, new BLPosition() { Longitude = MinDisFromTargetTostation.Longitude, Latitude = MinDisFromTargetTostation.Latitude });
+                        double droneElectricity = requestElectricity((int)p.Weight);
+                        //senderMaxParcel = dal.getCustomerWithSpecificCondition(c => c.ID == maxParcel.SenderId).First();
+                        //disMaxPToSender = distance(droneToParcel.DronePosition, new BLPosition() { Longitude = senderMaxParcel.Longitude, Latitude = senderMaxParcel.Latitude });
+                        if (droneToParcel.Battery - (int)(disDroneToSenderP * droneElectricity + disSenderToTarget * droneElectricity + disTargetToStation * droneElectricity) > 0) //[4]
                         {
-                            if (maxParcel.Equals(default(IDal.DO.Parcel)))
+                            if (p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
                             {
-                                maxParcel = p;
-                                senderMaxParcel = senderP;
-                                disMaxPToSender = disDroneToSenderP;
-                            }
-                            else
-                            {
-                                if (maxParcel.Priority < p.Priority)
+                                if (maxParcel.Equals(default(IDal.DO.Parcel)))
                                 {
                                     maxParcel = p;
                                     senderMaxParcel = senderP;
                                     disMaxPToSender = disDroneToSenderP;
                                 }
-                                else if (maxParcel.Priority == p.Priority /*&& p.Weight <= droneToParcel.MaxWeight && maxParcel.Weight <= droneToParcel.MaxWeight*/)
+                                else
                                 {
-                                    if (maxParcel.Weight < p.Weight)
-                                        maxParcel = p;
-                                    else if (maxParcel.Weight == p.Weight)
+                                    if (maxParcel.Priority < p.Priority)
                                     {
-
-                                        if (disDroneToSenderP < disMaxPToSender)
-                                        {
+                                        maxParcel = p;
+                                        senderMaxParcel = senderP;
+                                        disMaxPToSender = disDroneToSenderP;
+                                    }
+                                    else if (maxParcel.Priority == p.Priority /*&& p.Weight <= droneToParcel.MaxWeight && maxParcel.Weight <= droneToParcel.MaxWeight*/)
+                                    {
+                                        if (maxParcel.Weight < p.Weight)
                                             maxParcel = p;
-                                            senderMaxParcel = senderP;
-                                            disMaxPToSender = disDroneToSenderP;
+                                        else if (maxParcel.Weight == p.Weight)
+                                        {
+
+                                            if (disDroneToSenderP < disMaxPToSender)
+                                            {
+                                                maxParcel = p;
+                                                senderMaxParcel = senderP;
+                                                disMaxPToSender = disDroneToSenderP;
+                                            }
                                         }
                                     }
                                 }
@@ -187,18 +187,27 @@ namespace BL
                         }
                     }
                 }
+                if (maxParcel.Equals(null))//tttttttttttttttttttttttttoooooooooooooo chhhhhhhhhhhhheeeeeeeckkkkkk
+                {
+                    throw new Exception("Drone with the parcels' conditions wasn't found.");
+                }
+                droneToParcel.Status = DroneStatus.Delivery;
+                updateBLDrone(droneToParcel);
+                maxParcel.DroneId = droneToParcel.Id;
+                maxParcel.Scheduled = DateTime.Now;
+                dal.changeParcelInfo(maxParcel);
             }
-            if (maxParcel.Equals(null))//tttttttttttttttttttttttttoooooooooooooo chhhhhhhhhhhhheeeeeeeckkkkkk
+            
+            catch (Exception e)
             {
-                throw new Exception("Drone with the parcels' conditions wasn't found.");
+                throw new Exception(e.Message);
             }
-            droneToParcel.Status = DroneStatus.Delivery;
-            updateBLDrone(droneToParcel);
-            maxParcel.DroneId = droneToParcel.Id;
-            maxParcel.Scheduled = DateTime.Now;
-            dal.changeParcelInfo(maxParcel);
-        }
 
+        }
+        /// <summary>
+        /// //tiiiiiiiiiiiiiiiiiiiiiiiiill here checked....
+        /// </summary>
+        /// <param name="droneId"></param>
         public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             try
@@ -222,6 +231,7 @@ namespace BL
                 p.PickUp = DateTime.Now;
                 dal.changeParcelInfo(p);
             }
+
             catch (Exception)
             {
                 throw new InvalidOperationException();

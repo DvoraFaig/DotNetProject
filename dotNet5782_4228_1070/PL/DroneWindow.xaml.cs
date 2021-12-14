@@ -104,8 +104,6 @@ namespace PL
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            //false == show update window
-            //true == show add window
             visibility = (updateOrAddWindow == false) ? Visibility.Hidden: visibility = Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
@@ -146,11 +144,6 @@ namespace PL
             
         }
 
-        private static void TrueOrFalseDisplay()
-        {
-
-        }
-
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -165,63 +158,56 @@ namespace PL
             // the text changes...
         } // end textChangedEventHandler
 
-
-        /*private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            new DroneListWindow(blObjectD).Show();
-            this.Close();
-        }
-*/
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-        private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Add a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_ClickAdd(object sender, RoutedEventArgs e)
         {
-            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
+                int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
                 blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 TextBlock addedDrone = new TextBlock();
-                //addedDrone.TextDecorations = TextDecorations.Strikethrough;
-                //// Create an underline text decoration. Default is underline.
-                //TextDecoration myUnderline = new TextDecoration();
-
-                //// Create a solid color brush pen for the text decoration.
-                //myUnderline.Pen = new Pen(Brushes.Red, 1);
-                //myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
-
-                //// Set the underline decoration to a TextDecorationCollection and add it to the text block.
-                //TextDecorationCollection myCollection = new TextDecorationCollection();
-                //myCollection.Add(myUnderline);
-                //addedDrone.TextDecorations = myCollection;
-                //new DroneListWindow(blObjectD).Show();
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
 
             }
+            #region Expetions
+            catch (IBL.BO.Exceptions.ObjExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Exist exeption");
+
+            }
             catch (FormatException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==");
+            }
+            catch (InvalidCastException)
+            {
+                MessageBox.Show("== ERROR receiving data ==");
             }
             catch (Exception)
             {
                 MessageBox.Show("Cann't add a drone", "Drone Error");
-
-                // MessageBox.Show(e.Message, "Drone Error");
             }
+            #endregion
 
         }
-
+        /// <summary>
+        /// Restart TextBox in AddDrone form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_ClickRestart(object sender, RoutedEventArgs e)
         {
             IdTextBox.Text = "Id...";
@@ -230,10 +216,13 @@ namespace PL
             StationIdTextBox.Text = "Station id...";
         }
      
-
+        /// <summary>
+        /// Return to page DroneListWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
-
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
@@ -241,7 +230,6 @@ namespace PL
                 this.Close();
             }
         }
-
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -291,3 +279,18 @@ namespace PL
         }
     }
 }
+
+//button click Add
+//addedDrone.TextDecorations = TextDecorations.Strikethrough;
+//// Create an underline text decoration. Default is underline.
+//TextDecoration myUnderline = new TextDecoration();
+
+//// Create a solid color brush pen for the text decoration.
+//myUnderline.Pen = new Pen(Brushes.Red, 1);
+//myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
+
+//// Set the underline decoration to a TextDecorationCollection and add it to the text block.
+//TextDecorationCollection myCollection = new TextDecorationCollection();
+//myCollection.Add(myUnderline);
+//addedDrone.TextDecorations = myCollection;
+//new DroneListWindow(blObjectD).Show();

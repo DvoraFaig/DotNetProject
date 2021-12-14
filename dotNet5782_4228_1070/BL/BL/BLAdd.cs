@@ -37,7 +37,15 @@ namespace BL
                     throw new Exception("Weight of drone is out of range");
                 IDal.DO.WeightCategories maxWeightconvertToEnum = (IDal.DO.WeightCategories)maxWeight;
                 int battery = r.Next(20, 40);
-                IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                IDal.DO.Station s;
+                try
+                {
+                     s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new ObjNotExistException(typeof(IDal.DO.Station), stationId);
+                }
                 BLStation sBL = convertDalToBLStation(s);
                 if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
                 {

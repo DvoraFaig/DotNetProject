@@ -75,7 +75,8 @@
             <Label x:Name="ModelTextBoxLabel"      Grid.Column="1" Grid.Row="2" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' model:</Label>
             <TextBox x:Name="ModelTextBox"         Grid.Column="2" Grid.Row="2" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,18,0"/>
             <Label x:Name="DroneWeightSelectorLabel" Grid.Column="1" Grid.Row="3" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' weight:</Label>
-            <ComboBox x:Name="DroneWeightSelector" Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2" />
+            <!--<ComboBox x:Name="DroneWeightSelector" Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" SelectionChanged="WeightSelector_SelectionChanged" Grid.ColumnSpan="2" />-->
+            <ComboBox x:Name="DroneWeightSelector" Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
             <Label x:Name="StationIdTextBoxLabel"  Grid.Column="1" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
             <TextBox x:Name="StationIdTextBox"     Grid.Column="2" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" />
 
