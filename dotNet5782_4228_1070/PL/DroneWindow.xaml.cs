@@ -63,15 +63,10 @@ namespace PL
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
 
             this.DataContext = drone;
-            
-
-
-
-
             if (drone.ParcelInTransfer == null)
             {
-
-                // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
+                ParcelTextBoxLabel.Visibility = Visibility.Hidden;
+                ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
             // ======================================
             // set type of buttons
@@ -92,7 +87,10 @@ namespace PL
         {
             if (drone.Status == DroneStatus.Available)
             {
-                return "Dend to delivery";
+                //check if here
+                ParcelTextBoxLabel.Visibility = Visibility.Hidden;
+                ParcelIdIdTextBox.Visibility = Visibility.Hidden;
+                return "Send to delivery";
             }
             else if (drone.Status == DroneStatus.Delivery && drone.ParcelInTransfer != null)
             {
@@ -143,10 +141,13 @@ namespace PL
             DeliveryStatusButton.Visibility = visibility;
             
         }
-
+        /// <summary>
+        /// Removes close box = X from window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Code to remove close box from window
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,13 +47,31 @@ namespace PL
 
         private void ChangeBackGround(object sender, MouseEventArgs e)
         {
-             GoToDroneListWindow.Background = Brushes.Transparent;
+            GoToDroneListWindow.Background = Brushes.Transparent;
         }
 
         private void ChangeBackTheBackGround(object sender, MouseEventArgs e)
         {
             GoToDroneListWindow.Background = Brushes.White;
 
+        }
+
+        /// <summary>
+        /// Closing MainWindow
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            bool wasCodeClosed = new StackTrace().GetFrames().FirstOrDefault(x => x.GetMethod() == typeof(Window).GetMethod("Close")) != null;
+            if (!wasCodeClosed) // X button
+            {
+                MessageBoxResult messageBoxClosing = MessageBox.Show("Are you Sure you wan't to exit", "GoodBy", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (messageBoxClosing == MessageBoxResult.OK)
+                    base.OnClosing(e);
+                else
+                    e.Cancel = true;
+            }
+            base.OnClosing(e);
         }
     }
 }

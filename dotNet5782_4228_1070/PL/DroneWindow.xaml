@@ -32,9 +32,7 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="1*"/>
-
         </Grid.RowDefinitions>
-
         <Label  x:Name="labelAddADrone" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
