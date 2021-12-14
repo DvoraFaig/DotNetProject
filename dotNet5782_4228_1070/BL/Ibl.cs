@@ -28,7 +28,6 @@ namespace IBL
         public List<BLDrone> DisplayDroneByStatus(DroneStatus status);
         public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight);
         public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status);
-        //public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(IDal.DO.WeightCategories weight, DroneStatus status);
         public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
 
         //================

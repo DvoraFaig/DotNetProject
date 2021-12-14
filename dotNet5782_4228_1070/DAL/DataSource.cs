@@ -34,7 +34,7 @@ namespace DalObject
                 {
                     Id = i,
                     Name = $"station{i}",
-                    ChargeSlots = r.Next(1, 10),
+                    ChargeSlots = r.Next(5, 10),
                     Latitude = r.Next(0, 400),
                     Longitude = r.Next(0, 400)
                 };
