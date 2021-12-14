@@ -59,7 +59,7 @@ namespace PL
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
-            StatusTextBox.Text = $"{drone.Status}";
+            //StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
 
             this.DataContext = drone;
