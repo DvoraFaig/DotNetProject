@@ -31,20 +31,19 @@
 
         </Grid.RowDefinitions>
 
-        <Label  x:Name="labelAddADrone" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="auto" Width="300"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="57,20,0,0" Grid.ColumnSpan="5">
+        <Label  x:Name="labelAddADrone" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >
             <Label.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
             </Label.Background> Add a Drone
         </Label>
         <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="70"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="Button_ClickReturnToPageDroneListWindow" Margin="10,0,0,0"/>
-        <Button x:Name="RestartButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="Button_ClickRestart" />
-        <Button x:Name="AddlButton"    Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="Button_ClickAdd"  />
+        <Button x:Name="RestartButton" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="Button_ClickRestart" />
+        <Button x:Name="AddlButton"    Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="Button_ClickAdd"  />
         <Button x:Name="UpdateButton" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButton_Click"/>
         <Button x:Name="ChargeButton" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButton_Click" Margin="41,0,0,0"/>
         <TextBlock x:Name="TimeTochargeText" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Text="Time to charge:" TextWrapping="Wrap" Height="20"/>
         <TextBox x:Name="TimeTocharge" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Text="0" TextWrapping="Wrap" Height="20" />
         <Button x:Name="DeliveryStatusButton"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneToCharge_Click"/>
-        <!--<Button x:Name="GoBackButton" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Height="30" Width="125"  Content="" HorizontalAlignment="Left"  VerticalAlignment="Top"  Click="Button_ClickGoBackButton"/>-->
         <Grid x:Name ="AddDroneDisplay" Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="0,45,0,10" Grid.Column="1">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="35*"/>
@@ -84,7 +83,7 @@
             <TextBox x:Name="StatusTextBox"             Grid.Column="2" Grid.Row="5" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
             <Label x:Name="PositionDroneTLabel"         Grid.Column="1" Grid.Row="6" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" >Postion:</Label>
             <TextBox x:Name="PositionDroneTextBox"      Grid.Column="2" Grid.Row="6" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
-            <Label x:Name="ParcelTextBoxLabel"          Grid.Column="1" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" />
+            <Label x:Name="ParcelTextBoxLabel"          Grid.Column="1" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" >Parcel: </Label>
             <TextBox x:Name="ParcelIdIdTextBox"         Grid.Column="2" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" IsReadOnly="True" >Parcel....</TextBox>
         </Grid>
 
