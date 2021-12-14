@@ -79,11 +79,21 @@ namespace BL
                             double distanceBetweenDroneAndStation = distance(new BLPosition() { Latitude = s.Latitude, Longitude = s.Longitude }, blDrone.DronePosition);
                             blDrone.Battery = r.Next(0, (int)distanceBetweenDroneAndStation);
                         }
+                        else //couldn't find a delivered parcel.
+                        {
+                            List<IDal.DO.Station> stationsToFindPlaceToCharge = dal.displayStations().Cast<IDal.DO.Station>().ToList();
+                            int amountStation = dal.amountStations();
+                            int randomStation = r.Next(0, amountStation);
+                            blDrone.DronePosition = new BLPosition() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            blDrone.Battery = r.Next(20, 100);
+                        }
+
                     }
-                    if (blDrone.Status == DroneStatus.Maintenance || !AvailbeDroneWithPosition)//Maintenance or if couldn't find a position for an availble drone
+                    if (blDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
                     {
                         List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
-                        //If drone is supposed to be in charging find an avilable station with empty charging slots.                        
+                        //If drone is supposed to be in charging find an avilable station with empty charging slots.
+                        //for not having all the drones in the same place:
                         //Try random station if station didn't have an empty place go threw all the stations
                         int amountStation = dal.amountStations();
                         #region Find random station
@@ -111,19 +121,6 @@ namespace BL
                             }
                         }
                         #endregion
-
-                        ////foreach (IDal.DO.Station station in stationsToFindPlaceToCharge)
-                        ////{
-                        ////    amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                        ////    if (station.ChargeSlots > amountChargingDronesInStation)
-                        ////    {
-                        ////        dal.AddDroneCharge(new IDal.DO.DroneCharge() { DroneId = d.Id, StationId = station.Id });
-                        ////        blDrone.DronePosition = new BLPosition() { Latitude = station.Latitude, Longitude = station.Longitude };
-                        ////        blDrone.Battery = r.Next(0, 20);
-                        ////        break;
-                        ////    }
-
-                        ////}
                     }
                 }
                 dronesInBL.Add(blDrone);
