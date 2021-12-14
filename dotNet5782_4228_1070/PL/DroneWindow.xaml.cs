@@ -139,6 +139,11 @@ namespace PL
             ParcelTextBoxLabel.Visibility = visibility;
             ParcelIdIdTextBox.Visibility = visibility;
             UpdateButton.Visibility = visibility;
+            ChargeButton.Visibility = visibility;
+            TimeTochargeText.Visibility = visibility;
+            TimeTocharge.Visibility = visibility;
+            DeliveryStatusButton.Visibility = visibility;
+            
         }
 
         private static void TrueOrFalseDisplay()
