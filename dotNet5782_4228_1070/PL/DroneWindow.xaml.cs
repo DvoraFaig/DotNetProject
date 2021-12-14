@@ -207,17 +207,17 @@ namespace PL
             }
             catch (FormatException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                //Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                //Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==");
             }
             catch (Exception)
             {
                 MessageBox.Show("Cann't add a drone", "Drone Error");
-
-                // MessageBox.Show(e.Message, "Drone Error");
             }
 
         }
@@ -234,12 +234,14 @@ namespace PL
         private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
 
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            /*MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
             {
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
-            }
+            }*/
+            new DroneListWindow(blObjectD).Show();
+            this.Close();
         }
 
 
@@ -256,7 +258,7 @@ namespace PL
             try
             {
                 blObjectD.SendDroneToCharge(dr.Id);
-                //StatusTextBox.Text = $"{dr.Status}";
+                StatusTextBox.Text = $"{dr.Status}";
                 MessageBox.Show("Update");
             }
             catch(Exception)
