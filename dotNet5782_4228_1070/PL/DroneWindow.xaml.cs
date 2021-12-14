@@ -87,7 +87,6 @@ namespace PL
         {
             if (drone.Status == DroneStatus.Available)
             {
-                //check if here
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
                 return "Send to delivery";
