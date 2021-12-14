@@ -131,6 +131,11 @@ namespace BL
             return listDrones;
         }
 
+        public BLDrone convertDroneToListToDrone(BLDroneToList d)
+        {
+            return getBLDroneById(d.Id);
+        }
+
         private BLDrone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             return new BLDrone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100) };

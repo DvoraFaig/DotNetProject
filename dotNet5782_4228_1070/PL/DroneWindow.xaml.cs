@@ -22,8 +22,8 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private IBL.Ibl blObjectD;
-        BLDroneToList dr;
-        //BLDrone dr;
+        //BLDroneToList dr;
+        BLDrone dr;
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -46,9 +46,12 @@ namespace PL
             StationIdTextBox.Text = "Station Id...";
             blObjectD = blObject;
         }
+
         public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
         {
             InitializeComponent();
+            blObjectD = blObject;
+            dr = drone;
             Loaded += ToolWindow_Loaded; //The x button
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
@@ -58,64 +61,31 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
-            
-            if (drone.ParcelInTransfer == null)
-            {
-
-                // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
-            }
             // ======================================
             // set type of buttons
             // ======================================
             // charge Button
+            ChargeButton.Visibility = Visibility.Visible;
             ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
-            if (!(drone.Status == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
+            if ((drone.Status == DroneStatus.Delivery)) ChargeButton.Visibility = Visibility.Hidden;
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
             DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             string contentButton = actionAlowedDrone(drone);
-            DeliveryStatusButton.Content = 
+            DeliveryStatusButton.Content = contentButton;
             // ======================================
-            blObjectD = blObject;
-            //dr = drone;///////////////////////////////////dr == droneToList
         }
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDroneToList drone)
-        {
-            InitializeComponent();
-            Loaded += ToolWindow_Loaded; //The x button
-            updateOrAddWindow = false;
-            displayWindowAddOrUpdate();
-            IdTextBox.Text = $"{drone.Id}";
-            ModelTextBox.Text = $"{ drone.Model}";
-            DroneWeightUpdate.Text = $"{drone.MaxWeight}";
-            BatteryTextBox.Text = $"{drone.Battery}";
-            StatusTextBox.Text = $"{drone.droneStatus}";
-            PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
-            if (drone.IdParcel == null)
-                ParcelIdIdTextBox.Text = "---";
-            else
-                ParcelIdIdTextBox.Text = $"{drone.IdParcel}";
-            // ======================================
-            // set type of buttons
-            // ======================================
-            // charge Button
-            ChargeButton.Content = drone.droneStatus == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge";
-            if (!(drone.droneStatus == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
-            ChargeButton.IsEnabled = drone.droneStatus == DroneStatus.Maintenance ? false : true;
-            // Delivery status Button
-            DeliveryStatusButton.IsEnabled = drone.droneStatus == DroneStatus.Maintenance ? false : true;
-            string contentButton = actionAlowedDrone(drone);
-            DeliveryStatusButton.Content =
-            // ======================================
-            blObjectD = blObject;
-            dr = drone;
-        }
+        
         private string actionAlowedDrone(BLDrone drone)
         {
-            return "";
-        }
-        private string actionAlowedDrone(BLDroneToList drone)
-        {
+            if (drone.Status == DroneStatus.Available)
+            {
+                return "Dend to delivery";
+            }
+            else if (drone.Status == DroneStatus.Delivery && drone.ParcelInTransfer != null)
+            {
+                return "Pick a parcel";
+            }
             return "";
         }
 
@@ -269,10 +239,12 @@ namespace PL
             try
             {
                 blObjectD.SendDroneToCharge(dr.Id);
+                MessageBox.Show("Update");
+                someName.UpdateLayout();
             }
             catch(Exception)
             {
-                
+                MessageBox.Show("Exception");
             }
         }
 

@@ -8,14 +8,14 @@ namespace IBL
     public interface Ibl
     {
         //================
-        // Add
+        //  Add
         //================
         public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, BLPosition position);
         public void AddParcel(int senderId, int targetId, int weight, int priority);
         //================
-        // Display
+        //  Display
         //================
         public List<BLStation> DisplayStations();
         public List<BLCustomer> DisplayCustomers();
@@ -32,14 +32,14 @@ namespace IBL
         public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
 
         //================
-        // Get object
+        //  Get object
         //================
         public BLStation GetStationById(int id);
         public BLCustomer GetCustomerById(int id);
         public BLDrone GetDroneById(int id);
         public BLParcel GetParcelById(int id);
         //================
-        // Updates
+        //  Updates
         //================
         public void DroneChangeModel(BLDrone drone);
         public void DroneChangeModel(BLDroneToList drone);
@@ -53,10 +53,14 @@ namespace IBL
         public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority);
 
         //===================
-        //predicat
+        //  predicat
         //===================
         public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate);
 
+        //===================
+        //  Convertions
+        //===================
+        public BLDrone convertDroneToListToDrone(BLDroneToList d);
     }
 
 }
