@@ -61,6 +61,8 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+
+            this.DataContext = drone;
             
 
 
@@ -249,8 +251,8 @@ namespace PL
             try
             {
                 blObjectD.SendDroneToCharge(dr.Id);
+                //StatusTextBox.Text = $"{dr.Status}";
                 MessageBox.Show("Update");
-                someName.UpdateLayout();
             }
             catch(Exception)
             {
