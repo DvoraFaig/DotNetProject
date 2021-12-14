@@ -59,6 +59,10 @@ namespace PL
             StatusTextBox.Text = $"{drone.Status}";
             //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
             
+
+
+
+
             if (drone.ParcelInTransfer == null)
             {
 
@@ -73,8 +77,8 @@ namespace PL
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
             DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            string contentButton = actionAlowedDrone(drone);
-            DeliveryStatusButton.Content = 
+            //string contentButton = actionAlowedDrone(drone);
+            //DeliveryStatusButton.Content = 
             // ======================================
             blObjectD = blObject;
             //dr = drone;///////////////////////////////////dr == droneToList
@@ -110,12 +114,16 @@ namespace PL
             blObjectD = blObject;
             dr = drone;
         }
-        private string actionAlowedDrone(BLDrone drone)
-        {
-            return "";
-        }
         private string actionAlowedDrone(BLDroneToList drone)
         {
+            if (drone.droneStatus == DroneStatus.Available)
+            {
+                return "Dend to delivery";
+            }
+            else if (drone.droneStatus == DroneStatus.Delivery && drone.IdParcel != null)
+            {
+                return "Pick a parcel";
+            }
             return "";
         }
 
