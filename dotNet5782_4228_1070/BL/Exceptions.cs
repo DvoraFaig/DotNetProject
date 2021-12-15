@@ -19,7 +19,7 @@ namespace IBL.BO
         public class ObjNotExistException : Exception
         {
             public ObjNotExistException(Type t, int id)
-                : base(String.Format($"The {t.Name} with id {id} exist."))
+                : base(String.Format($"The {t.Name} with id {id} doesn't exist."))
             {
             }
             public ObjNotExistException( string messageFromDal)

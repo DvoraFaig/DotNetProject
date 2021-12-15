@@ -31,65 +31,65 @@ namespace BL
             IDal.DO.Station station;
             IDal.DO.Customer sender, target;
             Position senderPosition, targetPosition;
-            Drone blDrone = new Drone();
+            Drone CurrentDrone = new Drone();
 
             foreach(IDal.DO.Drone drone in drones )
             {
                 parcel = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == drone.Id).FirstOrDefault();
                 station = new IDal.DO.Station();
-                blDrone = new Drone();
-                blDrone.Id = drone.Id; /*copyDalToBLDroneInfo(d);*/
-                blDrone.Model = drone.Model;
-                blDrone.MaxWeight =  drone.MaxWeight;
+                CurrentDrone = new Drone();
+                CurrentDrone.Id = drone.Id; /*copyDalToBLDroneInfo(d);*/
+                CurrentDrone.Model = drone.Model;
+                CurrentDrone.MaxWeight =  drone.MaxWeight;
 
                 if (!(parcel.Scheduled == (null)) && parcel.Delivered == (null) && !parcel.Equals(default(IDal.DO.Parcel)) )// pair a parcel to drone but not yed delivered.
                 {
-                    blDrone.Status = DroneStatus.Delivery;
+                    CurrentDrone.Status = DroneStatus.Delivery;
                     IDal.DO.Station closestStationToSender = new IDal.DO.Station();
                     sender = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.SenderId).First();
                     target = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.TargetId).First();
-                    blDrone.ParcelInTransfer = createParcelInTransfer(parcel, sender, target);//.First();
-                    senderPosition = blDrone.ParcelInTransfer.SenderPosition;
-                    targetPosition = blDrone.ParcelInTransfer.TargetPosition;
+                    CurrentDrone.ParcelInTransfer = createParcelInTransfer(parcel, sender, target);//.First();
+                    senderPosition = CurrentDrone.ParcelInTransfer.SenderPosition;
+                    targetPosition = CurrentDrone.ParcelInTransfer.TargetPosition;
                     if (parcel.PickUp == null) //position like the closest station to the sender of parcel.
                     {
                         closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה? //אם אינו נכנס למצב הטענה PositionFromClosestStation () //אם כן updateDroneCharge
-                        blDrone.DronePosition = new Position() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
+                        CurrentDrone.DronePosition = new Position() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
                     }
                     else if (parcel.Delivered == null) //else position sender of parcel.
                     {
-                        blDrone.DronePosition = new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                        CurrentDrone.DronePosition = new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
-                    blDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
+                    CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
                 }
 
                 else // if drone is not delivery status
                 {
-                    blDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
+                    CurrentDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
                     bool AvailbeDroneWithPosition = false;
-                    if (blDrone.Status == DroneStatus.Available) //DroneStatus.Available
+                    if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
                         List<IDal.DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
                         if (cWithDeliveredP.Count > 0)
                         {
                             AvailbeDroneWithPosition = true;
                             target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
-                            blDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
-                            station = findAvailbleAndClosestStationForDrone(blDrone.DronePosition);
-                            double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, blDrone.DronePosition);
-                            blDrone.Battery = r.Next(0, (int)distanceBetweenDroneAndStation);
+                            CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
+                            station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
+                            double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
+                            CurrentDrone.Battery = r.Next(0, (int)distanceBetweenDroneAndStation);
                         }
                         else //couldn't find a delivered parcel.
                         {
                             List<IDal.DO.Station> stationsToFindPlaceToCharge = dal.displayStations().Cast<IDal.DO.Station>().ToList();
                             int amountStation = dal.amountStations();
                             int randomStation = r.Next(0, amountStation);
-                            blDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
-                            blDrone.Battery = r.Next(20, 100);
+                            CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            CurrentDrone.Battery = r.Next(20, 100);
                         }
 
                     }
-                    if (blDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
+                    if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
                     {
                         List<IDal.DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< IDal.DO.Station>().ToList();
                         //If drone is supposed to be in charging find an avilable station with empty charging slots.
@@ -99,11 +99,11 @@ namespace BL
                         #region Find random station
                         int randomStation = r.Next(0, amountStation);
                         Drone temp = new Drone();
-                        temp = findStationForDrone(blDrone, stationsToFindPlaceToCharge[randomStation]);
+                        temp = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
                         if (temp != null)
                         {
-                            blDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
-                            blDrone.Battery = r.Next(0, 20);
+                            CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            CurrentDrone.Battery = r.Next(0, 20);
                         }
                         #endregion
                         #region go threw all the stations
@@ -111,11 +111,11 @@ namespace BL
                         {
                             foreach (IDal.DO.Station stationsObj in stationsToFindPlaceToCharge)
                             {
-                                temp = findStationForDrone(blDrone, stationsToFindPlaceToCharge[randomStation]);
+                                temp = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
                                 if (temp != null)
                                 {
-                                    blDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
-                                    blDrone.Battery = r.Next(0, 20);
+                                    CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                                    CurrentDrone.Battery = r.Next(0, 20);
                                     break;
                                 }
                             }
@@ -123,7 +123,7 @@ namespace BL
                         #endregion
                     }
                 }
-                dronesInBL.Add(blDrone);
+                dronesInBL.Add(CurrentDrone);
             }
         }
         /// <summary>

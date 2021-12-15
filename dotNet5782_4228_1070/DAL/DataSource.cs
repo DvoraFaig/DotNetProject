@@ -35,8 +35,8 @@ namespace DalObject
                     Id = i,
                     Name = $"station{i}",
                     ChargeSlots = r.Next(5, 10),
-                    Latitude = r.Next(0, 400),
-                    Longitude = r.Next(0, 400)
+                    Latitude = r.Next(1, 10),
+                    Longitude = r.Next(1, 10)
                 };
                 Stations.Add(s);
             }
@@ -61,8 +61,8 @@ namespace DalObject
                     ID = r.Next(100000000, 1000000000),
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
-                    Latitude = r.Next(0, 400),
-                    Longitude = r.Next(0, 400)
+                    Latitude = r.Next(1, 10),
+                    Longitude = r.Next(1, 10)
                 };
                 Customers.Add(c);
             }
@@ -153,6 +153,11 @@ namespace DalObject
 
             //    }
             //}
+            Config.empty = r.Next(5, 10);
+            Config.lightWeight = r.Next(1, 2);
+            Config.mediumWeight = r.Next(2, 3);
+            Config.heavyWeight = r.Next(3, 4);
+            Config.chargingRate = r.Next(20, 80);
         }
 
         internal static class Config

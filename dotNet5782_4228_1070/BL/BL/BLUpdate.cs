@@ -84,8 +84,13 @@ namespace BL
                 if (drone.Status == DroneStatus.Available)
                 {
                     IDal.DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
+                    if (availbleSforCharging.Id == 0)
+                        throw new Exception("Drone cant charge");
                     IDal.DO.DroneCharge droneCharge = new IDal.DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
-                    drone.Battery = (distance(drone.DronePosition, new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude })) * (int)Electricity.Empty;
+                    Position availbleStationforCharging = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
+                    double dis = (distance(drone.DronePosition, availbleStationforCharging));
+                    if(dis != 0)
+                        drone.Battery = (int)dis * (int)empty;
                     drone.Status = DroneStatus.Maintenance;
                     drone.DronePosition = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     availbleSforCharging.ChargeSlots--;
@@ -98,9 +103,13 @@ namespace BL
                     throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later.....");
                 }
             }
-            catch (Exception)
+            catch (ObjNotExistException )
             {
-                throw new ObjNotExistException(typeof(Drone), droneId);
+                throw new Exception("Drone cant charge");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

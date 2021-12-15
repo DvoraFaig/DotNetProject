@@ -60,7 +60,7 @@ namespace PL
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
             //StatusTextBox.Text = $"{drone.Status}";
-            //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
 
             this.DataContext = drone;
             if (drone.ParcelInTransfer == null)
@@ -250,11 +250,15 @@ namespace PL
             {
                 blObjectD.SendDroneToCharge(dr.Id);
                 StatusTextBox.Text = $"{dr.Status}";
-                MessageBox.Show("Update");
+                MessageBox.Show($"Drone {dr.Id} was sent to charge succesfully");
             }
-            catch (Exception)
+            catch(IBL.BO.Exceptions.ObjNotExistException e3)
             {
-                MessageBox.Show("Exception");
+                MessageBox.Show(e3.Message, "Drone can't charge");
+            }
+            catch (Exception e2)
+            {
+                MessageBox.Show(e2.Message , "Drone can't charge");
             }
         }
 
