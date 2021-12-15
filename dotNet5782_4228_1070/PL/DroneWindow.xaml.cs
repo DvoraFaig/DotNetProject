@@ -85,7 +85,7 @@ namespace PL
             // ======================================
         }
 
-        private DeliveryStatusAction actionAlowedDrone(BLDrone drone)
+        private DeliveryStatusAction actionAlowedDrone(Drone drone)
         {
             // Before asign parcel to drone
             if (drone.Status == DroneStatus.Available) { return DeliveryStatusAction.SendToDelivery; }
@@ -280,16 +280,19 @@ namespace PL
             {
                 case 1:
                     try { blObjectD.PairParcelWithDrone(dr.Id); }
-                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                    catch (Exception e2) { MessageBox.Show(e2.Message); }
                     break;
                 case 2:
                     try { blObjectD.DronePicksUpParcel(dr.Id); }
-                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                    catch (Exception e2) { MessageBox.Show(e2.Message); }
                     break;
                 case 3:
                     try
                     { blObjectD.DeliveryParcelByDrone(dr.Id); }
-                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                    catch (Exception e2) { MessageBox.Show(e2.Message); }
                     break;
             }
 

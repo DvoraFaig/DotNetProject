@@ -206,54 +206,73 @@ namespace BL
         {
             try
             {
-                Drone bLDrone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
-                IDal.DO.Parcel p = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-                if (!p.PickUp.Equals(default(IDal.DO.Parcel).PickUp))
+                Drone drone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
+                IDal.DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (!parcel.PickUp.Equals(default(IDal.DO.Parcel).PickUp))
                 {
                     throw new Exception("The parcel is collected already");
                 }
-                if (p.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled))
+                if (parcel.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled))
                 {
                     throw new Exception("The parcel is not schedueld.");
                 }
-                IDal.DO.Customer senderP = dal.getCustomerWithSpecificCondition(customer => customer.ID == p.SenderId).First();
+                IDal.DO.Customer senderP;
+                try
+                {
+                    senderP = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.SenderId).First();
+                }
+                catch (ObjNotExistException)
+                {
+                    throw new Exception("Drone wasn't abale to pick up the parcel");
+                }
                 Position senderPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
-                double disDroneToSenderP = distance(bLDrone.DronePosition, senderPosition);
-                bLDrone.Battery -= disDroneToSenderP * requestElectricity((int)p.Weight);
-                bLDrone.DronePosition = senderPosition;
-                updateBLDrone(bLDrone);
-                p.PickUp = DateTime.Now;
-                dal.changeParcelInfo(p);
+                double disDroneToSenderP = distance(drone.DronePosition, senderPosition);
+                drone.Battery -= disDroneToSenderP * requestElectricity((int)parcel.Weight);
+                drone.DronePosition = senderPosition;
+                updateBLDrone(drone);
+                parcel.PickUp = DateTime.Now;
+                dal.changeParcelInfo(parcel);
             }
 
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                throw new ObjNotExistException(typeof(Drone), droneId);
             }
         }
 
         public void DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.
         {
-            Drone bLDroneToSuplly = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
-            IDal.DO.Parcel parcelToDelivery = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-            if (parcelToDelivery.PickUp.Equals(default(IDal.DO.Parcel).PickUp) && !parcelToDelivery.Delivered.Equals(default(IDal.DO.Parcel).Delivered))
+            try
             {
-                throw new Exception("Drone cann't deliver this parcel.");
+                Drone bLDroneToSuplly = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+                IDal.DO.Parcel parcelToDelivery = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (parcelToDelivery.PickUp.Equals(default(IDal.DO.Parcel).PickUp) && !parcelToDelivery.Delivered.Equals(default(IDal.DO.Parcel).Delivered))
+                {
+                    throw new Exception("Drone cann't deliver this parcel.");
+                }
+                IDal.DO.Customer senderP;
+                IDal.DO.Customer targetP;
+                senderP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.SenderId).First();
+                targetP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.TargetId).First();
+                Position senderPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+                Position targetPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
+                double disSenderToTarget = distance(senderPosition, targetPosition);
+                double electricity = requestElectricity((int)parcelToDelivery.Weight);
+                bLDroneToSuplly.Battery -= electricity * disSenderToTarget;
+                bLDroneToSuplly.DronePosition = targetPosition;
+                bLDroneToSuplly.Status = DroneStatus.Available;
+                updateBLDrone(bLDroneToSuplly);
+                parcelToDelivery.Delivered = DateTime.Now;
+                dal.changeParcelInfo(parcelToDelivery);
             }
-            IDal.DO.Customer senderP;
-            IDal.DO.Customer targetP;
-            senderP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.SenderId).First();
-            targetP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.TargetId).First();
-            Position senderPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
-            Position targetPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
-            double disSenderToTarget = distance(senderPosition, targetPosition);
-            double electricity = requestElectricity((int)parcelToDelivery.Weight);
-            bLDroneToSuplly.Battery -= electricity * disSenderToTarget;
-            bLDroneToSuplly.DronePosition = targetPosition;
-            bLDroneToSuplly.Status = DroneStatus.Available;
-            updateBLDrone(bLDroneToSuplly);
-            parcelToDelivery.Delivered = DateTime.Now;
-            dal.changeParcelInfo(parcelToDelivery);
+            catch (ObjNotExistException e)
+            {
+                throw new Exception("Can't deliver parcelby drone.");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Can't deliver parcelby drone.");
+            }
         }
 
         private static ParcelStatuses findParcelStatus(IDal.DO.Parcel p)
