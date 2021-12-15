@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace PL
 {
-    enum DeliveryStatusAction { SendToDelivery = 1, PickUpParcel, WhichPackageDelivery };
+    enum DeliveryStatusAction { SendToDelivery = 1, PickUpParcel, WhichPackageDelivery, other };
 }

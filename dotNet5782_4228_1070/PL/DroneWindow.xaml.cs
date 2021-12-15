@@ -73,7 +73,7 @@ namespace PL
             // ======================================
             // charge Button
             ChargeButton.Visibility = Visibility.Visible;
-            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
+            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge";
             if ((drone.Status == DroneStatus.Delivery)) ChargeButton.Visibility = Visibility.Hidden;
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
@@ -84,26 +84,26 @@ namespace PL
             DeliveryStatusButton.Content = actionAlowedDrone(drone).ToString();
             // ======================================
         }
-        
+
         private DeliveryStatusAction actionAlowedDrone(BLDrone drone)
         {
             // Before asign parcel to drone
             if (drone.Status == DroneStatus.Available) { return DeliveryStatusAction.SendToDelivery; }
-            else if (drone.ParcelInTransfer!= null && drone.Status == DroneStatus.Delivery)
+            else if (drone.ParcelInTransfer != null && drone.Status == DroneStatus.Delivery)
             {
-            // Before customer get the parcel
+                // Before customer get the parcel
                 if (drone.DronePosition == drone.ParcelInTransfer.SenderPosition) { return DeliveryStatusAction.SendToDelivery; }
-            // Before pick parcel
+                // Before pick parcel
                 else { return DeliveryStatusAction.PickUpParcel; }
             }
             // Do not happen: (Need for the correct function return value)
-            return "";
+            return DeliveryStatusAction.other;
         }
 
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            visibility = (updateOrAddWindow == false) ? Visibility.Hidden: visibility = Visibility.Visible;
+            visibility = (updateOrAddWindow == false) ? Visibility.Hidden : visibility = Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
             IdTextBox.Visibility = visibility;
@@ -116,14 +116,14 @@ namespace PL
             RestartButton.Visibility = visibility;
             AddlButton.Visibility = visibility;
 
-            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible: Visibility.Hidden;
+            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
             if (updateOrAddWindow == false)//if Add Drone don't go in
             {
                 IdTextBoxLabel.Visibility = visibility;
                 IdTextBox.Visibility = visibility;
                 IdTextBox.IsReadOnly = true;
                 ModelTextBoxLabel.Visibility = visibility;
-                ModelTextBox.Visibility = visibility;                
+                ModelTextBox.Visibility = visibility;
             }
             DroneWeightLabel.Visibility = visibility;
             DroneWeightUpdate.Visibility = visibility;
@@ -140,7 +140,7 @@ namespace PL
             TimeTochargeText.Visibility = visibility;
             TimeTocharge.Visibility = visibility;
             DeliveryStatusButton.Visibility = visibility;
-            
+
         }
         /// <summary>
         /// Removes close box = X from window.
@@ -217,7 +217,7 @@ namespace PL
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             StationIdTextBox.Text = "Station id...";
         }
-     
+
         /// <summary>
         /// Return to page DroneListWindow
         /// </summary>
@@ -252,7 +252,7 @@ namespace PL
                 StatusTextBox.Text = $"{dr.Status}";
                 MessageBox.Show("Update");
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Exception");
             }
@@ -274,8 +274,25 @@ namespace PL
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
         {
-            string contentClickedButton
-            switch 
+            //DeliveryStatusAction contentClickedButton;
+            Enum.TryParse(DeliveryStatusButton.Content.ToString(), out DeliveryStatusAction contentClickedButton);
+            switch (((int)contentClickedButton))
+            {
+                case 1:
+                    try { blObjectD.PairParcelWithDrone(dr.Id); }
+                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    break;
+                case 2:
+                    try { blObjectD.DronePicksUpParcel(dr.Id); }
+                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    break;
+                case 3:
+                    try
+                    { blObjectD.DeliveryParcelByDrone(dr.Id); }
+                    catch (Exception e1) { MessageBox.Show(e1.Message); }
+                    break;
+            }
+
         }
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
