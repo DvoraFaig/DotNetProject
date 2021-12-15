@@ -104,7 +104,7 @@ namespace PL
             Visibility visibility;
             //false == show update window
             //true == show add window
-            visibility = (updateOrAddWindow == false) ? Visibility.Hidden: visibility = Visibility.Visible;
+            visibility = (updateOrAddWindow == false) ? Visibility.Hidden: Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
             IdTextBox.Visibility = visibility;
@@ -137,6 +137,10 @@ namespace PL
             ParcelTextBoxLabel.Visibility = visibility;
             ParcelIdIdTextBox.Visibility = visibility;
             UpdateButton.Visibility = visibility;
+            ChargeButton.Visibility = visibility;
+            TimeTochargeText.Visibility = visibility;
+            TimeTocharge.Visibility = visibility;
+            DeliveryStatusButton.Visibility = visibility;
         }
 
         private static void TrueOrFalseDisplay()
