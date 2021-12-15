@@ -41,7 +41,7 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-
+             
         }
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
