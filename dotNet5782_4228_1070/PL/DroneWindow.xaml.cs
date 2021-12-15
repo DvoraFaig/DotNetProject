@@ -61,8 +61,8 @@ namespace PL
             
             if (drone.ParcelInTransfer == null)
             {
-
-                // ParcelOfDroneInfo.Visibility = Visibility.Hidden;
+                ParcelTextBoxLabel.Visibility = Visibility.Hidden;
+                ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
             // ======================================
             // set type of buttons
