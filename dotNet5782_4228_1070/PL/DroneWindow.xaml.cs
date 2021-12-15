@@ -69,8 +69,8 @@ namespace PL
             // set type of buttons
             // ======================================
             // charge Button
-            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
-            ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;    
+            ChargeButton.Visibility = drone.Status == DroneStatus.Maintenance ? Visibility.Visible : Visibility.Hidden;
             // Delivery status Button
             //DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
 
@@ -259,30 +259,38 @@ namespace PL
 
         private void ChargeButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                blObjectD.SendDroneToCharge(dr.Id);
-                StatusTextBox.Text = $"{dr.Status}";
-            }
-            catch (Exception)
-            {
-                
-            }
-        }
-
-        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (TimeTocharge.Text != null)
+            if (ChargeButton.Content.ToString() == "Send Drone To Charge")
             {
                 try
                 {
-                    blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+                    blObjectD.SendDroneToCharge(dr.Id);
+                    StatusTextBox.Text = $"{dr.Status}";
                 }
                 catch (Exception)
                 {
 
                 }
             }
+            else
+            {
+                if (TimeTocharge.Text != null)
+                {
+                    try
+                    {
+                        blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+                        StatusTextBox.Text = $"{dr.Status}";
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
