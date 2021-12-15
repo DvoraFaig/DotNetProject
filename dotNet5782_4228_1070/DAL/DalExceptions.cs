@@ -15,10 +15,6 @@ namespace IDal.DO
                 : base(String.Format($"The {t.Name} with id {id} doesn't exist."))
             {
             }
-            //public ObjNotExistException(T obj)
-            //    : base(String.Format($"The {obj.GetType()} doesn't exist."))
-            //{
-            //}
             public ObjNotExistException(string message )
                 : base(String.Format($"The {message}"))
             {

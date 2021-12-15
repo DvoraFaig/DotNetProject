@@ -23,7 +23,7 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         //BLDroneToList dr;
-        BLDrone dr;
+        Drone dr;
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -47,7 +47,7 @@ namespace PL
             blObjectD = blObject;
         }
 
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.BLDrone drone)
+        public DroneWindow(IBL.Ibl blObject, IBL.BO.Drone drone)
         {
             InitializeComponent();
             blObjectD = blObject;

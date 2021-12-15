@@ -33,7 +33,6 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-
         }
 
         /// <summary>
@@ -71,10 +70,7 @@ namespace PL
             }
             //weight = (weight == null )? -1 : WeightSelector.SelectedItem;
             //status = (status == null ) ? -1 : StatusSelector.SelectedItem;
-            
-
-
-            List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
+            List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
             DroneListView.ItemsSource = b;
         }
 
@@ -92,7 +88,7 @@ namespace PL
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            BLDrone drone = blObjectH.convertDroneToListToDrone((BLDroneToList)DroneListView.SelectedItem);
+            Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)DroneListView.SelectedItem);
             new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }

@@ -11,13 +11,13 @@ namespace IBL
 {
     namespace BO
     {
-        public class BLStation
+        public class Station
         {
             public int ID { get; set; }
             public string Name { get; set; }
-            public BLPosition StationPosition { get; set; }
+            public Position StationPosition { get; set; }
             public int DroneChargeAvailble { get; set; }
-            public List<BLChargingDrone> DronesCharging { get; set; }
+            public List<ChargingDrone> DronesCharging { get; set; }
             public object ChargingDrone { get; private set; }//??????????????????????????
             public override string ToString()
             {

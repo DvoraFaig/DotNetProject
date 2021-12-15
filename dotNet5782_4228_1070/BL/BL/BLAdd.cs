@@ -46,11 +46,11 @@ namespace BL
                 {
                     throw new ObjNotExistException(typeof(IDal.DO.Station), stationId);
                 }
-                BLStation sBL = convertDalToBLStation(s);
+                Station sBL = convertDalToBLStation(s);
                 if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
                 {
-                    BLPosition p = new BLPosition() { Longitude = s.Longitude, Latitude = s.Latitude };
-                    BLDrone dr = new BLDrone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                    Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
+                    Drone dr = new Drone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
                     dronesInBL.Add(dr);
                     dal.AddDroneCharge(new IDal.DO.DroneCharge() { StationId = s.Id, DroneId = id });
                     dal.AddDrone(convertBLToDalDrone(dr));
@@ -62,7 +62,7 @@ namespace BL
             }
         }
 
-        public void AddCustomer(int id, string name, string phone, BLPosition position)
+        public void AddCustomer(int id, string name, string phone, Position position)
         {
             if (dal.IsCustomerById(id))
             {

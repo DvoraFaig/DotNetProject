@@ -10,23 +10,17 @@ namespace IBL
 {
     namespace BO
     {
-        public class BLCustomer
+        public class Customer
         {
             public int ID
             {
                 get;set;
-                //{
-                //    if (value > 99999999 && value < 1000000000)
-                //        ID = value;
-                //    else 
-                //        throw new Exception("Id not in the right lenght");
-                //}
             }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public BLPosition CustomerPosition { get; set; }
-            public List<BLParcelAtCustomer> CustomerAsSender { get; set; }
-            public List<BLParcelAtCustomer> CustomerAsTarget { get; set; }
+            public Position CustomerPosition { get; set; }
+            public List<ParcelAtCustomer> CustomerAsSender { get; set; }
+            public List<ParcelAtCustomer> CustomerAsTarget { get; set; }
             public override string ToString()
             {
                 return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, \n\tCustomerPosition: {CustomerPosition.ToString()}"+
@@ -34,7 +28,7 @@ namespace IBL
             }
         }
 
-        public class BLCustomerToList
+        public class CustomerToList
         {
             public int ID { get; set; }
             public string Name { get; set; }
@@ -43,12 +37,9 @@ namespace IBL
             public int AmountSendingUnDeliveredParcels { get; set; }
             public int AmountReceivingParcels { get; set; }
             public int AmountReceivingUnDeliveredParcels { get; set; }
-            //public BLPosition CustomerPosition { get; set; }
-            //public List<BLDeliveryAtCustomer> deliveryfromCustomers { get; set; }
-            //public List<BLDeliveryAtCustomer> deliveryToCustomers { get; set; }
         }
 
-        public class BLCustomerInParcel //targetId in parcel
+        public class CustomerInParcel //targetId in parcel
         {
             public int Id { get; set; }
             public string name { get; set; }

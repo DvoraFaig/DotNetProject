@@ -11,7 +11,7 @@ namespace BL
 {
     public sealed partial class BL : IBL.Ibl
     {
-        private BLDrone getBLDroneById(int id)
+        private Drone getBLDroneById(int id)
         {
             try
             {
@@ -19,41 +19,41 @@ namespace BL
             }
             catch (InvalidOperationException )
             {
-                throw new ObjNotExistException(typeof(BLDrone), id);
+                throw new ObjNotExistException(typeof(Drone), id);
             }
         }
-        public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate)
+        public IEnumerable<Drone> getBLDroneWithSpecificCondition(Predicate<Drone> predicate)
         {
             return (from drone in dronesInBL
                     where predicate(drone)
                     select drone);
         }
 
-        public BLStation GetStationById(int id)
+        public Station GetStationById(int id)
         {
             IDal.DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == id).First();
-            BLStation BLstation = convertDalToBLStation(s);
+            Station BLstation = convertDalToBLStation(s);
             return BLstation;
         }
 
-        public BLCustomer GetCustomerById(int id)
+        public Customer GetCustomerById(int id)
         {
             IDal.DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.ID == id).First();
-            BLCustomer BLcustomer = convertDalToBLCustomer(c);
+            Customer BLcustomer = convertDalToBLCustomer(c);
             return BLcustomer;
         }
 
-        public BLDrone GetDroneById(int id)
+        public Drone GetDroneById(int id)
         {
             IDal.DO.Drone d = dal.getDroneWithSpecificCondition(d => d.Id == id).First();
-            BLDrone BLdrone = convertDalToBLDrone(d);
+            Drone BLdrone = convertDalToBLDrone(d);
             return BLdrone;
         }
 
-        public BLParcel GetParcelById(int id)
+        public Parcel GetParcelById(int id)
         {
             IDal.DO.Parcel p = dal.getParcelWithSpecificCondition(p => p.Id == id).First();
-            BLParcel BLparcel = convertDalToBLParcel(p);
+            Parcel BLparcel = convertDalToBLParcel(p);
             return BLparcel;
         }
     }

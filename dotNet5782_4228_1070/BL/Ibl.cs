@@ -7,41 +7,40 @@ namespace IBL
 {
     public interface Ibl
     {
+
         //================
         //  Add
         //================
         public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
-        public void AddCustomer(int id, string name, string phone, BLPosition position);
+        public void AddCustomer(int id, string name, string phone, Position position);
         public void AddParcel(int senderId, int targetId, int weight, int priority);
+
         //================
         //  Display
         //================
-        public List<BLStation> DisplayStations();
-        public List<BLCustomer> DisplayCustomers();
-        public List<BLDrone> DisplayDrones();
-        public List<BLDroneToList> DisplayDronesToList();
-        public List<BLParcel> DisplayParcel();
-        public List<BLParcel> DisplayFreeParcel();
-        public List<BLStation> DisplayEmptyDroneCharge();
-        public List<BLDrone> DisplayDroneByWeight(IDal.DO.WeightCategories weight);
-        public List<BLDrone> DisplayDroneByStatus(DroneStatus status);
-        public List<BLDroneToList> DisplayDroneToListByWeight(IDal.DO.WeightCategories weight);
-        public List<BLDroneToList> DisplayDroneToListByStatus(DroneStatus status);
-        public List<BLDroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
+        public List<Station> DisplayStations();
+        public List<Customer> DisplayCustomers();
+        public List<Drone> DisplayDrones();
+        public List<DroneToList> DisplayDronesToList();
+        public List<Parcel> DisplayParcel();
+        public List<Parcel> DisplayFreeParcel();
+        public List<Station> DisplayEmptyDroneCharge();
+        public List<DroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
 
         //================
         //  Get object
         //================
-        public BLStation GetStationById(int id);
-        public BLCustomer GetCustomerById(int id);
-        public BLDrone GetDroneById(int id);
-        public BLParcel GetParcelById(int id);
+        public Station GetStationById(int id);
+        public Customer GetCustomerById(int id);
+        public Drone GetDroneById(int id);
+        public Parcel GetParcelById(int id);
+
         //================
         //  Updates
         //================
-        public void DroneChangeModel(BLDrone drone);
-        public void DroneChangeModel(BLDroneToList drone);
+        public void DroneChangeModel(Drone drone);
+        public void DroneChangeModel(DroneToList drone);
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1);
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public void SendDroneToCharge(int droneId);
@@ -54,13 +53,11 @@ namespace IBL
         //===================
         //  predicat
         //===================
-        public IEnumerable<BLDrone> getBLDroneWithSpecificCondition(Predicate<BLDrone> predicate);
+        public IEnumerable<Drone> getBLDroneWithSpecificCondition(Predicate<Drone> predicate);
 
         //===================
         //  Convertions
         //===================
-        public BLDrone convertDroneToListToDrone(BLDroneToList d);
+        public Drone convertDroneToListToDrone(DroneToList d);
     }
-
 }
-

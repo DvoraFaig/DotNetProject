@@ -10,15 +10,15 @@ namespace IBL
 {
     namespace BO
     {
-        public class BLDrone
+        public class Drone
         {
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
             public DroneStatus Status { get; set; } //DroneStatus ?? the same name
-            public BLParcelInTransfer ParcelInTransfer { get; set; }
-            public BLPosition DronePosition { get; set; }
+            public ParcelInTransfer ParcelInTransfer { get; set; }
+            public Position DronePosition { get; set; }
             public override string ToString()
             {
                 if (DronePosition == null)
@@ -27,37 +27,35 @@ namespace IBL
             }
         }
 
-        public class BLDroneToList
+        public class DroneToList
         {
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
             public DroneStatus droneStatus { get; set; }
-            public BLPosition DronePosition { get; set; }
+            public Position DronePosition { get; set; }
             public int IdParcel { get; set; } //if there is
             public override string ToString()
             {
-                //if (DronePosition == null)
-                //    return ($"drone id: {Id}\ndrone model: {Model}\ndrone MaxWeight: {MaxWeight}\ndrone battery: {Battery}\ndrone status: {droneStatus}\n");
                 if(IdParcel == 0)
                     return ($"drone id: {Id}drone model: {Model}drone MaxWeight: {MaxWeight}drone battery: {Battery}drone status: {droneStatus}DronePosition : {DronePosition}Parcel Id: -- no parcel -- ");
                 return ($"drone id: {Id}drone model: {Model}drone MaxWeight: {MaxWeight}drone battery: {Battery}drone status: {droneStatus}DronePosition : {DronePosition}Parcel Id:{IdParcel}" );
             }
         }
 
-        public class BLDroneInParcel //drone in pacel
+        public class DroneInParcel //drone in pacel
         {
             public int Id { get; set; }
             public double Battery { get; set; }
-            public BLPosition droneWithParcel { get; set; }
+            public Position droneWithParcel { get; set; }
             public override string ToString()
             {
                 return ($"id: {Id} , battery: {Battery},\n\tdrone position: {droneWithParcel} \n");
             }
         }
 
-        public class BLChargingDrone
+        public class ChargingDrone
         {
             public int Id { get; set; }
             public double Battery { get; set; }

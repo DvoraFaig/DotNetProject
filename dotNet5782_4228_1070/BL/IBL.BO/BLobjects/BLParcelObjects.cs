@@ -10,28 +10,27 @@ namespace IBL
 {
     namespace BO
     {
-        public class BLParcel
+        public class Parcel
         {
             public int Id { get; set; }
-            public BLCustomerInParcel Sender { get; set; }
-            public BLCustomerInParcel Target { get; set; }
+            public CustomerInParcel Sender { get; set; }
+            public CustomerInParcel Target { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public BLDroneInParcel Drone { get; set; }
+            public DroneInParcel Drone { get; set; }
             public DateTime? Requeasted { get; set; } //prepare a parcel to delivery
             public DateTime? Scheduled { get; set; } //pair a parcel to drone
             public DateTime? PickUp { get; set; }
             public DateTime? Delivered { get; set; }
             public override string ToString()
             {
-                //string notFilled = "not filled";
                 return ($"parcel ID: {Id}, \n\tSender: {Sender.ToString()}, \tTarget: {Target.ToString()}, \tparcel Priority: {Priority}, parcel weight: {Weight},\n" +
-                    $"\n\tDrone: {(!Drone.Equals(default(BLDroneInParcel))? Drone.ToString() : (char)'-') } " +
+                    $"\n\tDrone: {(!Drone.Equals(default(DroneInParcel))? Drone.ToString() : (char)'-') } " +
                     $"\n\tparcel Requeasted: {(Requeasted != null? Requeasted : (char)'-' )}, parcel scheduled: {(Scheduled != null ? Scheduled :  (char)'-' )}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
             }
         } 
 
-        public class BLParcelToList
+        public class ParcelToList
         {
             public int Id { get; set; }
             public string SenderName { get; set; }
@@ -41,20 +40,20 @@ namespace IBL
             public ParcelStatuses ParcelStatus { get; set; }
         }
 
-        public class BLParcelAtCustomer
+        public class ParcelAtCustomer
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
-            public BLCustomerInParcel SenderOrTargetCustomer { get; set; }
+            public CustomerInParcel SenderOrTargetCustomer { get; set; }
             public override string ToString()
             {
                 return ($"Id: {Id} , Weight: {Weight} , Priority: {Priority}, ParcelStatus: {ParcelStatus},{SenderOrTargetCustomer}\n");
             }
         }
 
-        public class BLParcelInTransfer
+        public class ParcelInTransfer
         {
             public int Id { get; set; }
             /// <summary>
@@ -63,10 +62,10 @@ namespace IBL
             public bool parcelStatus { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public BLCustomerInParcel SenderCustomer { get; set; }
-            public BLCustomerInParcel TargetCustomer { get; set; }
-            public BLPosition SenderPosition { get; set; }
-            public BLPosition TargetPosition { get; set; }
+            public CustomerInParcel SenderCustomer { get; set; }
+            public CustomerInParcel TargetCustomer { get; set; }
+            public Position SenderPosition { get; set; }
+            public Position TargetPosition { get; set; }
             public double distance { get; set; } 
             public override string ToString()
             {
