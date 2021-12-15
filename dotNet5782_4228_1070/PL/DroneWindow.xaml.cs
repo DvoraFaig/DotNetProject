@@ -255,19 +255,20 @@ namespace PL
             }
         }
 
-        /*private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
         {
-            //if The text was changed send to the function
-            if (TimeTocharge)
-            try
+            if (TimeTocharge.Text != null)
             {
-                blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
-            }
-            catch (Exception)
-            {
+                try
+                {
+                    blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+                }
+                catch (Exception)
+                {
 
+                }
             }
-        }*/
+        }
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
         {

@@ -44,8 +44,6 @@ namespace BL
                     return (int)DeliveryStatusAction.PickedParcel;
                 }
             }
-            // Check correct exception to throw: 
-            throw new InvalidOperationException();
         }
     }
 }
