@@ -63,6 +63,6 @@ namespace IBL
         //========================
         //  Get Data About Object
         //========================
-        public DeliveryStatusAction GetDroneStatusInDelivery(Drone drone);
+        public int GetDroneStatusInDelivery(Drone drone);
     }
 }
