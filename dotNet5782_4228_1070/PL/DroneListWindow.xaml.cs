@@ -23,16 +23,31 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private Ibl blObjectH;
-
+        #region the closing button
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        #endregion
         public DroneListWindow(Ibl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;
+            Loaded += ToolWindowLoaded;//The x button
             DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
+
+        }
+        void ToolWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
         /// <summary>

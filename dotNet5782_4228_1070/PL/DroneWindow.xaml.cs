@@ -65,10 +65,6 @@ namespace PL
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
-            // ======================================
-            // set type of buttons
-            // ======================================
-            // charge Button
             setDeliveryButton();
 
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
