@@ -44,7 +44,6 @@ namespace PL
             IdTextBox.Text = "Drone id....";
             ModelTextBox.Text = "Model id....";
             StationIdTextBox.Text = "Station Id...";
-            blObjectD = blObject;
         }
         public DroneWindow(IBL.Ibl blObject, IBL.BO.Drone drone)
         {
@@ -52,6 +51,8 @@ namespace PL
             Loaded += ToolWindow_Loaded; //The x button
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
+            blObjectD = blObject;
+            dr = drone;
             IdTextBox.Text = $"{drone.Id}";
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
@@ -69,18 +70,16 @@ namespace PL
             // ======================================
             // charge Button
             ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
-            if (!(drone.Status == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
             DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            DeliveryStatusButton.Content = deliveryButtonOptionalContent[blObjectD.GetDroneStatusInDelivery(dr)];
+            int contentIndex = blObjectD.GetDroneStatusInDelivery(drone);
+            DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
             //For what it?
             /*ParcelTextBoxLabel.Visibility = Visibility.Hidden;
             ParcelIdIdTextBox.Visibility = Visibility.Hidden;*/
             //DeliveryStatusButton.Content = actionAlowedDrone(drone).ToString();
             // ======================================
-            blObjectD = blObject;
-            dr = drone;
         }
 
         private void displayWindowAddOrUpdate()
@@ -248,8 +247,9 @@ namespace PL
             try
             {
                 blObjectD.SendDroneToCharge(dr.Id);
+                StatusTextBox.Text = $"{dr.Status}";
             }
-            catch(Exception)
+            catch (Exception)
             {
                 
             }
