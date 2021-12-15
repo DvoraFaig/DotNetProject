@@ -23,7 +23,7 @@ namespace IBL
             {
                 if (DronePosition == null)
                     return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {Status}");
-                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}\n\tdrone position : {DronePosition}");
+                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
             }
         }
 
@@ -38,9 +38,11 @@ namespace IBL
             public int IdParcel { get; set; } //if there is
             public override string ToString()
             {
+                if (DronePosition == null)
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {droneStatus}");
                 if(IdParcel == 0)
-                    return ($"drone id: {Id}drone model: {Model}drone MaxWeight: {MaxWeight}drone battery: {Battery}drone status: {droneStatus}DronePosition : {DronePosition}Parcel Id: -- no parcel -- ");
-                return ($"drone id: {Id}drone model: {Model}drone MaxWeight: {MaxWeight}drone battery: {Battery}drone status: {droneStatus}DronePosition : {DronePosition}Parcel Id:{IdParcel}" );
+                    return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition} , Parcel Id: -- no parcel -- ");
+                return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition}" );
             }
         }
 

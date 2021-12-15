@@ -50,6 +50,7 @@ namespace PL
             {
                 weight = WeightSelector.SelectedItem;
                 ChosenWeight.Visibility = Visibility.Visible;
+                //ClosingButtonWeight.Visibility = Visibility.Visible;
                 ChosenWeightText.Text = WeightSelector.SelectedItem.ToString();
             }
             else
@@ -61,6 +62,7 @@ namespace PL
             {
                 status = StatusSelector.SelectedItem;
                 ChosenStatus.Visibility = Visibility.Visible;
+                //ClosingButtonStatus.Visibility = Visibility.Visible;
                 ChosenStatusText.Text = StatusSelector.SelectedItem.ToString();
             }
             else

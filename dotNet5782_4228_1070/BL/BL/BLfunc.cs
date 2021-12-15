@@ -33,10 +33,11 @@ namespace BL
             {
                 return DeliveryStatusAction.Available;
             }
-            else if (drone.Status == DroneStatus.Delivery)
-            {
-                if ()
-            }
+            return DeliveryStatusAction.Available;
+            //else if (drone.Status == DroneStatus.Delivery)
+            //{
+            //    if ()
+            //}
         }
 
     }

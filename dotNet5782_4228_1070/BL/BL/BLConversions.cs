@@ -17,8 +17,8 @@ namespace BL
             return new ParcelInTransfer()
             {
                 Id = parcel.Id,
-                
-            }
+
+            };
         }
         private IDal.DO.Station convertBLToDalStation(Station s)
         {

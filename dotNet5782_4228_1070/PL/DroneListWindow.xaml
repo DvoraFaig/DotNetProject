@@ -38,16 +38,18 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10"/>
-            <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
+            <Label Name="WeightSelectorLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2" >Drone Weight:</Label>
+            <Label Name="StatusSelectorLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" >Drone Stause:</Label>
+            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="1" Margin="15,10"/>
+            <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
             <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
         </Grid>
 
-        <ListView x:Name="DroneListView" ItemsSource="{Binding}" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
+        <ListView x:Name="DroneListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="DroneSelection" >
             <ListView.View >
-                <GridView >
+                <GridView>
                     <GridViewColumn Header="Id" Width="30" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Model"  Width="100" DisplayMemberBinding="{Binding Model}" />
                     <GridViewColumn Header="MaxWeight" Width="120" DisplayMemberBinding="{Binding MaxWeight}" />
@@ -74,7 +76,7 @@
                     <RowDefinition Height="20*"/>
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeStatusToNull" />
+                <Image   Source="/pic/iconX.png"  Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeStatusToNull" />
                 <TextBlock x:Name="ChosenStatusText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Status" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </Grid>
             <Grid x:Name="ChosenWeight" Grid.Row="1" Grid.Column="3" Width="100" >
@@ -86,7 +88,7 @@
                     <RowDefinition Height="20*"/>
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" MouseLeftButtonUp="ChangeWeightToNull" />
+                <Image x:Name="ClosingButtonWeight" Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeWeightToNull" />
                 <TextBlock x:Name="ChosenWeightText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </Grid>
         </Grid>
