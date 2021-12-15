@@ -78,24 +78,25 @@ namespace PL
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
             DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            string contentButton = actionAlowedDrone(drone);
-            DeliveryStatusButton.Content = contentButton;
+            //For what it?
+            /*ParcelTextBoxLabel.Visibility = Visibility.Hidden;
+            ParcelIdIdTextBox.Visibility = Visibility.Hidden;*/
+            DeliveryStatusButton.Content = actionAlowedDrone(drone).ToString();
             // ======================================
         }
         
-        private string actionAlowedDrone(Drone drone)
+        private DeliveryStatusAction actionAlowedDrone(BLDrone drone)
         {
-            if (drone.Status == DroneStatus.Available)
+            // Before asign parcel to drone
+            if (drone.Status == DroneStatus.Available) { return DeliveryStatusAction.SendToDelivery; }
+            else if (drone.ParcelInTransfer!= null && drone.Status == DroneStatus.Delivery)
             {
-                //check if here
-                ParcelTextBoxLabel.Visibility = Visibility.Hidden;
-                ParcelIdIdTextBox.Visibility = Visibility.Hidden;
-                return "Send to delivery";
+            // Before customer get the parcel
+                if (drone.DronePosition == drone.ParcelInTransfer.SenderPosition) { return DeliveryStatusAction.SendToDelivery; }
+            // Before pick parcel
+                else { return DeliveryStatusAction.PickUpParcel; }
             }
-            else if (drone.Status == DroneStatus.Delivery && drone.ParcelInTransfer != null)
-            {
-                return "Pick a parcel";
-            }
+            // Do not happen: (Need for the correct function return value)
             return "";
         }
 
@@ -273,7 +274,8 @@ namespace PL
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
         {
-
+            string contentClickedButton
+            switch 
         }
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
