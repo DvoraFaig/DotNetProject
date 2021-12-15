@@ -59,5 +59,10 @@ namespace IBL
         //  Convertions
         //===================
         public Drone convertDroneToListToDrone(DroneToList d);
+
+        //========================
+        //  Get Data About Object
+        //========================
+        public DeliveryStatusAction GetDroneStatusInDelivery(Drone drone);
     }
 }

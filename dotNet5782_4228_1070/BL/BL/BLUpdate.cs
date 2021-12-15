@@ -238,6 +238,8 @@ namespace BL
                 double disDroneToSenderP = distance(drone.DronePosition, senderPosition);
                 drone.Battery -= disDroneToSenderP * requestElectricity((int)parcel.Weight);
                 drone.DronePosition = senderPosition;
+                drone.ParcelInTransfer = createParcelInTransfer(parcel, senderP, parcel.TargetId)
+                drone.ParcelInTransfer = convertDalToParcelInTranspare(parcel);
                 updateBLDrone(drone);
                 parcel.PickUp = DateTime.Now;
                 dal.changeParcelInfo(parcel);

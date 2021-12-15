@@ -26,5 +26,18 @@ namespace BL
             double d = Math.Pow((Math.Pow(p1.Longitude - p2.Longitude, 2) + Math.Pow(p1.Latitude - p2.Latitude, 2)), 0.5);
             return d;
         }
+
+        public DeliveryStatusAction GetDroneStatusInDelivery(Drone drone)
+        {
+            if (drone.Status == DroneStatus.Available)
+            {
+                return DeliveryStatusAction.Available;
+            }
+            else if (drone.Status == DroneStatus.Delivery)
+            {
+                if ()
+            }
+        }
+
     }
 }
