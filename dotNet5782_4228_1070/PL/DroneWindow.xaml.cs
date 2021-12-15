@@ -80,14 +80,14 @@ namespace PL
             {
                 try
                 {
-                    //DeliveryStatusButton.Content = deliveryButtonOptionalContent[blObjectD.GetDroneStatusInDelivery(dr)];
+                    int contentIndex = blObjectD.GetDroneStatusInDelivery(dr);
+                    DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                 }
                 catch (Exception)
                 {
                     DeliveryStatusButton.Visibility = Visibility.Hidden;
                 }
-                
             }
            
             //For what it?
