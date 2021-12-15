@@ -268,7 +268,7 @@ namespace PL
             {
                 try { blObjectD.DeliveryParcelByDrone(dr.Id); }
                 catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
-                catch (Exception e2) { MessageBox.Show(e2.Message); }
+                catch (Exception e2) { MessageBox.Show(e2.Message); } 
             }
         }
     }
