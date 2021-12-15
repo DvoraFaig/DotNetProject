@@ -40,10 +40,10 @@
             </Grid.ColumnDefinitions>
             <Label Name="WeightSelectorLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2" >Drone Weight:</Label>
             <Label Name="StatusSelectorLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" >Drone Stause:</Label>
-            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="1" Margin="15,10"/>
-            <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
-            <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
-            <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
+            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="StatusSelectorANDWeightSelectorSelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="1" Margin="15,10"/>
+            <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" SelectionChanged="StatusSelectorANDWeightSelectorSelectionChanged"/>
+            <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButtonClick"/>
+            <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
 
         <ListView x:Name="DroneListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
