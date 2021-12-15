@@ -13,7 +13,5 @@ namespace IBL
         public enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
         public enum Electricity { Empty , LightWeight , MediumWeight, HeavyWeight, ChargingRate }
         public enum DeliveryStatusAction { Available, AsignedParcel, PickedParcel };
-        //public enum DeliveryStatusAction { SendToDelivery = 1, PickUpParcel, WhichPackageDelivery, other };
-
     }
 }

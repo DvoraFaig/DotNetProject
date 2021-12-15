@@ -199,6 +199,9 @@ namespace BL
                     throw new Exception("Drone with the parcels' conditions wasn't found.");
                 }
                 droneToParcel.Status = DroneStatus.Delivery;
+                droneToParcel.ParcelInTransfer = createParcelInTransfer(
+                    maxParcel, convertBLToDalCustomer(GetCustomerById(maxParcel.SenderId)),
+                    convertBLToDalCustomer(GetCustomerById(maxParcel.TargetId)));
                 updateBLDrone(droneToParcel);
                 maxParcel.DroneId = droneToParcel.Id;
                 maxParcel.Scheduled = DateTime.Now;
@@ -211,6 +214,7 @@ namespace BL
             }
 
         }
+        
         public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             try
@@ -238,8 +242,6 @@ namespace BL
                 double disDroneToSenderP = distance(drone.DronePosition, senderPosition);
                 drone.Battery -= disDroneToSenderP * requestElectricity((int)parcel.Weight);
                 drone.DronePosition = senderPosition;
-                //drone.ParcelInTransfer = createParcelInTransfer(parcel, senderP, parcel.TargetId)
-                drone.ParcelInTransfer = convertDalToParcelInTranspare(parcel);
                 updateBLDrone(drone);
                 parcel.PickUp = DateTime.Now;
                 dal.changeParcelInfo(parcel);
@@ -276,7 +278,7 @@ namespace BL
                 parcelToDelivery.Delivered = DateTime.Now;
                 dal.changeParcelInfo(parcelToDelivery);
             }
-            catch (ObjNotExistException e)
+            catch (ObjNotExistException )
             {
                 throw new Exception("Can't deliver parcelby drone.");
             }

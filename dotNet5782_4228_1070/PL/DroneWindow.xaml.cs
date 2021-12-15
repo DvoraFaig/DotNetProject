@@ -23,6 +23,7 @@ namespace PL
     {
         private IBL.Ibl blObjectD;
         Drone dr;
+        string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -72,16 +73,14 @@ namespace PL
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
             // Delivery status Button
             DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            string contentButton = actionAlowedDrone(drone);
-            DeliveryStatusButton.Content = 
+            DeliveryStatusButton.Content = deliveryButtonOptionalContent[blObjectD.GetDroneStatusInDelivery(dr)];
+            //For what it?
+            /*ParcelTextBoxLabel.Visibility = Visibility.Hidden;
+            ParcelIdIdTextBox.Visibility = Visibility.Hidden;*/
+            //DeliveryStatusButton.Content = actionAlowedDrone(drone).ToString();
             // ======================================
             blObjectD = blObject;
             dr = drone;
-        }
-
-        private string actionAlowedDrone(Drone drone)
-        {
-            return "";
         }
 
         private void displayWindowAddOrUpdate()
@@ -256,10 +255,10 @@ namespace PL
             }
         }
 
-        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        /*private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
         {
             //if The text was changed send to the function
-            /*if (TimeTocharge)
+            if (TimeTocharge)
             try
             {
                 blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
@@ -267,17 +266,30 @@ namespace PL
             catch (Exception)
             {
 
-            }*/
-        }
+            }
+        }*/
 
         private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void PickParcel_Click(object sender, RoutedEventArgs e)
-        {
-
+            string contentClickedButton = DeliveryStatusButton.Content.ToString();
+            if (contentClickedButton == deliveryButtonOptionalContent[0])
+            {
+                try { blObjectD.PairParcelWithDrone(dr.Id); }
+                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (Exception e2) { MessageBox.Show(e2.Message); }
+            }
+            else if (contentClickedButton == deliveryButtonOptionalContent[1])
+            {
+                try { blObjectD.DronePicksUpParcel(dr.Id); }
+                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (Exception e2) { MessageBox.Show(e2.Message); }
+            }
+            else if (contentClickedButton == deliveryButtonOptionalContent[2])
+            {
+                try { blObjectD.DeliveryParcelByDrone(dr.Id); }
+                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (Exception e2) { MessageBox.Show(e2.Message); }
+            }
         }
 
         private void PackageDelivery_Click(object sender, RoutedEventArgs e)

@@ -27,18 +27,25 @@ namespace BL
             return d;
         }
 
-        public DeliveryStatusAction GetDroneStatusInDelivery(Drone drone)
-        {
+        public int GetDroneStatusInDelivery(Drone drone)
+        { 
             if (drone.Status == DroneStatus.Available)
             {
-                return DeliveryStatusAction.Available;
+                return (int)DeliveryStatusAction.Available;
             }
-            return DeliveryStatusAction.Available;
-            //else if (drone.Status == DroneStatus.Delivery)
-            //{
-            //    if ()
-            //}
+            else if (drone.Status == DroneStatus.Delivery)
+            {
+                if (drone.ParcelInTransfer != null)
+                {
+                    return (int)DeliveryStatusAction.AsignedParcel;
+                }
+                else if (drone.DronePosition == drone.ParcelInTransfer.SenderPosition)
+                {
+                    return (int)DeliveryStatusAction.PickedParcel;
+                }
+            }
+            // Check correct exception to throw: 
+            throw new InvalidOperationException();
         }
-
     }
 }
