@@ -36,7 +36,7 @@ namespace PL
         public DroneWindow(IBL.Ibl blObject)
         {
             InitializeComponent();
-            Loaded += ToolWindow_Loaded;//The x button
+            Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
@@ -48,7 +48,7 @@ namespace PL
         public DroneWindow(IBL.Ibl blObject, IBL.BO.Drone drone)
         {
             InitializeComponent();
-            Loaded += ToolWindow_Loaded; //The x button
+            Loaded += ToolWindowLoaded; //The x button
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
             blObjectD = blObject;
@@ -71,10 +71,7 @@ namespace PL
             // charge Button
             ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
             ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            // Delivery status Button
-            //DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-
-            if (drone.Status == DroneStatus.Maintenance) 
+            if (drone.Status == DroneStatus.Maintenance)
                 DeliveryStatusButton.Visibility = Visibility.Hidden;
             else
             {
@@ -89,19 +86,15 @@ namespace PL
                     DeliveryStatusButton.Visibility = Visibility.Hidden;
                 }
             }
-           
-            //For what it?
-            /*ParcelTextBoxLabel.Visibility = Visibility.Hidden;
-            ParcelIdIdTextBox.Visibility = Visibility.Hidden;*/
-            //DeliveryStatusButton.Content = actionAlowedDrone(drone).ToString();
-            // ======================================
         }
-
+        /// <summary>
+        /// Display DroneWindow Add or Update
+        /// false == show update window
+        /// true == show add window
+        /// </summary>
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            //false == show update window
-            //true == show add window
             visibility = (updateOrAddWindow == false) ? Visibility.Hidden: Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
@@ -141,60 +134,22 @@ namespace PL
             DeliveryStatusButton.Visibility = visibility;
         }
 
-        private static void TrueOrFalseDisplay()
-        {
-
-        }
-
-        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
+        void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-        // TextChangedEventHandler delegate method.
-        private void textChangedEventHandler(object sender, TextChangedEventArgs args)
-        {
-            // Omitted Code: Insert code that does something whenever
-            // the text changes...
-        } // end textChangedEventHandler
+    
 
-
-        /*private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-*/
-        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-        private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Button_ClickAdd(object sender, RoutedEventArgs e)
+        private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
             int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
                 blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 TextBlock addedDrone = new TextBlock();
-                //addedDrone.TextDecorations = TextDecorations.Strikethrough;
-                //// Create an underline text decoration. Default is underline.
-                //TextDecoration myUnderline = new TextDecoration();
-
-                //// Create a solid color brush pen for the text decoration.
-                //myUnderline.Pen = new Pen(Brushes.Red, 1);
-                //myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended;
-
-                //// Set the underline decoration to a TextDecorationCollection and add it to the text block.
-                //TextDecorationCollection myCollection = new TextDecorationCollection();
-                //myCollection.Add(myUnderline);
-                //addedDrone.TextDecorations = myCollection;
-                //new DroneListWindow(blObjectD).Show();
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
 
@@ -210,34 +165,18 @@ namespace PL
             catch (Exception)
             {
                 MessageBox.Show("Cann't add a drone", "Drone Error");
-
-                // MessageBox.Show(e.Message, "Drone Error");
             }
 
         }
 
-        private void Button_ClickRestart(object sender, RoutedEventArgs e)
+        private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
             IdTextBox.Text = "Id...";
             ModelTextBox.Text = "Model....";
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(IDal.DO.WeightCategories));
             StationIdTextBox.Text = "Station id...";
         }
-        //private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //    //IdTextBox.Text = " ";
-        //}
-        //private void ModelTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //}
-        //private void StationIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //}
-
-        private void Button_ClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
+        private void ButtonClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
 
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -248,12 +187,7 @@ namespace PL
             }
         }
 
-        private void ModelTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             dr.Model = ModelTextBox.Text;
             blObjectD.DroneChangeModel(dr);
@@ -261,7 +195,7 @@ namespace PL
             this.Close();
         }
 
-        private void ChargeButton_Click(object sender, RoutedEventArgs e)
+        private void ChargeButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -274,7 +208,7 @@ namespace PL
             }
         }
 
-        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        private void FreeChargeButtonClick(object sender, RoutedEventArgs e)
         {
             if (TimeTocharge.Text != null)
             {
@@ -289,7 +223,7 @@ namespace PL
             }
         }
 
-        private void SendDroneToCharge_Click(object sender, RoutedEventArgs e)
+        private void SendDroneToChargeClick(object sender, RoutedEventArgs e)
         {
             string contentClickedButton = DeliveryStatusButton.Content.ToString();
             if (contentClickedButton == deliveryButtonOptionalContent[0])
@@ -310,11 +244,6 @@ namespace PL
                 catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
                 catch (Exception e2) { MessageBox.Show(e2.Message); }
             }
-        }
-
-        private void PackageDelivery_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
