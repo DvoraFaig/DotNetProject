@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;
+using DO;
 
-namespace IDal
+namespace DO
 {
-    namespace DO
-    {
+    
         public struct Drone
         {
             public int Id { get; set; }
@@ -19,6 +18,6 @@ namespace IDal
                 return ($"drone id: {Id}, drone model{Model}\n");
             }
         }
-    }
+    
 }
 

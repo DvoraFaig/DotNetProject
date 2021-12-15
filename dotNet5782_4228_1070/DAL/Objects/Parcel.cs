@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDal
+namespace DO
 {
-    namespace DO
-    {
+   
         public struct Parcel
         {
             public int Id { get; set; }
@@ -25,5 +24,5 @@ namespace IDal
                 return ($"parcel ID: {Id}, parcel SenderId: {SenderId}, parcel TargetId: {TargetId}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted}, parcel DroneId {DroneId}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");
             }
         }
-    }
+    
 }

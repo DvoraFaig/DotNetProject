@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDal
-{
-    namespace DO
-    {
+namespace DO
+{ 
         public struct Customer
         {
             public int ID { get; set; }
@@ -29,7 +27,7 @@ namespace IDal
                 return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, customer latitude: {Latitude}, customer Longitude: {Longitude}\n");
             }
         }
-    }
+   
 }
 
 

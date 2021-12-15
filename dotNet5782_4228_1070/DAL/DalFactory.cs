@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDal
+namespace DO
 {
     public static class DalFactory
     {
-        public static IDal.DO.IDal factory(string objName)
+        public static global::DO.DalApi factory(string objName)
         {
             switch (objName)
             {
                 case "DalObject":
-                    return DalObject.DalObject.GetInstance; 
+                    return DalObject.DalObject.GetInstance;
+                case "DalXml":
+                    return DalObject.DalObject.GetInstance;
                 default:
                     throw new Exception();
             }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 using BL;
-using IBL.BO;
-using IBL;
-using static IBL.BO.Exceptions;
+using BlApi.BO;
+using BlApi;
+using static BlApi.BO.Exceptions;
 
 namespace BL_ConsoleUI
 {
     class mainBL_ConsoleUI
     {
         Random r = new Random();
-        public static IBL.Ibl bl;
+        public static BlApi.Ibl bl;
         /// <summary>
         /// The user chooses what to do with the objects:
         /// 1.Add 2.update 3.display obj by id 4.display arr of obj 5.exit.
@@ -20,7 +20,7 @@ namespace BL_ConsoleUI
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            bl = IBL.IBL.BLFactory.Factory("BL");
+            bl = BlApi.IBL.BLFactory.Factory("BL");
             Choices choice; //defaualt 0
             do
             {
@@ -388,27 +388,27 @@ namespace BL_ConsoleUI
                 switch (obj)
                 {
                     case objects.Station:
-                        List<IBL.BO.BLStation> stations = bl.DisplayStations();
+                        List<BlApi.BO.BLStation> stations = bl.DisplayStations();
                         stations.ForEach(s => Console.WriteLine(s.ToString() + '\n'));
                         break;
                     case objects.Drone:
-                        List<IBL.BO.Drone> drones = bl.DisplayDrones();
+                        List<BlApi.BO.Drone> drones = bl.DisplayDrones();
                         drones.ForEach(s => Console.WriteLine(s.ToString()));
                         break;
                     case objects.Customer:
-                        List<IBL.BO.Customer> customers = bl.DisplayCustomers();
+                        List<BlApi.BO.Customer> customers = bl.DisplayCustomers();
                         customers.ForEach(s => Console.WriteLine(s.ToString()));
                         break;
                     case objects.Parcel:
-                        List<IBL.BO.Parcel> parcels = bl.DisplayParcel();
+                        List<BlApi.BO.Parcel> parcels = bl.DisplayParcel();
                         parcels.ForEach(s => Console.WriteLine(s.ToString()));
                         break;
                     case objects.FreeParcel:
-                        List<IBL.BO.Parcel> freeParcels = bl.DisplayFreeParcel();
+                        List<BlApi.BO.Parcel> freeParcels = bl.DisplayFreeParcel();
                         freeParcels.ForEach(s => Console.WriteLine(s.ToString()));
                         break;
                     case objects.EmptyCharges:
-                        List<IBL.BO.BLStation> ChargeStand = bl.DisplayEmptyDroneCharge();
+                        List<BlApi.BO.BLStation> ChargeStand = bl.DisplayEmptyDroneCharge();
                         ChargeStand.ForEach(c => Console.WriteLine(c.ToString()));
                         break;
                     default:
@@ -560,7 +560,7 @@ namespace BL_ConsoleUI
                     Console.WriteLine("Enter a Longitude: ");
                     int longitude = Convert.ToInt32(Console.ReadLine());
                     int ChargeSlots = r.Next(0, 200);
-                    bl.AddCustomer(id, name, phone, new IBL.BO.Position() { Longitude = longitude, Latitude = latitude });
+                    bl.AddCustomer(id, name, phone, new BlApi.BO.Position() { Longitude = longitude, Latitude = latitude });
                     break;
                 }
                 catch (FormatException )

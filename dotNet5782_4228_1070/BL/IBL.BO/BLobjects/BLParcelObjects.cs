@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;
+using DO;
 
 
-namespace IBL
-{
+
     namespace BO
     {
         public class Parcel
@@ -36,8 +35,8 @@ namespace IBL
             public int Id { get; set; }
             public string SenderName { get; set; }
             public string TargetName { get; set; }
-            public WeightCategories Weight { get; set; }
-            public Priorities Priority { get; set; }
+            public DO.WeightCategories Weight { get; set; }
+            public DO.Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
         }
 
@@ -45,7 +44,7 @@ namespace IBL
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
-            public Priorities Priority { get; set; }
+            public DO.Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatus { get; set; }
             public CustomerInParcel SenderOrTargetCustomer { get; set; }
             public override string ToString()
@@ -74,4 +73,4 @@ namespace IBL
             }
         }
     }
-}
+

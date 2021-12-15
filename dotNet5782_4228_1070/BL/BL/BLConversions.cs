@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal;
-using IBL.BO;
-using static IBL.BO.Exceptions;
+using BO;
+using static BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL : BlApi.Ibl
     {
 
-        private ParcelInTransfer convertDalToParcelInTranspare(IDal.DO.Parcel parcel)
+        private ParcelInTransfer convertDalToParcelInTranspare(DO.Parcel parcel)
         {
             return new ParcelInTransfer()
             {
@@ -20,9 +19,9 @@ namespace BL
 
             };
         }
-        private IDal.DO.Station convertBLToDalStation(Station s)
+        private DO.Station convertBLToDalStation(Station s)
         {
-            return new IDal.DO.Station()
+            return new DO.Station()
             {
                 Id = s.ID,
                 Name = s.Name,
@@ -32,9 +31,9 @@ namespace BL
             };
         }
 
-        private IDal.DO.Drone convertBLToDalDrone(Drone d)
+        private DO.Drone convertBLToDalDrone(Drone d)
         {
-            return new IDal.DO.Drone()
+            return new DO.Drone()
             {
                 Id = d.Id,
                 Model = d.Model,
@@ -42,9 +41,9 @@ namespace BL
             };
         }
 
-        private IDal.DO.Customer convertBLToDalCustomer(Customer c)
+        private DO.Customer convertBLToDalCustomer(Customer c)
         {
-            return new IDal.DO.Customer()
+            return new DO.Customer()
             {
                 ID = c.ID,
                 Name = c.Name,
@@ -54,9 +53,9 @@ namespace BL
             };
         }
 
-        private IDal.DO.Parcel convertBLToDalParcel(Parcel p)
+        private DO.Parcel convertBLToDalParcel(Parcel p)
         {
-            return new IDal.DO.Parcel()
+            return new DO.Parcel()
             {
                 Id = p.Id,
                 SenderId = p.Sender.Id,
@@ -71,31 +70,31 @@ namespace BL
             };
         }
 
-        private Station convertDalToBLStation(IDal.DO.Station s)
+        private Station convertDalToBLStation(DO.Station s)
         {
             List<ChargingDrone> blDroneChargingByStation = new List<ChargingDrone>();
-            IEnumerable<IDal.DO.DroneCharge> droneChargesByStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == s.Id);
-            foreach(IDal.DO.DroneCharge d in droneChargesByStation)
+            IEnumerable<DO.DroneCharge> droneChargesByStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == s.Id);
+            foreach(DO.DroneCharge d in droneChargesByStation)
             {
                 blDroneChargingByStation.Add(new ChargingDrone() { Id = d.DroneId, Battery = getBLDroneById(d.DroneId).Battery });
             };
-            return new Station() { ID = s.Id, Name = s.Name, StationPosition = new IBL.BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots - blDroneChargingByStation.Count(), DronesCharging = blDroneChargingByStation };
+            return new Station() { ID = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots - blDroneChargingByStation.Count(), DronesCharging = blDroneChargingByStation };
         }
 
-        private Customer convertDalToBLCustomer(IDal.DO.Customer c)
+        private Customer convertDalToBLCustomer(DO.Customer c)
         {
-            IEnumerable<IDal.DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.ID);
-            IEnumerable<IDal.DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.ID);
+            IEnumerable<DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.ID);
+            IEnumerable<DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.ID);
             List<ParcelAtCustomer> customerAsSender = createBLParcelAtCustomer(sendingParcels, true);
             List<ParcelAtCustomer> customerAsTarget = createBLParcelAtCustomer(targetParcels , false);
-            return new Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new IBL.BO.Position() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
+            return new Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new BO.Position() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
         }
-        private List<ParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<IDal.DO.Parcel> pp, bool senderOrTaget)
+        private List<ParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<DO.Parcel> pp, bool senderOrTaget)
         {
             List<ParcelAtCustomer> parcelCustomers = new List<ParcelAtCustomer>();
             CustomerInParcel bLCustomerInParcel = new CustomerInParcel();
             ParcelStatuses parcelStatusesTemp;
-            foreach (IDal.DO.Parcel p in pp)
+            foreach (DO.Parcel p in pp)
             {
                 if (senderOrTaget) //sender
                 {
@@ -120,7 +119,7 @@ namespace BL
             return parcelCustomers;
         }
 
-        private Drone convertDalToBLDrone(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
+        private Drone convertDalToBLDrone(DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             Drone BLDrone = getBLDroneById(d.Id);
             return new Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100)/*DronePosition ++++++++++++++++++++*/};
@@ -145,12 +144,12 @@ namespace BL
             return getBLDroneById(d.Id);
         }
 
-        private Drone copyDalToBLDroneInfo(IDal.DO.Drone d)//////////////////////////////////////////////////////////////////////////////
+        private Drone copyDalToBLDroneInfo(DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {
             return new Drone() { Id = d.Id, Model = d.Model, MaxWeight = d.MaxWeight, Status = (DroneStatus)r.Next(0, 3), Battery = r.Next(20, 100) };
         }
 
-        private ChargingDrone convertDalToBLChargingDrone(IDal.DO.DroneCharge droneCharge) //convertDalToBLChargingDrone the opposite BL to DAL
+        private ChargingDrone convertDalToBLChargingDrone(DO.DroneCharge droneCharge) //convertDalToBLChargingDrone the opposite BL to DAL
         {
             return new ChargingDrone()
             {
@@ -159,10 +158,10 @@ namespace BL
             };
         }
 
-        private Parcel convertDalToBLParcel(IDal.DO.Parcel p)
+        private Parcel convertDalToBLParcel(DO.Parcel p)
         {
             DroneInParcel drone = null;
-            if (!p.Scheduled.Equals(default(IDal.DO.Parcel).Scheduled)) //if the parcel is paired with a drone
+            if (!p.Scheduled.Equals(default(DO.Parcel).Scheduled)) //if the parcel is paired with a drone
             {
                 drone = createBLDroneInParcel(p, getBLDroneWithSpecificCondition(d => d.Id == (int)p.DroneId).First().Id);
             }
@@ -181,7 +180,7 @@ namespace BL
             };
         }
 
-        private CustomerInParcel convertDalToBLCustomerInTransfer(IDal.DO.Customer customer)
+        private CustomerInParcel convertDalToBLCustomerInTransfer(DO.Customer customer)
         {
             return new CustomerInParcel()
             {
@@ -190,7 +189,7 @@ namespace BL
             };
         }
 
-        private ParcelInTransfer createParcelInTransfer(IDal.DO.Parcel p, IDal.DO.Customer sender, IDal.DO.Customer target)
+        private ParcelInTransfer createParcelInTransfer(DO.Parcel p, DO.Customer sender, DO.Customer target)
         {
             Position senderP = new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
             Position targetP = new Position() { Latitude = target.Latitude, Longitude = target.Longitude };

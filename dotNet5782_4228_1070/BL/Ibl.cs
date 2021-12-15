@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IBL.BO;
-
-namespace IBL
+using BO;
+namespace BlApi
 {
     public interface Ibl
     {
@@ -48,7 +47,7 @@ namespace IBL
         public void PairParcelWithDrone(int droneId);
         public void DronePicksUpParcel(int droneId);
         public void DeliveryParcelByDrone(int idDrone);
-        public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority);
+        public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
 
         //===================
         //  predicat

@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal;
-using IBL.BO;
-using static IBL.BO.Exceptions;
+using BO;
+using static BO.Exceptions;
 using System.Linq.Expressions;
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL : BlApi.Ibl
     {
         public List<Station> DisplayStations()
         {
-            IEnumerable<IDal.DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.displayStations();
             List<Station> stationsWithMoreInfo = new List<Station>();
             foreach (var station in stations)
             {
@@ -25,7 +24,7 @@ namespace BL
 
         public List<Customer> DisplayCustomers()
         {
-            IEnumerable<IDal.DO.Customer> customers = dal.displayCustomers();//c.id>100000000
+            IEnumerable<DO.Customer> customers = dal.displayCustomers();//c.id>100000000
             List<Customer> costomersWithMoreInfo = new List<Customer>();
             foreach (var customer in customers)
             {
@@ -44,7 +43,7 @@ namespace BL
         }
         public List<Parcel> DisplayParcel()
         {
-            IEnumerable<IDal.DO.Parcel> parcels = dal.displayParcels();
+            IEnumerable<DO.Parcel> parcels = dal.displayParcels();
             List<Parcel> parcelsWithMoreInfo = new List<Parcel>();
             foreach (var parcel in parcels)
             {
@@ -55,7 +54,7 @@ namespace BL
 
         public List<Parcel> DisplayFreeParcel()
         {
-            IEnumerable<IDal.DO.Parcel> freeParcels = dal.getParcelWithSpecificCondition(x => x.DroneId == null);
+            IEnumerable<DO.Parcel> freeParcels = dal.getParcelWithSpecificCondition(x => x.DroneId == null);
             List<Parcel> FreeParcelsWithMoreInfo = new List<Parcel>();
             foreach (var freeParcel in freeParcels)
             {
@@ -66,9 +65,9 @@ namespace BL
 
         public List<Station> DisplayEmptyDroneCharge()
         {
-            IEnumerable<IDal.DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.displayStations();
             List<Station> stationsWithEmptySlots = new List<Station>();
-            foreach (IDal.DO.Station station in stations)
+            foreach (DO.Station station in stations)
             {
                 int amountDroneChargeFullInStation = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
                 if (station.ChargeSlots > amountDroneChargeFullInStation)
@@ -89,11 +88,11 @@ namespace BL
             List<Drone> list = new List<Drone>();
             IEnumerable<Drone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
             if (weight >= 0 && status == -1)
-                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight);
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight);
             else if (weight == -1 && status >= 0)
                 IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
             else if (weight >= 0 && status >= 0)
-                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (IDal.DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight && d.Status == (DroneStatus)status);
             foreach (var i in IList)
             {
                 list.Add(i);

@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL.BO;
+using BO;
 
 namespace PL
 {
@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
-        private IBL.Ibl blObjectD;
+        private BlApi.Ibl blObjectD;
         Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         private bool updateOrAddWindow { get; set; }//true = add drone
@@ -33,19 +33,19 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneWindow(IBL.Ibl blObject)
+        public DroneWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
             updateOrAddWindow = true;
             displayWindowAddOrUpdate();
-            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             IdTextBox.Text = "Drone id....";
             ModelTextBox.Text = "Model id....";
             StationIdTextBox.Text = "Station Id...";
         }
-        public DroneWindow(IBL.Ibl blObject, IBL.BO.Drone drone)
+        public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -145,7 +145,7 @@ namespace PL
 
         private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
-            int weightCategory = Convert.ToInt32((IDal.DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
+            int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
                 blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
@@ -173,7 +173,7 @@ namespace PL
         {
             IdTextBox.Text = "Id...";
             ModelTextBox.Text = "Model....";
-            DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(DO.WeightCategories));
             StationIdTextBox.Text = "Station id...";
         }
         private void ButtonClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
@@ -229,19 +229,19 @@ namespace PL
             if (contentClickedButton == deliveryButtonOptionalContent[0])
             {
                 try { blObjectD.PairParcelWithDrone(dr.Id); }
-                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
                 catch (Exception e2) { MessageBox.Show(e2.Message); }
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1])
             {
                 try { blObjectD.DronePicksUpParcel(dr.Id); }
-                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
                 catch (Exception e2) { MessageBox.Show(e2.Message); }
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[2])
             {
                 try { blObjectD.DeliveryParcelByDrone(dr.Id); }
-                catch (IBL.BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
                 catch (Exception e2) { MessageBox.Show(e2.Message); }
             }
         }

@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
-using IBL.BO;
-using IBL;
+using BO;
+using BlApi;
 
 namespace PL
 {
@@ -30,7 +30,7 @@ namespace PL
             blObjectH = blObject;
             DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
         }
@@ -105,7 +105,7 @@ namespace PL
         {
             WeightSelector.SelectedItem = null;
             ChosenWeight.Visibility = Visibility.Hidden;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
         }
     }
 }

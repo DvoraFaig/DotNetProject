@@ -1,6 +1,6 @@
 ﻿using System;
-using IBL.BO;
-using IBL;
+using BlApi.BO;
+using BlApi;
 
 
 

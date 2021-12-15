@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.IBL;
+using BlApi;
 
-namespace IBL.IBL
+namespace BlApi.IBL
 {
     public static class BLFactory 
     {

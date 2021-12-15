@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using IBL.BO;
+using BO;
 
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL : BlApi.Ibl
     {
         private List<Drone> dronesInBL { get; set; }
     }

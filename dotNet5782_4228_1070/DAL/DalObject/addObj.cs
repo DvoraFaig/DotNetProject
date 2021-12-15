@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;
-using IDal;
+using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.DO.IDal
+    public partial class DalObject : DO.DalApi
     {
         public void AddParcel(Parcel parcel)
         {
@@ -30,7 +29,7 @@ namespace DalObject
         {
             DataSource.Stations.Add(s);
         }
-        public void AddParcelToDelivery(int id, int Serderid, int TargetId, IDal.DO.WeightCategories Weight, IDal.DO.Priorities Priority, DateTime requestedTime)
+        public void AddParcelToDelivery(int id, int Serderid, int TargetId, WeightCategories Weight, Priorities Priority, DateTime requestedTime)
         {
             Parcel parcel = new Parcel();
             parcel.Id = id;
@@ -41,7 +40,7 @@ namespace DalObject
             parcel.Requeasted = requestedTime;
             DataSource.Parcels.Add(parcel);
         }
-        public void AddDrone(int id, string Model, IDal.DO.WeightCategories MaxWeight)
+        public void AddDrone(int id, string Model, WeightCategories MaxWeight)
         {
             Drone drone = new Drone();
             drone.Id = id;

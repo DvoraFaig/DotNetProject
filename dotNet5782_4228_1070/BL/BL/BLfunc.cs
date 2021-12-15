@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using static IBL.BO.Exceptions;
+using static BO.Exceptions;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL : BlApi.Ibl
     {
         static BL instance;
         public static BL GetInstance
