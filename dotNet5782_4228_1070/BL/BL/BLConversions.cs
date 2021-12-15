@@ -12,6 +12,14 @@ namespace BL
     public sealed partial class BL : IBL.Ibl
     {
 
+        private ParcelInTransfer convertDalToParcelInTranspare(IDal.DO.Parcel parcel)
+        {
+            return new ParcelInTransfer()
+            {
+                Id = parcel.Id,
+
+            };
+        }
         private IDal.DO.Station convertBLToDalStation(Station s)
         {
             return new IDal.DO.Station()

@@ -42,7 +42,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
@@ -68,19 +68,17 @@ namespace PL
                 status = -1;
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
-            //weight = (weight == null )? -1 : WeightSelector.SelectedItem;
-            //status = (status == null ) ? -1 : StatusSelector.SelectedItem;
             List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
             DroneListView.ItemsSource = b;
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             new MainWindow(blObjectH).Show();
             this.Close();
         }
 
-        private void AddDroneButton_Click(object sender, RoutedEventArgs e)
+        private void AddDroneButtonClick(object sender, RoutedEventArgs e)
         {
             new DroneWindow(blObjectH).Show();
             this.Close();
@@ -93,20 +91,10 @@ namespace PL
             this.Close();
         }
 
-        private void DroneList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DroneListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-
-
-        //private void DisplayFullList(object sender, RoutedEventArgs e)
-        //{
-        //    StatusSelector.SelectedItem = null;
-        //    WeightSelector.SelectedItem = null;
-        //    StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-        //    WeightSelector.ItemsSource = Enum.GetValues(typeof(IDal.DO.WeightCategories));
-        //}
-
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             StatusSelector.SelectedItem = null;
@@ -121,17 +109,3 @@ namespace PL
         }
     }
 }
-
-
-//private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-//{
-//    object item = StatusSelector.SelectedItem;
-//    List<BLDroneToList> b = blObjectH.DisplayDroneToListByStatus((DroneStatus)item);
-//    DroneListView.ItemsSource = b;
-//}
-//private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-//{
-//    object item = WeightSelector.SelectedItem;
-//    List<BLDroneToList> b = blObjectH.DisplayDroneToListByWeight((IDal.DO.WeightCategories)item);
-//    DroneListView.ItemsSource = b;
-//}
