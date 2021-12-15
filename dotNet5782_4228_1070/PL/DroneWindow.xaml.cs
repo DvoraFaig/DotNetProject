@@ -59,18 +59,15 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
-            
+
             if (drone.ParcelInTransfer == null)
             {
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
-            // ======================================
-            // set type of buttons
-            // ======================================
-            // charge Button
-            ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
-            ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+            setDeliveryButton();
+
+            ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
             if (drone.Status == DroneStatus.Maintenance)
                 DeliveryStatusButton.Visibility = Visibility.Hidden;
             else
@@ -87,6 +84,20 @@ namespace PL
                 }
             }
         }
+
+        private void setDeliveryButton()
+        {
+            switch (dr.Status)
+            {
+                case DroneStatus.Available:
+                    ChargeButton.Content = "Send Drone To Charge";
+                    break;
+                case DroneStatus.Maintenance:
+                    ChargeButton.Content = "Free Drone From Charge";
+                    break;
+            }
+        }
+
         /// <summary>
         /// Display DroneWindow Add or Update
         /// false == show update window
@@ -95,7 +106,7 @@ namespace PL
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            visibility = (updateOrAddWindow == false) ? Visibility.Hidden: Visibility.Visible;
+            visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
             labelAddADrone.Visibility = visibility;
             IdTextBoxLabel.Visibility = visibility;
             IdTextBox.Visibility = visibility;
@@ -108,14 +119,14 @@ namespace PL
             RestartButton.Visibility = visibility;
             AddlButton.Visibility = visibility;
 
-            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible: Visibility.Hidden;
+            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
             if (updateOrAddWindow == false)//if Add Drone don't go in
             {
                 IdTextBoxLabel.Visibility = visibility;
                 IdTextBox.Visibility = visibility;
                 IdTextBox.IsReadOnly = true;
                 ModelTextBoxLabel.Visibility = visibility;
-                ModelTextBox.Visibility = visibility;                
+                ModelTextBox.Visibility = visibility;
             }
             DroneWeightLabel.Visibility = visibility;
             DroneWeightUpdate.Visibility = visibility;
@@ -141,7 +152,7 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-    
+
 
         private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
@@ -197,30 +208,45 @@ namespace PL
 
         private void ChargeButtonClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                blObjectD.SendDroneToCharge(dr.Id);
-                StatusTextBox.Text = $"{dr.Status}";
-            }
-            catch (Exception)
-            {
-                
-            }
-        }
-
-        private void FreeChargeButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (TimeTocharge.Text != null)
+            if (ChargeButton.Content.ToString() == "Send Drone To Charge")
             {
                 try
                 {
-                    blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+                    blObjectD.SendDroneToCharge(dr.Id);
+                    StatusTextBox.Text = $"{dr.Status}";
+                    setDeliveryButton();
                 }
                 catch (Exception)
                 {
 
                 }
             }
+            else
+            {
+                if (TimeTocharge.Text == "")
+                {
+                    MessageBox.Show("ERROR\nEnter time to charge");
+                }
+                else
+                {
+                    try
+                    {
+                        blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
+                        StatusTextBox.Text = $"{dr.Status}";
+                        setDeliveryButton();
+                        TimeTocharge.Text = "";
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        private void FreeChargeButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void SendDroneToChargeClick(object sender, RoutedEventArgs e)
