@@ -28,7 +28,7 @@ namespace BL
         }
 
         public int GetDroneStatusInDelivery(Drone drone)
-        { 
+        {
             if (drone.Status == DroneStatus.Available)
             {
                 return (int)DeliveryStatusAction.Available;
@@ -44,6 +44,7 @@ namespace BL
                     return (int)DeliveryStatusAction.PickedParcel;
                 }
             }
+            throw new Exception("No macthing status");
         }
     }
 }

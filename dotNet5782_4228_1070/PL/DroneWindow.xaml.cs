@@ -57,7 +57,7 @@ namespace PL
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
-            //PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
             
             if (drone.ParcelInTransfer == null)
             {
@@ -70,10 +70,26 @@ namespace PL
             // charge Button
             ChargeButton.Content = drone.Status == DroneStatus.Maintenance ? "Free Drone From Charge" : "Send Drone To Charge" ;
             if (!(drone.Status == DroneStatus.Maintenance)) ChargeButton.Visibility = Visibility.Hidden;
-            ChargeButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+            ChargeButton.Visibility = drone.Status == DroneStatus.Maintenance ? Visibility.Hidden : Visibility.Visible;
             // Delivery status Button
-            DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
-            DeliveryStatusButton.Content = deliveryButtonOptionalContent[blObjectD.GetDroneStatusInDelivery(dr)];
+            //DeliveryStatusButton.IsEnabled = drone.Status == DroneStatus.Maintenance ? false : true;
+
+            if (drone.Status == DroneStatus.Maintenance) 
+                DeliveryStatusButton.Visibility = Visibility.Hidden;
+            else
+            {
+                try
+                {
+                    //DeliveryStatusButton.Content = deliveryButtonOptionalContent[blObjectD.GetDroneStatusInDelivery(dr)];
+                    DeliveryStatusButton.Visibility = Visibility.Visible;
+                }
+                catch (Exception)
+                {
+                    DeliveryStatusButton.Visibility = Visibility.Hidden;
+                }
+                
+            }
+           
             //For what it?
             /*ParcelTextBoxLabel.Visibility = Visibility.Hidden;
             ParcelIdIdTextBox.Visibility = Visibility.Hidden;*/

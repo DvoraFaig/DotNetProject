@@ -127,8 +127,8 @@ namespace BL
             }
             catch (Exception)
             {
-                throw new ObjNotExistException(typeof(Drone), droneId);
-                //throw new InvalidOperationException();
+                //throw new ObjNotExistException(typeof(Drone), droneId);
+                throw new Exception("Can't free Drone from charge.\nPlease try later...");
             }
         }
 
