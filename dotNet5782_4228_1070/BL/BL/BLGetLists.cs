@@ -37,10 +37,17 @@ namespace BL
         {
             return dronesInBL;
         }
+
         public List<DroneToList> DisplayDronesToList()
         {
             return convertBLDroneToBLDronesToList(dronesInBL);
         }
+
+        public List<ParcelToList> DisplayParcelToList()
+        {
+            return convertBLParcelToBLParcelsToList();
+        }
+
         public List<Parcel> DisplayParcel()
         {
             IEnumerable<DO.Parcel> parcels = dal.displayParcels();

@@ -13,6 +13,26 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
+        public void removeParcel(Parcel parcel)
+        {
+            DataSource.Parcels.Remove(parcel);
+        }
+        public void removeStation(Station station)
+        {
+            DataSource.Stations.Remove(station);
+        }
+        public void removeCustomer(Customer customer)
+        {
+            DataSource.Customers.Remove(customer);
+        }
+        public void removeDrone(Drone drone)
+        {
+            DataSource.Drones.Remove(drone);
+        }
+        public void removeDroneCharge(DroneCharge droneCharge)
+        {
+            DataSource.DroneCharges.Remove(droneCharge);
+        }
         public void changeStationInfo(Station goodStation)
         {
             Station sToErase = getStationWithSpecificCondition(s => s.Id == goodStation.Id).First();

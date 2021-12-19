@@ -22,6 +22,7 @@ namespace BlApi
         public List<Customer> DisplayCustomers();
         public List<Drone> DisplayDrones();
         public List<DroneToList> DisplayDronesToList();
+        public List<ParcelToList> DisplayParcelToList();
         public List<Parcel> DisplayParcel();
         public List<Parcel> DisplayFreeParcel();
         public List<Station> DisplayEmptyDroneCharge();
@@ -63,5 +64,10 @@ namespace BlApi
         //  Get Data About Object
         //========================
         public int GetDroneStatusInDelivery(Drone drone);
+
+        //===================
+        //  Remove
+        //===================
+        public void RemoveParcel(Parcel parcel);
     }
 }

@@ -8,7 +8,7 @@ using DO;
 
 
 namespace BO
-{ 
+{
     public class Drone
     {
         public int Id { get; set; }
