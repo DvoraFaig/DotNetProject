@@ -38,4 +38,10 @@
     <Resource Include="pic\target2.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="StationListWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

@@ -20,6 +20,28 @@ namespace BL
                 stationsWithMoreInfo.Add(convertDalToBLStation(station));
             }
             return stationsWithMoreInfo;
+
+        }
+
+        public List<BLStationToList> DisplayStationsToList()
+        {
+            IEnumerable<DO.Station> stations = dal.displayStations();
+            List<BLStationToList> stationToList = new List<BLStationToList>();
+            foreach (var station in stations)
+            {
+                int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+                int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
+                stationToList.Add(new BLStationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
+
+            }
+            return stationToList;
+        }
+        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots()
+        {
+            List<BLStationToList> stationToList = DisplayStationsToList();
+            return (from station in stationToList
+                    where station.DroneChargeAvailble > 0
+                    select station);
         }
 
         public List<Customer> DisplayCustomers()
