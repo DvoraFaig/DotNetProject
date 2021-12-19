@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DO
+namespace DalApi
 {
     public static class DalFactory
     {
-        public static global::DO.DalApi factory(string objName)
+        public static global::DalApi.Idal factory(string objName)
         {
             switch (objName)
             {

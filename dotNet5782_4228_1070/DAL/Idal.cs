@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DalObject;
-namespace DO
+using DO;
+
+namespace DalApi
 {
-    public interface DalApi
+    public interface Idal
     {
         //Add functions//
         void AddDrone(Drone d);

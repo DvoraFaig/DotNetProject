@@ -11,7 +11,7 @@ using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : DO.DalApi
+    public partial class DalObject : DalApi.Idal
     {
         public void changeStationInfo(Station goodStation)
         {

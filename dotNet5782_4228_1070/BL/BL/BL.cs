@@ -9,7 +9,7 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        static public DO.DalApi dal;
+        static public DalApi.Idal dal;
         private double empty { get; set; }
         private double lightWeight { get; set; }
         private double mediumWeight { get; set; }
@@ -18,7 +18,7 @@ namespace BL
         private BL()
         {
             dronesInBL = new List<Drone>();
-            dal = DO.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
+            dal = DalApi.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
             empty = dal.electricityUseByDrone()[0];
             lightWeight = dal.electricityUseByDrone()[1];
             mediumWeight = dal.electricityUseByDrone()[2];

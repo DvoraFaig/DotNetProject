@@ -21,24 +21,27 @@ using System.Reflection;
 //    public int i;
 //}
 
-public static class Extensions
+namespace DO
 {
-    public static T DeepClone<T>(this T obj)
+    public static class Extensions
     {
-        using (MemoryStream stream = new MemoryStream())
+        public static T DeepClone<T>(this T obj)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, obj);
-            stream.Position = 0;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, obj);
+                stream.Position = 0;
 
-            return (T)formatter.Deserialize(stream);
+                return (T)formatter.Deserialize(stream);
+            }
         }
     }
 }
 
 
 
-namespace DAL.DO
+namespace DO
 {
     static class Cloning
     {

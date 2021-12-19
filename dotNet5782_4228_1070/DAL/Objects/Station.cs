@@ -19,7 +19,5 @@ namespace DO
         {
             return ($"station name: {Name}, station Id: {Id}, station latitude: {Latitude}, station longitude: {Longitude}\n");
         }
-
     }
-
 }
