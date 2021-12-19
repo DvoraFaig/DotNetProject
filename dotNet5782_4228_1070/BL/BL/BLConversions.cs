@@ -69,7 +69,11 @@ namespace BL
                 Delivered = p.Delivered
             };
         }
-
+        /// <summary>
+        /// ///////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private Station convertDalToBLStation(DO.Station s)
         {
             List<ChargingDrone> blDroneChargingByStation = new List<ChargingDrone>();
@@ -80,7 +84,6 @@ namespace BL
             };
             return new Station() { ID = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots - blDroneChargingByStation.Count(), DronesCharging = blDroneChargingByStation };
         }
-
         private Customer convertDalToBLCustomer(DO.Customer c)
         {
             IEnumerable<DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.ID);

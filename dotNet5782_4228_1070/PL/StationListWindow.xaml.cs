@@ -21,9 +21,12 @@ namespace PL
     /// Interaction logic for DroneListWindow.xaml
     /// </summary>
 
-    public partial class DroneListWindow : Window
+    public partial class StationListWindow : Window
     {
         private Ibl blObjectH;
+        public enum ShowObjects { Drone, Station };
+        private int ShowWindow;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -32,19 +35,18 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneListWindow(Ibl blObject)
+        public StationListWindow(Ibl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            
+            StationListView.ItemsSource = blObjectH.DisplayStationsToList().Cast<BLStationToList>().ToList();
+            //StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            //WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-             
         }
-       
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -61,32 +63,32 @@ namespace PL
         /// <param name="e"></param>
         private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            object status = StatusSelector.SelectedItem;
-            object weight = WeightSelector.SelectedItem;
-            if (weight!=null)
-            {
-                weight = WeightSelector.SelectedItem;
-                ChosenWeight.Visibility = Visibility.Visible;
-                ChosenWeightText.Text = WeightSelector.SelectedItem.ToString();
-            }
-            else
-            {
-                weight = -1;
-                ChosenWeight.Visibility = Visibility.Hidden;
-            }
-            if (status != null)
-            {
-                status = StatusSelector.SelectedItem;
-                ChosenStatus.Visibility = Visibility.Visible;
-                ChosenStatusText.Text = StatusSelector.SelectedItem.ToString();
-            }
-            else
-            {
-                status = -1;
-                ChosenStatus.Visibility = Visibility.Hidden;
-            }
-            List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight ,(int)status);
-            DroneListView.ItemsSource = b;
+            //object status = StatusSelector.SelectedItem;
+            //object weight = WeightSelector.SelectedItem;
+            //if (weight != null)
+            //{
+            //    weight = WeightSelector.SelectedItem;
+            //    ChosenWeight.Visibility = Visibility.Visible;
+            //    ChosenWeightText.Text = WeightSelector.SelectedItem.ToString();
+            //}
+            //else
+            //{
+            //    weight = -1;
+            //    ChosenWeight.Visibility = Visibility.Hidden;
+            //}
+            //if (status != null)
+            //{
+            //    status = StatusSelector.SelectedItem;
+            //    ChosenStatus.Visibility = Visibility.Visible;
+            //    ChosenStatusText.Text = StatusSelector.SelectedItem.ToString();
+            //}
+            //else
+            //{
+            //    status = -1;
+            //    ChosenStatus.Visibility = Visibility.Hidden;
+            //}
+            //List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight, (int)status);
+            //DroneListView.ItemsSource = b;
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
@@ -103,7 +105,7 @@ namespace PL
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)DroneListView.SelectedItem);
+            Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)StationListView.SelectedItem);
             new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }
@@ -114,15 +116,22 @@ namespace PL
         }
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
-            StatusSelector.SelectedItem = null;
-            ChosenStatus.Visibility = Visibility.Hidden;
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            //StatusSelector.SelectedItem = null;
+            //ChosenStatus.Visibility = Visibility.Hidden;
+            //StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
         }
         private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
         {
-            WeightSelector.SelectedItem = null;
-            ChosenWeight.Visibility = Visibility.Hidden;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            //WeightSelector.SelectedItem = null;
+            //ChosenWeight.Visibility = Visibility.Hidden;
+            //WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
         }
+
+        private void CheckedAvailbleChargingSlots(object sender, RoutedEventArgs e)
+        {
+            StationListView.ItemsSource = blObjectH.DisplayStationsWithFreeSlots();
+        }
+
+      
     }
 }

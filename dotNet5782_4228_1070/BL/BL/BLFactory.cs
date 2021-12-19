@@ -7,17 +7,11 @@ using BlApi;
 
 namespace BlApi.IBL
 {
-    public static class BLFactory 
+    public static class BLFactory
     {
-        public static Ibl Factory(string objName)
+        public static Ibl Factory()
         {
-            switch (objName)
-            {
-                case "BL":
-                    return BL.BL.GetInstance;
-                default:
-                    throw new Exception();
-            }
+            return BL.BL.GetInstance;
         }
     }
 }

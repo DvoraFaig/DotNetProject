@@ -18,7 +18,9 @@ namespace BlApi
         //================
         //  Display
         //================
+        public List<BLStationToList> DisplayStationsToList();
         public List<Station> DisplayStations();
+        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots();
         public List<Customer> DisplayCustomers();
         public List<Drone> DisplayDrones();
         public List<DroneToList> DisplayDronesToList();
