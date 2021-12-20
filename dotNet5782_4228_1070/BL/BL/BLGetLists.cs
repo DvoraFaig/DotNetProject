@@ -43,6 +43,13 @@ namespace BL
                     where station.DroneChargeAvailble > 0
                     select station);
         }
+        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0)
+        {
+            List<BLStationToList> stationToList = DisplayStationsToList();
+            return (from station in stationToList
+                    where station.DroneChargeAvailble >= amountAvilableSlots
+                    select station);
+        }
 
         public List<Customer> DisplayCustomers()
         {

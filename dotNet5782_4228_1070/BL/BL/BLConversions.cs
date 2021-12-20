@@ -83,7 +83,8 @@ namespace BL
             {
                 blDroneChargingByStation.Add(new ChargingDrone() { Id = d.DroneId, Battery = getBLDroneById(d.DroneId).Battery });
             };
-            return new Station() { ID = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = s.ChargeSlots - blDroneChargingByStation.Count(), DronesCharging = blDroneChargingByStation };
+            int availableChargingSlots = s.ChargeSlots - blDroneChargingByStation.Count();
+            return new Station() { ID = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = availableChargingSlots, DronesCharging = blDroneChargingByStation };
         }
         private Customer convertDalToBLCustomer(DO.Customer c)
         {
@@ -169,7 +170,7 @@ namespace BL
         }
         public Drone convertDroneToListToDrone(DroneToList d)
         {
-            return getBLDroneById(d.Id);
+            return getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
         }
 
         private Drone copyDalToBLDroneInfo(DO.Drone d)//////////////////////////////////////////////////////////////////////////////

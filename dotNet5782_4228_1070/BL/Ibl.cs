@@ -20,7 +20,7 @@ namespace BlApi
         //================
         public List<BLStationToList> DisplayStationsToList();
         public List<Station> DisplayStations();
-        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots();
+        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
         public List<Customer> DisplayCustomers();
         public List<Drone> DisplayDrones();
         public List<DroneToList> DisplayDronesToList();
@@ -61,7 +61,9 @@ namespace BlApi
         //===================
         //  Convertions
         //===================
-        public Drone convertDroneToListToDrone(DroneToList d);
+
+        public Drone convertDroneToListToDrone(int droneId);
+
 
         //========================
         //  Get Data About Object

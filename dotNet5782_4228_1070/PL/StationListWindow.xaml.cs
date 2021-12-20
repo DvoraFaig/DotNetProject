@@ -23,7 +23,7 @@ namespace PL
 
     public partial class StationListWindow : Window
     {
-        private Ibl blObjectH;
+        private Ibl blObject;
         public enum ShowObjects { Drone, Station };
         private int ShowWindow;
 
@@ -38,100 +38,97 @@ namespace PL
         public StationListWindow(Ibl blObject)
         {
             InitializeComponent();
-            blObjectH = blObject;
+            this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            
-            StationListView.ItemsSource = blObjectH.DisplayStationsToList().Cast<BLStationToList>().ToList();
-            //StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-            //WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            ChosenStatus.Visibility = Visibility.Hidden;
-            ChosenWeight.Visibility = Visibility.Hidden;
+            StationListView.ItemsSource = blObject.DisplayStationsToList().Cast<BLStationToList>().ToList();
         }
+
+        /// <summary>
+        /// Code to remove close box from window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
-            // Code to remove close box from window
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-        /// <summary>
-        /// Display DroneToList occurding to both conditions: 
-        /// StatusSelector.SelectedItem and WeightSelector.SelectedItem;
-        /// if they are null = -1
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //object status = StatusSelector.SelectedItem;
-            //object weight = WeightSelector.SelectedItem;
-            //if (weight != null)
-            //{
-            //    weight = WeightSelector.SelectedItem;
-            //    ChosenWeight.Visibility = Visibility.Visible;
-            //    ChosenWeightText.Text = WeightSelector.SelectedItem.ToString();
-            //}
-            //else
-            //{
-            //    weight = -1;
-            //    ChosenWeight.Visibility = Visibility.Hidden;
-            //}
-            //if (status != null)
-            //{
-            //    status = StatusSelector.SelectedItem;
-            //    ChosenStatus.Visibility = Visibility.Visible;
-            //    ChosenStatusText.Text = StatusSelector.SelectedItem.ToString();
-            //}
-            //else
-            //{
-            //    status = -1;
-            //    ChosenStatus.Visibility = Visibility.Hidden;
-            //}
-            //List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight, (int)status);
-            //DroneListView.ItemsSource = b;
-        }
-
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            new MainWindow(blObjectH).Show();
+            new StationWindow(blObject).Show();
             this.Close();
         }
 
-        private void AddDroneButtonClick(object sender, RoutedEventArgs e)
+        private void AddStationBtnClick(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(blObjectH).Show();
+            new StationWindow(blObject).Show();
             this.Close();
         }
-
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)StationListView.SelectedItem);
-            new DroneWindow(blObjectH, drone).Show();
+            //Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)StationListView.SelectedItem);
+            //new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }
 
-        private void DroneListSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             //StatusSelector.SelectedItem = null;
             //ChosenStatus.Visibility = Visibility.Hidden;
             //StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
         }
-        private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
-        {
-            //WeightSelector.SelectedItem = null;
-            //ChosenWeight.Visibility = Visibility.Hidden;
-            //WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-        }
-
+        /// <summary>
+        /// Find availble charging slots with int amountAvilableSlots;
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckedAvailbleChargingSlots(object sender, RoutedEventArgs e)
         {
-            StationListView.ItemsSource = blObjectH.DisplayStationsWithFreeSlots();
+            AvailbleChargingSlots();
+        }
+        /// <summary>
+        /// Find availble charging slots with int amountAvilableSlots occurding to the checked box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckedAvailbleChargingSlots(object sender, TextChangedEventArgs e)
+        {
+            if(AvailbleChargingSlotsChecked.IsChecked == true)
+                AvailbleChargingSlots();
+        }
+        /// <summary>
+        /// Change amount avilable charging slots to null
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeAmountToNull(object sender, MouseButtonEventArgs e)
+        {
+            amountChargingSlots.Text = "";
+            StationListView.ItemsSource = blObject.DisplayStationsWithFreeSlots().Cast<BLStationToList>().ToList(); ;
+
+        }
+        private void AvailbleChargingSlots()
+        {
+            int amountAvilableSlots = 0;
+            try
+            {
+                if (int.Parse(amountChargingSlots.Text) > 0)
+                    amountAvilableSlots = int.Parse(amountChargingSlots.Text);
+                StationListView.ItemsSource = blObject.DisplayStationsWithFreeSlots(amountAvilableSlots).Cast<BLStationToList>().ToList(); ;
+            }
+            catch (ArgumentNullException) { }
+            catch (FormatException) { }
+            catch (OverflowException) { }
         }
 
-      
+        private void StationSelection(object sender, MouseButtonEventArgs e)
+        {
+            BLStationToList stationToList = (BLStationToList)StationListView.SelectedItem;
+            Station station = blObject.GetStationById(stationToList.Id);
+            new StationWindow(blObject, station).Show();
+            this.Close();
+        }
     }
 }

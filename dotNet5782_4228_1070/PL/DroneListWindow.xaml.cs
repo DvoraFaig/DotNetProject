@@ -103,7 +103,8 @@ namespace PL
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)DroneListView.SelectedItem);
+            DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
+            Drone drone = blObjectH.getBLDroneWithSpecificCondition(d => d.Id == droneToList.Id).First();
             new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }

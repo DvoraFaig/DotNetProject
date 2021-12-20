@@ -153,11 +153,11 @@ namespace DalObject
 
             //    }
             //}
-            Config.empty = r.Next(5, 10);
-            Config.lightWeight = r.Next(1, 2);
-            Config.mediumWeight = r.Next(2, 3);
-            Config.heavyWeight = r.Next(3, 4);
-            Config.chargingRate = r.Next(20, 80);
+            Config.empty = .1;
+            Config.lightWeight = .3;
+            Config.mediumWeight = .5;
+            Config.heavyWeight = .6;
+            Config.chargingRate = .7;
         }
 
         internal static class Config
