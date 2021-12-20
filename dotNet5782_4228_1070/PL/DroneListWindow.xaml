@@ -89,7 +89,7 @@
                     <RowDefinition Height="20*"/>
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="ClosingButtonWeight" Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeWeightToNull" />
+                <Image x:Name="ClosingButtonWeight" Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeWeightToNull" Margin="0,0,0,6" />
                 <TextBlock x:Name="ChosenWeightText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </Grid>
         </Grid>

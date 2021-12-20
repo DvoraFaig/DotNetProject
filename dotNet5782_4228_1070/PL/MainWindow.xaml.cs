@@ -52,7 +52,7 @@ namespace PL
         }
         private void ButtonClickParcel(object sender, RoutedEventArgs e)
         {
-            new ParcelListWindow(blObject).Show();
+            new ParcelListWindow_(blObject).Show();
             this.Close();
         }
 

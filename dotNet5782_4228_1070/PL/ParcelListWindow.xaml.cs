@@ -86,14 +86,18 @@ namespace PL
                 status = -1;
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
-            /*if (prioity != null)
+            if (prioity != null)
             {
                 prioity = PrioritySelector.SelectedItem;
-                ChosenPrioity.Visibility = Visibility.Visible;
-                ChosenPrioityText.Text = WeightSelector.SelectedItem.ToString();
-
-            }*/
-            List<ParcelToList> b = blObjectH.DisplayParcelToListByWeightAndStatusAndPriority((int)weight, (int)status, (int)prioity);
+                ChosenPriority.Visibility = Visibility.Visible;
+                ChosenPriorityText.Text = WeightSelector.SelectedItem.ToString();
+            }
+            else
+            {
+                prioity = -1;
+                ChosenPriority.Visibility = Visibility.Hidden;
+            }
+            List<ParcelToList> b = blObjectH.DisplayParcelToListByFilters((int)weight, (int)status, (int)prioity);
             ParcelListView.ItemsSource = b;
         }
 

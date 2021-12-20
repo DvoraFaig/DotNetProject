@@ -118,7 +118,7 @@ namespace BL
         /// <param name="weight">if 3>weight>-1 == values of DroneStatus. if weight==-1 weight is null</param>
         /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
         /// <returns></returns>
-        public List<DroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status)
+        public List<DroneToList> DisplayDroneToListByFilters(int weight, int status)
         {
             List<Drone> list = new List<Drone>();
             IEnumerable<Drone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
@@ -128,6 +128,7 @@ namespace BL
                 IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
             else if (weight >= 0 && status >= 0)
                 IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+
             foreach (var i in IList)
             {
                 list.Add(i);
@@ -142,22 +143,23 @@ namespace BL
         /// <param name="status"></param>
         /// <param name="priority"></param>
         /// <returns></returns>
-        public List<ParcelToList> DisplayParcelToListByWeightAndStatusAndPriority(int weight, int status, int priority)
+        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
         {
             List<Parcel> list = new List<Parcel>();
-            IEnumerable<Parcel> IList = DisplayParcel();
-            if (weight >= 0)
-                if (status >= 0)
-                    if (priority >= 0)
-                        list = (List<Parcel>)getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
-                    else list = (List<Parcel>)getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
-                else list = (List<Parcel>)getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
-            else if (status >= 0)
-                if (priority >= 0)
-                    list = (List<Parcel>)getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
-                else list = (List<Parcel>)getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
-            else list = (List<Parcel>)getBLParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
+            IEnumerable<Parcel> IList;// = DisplayParcel();
 
+            if (weight >= 0 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status );
+            else if (weight >= 0 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight&& p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status == -1 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
+            else if (weight == -1 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status&& p.Priority == (DO.Priorities)priority);
+            else if (weight == -1 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
+            else if (weight == -1 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
+            else IList = DisplayParcel();
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
             return convertBLParcelToBLParcelsToList(list);
         }
     }

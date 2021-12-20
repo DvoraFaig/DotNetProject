@@ -28,8 +28,8 @@ namespace BlApi
         public List<Parcel> DisplayParcel();
         public List<Parcel> DisplayFreeParcel();
         public List<Station> DisplayEmptyDroneCharge();
-        public List<DroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
-        public List<ParcelToList> DisplayParcelToListByWeightAndStatusAndPriority(int weight, int status, int priority);
+        public List<DroneToList> DisplayDroneToListByFilters(int weight, int status);
+        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
 
         //================
         //  Get object
