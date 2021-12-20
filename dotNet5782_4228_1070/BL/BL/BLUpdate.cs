@@ -10,6 +10,11 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        public void RemoveParcel(Parcel parcel)
+        {
+            dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+        }
+
         public void DroneChangeModel(Drone newDrone)
         {
             try

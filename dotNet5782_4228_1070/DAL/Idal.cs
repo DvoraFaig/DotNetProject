@@ -19,6 +19,15 @@ namespace DalApi
         void AddDroneCharge(DroneCharge parcel);
         int amountParcels();
         int amountStations();
+        //===================
+        //remove Obj;
+        //====================
+        void removeParcel(Parcel parcel);
+        void removeDrone(Drone drone);
+        void removeCustomer(Customer customer);
+        void removeDroneCharge(DroneCharge droneCharge);
+        void removeStation(Station station);
+
 
         //==================
         //Update functions//

@@ -79,6 +79,10 @@ namespace PL
             }
             base.OnClosing(e);
         }
-
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            new ParcelListWindow().Show();
+            this.Close();
+        }
     }
 }
