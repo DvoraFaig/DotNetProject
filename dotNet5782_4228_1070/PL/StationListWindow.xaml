@@ -38,57 +38,24 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Name="AvailbleChargingSlotsLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2" >Availble Charging Slots</Label>
-            <Label Name="amountChargingSlotsLabel" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" HorizontalAlignment= "Right" VerticalAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="1" Grid.Row="0" >Amount availble charging slots</Label>
-            <CheckBox Name="AvailbleChargingSlotsChecked" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold"  HorizontalAlignment= "Left" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0" Checked="CheckedAvailbleChargingSlots"/>
-            <TextBox Name="amountChargingSlots" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" />
-            <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButtonClick"/>
+            <Label x:Name="AvailbleChargingSlotsLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2" >Availble Charging Slots</Label>
+            <Label x:Name="amountChargingSlotsLabel" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" HorizontalAlignment= "Right" VerticalAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="1" Grid.Row="0" >Amount availble charging slots</Label>
+            <CheckBox x:Name="AvailbleChargingSlotsChecked" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold"  HorizontalAlignment= "Left" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0" Checked="CheckedAvailbleChargingSlots"/>
+            <TextBox Name="amountChargingSlots" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" TextChanged="CheckedAvailbleChargingSlots"  />
+            <Button x:Name="AddStationBtn" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add station" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddStationBtnClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
 
         <ListView x:Name="StationListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
-            Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="DroneSelection" >
+            Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="StationSelection" >
             <ListView.View >
                 <GridView>
                     <GridViewColumn Header="Id" Width="50" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Name"  Width="100" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="AvailbleChargingSlots" Width="200" DisplayMemberBinding="{Binding AvailbleChargingSlots}" />
-                    <GridViewColumn Header="OccupiedChargingSlots" Width="200" DisplayMemberBinding="{Binding OccupiedChargingSlots}" />
+                    <GridViewColumn Header="Availble Charging Slots" Width="200" DisplayMemberBinding="{Binding DroneChargeAvailble}" />
+                    <GridViewColumn Header="Occupied Charging Slots" Width="200" DisplayMemberBinding="{Binding DroneChargeOccupied}" />
                 </GridView>
             </ListView.View>
         </ListView>
-
-        <Grid Grid.Row="1" Grid.Column="2" Width="300" HorizontalAlignment="Right">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="50*"/>
-            </Grid.ColumnDefinitions>
-            <Grid x:Name="ChosenStatus" Grid.Column="1" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20*"/>
-                    <RowDefinition Height="30*"/>
-                </Grid.RowDefinitions>
-                <Image   Source="/pic/iconX.png"  Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeStatusToNull" />
-                <TextBlock x:Name="ChosenStatusText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Status" TextWrapping="Wrap" VerticalAlignment="Top"/>
-            </Grid>
-            <Grid x:Name="ChosenWeight" Grid.Row="1" Grid.Column="3" Width="100" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20*"/>
-                    <RowDefinition Height="30*"/>
-                </Grid.RowDefinitions>
-                <Image x:Name="ClosingButtonWeight" Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeWeightToNull" />
-                <TextBlock x:Name="ChosenWeightText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
-            </Grid>
-        </Grid>
     </Grid>
 </Window>
