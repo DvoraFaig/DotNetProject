@@ -15,19 +15,7 @@ using BL;
 using BO;
 using BlApi;
 
-namespace PL
-{
-    /// <summary>
-    /// Interaction logic for ParcelListWindow.xaml
-    /// </summary>
-    public partial class ParcelListWindow : Window
-    {
-        public ParcelListWindow()
-        {
-            InitializeComponent();
-        }
-    }
-}
+
 namespace PL
 {
     /// <summary>
@@ -105,7 +93,7 @@ namespace PL
                 ChosenPrioityText.Text = WeightSelector.SelectedItem.ToString();
 
             }*/
-            List<DroneToList> b = blObjectH.DisplayDroneToListByWeightAndStatus((int)weight, (int)status);
+            List<ParcelToList> b = blObjectH.DisplayParcelToListByWeightAndStatusAndPriority((int)weight, (int)status, (int)prioity);
             ParcelListView.ItemsSource = b;
         }
 

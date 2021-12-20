@@ -155,6 +155,17 @@ namespace BL
             return listParcels;
         }
 
+        private List<ParcelToList> convertBLParcelToBLParcelsToList(List<Parcel> parcels)
+        {
+            List<ParcelToList> listParcels = new List<ParcelToList>();
+            ParcelToList toAdd = new ParcelToList();
+            foreach (Parcel p in parcels)
+            {
+                toAdd = new ParcelToList() { Id = p.Id, SenderName = p.Sender.name, TargetName = p.Target.name, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(convertBLToDalParcel(p)) };
+                listParcels.Add(toAdd);
+            }
+            return listParcels;
+        }
         public Drone convertDroneToListToDrone(DroneToList d)
         {
             return getBLDroneById(d.Id);
