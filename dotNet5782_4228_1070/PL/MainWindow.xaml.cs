@@ -90,6 +90,10 @@ namespace PL
             this.Close();
         }
 
-
+        private void ButtonClickCustomer(object sender, RoutedEventArgs e)
+        {
+            new CustomerListWindow(blObject).Show();
+            this.Close();
+        }
     }
 }

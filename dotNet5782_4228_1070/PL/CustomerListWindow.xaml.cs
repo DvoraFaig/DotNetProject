@@ -61,6 +61,9 @@ namespace PL
             this.Close();
         }
 
-       
+        private void AddCustomerButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
