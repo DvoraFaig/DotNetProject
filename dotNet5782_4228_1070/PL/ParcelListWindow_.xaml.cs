@@ -18,12 +18,11 @@ using BlApi;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for DroneListWindow.xaml
+    /// Interaction logic for ParcelListWindow_.xaml
     /// </summary>
-
-    public partial class DroneListWindow : Window
+    public partial class ParcelListWindow_ : Window
     {
-        private Ibl blObjectH;
+        private Ibl blObject;
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -32,38 +31,39 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneListWindow(Ibl blObject)
+        public ParcelListWindow_(Ibl blObject)
         {
             InitializeComponent();
-            blObjectH = blObject;
+            this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
+            ParcelListView.ItemsSource = blObject.DisplayParcelToList();
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-             
+            ChosenPriority.Visibility = Visibility.Hidden;
         }
-       
+        #region ToolWindowLoaded funcion
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+        #endregion
 
         /// <summary>
-        /// Display DroneToList occurding to both conditions: 
-        /// StatusSelector.SelectedItem and WeightSelector.SelectedItem;
+        /// Display ParcelToList occurding to both conditions: 
+        /// StatusSelector.SelectedItem and WeightSelector.SelectedItem and PrioritSelector.SelectedItem;
         /// if they are null = -1
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void SelectorsChanges(object sender, SelectionChangedEventArgs e)
         {
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
-            if (weight!=null)
+            object priority = PrioritySelector.SelectedItem;
+            if (weight != null)
             {
                 weight = WeightSelector.SelectedItem;
                 ChosenWeight.Visibility = Visibility.Visible;
@@ -85,45 +85,55 @@ namespace PL
                 status = -1;
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
-            List<DroneToList> b = blObjectH.DisplayDroneToListByFilters((int)weight ,(int)status);
-            DroneListView.ItemsSource = b;
+            if (priority != null)
+            {
+                priority = PrioritySelector.SelectedItem;
+                ChosenPriority.Visibility = Visibility.Visible;
+                ChosenPriorityText.Text = PrioritySelector.SelectedItem.ToString();
+            }
+            else
+            {
+                priority = -1;
+                ChosenPriority.Visibility = Visibility.Hidden;
+            }
+            List<ParcelToList> b = blObject.DisplayParcelToListByFilters((int)weight, (int)status, (int)priority);
+            ParcelListView.ItemsSource = b;
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            new MainWindow(blObjectH).Show();
+            new MainWindow(blObject).Show();
             this.Close();
         }
 
         private void AddDroneButtonClick(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(blObjectH).Show();
+            new ParcelWindow(blObject).Show();
             this.Close();
         }
-
-        private void DroneSelection(object sender, MouseButtonEventArgs e)
-        {
-            DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
-            Drone drone = blObjectH.getBLDroneWithSpecificCondition(d => d.Id == droneToList.Id).First();
-            new DroneWindow(blObjectH, drone).Show();
-            this.Close();
-        }
-
-        private void DroneListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ParcelSelection(object sender, MouseButtonEventArgs e)
         {
 
         }
+
+        private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
+        {
+            WeightSelector.SelectedItem = null;
+            ChosenWeight.Visibility = Visibility.Hidden;
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+        }
+
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             StatusSelector.SelectedItem = null;
             ChosenStatus.Visibility = Visibility.Hidden;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
         }
-        private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
+        private void ChangePriorityToNull(object sender, MouseButtonEventArgs e)
         {
-            WeightSelector.SelectedItem = null;
-            ChosenWeight.Visibility = Visibility.Hidden;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            PrioritySelector.SelectedItem = null;
+            ChosenPriority.Visibility = Visibility.Hidden;
+            PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
         }
     }
 }

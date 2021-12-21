@@ -50,6 +50,11 @@ namespace PL
             new StationListWindow(blObject).Show();
             this.Close();
         }
+        private void ButtonClickParcel(object sender, RoutedEventArgs e)
+        {
+            new ParcelListWindow_(blObject).Show();
+            this.Close();
+        }
 
         private void ChangeBackGround(object sender, MouseEventArgs e)
         {
@@ -81,8 +86,10 @@ namespace PL
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new ParcelListWindow().Show();
+            new ParcelListWindow(blObject).Show();
             this.Close();
         }
+
+
     }
 }

@@ -77,6 +77,11 @@ namespace BL
             return convertBLParcelToBLParcelsToList();
         }
 
+        public List<ParcelToList> DisplayParcelToList(List<Parcel> parcels)
+        {
+            return convertBLParcelToBLParcelsToList(parcels);
+        }
+
         public List<Parcel> DisplayParcel()
         {
             IEnumerable<DO.Parcel> parcels = dal.displayParcels();
@@ -113,13 +118,14 @@ namespace BL
             }
             return stationsWithEmptySlots;
         }
+
         /// <summary>
         /// Receive weight and status and returns List<BLDroneToList> accurding to the conditions 
         /// </summary>
         /// <param name="weight">if 3>weight>-1 == values of DroneStatus. if weight==-1 weight is null</param>
         /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
         /// <returns></returns>
-        public List<DroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status)
+        public List<DroneToList> DisplayDroneToListByFilters(int weight, int status)
         {
             List<Drone> list = new List<Drone>();
             IEnumerable<Drone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
@@ -129,11 +135,39 @@ namespace BL
                 IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
             else if (weight >= 0 && status >= 0)
                 IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+
             foreach (var i in IList)
             {
                 list.Add(i);
             }
             return convertBLDroneToBLDronesToList(list);
+        }
+
+        /// <summary>
+        /// Receive weight, status and priority and returns List<ParcelToList> accurding to the conditions 
+        /// </summary>
+        /// <param name="weight"></param>
+        /// <param name="status"></param>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
+        {
+            List<Parcel> list = new List<Parcel>();
+            IEnumerable<Parcel> IList;// = DisplayParcel();
+
+            if (weight >= 0 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status );
+            else if (weight >= 0 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight&& p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status == -1 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
+            else if (weight == -1 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status&& p.Priority == (DO.Priorities)priority);
+            else if (weight == -1 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
+            else if (weight == -1 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
+            else IList = DisplayParcel();
+            foreach (var i in IList)
+            {
+                list.Add(i);
+            }
+            return convertBLParcelToBLParcelsToList(list);
         }
     }
 }
