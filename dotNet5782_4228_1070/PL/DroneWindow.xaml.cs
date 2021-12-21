@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,33 +20,23 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class DroneWindow : Window, INotifyPropertyChanged
+    public partial class DroneWindow :Window
     {
         private BlApi.Ibl blObjectD;
         Drone dr;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public string droneStatus { get; set; }
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private string _droneStatusBinding;
-
-        public string droneStatusBinding
-        {
-            get { return _droneStatusBinding; }
-            set
-            {
-                if (value != _droneStatusBinding)
-                {
-                    _droneStatusBinding = value;
-                    OnPropertyChanged("droneStatusBinding");
-                }
-            }
-        }
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         private bool updateOrAddWindow { get; set; }//true = add drone
+
+      //  public static readonly DependencyProperty AgeProperty =
+      //DependencyProperty.Register("Age", typeof(string), typeof(DroneWindow),
+      //                             new UIPropertyMetadata(0));
+      //  public string Age
+      //  {
+      //      get { return (string)GetValue(AgeProperty); }
+      //      set { SetValue(AgeProperty, value); }
+      //  }
+
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -67,6 +58,7 @@ namespace PL
             StationIdTextBox.Text = "Station Id...";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
+
         }
         public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
         {
@@ -78,14 +70,11 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             dr = drone;
-            droneStatus = new string($"{dr.Status}");// $"{dr.Status}";// $"{drone.Status}";
-            StatusTextBox.DataContext = this;
-
             IdTextBox.Text = $"{drone.Id}";
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
-            //StatusTextBox.DataContext = $"{drone.Status}";
+            StatusTextBox.Text = $"{drone.Status}";
             PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
 
             if (drone.ParcelInTransfer == null)
@@ -241,7 +230,7 @@ namespace PL
                 try
                 {
                     blObjectD.SendDroneToCharge(dr.Id);
-                    //StatusTextBox.Text = $"{dr.Status}";
+                    StatusTextBox.Text = $"{dr.Status}";
                     setDeliveryButton();
                 }
                 catch (Exception)
@@ -260,7 +249,7 @@ namespace PL
                     try
                     {
                         blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
-                        //StatusTextBox.Text = $"{dr.Status}";
+                        StatusTextBox.Text = $"{dr.Status}";
                         setDeliveryButton();
                         TimeTocharge.Text = "";
                     }
@@ -298,6 +287,11 @@ namespace PL
                 catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
                 catch (Exception e2) { MessageBox.Show(e2.Message); }
             }
+        }
+
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
         }
     }
 }

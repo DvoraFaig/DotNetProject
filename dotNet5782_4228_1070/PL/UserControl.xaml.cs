@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL
+/*namespace PL
 {
     /// <summary>
     /// Interaction logic for UserControl.xaml
@@ -26,3 +26,4 @@ namespace PL
         }
     }
 }
+*/
