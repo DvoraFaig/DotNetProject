@@ -23,6 +23,28 @@ namespace BL
 
         }
 
+        public List<CustomerToList> DisplayCustomerToList()
+        {
+            IEnumerable<DO.Customer> customers = dal.displayCustomers();
+            List<CustomerToList> customerToLists = new List<CustomerToList>();
+            foreach(var c in customers)
+            {
+                customerToLists.Add(new CustomerToList() { ID = c.ID, Name = c.Name, Phone = c.Name });
+            }
+            return customerToLists;
+        }
+
+        public List<CustomerInParcel> CustomerLimitedDisplay()
+        {
+            IEnumerable<DO.Customer> customers = dal.displayCustomers();
+            List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
+            foreach (var c in customers)
+            {
+                customerToLists.Add(convertDalToBLCustomerInParcel(c));
+            }
+            return customerToLists;
+        }
+
         public List<BLStationToList> DisplayStationsToList()
         {
             IEnumerable<DO.Station> stations = dal.displayStations();
@@ -36,6 +58,7 @@ namespace BL
             }
             return stationToList;
         }
+
         public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots()
         {
             List<BLStationToList> stationToList = DisplayStationsToList();
