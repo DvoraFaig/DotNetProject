@@ -28,6 +28,7 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
         }
+
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel)
         {
             InitializeComponent();
