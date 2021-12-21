@@ -23,13 +23,13 @@ namespace BL
 
         }
 
-        public List<CustomerToList> DisplayCustomerToList()
+        public List<CustomerToList> DisplayCustomersToList()
         {
             IEnumerable<DO.Customer> customers = dal.displayCustomers();
             List<CustomerToList> customerToLists = new List<CustomerToList>();
             foreach(var c in customers)
             {
-                customerToLists.Add(new CustomerToList() { ID = c.ID, Name = c.Name, Phone = c.Name });
+                customerToLists.Add(new CustomerToList() { Id = c.ID, Name = c.Name, Phone = c.Name });
             }
             return customerToLists;
         }
@@ -74,16 +74,16 @@ namespace BL
                     select station);
         }
 
-        public List<Customer> DisplayCustomers()
-        {
-            IEnumerable<DO.Customer> customers = dal.displayCustomers();//c.id>100000000
-            List<Customer> costomersWithMoreInfo = new List<Customer>();
-            foreach (var customer in customers)
-            {
-                costomersWithMoreInfo.Add(convertDalToBLCustomer(customer));
-            }
-            return costomersWithMoreInfo;
-        }
+        //public List<Customer> DisplayCustomers()
+        //{
+        //    IEnumerable<DO.Customer> customers = dal.displayCustomers();//c.id>100000000
+        //    List<Customer> costomersWithMoreInfo = new List<Customer>();
+        //    foreach (var customer in customers)
+        //    {
+        //        costomersWithMoreInfo.Add(convertDalToBLCustomer(customer));
+        //    }
+        //    return costomersWithMoreInfo;
+        //}
 
         public List<Drone> DisplayDrones()
         {

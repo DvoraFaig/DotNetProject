@@ -39,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="CustomerWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="StationWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

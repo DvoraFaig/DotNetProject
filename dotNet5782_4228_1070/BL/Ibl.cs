@@ -21,7 +21,7 @@ namespace BlApi
         public List<BLStationToList> DisplayStationsToList();
         public List<Station> DisplayStations();
         public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
-        public List<Customer> DisplayCustomers();
+        //public List<Customer> DisplayCustomersToList();
         public List<Drone> DisplayDrones();
         public List<DroneToList> DisplayDronesToList();
         public List<ParcelToList> DisplayParcelToList();
@@ -30,7 +30,7 @@ namespace BlApi
         public List<Station> DisplayEmptyDroneCharge();
         public List<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
-        public List<CustomerToList> DisplayCustomerToList();
+        public List<CustomerToList> DisplayCustomersToList();
         public List<CustomerInParcel> CustomerLimitedDisplay();
         //================
         //  Get object

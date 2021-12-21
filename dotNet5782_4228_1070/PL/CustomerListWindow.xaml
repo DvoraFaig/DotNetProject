@@ -1,0 +1,93 @@
+﻿<Window x:Class="PL.CustomerListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="CustomerListWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="40*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AddCustomerButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Customer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddCustomerButtonClick"/>
+            <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
+        </Grid>
+
+        <ListView x:Name="CustomerListView"  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
+            Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="CustomerSelection"  >
+            <ListView.View >
+                <GridView>
+                    <GridViewColumn Header="Id" Width="30" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Name"  Width="80" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Phone}" />
+                    <GridViewColumn Header="Deliverd s" Width="80" DisplayMemberBinding="{Binding AmountAsSendingDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered s" Width="150" DisplayMemberBinding="{Binding AmountASSendingUnDeliveredParcels}" />
+                    <GridViewColumn Header="Delivered t" Width="120" DisplayMemberBinding="{Binding AmountAsTargetHaveDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered t" Width="110" DisplayMemberBinding="{Binding AmountAsTargetHaveUnDeliveredParcels}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!--<Grid Grid.Row="1" Grid.Column="2" Width="300" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="ChosenStatus" Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <Image   Source="/pic/iconX.png"  Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeStatusToNull" />
+                <TextBlock x:Name="ChosenStatusText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Status" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            </Grid>
+            <Grid x:Name="ChosenWeight" Grid.Row="1" Grid.Column="3" Width="100" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <Image x:Name="ClosingButtonWeight" Visibility="Visible" Grid.Row="0" Grid.RowSpan="2" Source="/pic/iconX.png"  HorizontalAlignment="Right" Grid.ColumnSpan="2" Width="25" MouseLeftButtonUp="ChangeWeightToNull" Margin="0,0,0,6" />
+                <TextBlock x:Name="ChosenWeightText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>-->
+    </Grid>
+</Window>

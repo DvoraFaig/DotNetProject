@@ -29,13 +29,13 @@ namespace BO
 
     public class CustomerToList
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public int AmountSendingDeliveredParcels { get; set; }
-        public int AmountSendingUnDeliveredParcels { get; set; }
-        public int AmountReceivingParcels { get; set; }
-        public int AmountReceivingUnDeliveredParcels { get; set; }
+        public int AmountAsSendingDeliveredParcels { get; set; }
+        public int AmountASSendingUnDeliveredParcels { get; set; }
+        public int AmountAsTargetHaveDeliveredParcels { get; set; }
+        public int AmountAsTargetHaveUnDeliveredParcels { get; set; }
     }
 
     public class CustomerInParcel //targetId in parcel
