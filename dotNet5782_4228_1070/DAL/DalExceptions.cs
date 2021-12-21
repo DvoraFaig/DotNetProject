@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace IDal.DO
+namespace DO
 {
     public partial class DalExceptions:Exception
     {

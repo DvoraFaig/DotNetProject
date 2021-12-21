@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using static IBL.BO.Exceptions;
+using static BO.Exceptions;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
 namespace BL
 {
-    public sealed partial class BL : IBL.Ibl
+    public sealed partial class BL : BlApi.Ibl
     {
         static BL instance;
         public static BL GetInstance
@@ -25,6 +25,26 @@ namespace BL
         {
             double d = Math.Pow((Math.Pow(p1.Longitude - p2.Longitude, 2) + Math.Pow(p1.Latitude - p2.Latitude, 2)), 0.5);
             return d;
+        }
+
+        public int GetDroneStatusInDelivery(Drone drone)
+        {
+            if (drone.Status == DroneStatus.Available)
+            {
+                return (int)DeliveryStatusAction.Available;
+            }
+            else if (drone.Status == DroneStatus.Delivery)
+            {
+                if (drone.ParcelInTransfer != null)
+                {
+                    return (int)DeliveryStatusAction.AsignedParcel;
+                }
+                else if (drone.DronePosition == drone.ParcelInTransfer.SenderPosition)
+                {
+                    return (int)DeliveryStatusAction.PickedParcel;
+                }
+            }
+            throw new Exception("No macthing status");
         }
     }
 }

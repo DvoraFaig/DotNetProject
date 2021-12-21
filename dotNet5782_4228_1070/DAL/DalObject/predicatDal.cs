@@ -5,12 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using IDal.DO;
+using DO;
 
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.DO.IDal
+    public partial class DalObject : DalApi.Idal
     {
         public IEnumerable<Drone> getDroneWithSpecificCondition(Predicate<Drone> predicate)
         {

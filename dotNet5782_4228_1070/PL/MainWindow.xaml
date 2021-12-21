@@ -38,8 +38,7 @@
 
 
 
-            <Button  x:Name="GoToDroneListWindow" Content="Drone List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-            <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.RowSpan="2">
+            <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.RowSpan="2" Margin="1,0,-1,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -47,6 +46,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions >
             </Grid>
+            <Button  x:Name="GoToDroneListWindow" Content="Drone List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+            <Button  x:Name="GoToStationListWindow" Content="Station List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="179,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickStation" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+            <Button  x:Name="GoToParcelListWindow" Content="Parcel List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="321,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickParcel" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
         </Grid>
     </Grid>
 </Window>

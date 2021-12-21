@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IBL.BO;
-
-namespace IBL
+using BO;
+namespace BlApi
 {
     public interface Ibl
     {
@@ -19,15 +18,20 @@ namespace IBL
         //================
         //  Display
         //================
+        public List<BLStationToList> DisplayStationsToList();
         public List<Station> DisplayStations();
+        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
         public List<Customer> DisplayCustomers();
         public List<Drone> DisplayDrones();
         public List<DroneToList> DisplayDronesToList();
+        public List<ParcelToList> DisplayParcelToList();
         public List<Parcel> DisplayParcel();
         public List<Parcel> DisplayFreeParcel();
         public List<Station> DisplayEmptyDroneCharge();
-        public List<DroneToList> DisplayDroneToListByWeightAndStatus(int weight, int status);
-
+        public List<DroneToList> DisplayDroneToListByFilters(int weight, int status);
+        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
+        public List<CustomerToList> DisplayCustomerToList();
+        public List<CustomerInParcel> CustomerLimitedDisplay();
         //================
         //  Get object
         //================
@@ -48,16 +52,27 @@ namespace IBL
         public void PairParcelWithDrone(int droneId);
         public void DronePicksUpParcel(int droneId);
         public void DeliveryParcelByDrone(int idDrone);
-        public void GetParcelToDelivery(int senderId, int targetId, IDal.DO.WeightCategories weight, IDal.DO.Priorities priority);
+        public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
 
         //===================
         //  predicat
         //===================
-        public IEnumerable<Drone> getBLDroneWithSpecificCondition(Predicate<Drone> predicate);
 
         //===================
         //  Convertions
         //===================
-        public Drone convertDroneToListToDrone(DroneToList d);
+
+        //public Drone convertDroneToListToDrone(int droneId);
+
+
+        //========================
+        //  Get Data About Object
+        //========================
+        public int GetDroneStatusInDelivery(Drone drone);
+
+        //===================
+        //  Remove
+        //===================
+        public void RemoveParcel(Parcel parcel);
     }
 }
