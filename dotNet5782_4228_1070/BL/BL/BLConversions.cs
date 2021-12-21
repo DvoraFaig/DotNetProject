@@ -168,10 +168,6 @@ namespace BL
             }
             return listParcels;
         }
-        public Drone convertDroneToListToDrone(DroneToList d)
-        {
-            return getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
-        }
 
         private Drone copyDalToBLDroneInfo(DO.Drone d)//////////////////////////////////////////////////////////////////////////////
         {

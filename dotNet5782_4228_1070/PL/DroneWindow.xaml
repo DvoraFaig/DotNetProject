@@ -31,16 +31,18 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="visibleAddForm"></TextBlock>
+        <TextBlock x:Name="visibleUpdateForm"></TextBlock>
 
-        <Label  x:Name="labelAddADrone"  Visibility="{Binding Source=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Drone</Label>
+        <Label  x:Name="labelAddADrone"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Drone</Label>
         <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="ButtonClickReturnToPageDroneListWindow" Margin="10,0,0,0"/>
-        <Button x:Name="RestartButton" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="ButtonClickRestart" />
-        <Button x:Name="AddlButton"    Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="ButtoClickAdd"  />
-        <Button x:Name="UpdateButton" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
-        <Button x:Name="ChargeButton" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
-        <TextBlock x:Name="TimeTochargeText" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
+        <Button x:Name="RestartButton"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="ButtonClickRestart" />
+        <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="ButtoClickAdd"  />
+        <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
+        <Button x:Name="ChargeButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
+        <TextBlock x:Name="TimeTochargeText" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
         <TextBox 
             x:Name="TimeTocharge" 
+            Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"
             FontFamily="Tahoma" 
             FontSize="10" 
             FontWeight="Bold" 
@@ -50,7 +52,7 @@
             TextWrapping="Wrap" 
             Height="20" 
             Width="30"/>
-        <Button x:Name="DeliveryStatusButton"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneToChargeClick"/>
+        <Button x:Name="DeliveryStatusButton" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneToChargeClick"/>
         <Grid x:Name ="AddDroneDisplay" Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="0,45,0,10" Grid.Column="1">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="35*"/>
@@ -74,21 +76,22 @@
             <TextBox x:Name="IdTextBox"                Grid.Column="2" Grid.Row="1" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2"  />
             <Label x:Name="ModelTextBoxLabel"          Grid.Column="1" Grid.Row="2" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' model:</Label>
             <TextBox x:Name="ModelTextBox"             Grid.Column="2" Grid.Row="2" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,18,0"/>
-            <Label x:Name="DroneWeightSelectorLabel"   Grid.Column="1" Grid.Row="3" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' weight:</Label>
-            <ComboBox x:Name="DroneWeightSelector"     Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
-            <Label x:Name="StationIdTextBoxLabel"      Grid.Column="1" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
-            <TextBox x:Name="StationIdTextBox"         Grid.Column="2" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-            <Label x:Name="DroneWeightLabel"            Grid.Column="1" Grid.Row="3" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' weight:</Label>
-            <TextBox x:Name="DroneWeightUpdate"         Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
-            <Label x:Name="BatteryTextBoxLabel"         Grid.Column="1" Grid.Row="4" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" >Battery:</Label>
-            <TextBox x:Name="BatteryTextBox"            Grid.Column="2" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"  />
-            <Label x:Name="StatusTextBoxLabel"          Grid.Column="1" Grid.Row="5" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Status:</Label>
-            <TextBox x:Name="StatusTextBox"             Grid.Column="2" Grid.Row="5" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"
-                     Text="{Binding Status}"/>
-            <Label x:Name="PositionDroneTLabel"         Grid.Column="1" Grid.Row="6" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" >Postion:</Label>
-            <TextBox x:Name="PositionDroneTextBox"      Grid.Column="2" Grid.Row="6" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
-            <Label x:Name="ParcelTextBoxLabel"          Grid.Column="1" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" >Parcel:</Label>
-            <TextBox x:Name="ParcelIdIdTextBox"         Grid.Column="2" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" IsReadOnly="True" >Parcel....</TextBox>
+            <Label x:Name="DroneWeightSelectorLabel"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"   Grid.Column="1" Grid.Row="3" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' weight:</Label>
+            <ComboBox x:Name="DroneWeightSelector"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"   Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
+            <Label x:Name="StationIdTextBoxLabel"     Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"   Grid.Column="1" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2">Station id:</Label>
+            <TextBox x:Name="StationIdTextBox"        Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"   Grid.Column="2" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+            <Label x:Name="DroneWeightLabel"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"   Grid.Column="1" Grid.Row="3" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Drones' weight:</Label>
+            <TextBox x:Name="DroneWeightUpdate"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"/>
+            <Label x:Name="BatteryTextBoxLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="4" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" >Battery:</Label>
+            <TextBox x:Name="BatteryTextBox"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"  />
+            <Label x:Name="StatusTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="5" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center">Status:</Label>
+            <Grid x:Name="StatusTextBox" >
+                <TextBox          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Text="{Binding Path=droneStatusBinding}" Grid.Column="2" Grid.Row="5" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True"  />
+            </Grid>
+            <Label x:Name="PositionDroneTLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="6" Width="173" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" >Postion:</Label>
+            <TextBox x:Name="PositionDroneTextBox"    Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="6" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" Grid.ColumnSpan="2" IsReadOnly="True" />
+            <Label x:Name="ParcelTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center" >Parcel:</Label>
+            <TextBox x:Name="ParcelIdIdTextBox"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="7" Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" IsReadOnly="True" >Parcel....</TextBox>
         </Grid>
 
 

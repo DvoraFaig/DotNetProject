@@ -104,7 +104,7 @@ namespace PL
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
             DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
-            Drone drone = blObjectH.getBLDroneWithSpecificCondition(d => d.Id == droneToList.Id).First();
+            Drone drone = blObjectH.GetDroneById(droneToList.Id);////changed frrom get with specific...
             new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }

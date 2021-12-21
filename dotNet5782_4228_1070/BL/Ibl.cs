@@ -56,13 +56,12 @@ namespace BlApi
         //===================
         //  predicat
         //===================
-/*        public IEnumerable<Drone> getBLDroneWithSpecificCondition(Predicate<Drone> predicate);
-*/
+
         //===================
         //  Convertions
         //===================
 
-        public Drone convertDroneToListToDrone(int droneId);
+        //public Drone convertDroneToListToDrone(int droneId);
 
 
         //========================

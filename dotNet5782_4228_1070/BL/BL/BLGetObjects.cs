@@ -51,9 +51,7 @@ using BO;
 
         public Drone GetDroneById(int id)
         {
-            DO.Drone d = dal.getDroneWithSpecificCondition(d => d.Id == id).First();
-            Drone BLdrone = convertDalToBLDrone(d);
-            return BLdrone;
+            return getBLDroneWithSpecificCondition(d => d.Id == id).First();
         }
 
         public Parcel GetParcelById(int id)

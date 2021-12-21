@@ -19,10 +19,31 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class DroneWindow : Window
+    public partial class DroneWindow : Window, INotifyPropertyChanged
     {
         private BlApi.Ibl blObjectD;
         Drone dr;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public string droneStatus { get; set; }
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private string _droneStatusBinding;
+
+        public string droneStatusBinding
+        {
+            get { return _droneStatusBinding; }
+            set
+            {
+                if (value != _droneStatusBinding)
+                {
+                    _droneStatusBinding = value;
+                    OnPropertyChanged("droneStatusBinding");
+                }
+            }
+        }
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
@@ -44,6 +65,8 @@ namespace PL
             IdTextBox.Text = "Drone id....";
             ModelTextBox.Text = "Model id....";
             StationIdTextBox.Text = "Station Id...";
+            visibleAddForm.Visibility = Visibility.Visible;
+            visibleUpdateForm.Visibility = Visibility.Hidden;
         }
         public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
         {
@@ -52,12 +75,17 @@ namespace PL
             updateOrAddWindow = false;
             displayWindowAddOrUpdate();
             blObjectD = blObject;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
             dr = drone;
+            droneStatus = new string($"{dr.Status}");// $"{dr.Status}";// $"{drone.Status}";
+            StatusTextBox.DataContext = this;
+
             IdTextBox.Text = $"{drone.Id}";
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
-            StatusTextBox.Text = $"{drone.Status}";
+            //StatusTextBox.DataContext = $"{drone.Status}";
             PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
 
             if (drone.ParcelInTransfer == null)
@@ -106,43 +134,43 @@ namespace PL
         private void displayWindowAddOrUpdate()
         {
             Visibility visibility;
-            visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
-            labelAddADrone.Visibility = visibility;
-            IdTextBoxLabel.Visibility = visibility;
-            IdTextBox.Visibility = visibility;
-            ModelTextBoxLabel.Visibility = visibility;
-            ModelTextBox.Visibility = visibility;
-            DroneWeightSelectorLabel.Visibility = visibility;
-            DroneWeightSelector.Visibility = visibility;
-            StationIdTextBoxLabel.Visibility = visibility;
-            StationIdTextBox.Visibility = visibility;
-            RestartButton.Visibility = visibility;
-            AddlButton.Visibility = visibility;
+            //visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
+            //labelAddADrone.Visibility = visibility;
+            //IdTextBoxLabel.Visibility = visibility;
+            //IdTextBox.Visibility = visibility;
+            //ModelTextBoxLabel.Visibility = visibility;
+            //ModelTextBox.Visibility = visibility;
+            //DroneWeightSelectorLabel.Visibility = visibility;
+            //DroneWeightSelector.Visibility = visibility;
+            //StationIdTextBoxLabel.Visibility = visibility;
+            //StationIdTextBox.Visibility = visibility;
+            //RestartButton.Visibility = visibility;
+            //AddlButton.Visibility = visibility;
 
-            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
-            if (updateOrAddWindow == false)//if Add Drone don't go in
-            {
-                IdTextBoxLabel.Visibility = visibility;
-                IdTextBox.Visibility = visibility;
-                IdTextBox.IsReadOnly = true;
-                ModelTextBoxLabel.Visibility = visibility;
-                ModelTextBox.Visibility = visibility;
-            }
-            DroneWeightLabel.Visibility = visibility;
-            DroneWeightUpdate.Visibility = visibility;
-            BatteryTextBoxLabel.Visibility = visibility;
-            BatteryTextBox.Visibility = visibility;
-            StatusTextBoxLabel.Visibility = visibility;
-            StatusTextBox.Visibility = visibility;
-            PositionDroneTLabel.Visibility = visibility;
-            PositionDroneTextBox.Visibility = visibility;
-            ParcelTextBoxLabel.Visibility = visibility;
-            ParcelIdIdTextBox.Visibility = visibility;
-            UpdateButton.Visibility = visibility;
-            ChargeButton.Visibility = visibility;
-            TimeTochargeText.Visibility = visibility;
-            TimeTocharge.Visibility = visibility;
-            DeliveryStatusButton.Visibility = visibility;
+            //visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
+            //if (updateOrAddWindow == false)//if Add Drone don't go in
+            //{
+            //    IdTextBoxLabel.Visibility = visibility;
+            //    IdTextBox.Visibility = visibility;
+            //    IdTextBox.IsReadOnly = true;
+            //    ModelTextBoxLabel.Visibility = visibility;
+            //    ModelTextBox.Visibility = visibility;
+            //}
+            //DroneWeightLabel.Visibility = visibility;
+            //DroneWeightUpdate.Visibility = visibility;
+            //BatteryTextBoxLabel.Visibility = visibility;
+            //BatteryTextBox.Visibility = visibility;
+            //StatusTextBoxLabel.Visibility = visibility;
+            //StatusTextBox.Visibility = visibility;
+            //PositionDroneTLabel.Visibility = visibility;
+            //PositionDroneTextBox.Visibility = visibility;
+            //ParcelTextBoxLabel.Visibility = visibility;
+            //ParcelIdIdTextBox.Visibility = visibility;
+            //UpdateButton.Visibility = visibility;
+            //ChargeButton.Visibility = visibility;
+            //TimeTochargeText.Visibility = visibility;
+            //TimeTocharge.Visibility = visibility;
+            //DeliveryStatusButton.Visibility = visibility;
         }
 
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
@@ -213,7 +241,7 @@ namespace PL
                 try
                 {
                     blObjectD.SendDroneToCharge(dr.Id);
-                    StatusTextBox.Text = $"{dr.Status}";
+                    //StatusTextBox.Text = $"{dr.Status}";
                     setDeliveryButton();
                 }
                 catch (Exception)
@@ -232,7 +260,7 @@ namespace PL
                     try
                     {
                         blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
-                        StatusTextBox.Text = $"{dr.Status}";
+                        //StatusTextBox.Text = $"{dr.Status}";
                         setDeliveryButton();
                         TimeTocharge.Text = "";
                     }

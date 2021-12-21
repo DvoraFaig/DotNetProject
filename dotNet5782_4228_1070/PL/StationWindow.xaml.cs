@@ -151,7 +151,7 @@ namespace PL
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
             ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
-            Drone drone = blObject.getBLDroneWithSpecificCondition(d => d.Id == chargingDrone.Id).First();
+            Drone drone = blObject.GetDroneById(chargingDrone.Id);////
             new DroneWindow(blObject, drone).Show();
             this.Close();
         }
