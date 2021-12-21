@@ -27,6 +27,7 @@ namespace PL
         {
             InitializeComponent();
             this.blObject = blObject;
+            initializeAdd();
         }
 
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel)
@@ -41,6 +42,20 @@ namespace PL
             blObject.RemoveParcel(parcel);
             MessageBox.Show("Parcel was remove");
             this.Close();
+        }
+
+        private void initializeAdd()
+        {
+            ParcelTitle.Content = "Add a Parcel";
+            ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
+            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
+            ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
+        }
+        
+        private void ButtonClickAdd(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

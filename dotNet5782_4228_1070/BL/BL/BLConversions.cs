@@ -206,7 +206,7 @@ namespace BL
             };
         }
 
-        private CustomerInParcel convertDalToBLCustomerInTransfer(DO.Customer customer)
+        private CustomerInParcel convertDalToBLCustomerInParcel(DO.Customer customer)
         {
             return new CustomerInParcel()
             {
@@ -224,8 +224,8 @@ namespace BL
                 TargetPosition = targetP,
                 SenderPosition = senderP,
                 Id = p.Id,
-                SenderCustomer = convertDalToBLCustomerInTransfer(sender),
-                TargetCustomer = convertDalToBLCustomerInTransfer(target),
+                SenderCustomer = convertDalToBLCustomerInParcel(sender),
+                TargetCustomer = convertDalToBLCustomerInParcel(target),
                 parcelStatus = false,
                 Priority = p.Priority,
                 distance = distance(senderP, targetP),
