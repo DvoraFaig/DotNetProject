@@ -38,7 +38,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10"/>
+
+            <ComboBox Name="StatusSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" Margin="15,10">
+                <ComboBoxItem>No Status Selected</ComboBoxItem>
+            </ComboBox>
             <ComboBox Name="WeightSelector" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="2" Margin="15,10" SelectionChanged="ComboBox_SelectionChanged_AND_WeightSelector_SelectionChanged"/>
             <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButton_Click"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButton_Click"/>
