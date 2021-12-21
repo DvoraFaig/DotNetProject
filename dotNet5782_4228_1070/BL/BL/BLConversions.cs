@@ -156,7 +156,11 @@ namespace BL
             return listParcels;
         }
 
-        public Drone convertDroneToListToDrone(DroneToList d)
+        //public Drone convertDroneToListToDrone(DroneToList d)
+        //{
+        //    return getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+        //}
+        public Drone convertDroneToListToDrone(int droneId)
         {
             return getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
         }
