@@ -111,9 +111,13 @@ namespace PL
             new ParcelWindow(blObject).Show();
             this.Close();
         }
+        
         private void ParcelSelection(object sender, MouseButtonEventArgs e)
         {
-
+            ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItems;
+            Parcel parcel = blObject.GetParcelById(selectedParcel.Id);
+            new ParcelWindow(blObject, parcel);
+            this.Close();
         }
 
         private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
