@@ -14,12 +14,6 @@
             <Setter Property="Padding" Value="4"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Grid.ColumnSpan" Value="2"/>
-
-            <!--<Setter Property="TextTrimming" Value="None"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="LineStackingStrategy" Value="MaxHeight"/>
-            <Setter Property="TextLineBounds" Value="Full"/>
-            <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings"/>-->
         </Style>
         
         <Style x:Key="styleLabelForms" TargetType="Label" >

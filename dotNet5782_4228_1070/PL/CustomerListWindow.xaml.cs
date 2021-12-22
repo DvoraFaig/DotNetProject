@@ -63,7 +63,8 @@ namespace PL
 
         private void AddCustomerButtonClick(object sender, RoutedEventArgs e)
         {
-
+            new CustomerWindow(blObjectH).Show();
+            this.Close();
         }
     }
 }

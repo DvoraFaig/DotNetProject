@@ -46,7 +46,6 @@ namespace PL
             PhoneTextBox.Text = "Phone...";
             LatitudeTextBox.Text = "latitude...";
             LongitudeTextBox.Text = "longitude...";
-            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
         }
@@ -209,6 +208,11 @@ namespace PL
             //    catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
             //    catch (Exception e2) { MessageBox.Show(e2.Message); }
             //}
+        }
+
+        private void show(object sender, MouseButtonEventArgs e)
+        {
+            CustomerAsTargetListView.Visibility = Visibility.Visible;
         }
     }
 }
