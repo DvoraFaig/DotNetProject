@@ -30,7 +30,7 @@ namespace BlApi
         public List<Station> DisplayEmptyDroneCharge();
         public List<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
-        public List<CustomerToList> DisplayCustomersToList();
+        public IEnumerable<CustomerToList> DisplayCustomersToList();
         public List<CustomerInParcel> CustomerLimitedDisplay();
         //================
         //  Get object

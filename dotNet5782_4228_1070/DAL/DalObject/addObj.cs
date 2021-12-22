@@ -51,7 +51,7 @@ namespace DalObject
         public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
         {
             Customer customer = new Customer();
-            customer.ID = id;
+            customer.Id = id;
             customer.Name = Name;
             customer.Phone = Phone;
             customer.Longitude = Longitude;

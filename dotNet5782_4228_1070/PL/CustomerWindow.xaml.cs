@@ -41,13 +41,14 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
             updateOrAddWindow = true;
-            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            IdTextBox.Text = "Drone id....";
-            ModelTextBox.Text = "Model id....";
-            StationIdTextBox.Text = "Station Id...";
+            IdTextBox.Text = "Id...";
+            NameTextBox.Text = "Name...";
+            PhoneTextBox.Text = "Phone...";
+            LatitudeTextBox.Text = "latitude...";
+            LongitudeTextBox.Text = "longitude...";
+            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-
         }
         public CustomerWindow(BlApi.Ibl blObject, Customer customerInCtor)
         {
@@ -58,7 +59,12 @@ namespace PL
             customer = customerInCtor;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-           
+            IdTextBox.Text = $"{customerInCtor.Id}";
+            NameTextBox.Text = $"{customerInCtor.Name}";
+            PhoneTextBox.Text = $"{customerInCtor.Phone}";
+            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+            CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsSender;
+            CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsTarget;
         }
 
         private void setDeliveryButton()

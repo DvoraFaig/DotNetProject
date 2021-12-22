@@ -67,7 +67,7 @@ namespace BL
             DO.Customer c;
             try
             {
-                c = dal.getCustomerWithSpecificCondition(c => c.ID == id).First();
+                c = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
                 if (name != null)
                     c.Name = name;
                 if (phone != null && phone.Length >= 9 && phone.Length <= 10)
@@ -151,8 +151,8 @@ namespace BL
                 {
                     if (!p.Requeasted.Equals(default(DO.Parcel).Requeasted))
                     {
-                        senderP = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First();
-                        targetP = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First();
+                        senderP = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First();
+                        targetP = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First();
                         Position senderPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
                         Position targetPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
                         double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
@@ -236,7 +236,7 @@ namespace BL
                 DO.Customer senderP;
                 try
                 {
-                    senderP = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.SenderId).First();
+                    senderP = dal.getCustomerWithSpecificCondition(customer => customer.Id == parcel.SenderId).First();
                 }
                 catch (ObjNotExistException)
                 {
@@ -269,8 +269,8 @@ namespace BL
                 }
                 DO.Customer senderP;
                 DO.Customer targetP;
-                senderP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.SenderId).First();
-                targetP = dal.getCustomerWithSpecificCondition(c => c.ID == parcelToDelivery.TargetId).First();
+                senderP = dal.getCustomerWithSpecificCondition(c => c.Id == parcelToDelivery.SenderId).First();
+                targetP = dal.getCustomerWithSpecificCondition(c => c.Id == parcelToDelivery.TargetId).First();
                 Position senderPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
                 Position targetPosition = new Position() { Longitude = senderP.Longitude, Latitude = senderP.Latitude };
                 double disSenderToTarget = distance(senderPosition, targetPosition);

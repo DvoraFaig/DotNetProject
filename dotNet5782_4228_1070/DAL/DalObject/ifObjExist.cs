@@ -21,7 +21,7 @@ namespace DalObject
         }
         public Boolean IsCustomerById(int id)
         {
-            return DataSource.Customers.Any(c => c.ID == id);
+            return DataSource.Customers.Any(c => c.Id == id);
         }
         public Boolean IsParcelById(int id)
         {

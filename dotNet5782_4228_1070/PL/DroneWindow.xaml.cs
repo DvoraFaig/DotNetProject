@@ -21,7 +21,7 @@ namespace PL
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
     public partial class DroneWindow :Window
-    {
+    {   
         private BlApi.Ibl blObjectD;
         Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };

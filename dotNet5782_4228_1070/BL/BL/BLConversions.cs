@@ -45,7 +45,7 @@ namespace BL
         {
             return new DO.Customer()
             {
-                ID = c.ID,
+                Id = c.Id,
                 Name = c.Name,
                 Phone = c.Phone,
                 Longitude = c.CustomerPosition.Longitude,
@@ -88,11 +88,11 @@ namespace BL
         }
         private Customer convertDalToBLCustomer(DO.Customer c)
         {
-            IEnumerable<DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.ID);
-            IEnumerable<DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.ID);
+            IEnumerable<DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == c.Id);
+            IEnumerable<DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == c.Id);
             List<ParcelAtCustomer> customerAsSender = createBLParcelAtCustomer(sendingParcels, true);
             List<ParcelAtCustomer> customerAsTarget = createBLParcelAtCustomer(targetParcels, false);
-            return new Customer() { ID = c.ID, Name = c.Name, Phone = c.Phone, CustomerPosition = new BO.Position() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
+            return new Customer() { Id = c.Id, Name = c.Name, Phone = c.Phone, CustomerPosition = new BO.Position() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
         }
         private List<ParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<DO.Parcel> pp, bool senderOrTaget)
         {
@@ -104,12 +104,12 @@ namespace BL
                 if (senderOrTaget) //sender
                 {
                     bLCustomerInParcel.Id = p.SenderId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First().Name;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name;
                 }
                 else //target
                 {
                     bLCustomerInParcel.Id = p.TargetId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First().Name;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name;
                 }
                 if (p.Delivered != null)
                     parcelStatusesTemp = ParcelStatuses.Delivered;
@@ -151,7 +151,7 @@ namespace BL
             ParcelToList toAdd = new ParcelToList();
             foreach (DO.Parcel p in parcels)
             {
-                toAdd = new ParcelToList() { Id = p.Id, SenderName = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First().Name, TargetName = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First().Name, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p) };
+                toAdd = new ParcelToList() { Id = p.Id, SenderName = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name, TargetName = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(p) };
                 listParcels.Add(toAdd);
             }
             return listParcels;
@@ -194,8 +194,8 @@ namespace BL
             return new Parcel()
             {
                 Id = p.Id,
-                Sender = new CustomerInParcel() { Id = p.SenderId, name = dal.getCustomerWithSpecificCondition(c => c.ID == p.SenderId).First().Name },
-                Target = new CustomerInParcel() { Id = p.TargetId, name = dal.getCustomerWithSpecificCondition(c => c.ID == p.TargetId).First().Name },
+                Sender = new CustomerInParcel() { Id = p.SenderId, name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name },
+                Target = new CustomerInParcel() { Id = p.TargetId, name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name },
                 Weight = p.Weight,
                 Drone = drone,
                 Requeasted = p.Requeasted,
@@ -210,7 +210,7 @@ namespace BL
         {
             return new CustomerInParcel()
             {
-                Id = customer.ID,
+                Id = customer.Id,
                 name = customer.Name
             };
         }
@@ -231,6 +231,15 @@ namespace BL
                 distance = distance(senderP, targetP),
                 Weight = p.Weight
             };
+        }
+        private CustomerToList converteCustomerToList(DO.Customer customer)
+        {
+            CustomerToList customerToList = new CustomerToList() { Id = customer.Id, Name = customer.Name, Phone = customer.Phone };
+            customerToList.AmountAsSendingDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered != null).Count();
+            customerToList.AmountAsSendingUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered == null).Count();
+            customerToList.AmountAsTargetDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered != null).Count();
+            customerToList.AmountAsTargetUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered == null).Count();
+            return customerToList;
         }
     }
 }

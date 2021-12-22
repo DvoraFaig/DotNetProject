@@ -58,7 +58,7 @@ namespace DalObject
             {
                 Customer c = new Customer()
                 {
-                    ID = r.Next(100000000, 1000000000),
+                    Id = r.Next(100000000, 1000000000),
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
                     Latitude = r.Next(1, 10),
@@ -77,11 +77,11 @@ namespace DalObject
                     Priority = (Priorities)r.Next(1, 4),
                     Requeasted = DateTime.Now
                 };
-                p.SenderId = Customers[r.Next(0, Customers.Count)].ID;
-                p.TargetId = Customers[r.Next(0, Customers.Count)].ID;
+                p.SenderId = Customers[r.Next(0, Customers.Count)].Id;
+                p.TargetId = Customers[r.Next(0, Customers.Count)].Id;
                 do
                 {
-                    p.TargetId = Customers[r.Next(0, Customers.Count)].ID;
+                    p.TargetId = Customers[r.Next(0, Customers.Count)].Id;
                 } while (p.SenderId == p.TargetId);
                 int matchToDrone = r.Next(0, 2);
                 if (matchToDrone == 0)  //find an availble drone with matching weight and no parcel is schedueld with it

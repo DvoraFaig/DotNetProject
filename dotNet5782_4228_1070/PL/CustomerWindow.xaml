@@ -69,26 +69,45 @@
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="15*"/>
             </Grid.RowDefinitions>
-            <Label x:Name="IdTextBoxLabel"             Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"  >Drones' id:</Label>
-            <TextBox x:Name="IdTextBox"                Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" />
-            <Label x:Name="ModelTextBoxLabel"          Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Drones' model:</Label>
-            <TextBox x:Name="ModelTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
-            <Label x:Name="DroneWeightSelectorLabel"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Drones' weight:</Label>
-            <ComboBox x:Name="DroneWeightSelector"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="3"   Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
-            <Label x:Name="StationIdTextBoxLabel"     Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Station id:</Label>
-            <TextBox x:Name="StationIdTextBox"        Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" />
-            <Label x:Name="DroneWeightLabel"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}"> Drones' weight:</Label>
-            <TextBox x:Name="DroneWeightUpdate"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" IsReadOnly="True"/>
-            <Label x:Name="BatteryTextBoxLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}">Battery:</Label>
-            <TextBox x:Name="BatteryTextBox"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
-            <Label x:Name="StatusTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}">Status:</Label>
-            <TextBox x:Name="StatusTextBox"           Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
-            <Label x:Name="PositionDroneTLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="6" Style="{StaticResource styleLabelForms}" >Postion:</Label>
-            <TextBox x:Name="PositionDroneTextBox"    Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="6" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True" />
-            <Label x:Name="ParcelTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="7" Style="{StaticResource styleLabelForms}" >Parcel:</Label>
-            <TextBox x:Name="ParcelIdIdTextBox"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="7" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True" >Parcel....</TextBox>
+            <Label x:Name="IdLabel"             Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"  >Customer' id:</Label>
+            <TextBox x:Name="IdTextBox"               Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" />
+            <Label x:Name="NameLabel"          Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Customer' name:</Label>
+            <TextBox x:Name="NameTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
+            <Label x:Name="PhoneLabel"  Grid.Column="1" Grid.Row="3" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleLabelForms}">Customer phone:</Label>
+            <TextBox x:Name="PhoneTextBox"            Grid.Column="2" Grid.Row="3"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     ></TextBox>
+            <Label x:Name="LatitudeLabel"             Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Customer latitude:</Label>
+            <TextBox x:Name="LatitudeTextBox"          Grid.Column="2" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}" IsReadOnly="True"/>
+            <Label x:Name="LongitudeLabel"     Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleLabelForms}" >Customer longitude:</Label>
+            <TextBox x:Name="LongitudeTextBox"        Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleTextBoxForms}" />
+            <Label x:Name="PositionLabel"             Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Position:</Label>
+            <TextBox x:Name="PositionTextBox"         Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
+            <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Customer As Sender:</Label>
+            <ListView x:Name="CustomerAsSenderListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
+            Grid.Row="5" Grid.RowSpan="3" Grid.Column="2"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2"  Background="White"  >
+                <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Id:"  Width="50" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Weight:" Width="60" DisplayMemberBinding="{Binding Weight}" />
+                        <GridViewColumn Header="Priority:" Width="60" DisplayMemberBinding="{Binding Priority}" />
+                        <GridViewColumn Header="ParcelStatus:" Width="60" DisplayMemberBinding="{Binding ParcelStatus}" />
+                        <!--<GridViewColumn Header="SenderOrTargetCustomer:" Width="60" DisplayMemberBinding="{Binding SenderOrTargetCustomer}" />-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="CustomerAsTargetListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
+            Grid.Row="5" Grid.RowSpan="3" Grid.Column="2"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2"  Background="White"  >
+                <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Id:"  Width="50" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Weight:" Width="60" DisplayMemberBinding="{Binding Weight}" />
+                        <GridViewColumn Header="Priority:" Width="60" DisplayMemberBinding="{Binding Priority}" />
+                        <GridViewColumn Header="ParcelStatus:" Width="60" DisplayMemberBinding="{Binding ParcelStatus}" />
+                        <!--<GridViewColumn Header="SenderOrTargetCustomer:" Width="60" DisplayMemberBinding="{Binding SenderOrTargetCustomer}" />-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label x:Name="CustomerAsTargetLabel"       Grid.Column="1" Grid.Row="6" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" >Customer As Target:</Label>
+            
         </Grid>
-
-
     </Grid>
 </Window>

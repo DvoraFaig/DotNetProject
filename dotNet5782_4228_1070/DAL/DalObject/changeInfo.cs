@@ -59,7 +59,7 @@ namespace DalObject
         }
         public void changeCustomerInfo(Customer customer)
         {
-            Customer cToErase = getCustomerWithSpecificCondition( c => c.ID == customer.ID ).First();
+            Customer cToErase = getCustomerWithSpecificCondition( c => c.Id == customer.Id ).First();
             DataSource.Customers.Remove(cToErase);
             DataSource.Customers.Add(customer);
         }

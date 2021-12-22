@@ -69,7 +69,7 @@ namespace BL
             }
             else
             {
-                DO.Customer c = new DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
+                DO.Customer c = new DO.Customer() { Id = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
                 dal.AddCustomer(c);
             }
         }

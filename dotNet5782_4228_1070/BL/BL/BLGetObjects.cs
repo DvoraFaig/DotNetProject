@@ -44,7 +44,7 @@ using BO;
 
         public Customer GetCustomerById(int id)
         {
-            DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.ID == id).First();
+            DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
             Customer BLcustomer = convertDalToBLCustomer(c);
             return BLcustomer;
         }
