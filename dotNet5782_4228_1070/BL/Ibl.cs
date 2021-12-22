@@ -13,6 +13,8 @@ namespace BlApi
         public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void AddCustomer(int id, string name, string phone, Position position);
+        public void AddCustomer(int id, string name, string phone, int latitude, int longitude);
+
         public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
 
         //================

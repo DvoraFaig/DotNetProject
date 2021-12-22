@@ -60,8 +60,7 @@ namespace BL
                 }
             }
         }
-
-        public void AddCustomer(int id, string name, string phone, Position position)
+        public void AddCustomer(int id, string name, string phone, int latitude , int longitude)
         {
             if (dal.IsCustomerById(id))
             {
@@ -69,7 +68,7 @@ namespace BL
             }
             else
             {
-                DO.Customer c = new DO.Customer() { Id = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
+                DO.Customer c = new DO.Customer() { Id = id, Name = name, Phone = phone, Latitude = latitude, Longitude = longitude };
                 dal.AddCustomer(c);
             }
         }
