@@ -45,8 +45,8 @@ namespace BL
                 {
                     CurrentDrone.Status = DroneStatus.Delivery;
                     DO.Station closestStationToSender = new DO.Station();
-                    sender = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.SenderId).First();
-                    target = dal.getCustomerWithSpecificCondition(customer => customer.ID == parcel.TargetId).First();
+                    sender = dal.getCustomerWithSpecificCondition(customer => customer.Id == parcel.SenderId).First();
+                    target = dal.getCustomerWithSpecificCondition(customer => customer.Id == parcel.TargetId).First();
                     CurrentDrone.ParcelInTransfer = createParcelInTransfer(parcel, sender, target);//.First();
                     senderPosition = CurrentDrone.ParcelInTransfer.SenderPosition;
                     targetPosition = CurrentDrone.ParcelInTransfer.TargetPosition;
@@ -72,7 +72,7 @@ namespace BL
                         if (cWithDeliveredP.Count > 0)
                         {
                             AvailbeDroneWithPosition = true;
-                            target = dal.getCustomerWithSpecificCondition(c => c.ID == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].ID).First();
+                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
                             double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
@@ -209,7 +209,7 @@ namespace BL
             List<DO.Customer> customersWithDeliveredParcels = new List<DO.Customer>();
             foreach(DO.Parcel parcel in parcels)
             {
-                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.ID == parcel.TargetId).First());
+                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First());
             }
             return customersWithDeliveredParcels;
         }

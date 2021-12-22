@@ -69,12 +69,12 @@ namespace BL
             }
             else
             {
-                DO.Customer c = new DO.Customer() { ID = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
+                DO.Customer c = new DO.Customer() { Id = id, Name = name, Phone = phone, Latitude = position.Latitude, Longitude = position.Longitude };
                 dal.AddCustomer(c);
             }
         }
 
-        public void AddParcel(int senderId, int targetId, int weight, int priority)
+        public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
         {
             if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))
             {
@@ -83,8 +83,8 @@ namespace BL
                     Id = dal.amountParcels() + 1,
                     SenderId = senderId,
                     TargetId = targetId,
-                    Weight = (DO.WeightCategories)weight,
-                    Priority = (DO.Priorities)priority,
+                    Weight = weight,
+                    Priority = priority,
                     Requeasted = DateTime.Now
                 };
                 dal.AddParcel(p);

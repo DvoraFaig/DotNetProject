@@ -22,16 +22,30 @@ namespace BL
             return stationsWithMoreInfo;
 
         }
+        //public List<CustomerToList> DisplayCustomersToList()
+        //{
+        //    IEnumerable<DO.Customer> customers = dal.displayCustomers();
+        //    List<CustomerToList> customerToLists = new List<CustomerToList>();
 
-        public List<CustomerToList> DisplayCustomersToList()
+
+        //    foreach (var customer in customers)
+        //    {
+        //        customerToLists.Add(converteCustomerToList(customer));
+        //    }
+        //    return customerToLists;
+        //}
+        public IEnumerable<CustomerToList> DisplayCustomersToList()
         {
             IEnumerable<DO.Customer> customers = dal.displayCustomers();
             List<CustomerToList> customerToLists = new List<CustomerToList>();
-            foreach(var c in customers)
-            {
-                customerToLists.Add(new CustomerToList() { Id = c.ID, Name = c.Name, Phone = c.Name });
-            }
-            return customerToLists;
+            return from customer in customers
+                   select converteCustomerToList(customer);
+
+            //foreach (var customer in customers)
+            //{
+            //    customerToLists.Add(converteCustomerToList(customer));
+            //}
+            //return customerToLists;
         }
 
         public List<CustomerInParcel> CustomerLimitedDisplay()

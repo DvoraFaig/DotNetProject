@@ -56,7 +56,7 @@ namespace PL
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            new StationWindow(blObject).Show();
+            new MainWindow(blObject).Show();
             this.Close();
         }
 

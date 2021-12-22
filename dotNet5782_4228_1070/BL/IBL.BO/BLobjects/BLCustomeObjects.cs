@@ -11,7 +11,7 @@ namespace BO
 {
     public class Customer
     {
-        public int ID
+        public int Id
         {
             get; set;
         }
@@ -22,7 +22,7 @@ namespace BO
         public List<ParcelAtCustomer> CustomerAsTarget { get; set; }
         public override string ToString()
         {
-            return ($"customer id: {ID}, customer name: {Name}, customer phone: {Phone}, \n\tCustomerPosition: {CustomerPosition.ToString()}" +
+            return ($"customer id: {Id}, customer name: {Name}, customer phone: {Phone}, \n\tCustomerPosition: {CustomerPosition.ToString()}" +
               $"\tCustomerAsSenderAmount:  { CustomerAsSender.Count()}\n\tCustomerAsTargetAmount: {CustomerAsTarget.Count()}\n");
         }
     }
@@ -33,9 +33,9 @@ namespace BO
         public string Name { get; set; }
         public string Phone { get; set; }
         public int AmountAsSendingDeliveredParcels { get; set; }
-        public int AmountASSendingUnDeliveredParcels { get; set; }
-        public int AmountAsTargetHaveDeliveredParcels { get; set; }
-        public int AmountAsTargetHaveUnDeliveredParcels { get; set; }
+        public int AmountAsSendingUnDeliveredParcels { get; set; }
+        public int AmountAsTargetDeliveredParcels { get; set; }
+        public int AmountAsTargetUnDeliveredParcels { get; set; }
     }
 
     public class CustomerInParcel //targetId in parcel

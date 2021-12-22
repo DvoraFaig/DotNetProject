@@ -31,26 +31,11 @@
         <TextBlock x:Name="visibleAddForm"></TextBlock>
         <TextBlock x:Name="visibleUpdateForm"></TextBlock>
 
-        <Label  x:Name="labelAddADrone"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Drone</Label>
+        <Label  x:Name="labelAddADrone"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Customer</Label>
         <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="ButtonClickReturnToPageDroneListWindow" Margin="10,0,0,0"/>
         <Button x:Name="RestartButton"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="ButtonClickRestart" />
         <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="ButtoClickAdd"  />
         <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
-        <Button x:Name="ChargeButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
-        <TextBlock x:Name="TimeTochargeText" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
-        <TextBox 
-            x:Name="TimeTocharge" 
-            Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"
-            FontFamily="Tahoma" 
-            FontSize="10" 
-            FontWeight="Bold" 
-            VerticalAlignment="Top" 
-            Grid.Column="6" 
-            Grid.Row="5" 
-            TextWrapping="Wrap" 
-            Height="20" 
-            Width="30"/>
-        <Button x:Name="DeliveryStatusButton" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneToChargeClick"/>
         <Grid x:Name ="AddDroneDisplay" Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="0,45,0,10" Grid.Column="1">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="35*"/>
@@ -69,26 +54,48 @@
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="15*"/>
             </Grid.RowDefinitions>
-            <Label x:Name="IdTextBoxLabel"             Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"  >Drones' id:</Label>
-            <TextBox x:Name="IdTextBox"                Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" />
-            <Label x:Name="ModelTextBoxLabel"          Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Drones' model:</Label>
-            <TextBox x:Name="ModelTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
-            <Label x:Name="DroneWeightSelectorLabel"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Drones' weight:</Label>
-            <ComboBox x:Name="DroneWeightSelector"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="3"   Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
-            <Label x:Name="StationIdTextBoxLabel"     Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Station id:</Label>
-            <TextBox x:Name="StationIdTextBox"        Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" />
-            <Label x:Name="DroneWeightLabel"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}"> Drones' weight:</Label>
-            <TextBox x:Name="DroneWeightUpdate"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" IsReadOnly="True"/>
-            <Label x:Name="BatteryTextBoxLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}">Battery:</Label>
-            <TextBox x:Name="BatteryTextBox"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
-            <Label x:Name="StatusTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}">Status:</Label>
-            <TextBox x:Name="StatusTextBox"           Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
-            <Label x:Name="PositionDroneTLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="6" Style="{StaticResource styleLabelForms}" >Postion:</Label>
-            <TextBox x:Name="PositionDroneTextBox"    Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="6" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True" />
-            <Label x:Name="ParcelTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="7" Style="{StaticResource styleLabelForms}" >Parcel:</Label>
-            <TextBox x:Name="ParcelIdIdTextBox"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="7" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True" >Parcel....</TextBox>
+            <Label x:Name="IdLabel"                   Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"  >Customer' id:</Label>
+            <TextBox x:Name="IdTextBox"               Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" />
+            <Label x:Name="NameLabel"                 Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Customer' name:</Label>
+            <TextBox x:Name="NameTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
+            <Label x:Name="PhoneLabel"                Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Customer phone:</Label>
+            <TextBox x:Name="PhoneTextBox"            Grid.Column="2" Grid.Row="3"  Style="{StaticResource styleTextBoxForms}"></TextBox>
+            <Label x:Name="LatitudeLabel"             Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Customer latitude:</Label>
+            <TextBox x:Name="LatitudeTextBox"         Grid.Column="2" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}" IsReadOnly="True" Grid.ColumnSpan="2" Margin="0,0,0,3" VerticalAlignment="Bottom"/>
+            <Label x:Name="LongitudeLabel"            Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleLabelForms}" >Customer longitude:</Label>
+            <TextBox x:Name="LongitudeTextBox"        Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleTextBoxForms}" />
+            <Label x:Name="PositionLabel"             Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Position:</Label>
+            <TextBox x:Name="PositionTextBox"         Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
+            <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="6" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Sender:</Label>
+            <!--<Expander Grid.Row="5" Grid.Column="0">
+                <Expander.Content>
+                   
+                </Expander.Content>
+            </Expander>-->
+            <ListView x:Name="CustomerAsSenderListView"  ItemsSource="{Binding}" Foreground="Black" FontSize="12"  FontFamily="Tahoma" FontWeight="Light"
+            Grid.Row="5" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalContentAlignment="Center"  Background="White" Margin="119,0,0,0"   >
+                <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Id:"  Width="30" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Weight" Width="50" DisplayMemberBinding="{Binding Weight}" />
+                        <GridViewColumn Header="Priority" Width="50" DisplayMemberBinding="{Binding Priority}" />
+                        <GridViewColumn Header="Status:" Width="50" DisplayMemberBinding="{Binding ParcelStatus}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label x:Name="CustomerAsTargetLabel" Grid.Row="6" Grid.Column="1"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}"   Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Target:</Label>
+
+            <ListView x:Name="CustomerAsTargetListView" VerticalAlignment="Center" ItemsSource="{Binding}" Foreground="Black" FontSize="12"  FontFamily="Tahoma" FontWeight="Light"
+            Grid.Row="6" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3"  HorizontalContentAlignment="Center"  Background="White" Margin="119,27,0,0"   >
+                <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Id:"  Width="30" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Weight" Width="50" DisplayMemberBinding="{Binding Weight}" />
+                        <GridViewColumn Header="Priority" Width="50" DisplayMemberBinding="{Binding Priority}" />
+                        <GridViewColumn Header="Status:" Width="50" DisplayMemberBinding="{Binding ParcelStatus}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
-
-
     </Grid>
 </Window>

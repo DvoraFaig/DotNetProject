@@ -8,7 +8,7 @@
         Title="CustomerListWindow" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
             <Setter Property="Background" Value="LightGray"/>
             <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -41,18 +41,19 @@
             <Button x:Name="AddCustomerButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Customer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddCustomerButtonClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
-
+        <Label x:Name="SendingParcelsLabel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Content="Sending parcels:" Style="{StaticResource styleLabelForms}"></Label>
+        <Label x:Name="RecieivingParcelsLabel" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="Recieiving parcels:" Style="{StaticResource styleLabelForms}"></Label>
         <ListView x:Name="CustomerListView"  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="CustomerSelection"  >
             <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Id" Width="30" DisplayMemberBinding="{Binding Id}" />
-                    <GridViewColumn Header="Name"  Width="80" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Phone}" />
-                    <GridViewColumn Header="Deliverd s" Width="80" DisplayMemberBinding="{Binding AmountAsSendingDeliveredParcels}" />
-                    <GridViewColumn Header="UnDelivered s" Width="150" DisplayMemberBinding="{Binding AmountASSendingUnDeliveredParcels}" />
-                    <GridViewColumn Header="Delivered t" Width="120" DisplayMemberBinding="{Binding AmountAsTargetHaveDeliveredParcels}" />
-                    <GridViewColumn Header="UnDelivered t" Width="110" DisplayMemberBinding="{Binding AmountAsTargetHaveUnDeliveredParcels}" />
+                    <GridViewColumn Header="Id" Width="90" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Name"  Width="110" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Phone" Width="100" DisplayMemberBinding="{Binding Phone}" />
+                    <GridViewColumn Header="Deliverd" Width="90" DisplayMemberBinding="{Binding AmountAsSendingDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountAsSendingUnDeliveredParcels}" />
+                    <GridViewColumn Header="Delivered" Width="90" DisplayMemberBinding="{Binding AmountAsTargetDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountAsTargetUnDeliveredParcels}" />
                 </GridView>
             </ListView.View>
         </ListView>

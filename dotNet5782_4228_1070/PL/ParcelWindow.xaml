@@ -30,10 +30,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add" Margin="20,10" Click="ButtonClickAdd"></Button>
+            <Button  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Content="Add" Margin="10" Click="ButtonClickAdd"></Button>
+            <Button x:Name="CancelButton" Grid.Column="0" Content="Return Back" Margin="10" Click="CancelButtonClick"></Button>
             <!--<Button Grid.Column="0" Content="Apdate" Margin="20,10" Click="Button_Click"></Button>-->
-            <Button Grid.Column="1" Content="Remove Pacel" Margin="20,10" Click="Button_Click"></Button>
-            <Button x:Name="ConfirmButton" Grid.Column="2" Content="Confirm" Margin="20,10"></Button>
+            <Button Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Content="Remove Pacel" Margin="10" Click="Button_Click"></Button>
+            <Button  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" x:Name="ConfirmButton" Grid.Column="2" Content="Confirm" Margin="10"></Button>
         </Grid>
         <Label x:Name="ParcelTitle" Content="Parcel" 
                Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
@@ -47,21 +48,30 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*" ></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="visibleAddForm"></TextBlock>
-            <TextBlock x:Name="visibleUpdateForm"></TextBlock>
-            <Label  Grid.Column="0" Grid.Row="0" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"  FontSize="16">Weight:</Label>
-            <ComboBox x:Name="ParcelWeightSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="0" Margin="20,10"></ComboBox>
-            <Label  Grid.Column="0" Grid.Row="1" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0" FontSize="16">Priority:</Label>
-            <ComboBox x:Name="ParcelPrioritySelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="1" Margin="20,10"></ComboBox>
-            <Label  Grid.Column="0" Grid.Row="2" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0" FontSize="16">Sender Customer:</Label>
-            <ComboBox x:Name="ParcelSenderSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="2" Margin="20,10"></ComboBox>
-            <Label  Grid.Column="0" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0" FontSize="16">Target Customer:</Label>
-            <ComboBox Name="ParcelTargetSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Margin="20,10"></ComboBox>
+            <TextBlock x:Name="visibleAddForm" ></TextBlock>
+            <TextBlock x:Name="visibleUpdateForm" ></TextBlock>
+            <Label Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"    Grid.Column="0" Grid.Row="0" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Id:</Label>
+            <Label                                                                          Grid.Column="0" Grid.Row="1" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Weight:</Label>
+            <Label                                                                          Grid.Column="0" Grid.Row="2" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Priority:</Label>
+            <Label                                                                          Grid.Column="0" Grid.Row="3" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Sender Customer:</Label>
+            <Label                                                                          Grid.Column="0" Grid.Row="4" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Target Customer:</Label>
+            <Label Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"    Grid.Column="0" Grid.Row="5" Width="120" Height="30" HorizontalAlignment="Left" Margin="20,0"   FontSize="16">Drone:</Label>
+            <TextBox IsReadOnly="True" x:Name="IdText"        Grid.Column="1" Grid.Row="0" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Style="{StaticResource styleTextBoxForms}" Margin="10,0"></TextBox>
+            <TextBox IsReadOnly="True"  x:Name="WeightText"   Grid.Column="1" Grid.Row="1" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Style="{StaticResource styleTextBoxForms}" Margin="10,0"></TextBox>
+            <TextBox IsReadOnly="True" x:Name="PriorityText"  Grid.Column="1" Grid.Row="2" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Style="{StaticResource styleTextBoxForms}" Margin="10,0"></TextBox>
+            <Button                    x:Name="TargetText"    Grid.Column="1" Grid.Row="3" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Click="CustomerButton"                     Margin="10,10,30,10"></Button>
+            <Button                    x:Name="SenderText"    Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Click="CustomerButton"                     Margin="10,10,30,10"></Button>
+            <Button                    x:Name="DroneText"     Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Click="DroneClick"                         Margin="10,10,30,10" ></Button>
+            <ComboBox x:Name="ParcelWeightSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="1" Margin="20,10"></ComboBox>
+            <ComboBox x:Name="ParcelPrioritySelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="2" Margin="20,10"></ComboBox>
+            <ComboBox x:Name="ParcelSenderSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Margin="20,10"></ComboBox>
+            <ComboBox Name="ParcelTargetSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Margin="20,10"></ComboBox>
         </Grid>
     </Grid>
 </Window>

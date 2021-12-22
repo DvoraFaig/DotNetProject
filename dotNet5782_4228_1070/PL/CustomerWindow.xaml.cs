@@ -41,13 +41,13 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
             updateOrAddWindow = true;
-            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            IdTextBox.Text = "Drone id....";
-            ModelTextBox.Text = "Model id....";
-            StationIdTextBox.Text = "Station Id...";
+            IdTextBox.Text = "Id...";
+            NameTextBox.Text = "Name...";
+            PhoneTextBox.Text = "Phone...";
+            LatitudeTextBox.Text = "latitude...";
+            LongitudeTextBox.Text = "longitude...";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-
         }
         public CustomerWindow(BlApi.Ibl blObject, Customer customerInCtor)
         {
@@ -58,7 +58,12 @@ namespace PL
             customer = customerInCtor;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-           
+            IdTextBox.Text = $"{customerInCtor.Id}";
+            NameTextBox.Text = $"{customerInCtor.Name}";
+            PhoneTextBox.Text = $"{customerInCtor.Phone}";
+            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+            CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsSender;
+            CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsTarget;
         }
 
         private void setDeliveryButton()
@@ -203,6 +208,11 @@ namespace PL
             //    catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
             //    catch (Exception e2) { MessageBox.Show(e2.Message); }
             //}
+        }
+
+        private void show(object sender, MouseButtonEventArgs e)
+        {
+            CustomerAsTargetListView.Visibility = Visibility.Visible;
         }
     }
 }
