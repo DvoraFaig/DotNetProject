@@ -14,14 +14,7 @@
             <Setter Property="Padding" Value="4"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Grid.ColumnSpan" Value="2"/>
-
-            <!--<Setter Property="TextTrimming" Value="None"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="LineStackingStrategy" Value="MaxHeight"/>
-            <Setter Property="TextLineBounds" Value="Full"/>
-            <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings"/>-->
         </Style>
-        
         <Style x:Key="styleLabelForms" TargetType="Label" >
             <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="FontWeight" Value="Regular"/>
@@ -42,7 +35,11 @@
             <Setter Property="Padding" Value="4"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-
-        <!--<TextBlock x:Name="visibleAddForm"></TextBlock>-->
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
     </Application.Resources>
 </Application>
