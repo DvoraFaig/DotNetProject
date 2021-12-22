@@ -74,7 +74,7 @@ namespace BL
             }
         }
 
-        public void AddParcel(int senderId, int targetId, int weight, int priority)
+        public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
         {
             if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))
             {
@@ -83,8 +83,8 @@ namespace BL
                     Id = dal.amountParcels() + 1,
                     SenderId = senderId,
                     TargetId = targetId,
-                    Weight = (DO.WeightCategories)weight,
-                    Priority = (DO.Priorities)priority,
+                    Weight = weight,
+                    Priority = priority,
                     Requeasted = DateTime.Now
                 };
                 dal.AddParcel(p);
