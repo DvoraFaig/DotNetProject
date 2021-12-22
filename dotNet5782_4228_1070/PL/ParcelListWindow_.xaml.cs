@@ -114,9 +114,10 @@ namespace PL
         
         private void ParcelSelection(object sender, MouseButtonEventArgs e)
         {
-            ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItems;
+            ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItem;
+            //DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             Parcel parcel = blObject.GetParcelById(selectedParcel.Id);
-            new ParcelWindow(blObject, parcel);
+            new ParcelWindow(blObject, parcel).Show();
             this.Close();
         }
 
