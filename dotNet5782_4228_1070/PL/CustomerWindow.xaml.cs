@@ -64,8 +64,6 @@ namespace PL
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsSender;
             CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsTarget;
-            CustomerAsTargetListView.Visibility = Visibility.Hidden;
-
         }
 
         private void setDeliveryButton()
