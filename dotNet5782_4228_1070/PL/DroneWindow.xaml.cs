@@ -25,7 +25,6 @@ namespace PL
         private BlApi.Ibl blObjectD;
         Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
-        
         //private bool updateOrAddWindow { get; set; }//true = add drone
 
         //  public static readonly DependencyProperty AgeProperty =
