@@ -29,6 +29,7 @@ namespace BL
                 throw new Exception("Couldn't change Model");
             }
         }
+
         public void DroneChangeModel(DroneToList newDrone)
         {
             try
@@ -295,13 +296,13 @@ namespace BL
         private static ParcelStatuses findParcelStatus(DO.Parcel p)
         {
             if (p.Requeasted == DateTime.MinValue)
-                return (ParcelStatuses)0;
+                return ParcelStatuses.Requeasted;
             else if (p.Scheduled == DateTime.MinValue)
-                return (ParcelStatuses)1;
+                return ParcelStatuses.Scheduled;
             else if (p.PickUp == DateTime.MinValue)
-                return (ParcelStatuses)2;
+                return ParcelStatuses.PickedUp;
             else // if (p.Delivered == DateTime.MinValue)
-                return (ParcelStatuses)3;
+                return ParcelStatuses.Delivered;
         }
 
         private void updateBLDrone(Drone d)

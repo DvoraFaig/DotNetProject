@@ -20,21 +20,22 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class DroneWindow :Window
-    {   
+    public partial class DroneWindow : Window
+    {
         private BlApi.Ibl blObjectD;
         Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
-        private bool updateOrAddWindow { get; set; }//true = add drone
+        
+        //private bool updateOrAddWindow { get; set; }//true = add drone
 
-      //  public static readonly DependencyProperty AgeProperty =
-      //DependencyProperty.Register("Age", typeof(string), typeof(DroneWindow),
-      //                             new UIPropertyMetadata(0));
-      //  public string Age
-      //  {
-      //      get { return (string)GetValue(AgeProperty); }
-      //      set { SetValue(AgeProperty, value); }
-      //  }
+        //  public static readonly DependencyProperty AgeProperty =
+        //DependencyProperty.Register("Age", typeof(string), typeof(DroneWindow),
+        //                             new UIPropertyMetadata(0));
+        //  public string Age
+        //  {
+        //      get { return (string)GetValue(AgeProperty); }
+        //      set { SetValue(AgeProperty, value); }
+        //  }
 
 
         #region the closing button
@@ -50,7 +51,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
-            updateOrAddWindow = true;
+            //updateOrAddWindow = true;
             displayWindowAddOrUpdate();
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             IdTextBox.Text = "Drone id....";
@@ -64,7 +65,7 @@ namespace PL
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
-            updateOrAddWindow = false;
+            //updateOrAddWindow = false;
             displayWindowAddOrUpdate();
             blObjectD = blObject;
             visibleAddForm.Visibility = Visibility.Hidden;

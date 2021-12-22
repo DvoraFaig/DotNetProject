@@ -23,35 +23,69 @@ namespace PL
     {
         private BlApi.Ibl blObject;
         private Parcel parcel;
+        #region the closing button
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        void ToolWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+        }
+        #endregion
+
         public ParcelWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
             this.blObject = blObject;
+            Loaded += ToolWindowLoaded;//The x button
             initializeAdd();
+            visibleAddForm.Visibility = Visibility.Visible;
+            visibleUpdateForm.Visibility = Visibility.Hidden;
         }
 
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel)
         {
             InitializeComponent();
+            Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             this.parcel = parcel;
-            visibleUpdateForm.Visibility = Visibility;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
+            //visibleUpdateForm.Visibility = Visibility;
+            initializeDetails();
+        }
+
+        private void initializeDetails()
+        {
+            IdText.Text = $"{parcel.Id}";
+            SenderText.Text = $"{parcel.Sender.name}";
+            TargetText.Text = $"{parcel.Target.name}";
+            WeightText.Text = $"{parcel.Weight}";
+            PriorityText.Text = $"{parcel.Priority}";
+            DroneText.Text = (parcel.Drone != null)? $"{parcel.Drone.Id}":"No Drone";
+
         }
 
         private void initializeAdd()
         {
+            //visibleAddForm.Visibility = Visibility;
             ParcelTitle.Content = "Add a Parcel";
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
             ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
             ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
-            visibleAddForm.Visibility = Visibility;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             blObject.RemoveParcel(parcel);
-            MessageBox.Show("Parcel was remove");
+            new ParcelListWindow_(blObject).Show();
             this.Close();
+            MessageBox.Show("Parcel was remove");
         }
 
         private void ButtonClickAdd(object sender, RoutedEventArgs e)
@@ -68,6 +102,12 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             }
+            new ParcelListWindow_(blObject).Show();
+            this.Close();
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
             new ParcelListWindow_(blObject).Show();
             this.Close();
         }
