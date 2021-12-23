@@ -63,8 +63,8 @@ namespace PL
         private void initializeDetails()
         {
             IdText.Text = $"{parcel.Id}";
-            SenderText.Content = $"{parcel.Sender.name}";
-            TargetText.Content = $"{parcel.Target.name}";
+            SenderText.Content = parcel.Sender;
+            TargetText.Content = parcel.Target;
             WeightText.Text = $"{parcel.Weight}";
             PriorityText.Text = $"{parcel.Priority}";
             if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
@@ -125,9 +125,9 @@ namespace PL
 
         private void CustomerButton(object sender, RoutedEventArgs e)
         {
-            
-            Customer c = blObject.GetCustomerById(((CustomerInParcel)(sender as Button).Content).Id);
-            new CustomerWindow(blObject, c).Show();
+            CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender; 
+            Customer customer = blObject.GetCustomerById(customerClicked.Id);
+            new CustomerWindow(blObject, customer).Show();
             this.Close();
         }
     }
