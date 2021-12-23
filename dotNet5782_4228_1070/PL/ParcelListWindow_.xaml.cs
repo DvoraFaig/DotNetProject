@@ -23,6 +23,7 @@ namespace PL
     public partial class ParcelListWindow_ : Window
     {
         private Ibl blObject;
+        CollectionView view;
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -43,6 +44,7 @@ namespace PL
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
             ChosenPriority.Visibility = Visibility.Hidden;
+            view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
         }
         #region ToolWindowLoaded funcion
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
@@ -139,6 +141,13 @@ namespace PL
             PrioritySelector.SelectedItem = null;
             ChosenPriority.Visibility = Visibility.Hidden;
             PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            view.GroupDescriptions.Clear();
+            PropertyGroupDescription property = new PropertyGroupDescription("Priority");
+            view.GroupDescriptions.Add(property);
         }
     }
 }

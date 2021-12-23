@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneWindow" Height="450" Width="400" >
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:MainWindow/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Window.Resources>
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="FontSize" Value="14"/>

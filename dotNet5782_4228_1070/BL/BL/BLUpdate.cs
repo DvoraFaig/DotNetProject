@@ -12,7 +12,9 @@ namespace BL
     {
         public void RemoveParcel(Parcel parcel)
         {
-            dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+            if (parcel.Drone == null)
+                dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+            else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
         }
 
         public void DroneChangeModel(Drone newDrone)

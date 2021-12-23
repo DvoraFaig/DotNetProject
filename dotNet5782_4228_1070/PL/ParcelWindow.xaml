@@ -33,7 +33,7 @@
             <Button  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Content="Add" Margin="10" Click="ButtonClickAdd"></Button>
             <Button x:Name="CancelButton" Grid.Column="0" Content="Return Back" Margin="10" Click="CancelButtonClick"></Button>
             <!--<Button Grid.Column="0" Content="Apdate" Margin="20,10" Click="Button_Click"></Button>-->
-            <Button Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Content="Remove Pacel" Margin="10" Click="Button_Click"></Button>
+            <Button Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Content="Remove Pacel" Margin="10" Click="RemoveClick"></Button>
             <Button  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" x:Name="ConfirmButton" Grid.Column="2" Content="Confirm" Margin="10"></Button>
         </Grid>
         <Label x:Name="ParcelTitle" Content="Parcel" 

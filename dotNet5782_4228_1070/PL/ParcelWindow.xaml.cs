@@ -84,12 +84,19 @@ namespace PL
             ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
             ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void RemoveClick(object sender, RoutedEventArgs e)
         {
-            blObject.RemoveParcel(parcel);
-            new ParcelListWindow_(blObject).Show();
-            this.Close();
-            MessageBox.Show("Parcel was remove");
+            try
+            {
+                blObject.RemoveParcel(parcel);
+                new ParcelListWindow_(blObject).Show();
+                this.Close();
+                MessageBox.Show("Parcel was remove");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void ButtonClickAdd(object sender, RoutedEventArgs e)
