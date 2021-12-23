@@ -48,13 +48,18 @@ namespace BL
             //return customerToLists;
         }
 
-        public List<CustomerInParcel> CustomerLimitedDisplay()
+        public List<CustomerInParcel> CustomerLimitedDisplay(CustomerInParcel customer = null)
         {
             IEnumerable<DO.Customer> customers = dal.displayCustomers();
             List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
             foreach (var c in customers)
             {
                 customerToLists.Add(convertDalToBLCustomerInParcel(c));
+            }
+            if (customer != null)
+            {
+                customer = customerToLists.SingleOrDefault(c=>c.Id==customer.Id);
+                customerToLists.Remove(customer);
             }
             return customerToLists;
         }

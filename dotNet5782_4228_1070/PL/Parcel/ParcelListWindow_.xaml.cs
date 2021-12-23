@@ -40,11 +40,12 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
-            ParcelListView.ItemsSource = blObject.DisplayParcelToList();
+            List<ParcelToList> parcels = blObject.DisplayParcelToList();
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
             ChosenPriority.Visibility = Visibility.Hidden;
-            view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
+            DataContext = parcels;
+            view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
         }
         #region ToolWindowLoaded funcion
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
@@ -99,7 +100,10 @@ namespace PL
                 ChosenPriority.Visibility = Visibility.Hidden;
             }
             List<ParcelToList> b = blObject.DisplayParcelToListByFilters((int)weight, (int)status, (int)priority);
-            ParcelListView.ItemsSource = b;
+            DataContext = b;
+            view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
+
+            //ParcelListView.ItemsSource = b;
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
@@ -145,8 +149,10 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            string propertyToGroup = (sender as Button).Content.ToString() + "Name";
+            //string propertyToGroup = "Priority";
             view.GroupDescriptions.Clear();
-            PropertyGroupDescription property = new PropertyGroupDescription("Priority");
+            PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
             view.GroupDescriptions.Add(property);
         }
     }

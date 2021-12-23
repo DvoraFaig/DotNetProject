@@ -70,8 +70,8 @@
             <Button                     x:Name="DroneText"     Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Click="DroneClick"                         Margin="10,10,30,10" ></Button>
             <ComboBox x:Name="ParcelWeightSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="1" Margin="20,10"></ComboBox>
             <ComboBox x:Name="ParcelPrioritySelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="2" Margin="20,10"></ComboBox>
-            <ComboBox x:Name="ParcelSenderSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Margin="20,10"></ComboBox>
-            <ComboBox Name="ParcelTargetSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Margin="20,10"></ComboBox>
+            <ComboBox x:Name="ParcelSenderSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Margin="20,10" SelectionChanged="ParcelCustomerSelectorSelectionChanged"></ComboBox>
+            <ComboBox Name="ParcelTargetSelector" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Margin="20,10" SelectionChanged="ParcelCustomerSelectorSelectionChanged"></ComboBox>
         </Grid>
     </Grid>
 </Window>

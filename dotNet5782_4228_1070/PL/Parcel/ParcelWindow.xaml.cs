@@ -132,10 +132,17 @@ namespace PL
 
         private void CustomerButton(object sender, RoutedEventArgs e)
         {
-            CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender; 
+            CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
             new CustomerWindow(blObject, customer).Show();
             this.Close();
+        }
+
+        private void ParcelCustomerSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CustomerInParcel customerSelected = (CustomerInParcel)(sender as ComboBox).SelectedItem;
+            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+            ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
         }
     }
 }
