@@ -63,12 +63,16 @@ namespace PL
         private void initializeDetails()
         {
             IdText.Text = $"{parcel.Id}";
-            SenderText.Text = $"{parcel.Sender.name}";
-            TargetText.Text = $"{parcel.Target.name}";
+            SenderText.Content = $"{parcel.Sender.name}";
+            TargetText.Content = $"{parcel.Target.name}";
             WeightText.Text = $"{parcel.Weight}";
             PriorityText.Text = $"{parcel.Priority}";
-            DroneText.Text = (parcel.Drone != null)? $"{parcel.Drone.Id}":"No Drone";
-
+            if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
+            else
+            {
+                DroneText.Content = "No Drone";
+                DroneText.IsEnabled = false;
+            }
         }
 
         private void initializeAdd()
@@ -109,6 +113,21 @@ namespace PL
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             new ParcelListWindow_(blObject).Show();
+            this.Close();
+        }
+
+        private void DroneClick(object sender, RoutedEventArgs e)
+        {
+            Drone d = blObject.GetDroneById(parcel.Drone.Id);
+            new DroneWindow(blObject, d).Show();
+            this.Close();
+        }
+
+        private void CustomerButton(object sender, RoutedEventArgs e)
+        {
+            
+            Customer c = blObject.GetCustomerById(((CustomerInParcel)(sender as Button).Content).Id);
+            new CustomerWindow(blObject, c).Show();
             this.Close();
         }
     }

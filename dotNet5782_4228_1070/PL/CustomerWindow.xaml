@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="CustomerWindow" Height="450" Width="400" >
-
-
+    <Window.Resources>
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
     <Grid Opacity="0.8" Name="someName">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -32,7 +37,7 @@
         <TextBlock x:Name="visibleUpdateForm"></TextBlock>
 
         <Label  x:Name="labelAddADrone"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Customer</Label>
-        <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="ButtonClickReturnToPageDroneListWindow" Margin="10,0,0,0"/>
+        <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="ButtonClickReturnToPageCustomerListWindow" Margin="10,0,0,0"/>
         <Button x:Name="RestartButton"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="ButtonClickRestart" />
         <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="ButtoClickAdd"  />
         <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
@@ -66,14 +71,14 @@
             <TextBox x:Name="LongitudeTextBox"        Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleTextBoxForms}" />
             <Label x:Name="PositionLabel"             Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Position:</Label>
             <TextBox x:Name="PositionTextBox"         Grid.Column="2" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
-            <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="6" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Sender:</Label>
+            <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="4" HorizontalContentAlignment="Center" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Sender:</Label>
             <!--<Expander Grid.Row="5" Grid.Column="0">
                 <Expander.Content>
                    
                 </Expander.Content>
             </Expander>-->
-            <ListView x:Name="CustomerAsSenderListView"  ItemsSource="{Binding}" Foreground="Black" FontSize="12"  FontFamily="Tahoma" FontWeight="Light"
-            Grid.Row="5" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalContentAlignment="Center"  Background="White" Margin="119,4,0,12"   >
+            <ListView x:Name="CustomerAsSenderListView" HorizontalAlignment="Right"  ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
+            Grid.Row="4" Grid.RowSpan="4" VerticalContentAlignment="Center"  Background="White" Margin="0,32,31,0" Grid.ColumnSpan="2" Width="176"   >
                 <ListView.View >
                     <GridView>
                         <GridViewColumn Header="Id:"  Width="30" DisplayMemberBinding="{Binding Id}" />
@@ -83,10 +88,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label x:Name="CustomerAsTargetLabel" Grid.Row="6" Grid.Column="1"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}"   Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Target:</Label>
+            <Label x:Name="CustomerAsTargetLabel" Grid.Row="4" Grid.Column="2" HorizontalContentAlignment="Center" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.RowSpan="2" HorizontalAlignment="Center"  VerticalAlignment="Top" >Customer As Target:</Label>
 
-            <ListView x:Name="CustomerAsTargetListView" VerticalAlignment="Top" ItemsSource="{Binding}" Foreground="Black" FontSize="12"  FontFamily="Tahoma" FontWeight="Light"
-            Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"  HorizontalContentAlignment="Center"  Background="White" Margin="119,29,0,0" Height="60" Grid.RowSpan="3"   >
+            <ListView x:Name="CustomerAsTargetListView" VerticalAlignment="Center" HorizontalAlignment="Left" ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
+            Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"  HorizontalContentAlignment="Center"  Background="White" Height="106" Margin="147,0,0,0" Width="172"      >
                 <ListView.View >
                     <GridView>
                         <GridViewColumn Header="Id:"  Width="30" DisplayMemberBinding="{Binding Id}" />
