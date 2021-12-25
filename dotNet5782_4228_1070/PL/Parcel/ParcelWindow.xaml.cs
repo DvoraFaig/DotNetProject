@@ -25,6 +25,9 @@ namespace PL
         private BO.Parcel parcel;
         private bool isClientAndNotAdmin = false;
         private bool clientIsSender = false;
+        private bool returnToParcelListWindow = false;
+
+
 
 
         #region the closing button
@@ -50,6 +53,7 @@ namespace PL
             initializeAdd();
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
+            returnToParcelListWindow = true;
         }
 
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel)
@@ -74,6 +78,11 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             initializeDetails();
+            if (isClientAndNotAdmin)
+            {
+                if (!clientIsSender || parcel.Drone != null)//parcel was squedueld already
+                    RemoveBtn.Visibility = Visibility.Hidden;
+            }
         }
 
         private void initializeDetails()
@@ -158,7 +167,15 @@ namespace PL
             }
             else
             {
-                new ParcelListWindow_(blObject).Show();
+                if(returnToParcelListWindow)
+                    new ParcelListWindow_(blObject).Show();
+                else
+                {
+                    if (clientIsSender)
+                        new CustomerWindow(blObject,blObject.GetCustomerById(parcel.Sender.Id)).Show();
+                    else
+                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Target.Id)).Show();
+                }
                 this.Close();
             }
         }

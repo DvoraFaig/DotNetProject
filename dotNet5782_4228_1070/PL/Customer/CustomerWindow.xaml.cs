@@ -78,8 +78,8 @@ namespace PL
             NameTextBox.Text = $"{customerInCtor.Name}";
             PhoneTextBox.Text = $"{customerInCtor.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsTarget;
-            CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsSender;
+            CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
+            CustomerAsSenderParcelsListView.ItemsSource = customerInCtor.CustomerAsSender;
 
         }
 
@@ -97,8 +97,8 @@ namespace PL
             NameTextBox.Text = $"{client.Name}";
             PhoneTextBox.Text = $"{client.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetListView.ItemsSource = client.CustomerAsTarget;
-            CustomerAsSenderListView.ItemsSource = client.CustomerAsSender;
+            CustomerAsTargetParcelsListView.ItemsSource = client.CustomerAsTarget;
+            CustomerAsSenderParcelsListView.ItemsSource = client.CustomerAsSender;
         }
 
         /// <summary>
@@ -182,15 +182,23 @@ namespace PL
 
         private void SelectParcelOfSender(object sender, MouseButtonEventArgs e)
         {
-            BO.Parcel parcel = (BO.Parcel)CustomerAsSenderListView.SelectedItem;
-            new ParcelWindow(blObjectD, parcel,true).Show();
+            BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsSenderParcelsListView.SelectedItem;
+            BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
+            if (isClient)
+                new ParcelWindow(blObjectD, parcel, true).Show();
+            else
+                new ParcelWindow(blObjectD, parcel).Show();
             this.Close();
         }
 
-        private void ClickParcelOfTarget(object sender, MouseButtonEventArgs e)
+        private void SelectParcelOfTarget(object sender, MouseButtonEventArgs e)
         {
-            BO.Parcel parcel = (BO.Parcel)CustomerAsSenderListView.SelectedItem;
-            new ParcelWindow(blObjectD, parcel, false).Show();
+            BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsTargetParcelsListView.SelectedItem;
+            BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
+            if(isClient)
+                new ParcelWindow(blObjectD, parcel, false).Show();
+            else
+                new ParcelWindow(blObjectD, parcel).Show();
             this.Close();
         }
     }

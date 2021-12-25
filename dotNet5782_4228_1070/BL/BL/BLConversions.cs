@@ -94,32 +94,33 @@ namespace BL
             List<ParcelAtCustomer> customerAsTarget = createBLParcelAtCustomer(targetParcels, false);
             return new Customer() { Id = c.Id, Name = c.Name, Phone = c.Phone, CustomerPosition = new BO.Position() { Longitude = c.Longitude, Latitude = c.Latitude }, CustomerAsSender = customerAsSender, CustomerAsTarget = customerAsTarget };
         }
-        private List<ParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<DO.Parcel> pp, bool senderOrTaget)
+        private List<ParcelAtCustomer> createBLParcelAtCustomer(IEnumerable<DO.Parcel> parcels, bool senderOrTaget)
         {
             List<ParcelAtCustomer> parcelCustomers = new List<ParcelAtCustomer>();
             CustomerInParcel bLCustomerInParcel = new CustomerInParcel();
             ParcelStatuses parcelStatusesTemp;
-            foreach (DO.Parcel p in pp)
+            foreach (DO.Parcel parcel in parcels)
             {
                 if (senderOrTaget) //sender
                 {
-                    bLCustomerInParcel.Id = p.SenderId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name;
+                    bLCustomerInParcel.Id = parcel.SenderId;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.SenderId).First().Name;
                 }
                 else //target
                 {
-                    bLCustomerInParcel.Id = p.TargetId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name;
+                    bLCustomerInParcel.Id = parcel.TargetId;
+                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First().Name;
                 }
-                if (p.Delivered != null)
-                    parcelStatusesTemp = ParcelStatuses.Delivered;
-                else if (p.PickUp != null)
-                    parcelStatusesTemp = ParcelStatuses.PickedUp;
-                else if (p.Requeasted != null)
-                    parcelStatusesTemp = ParcelStatuses.Requeasted;
-                else
-                    parcelStatusesTemp = ParcelStatuses.Scheduled;
-                parcelCustomers.Add(new ParcelAtCustomer() { Id = p.Id, Priority = p.Priority, Weight = p.Weight, SenderOrTargetCustomer = bLCustomerInParcel, ParcelStatus = parcelStatusesTemp });
+                parcelStatusesTemp = findParcelStatus(parcel);
+                //if (parcel.Delivered != null)
+                //    parcelStatusesTemp = ParcelStatuses.Delivered;
+                //else if (parcel.PickUp != null)
+                //    parcelStatusesTemp = ParcelStatuses.PickedUp;
+                //else if (parcel.Requeasted != null)
+                //    parcelStatusesTemp = ParcelStatuses.Requeasted;
+                //else
+                //    parcelStatusesTemp = ParcelStatuses.Scheduled;
+                parcelCustomers.Add(new ParcelAtCustomer() { Id = parcel.Id, Priority = parcel.Priority, Weight = parcel.Weight, SenderOrTargetCustomer = bLCustomerInParcel, ParcelStatus = parcelStatusesTemp });
             }
             return parcelCustomers;
         }

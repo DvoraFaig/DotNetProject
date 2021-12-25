@@ -96,7 +96,7 @@ namespace BL
                     DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
                     Position availbleStationforCharging = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     double dis = (distance(drone.DronePosition, availbleStationforCharging));
-                    if(dis != 0)
+                    if (dis != 0)
                         drone.Battery = (int)dis * (int)empty;
                     drone.Status = DroneStatus.Maintenance;
                     drone.DronePosition = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
@@ -110,7 +110,7 @@ namespace BL
                     throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later.....");
                 }
             }
-            catch (ObjNotExistException )
+            catch (ObjNotExistException)
             {
                 throw new Exception("Drone cant charge");
             }
@@ -214,14 +214,14 @@ namespace BL
                 maxParcel.Scheduled = DateTime.Now;
                 dal.changeParcelInfo(maxParcel);
             }
-            
+
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
 
         }
-        
+
         public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             try
@@ -285,7 +285,7 @@ namespace BL
                 parcelToDelivery.Delivered = DateTime.Now;
                 dal.changeParcelInfo(parcelToDelivery);
             }
-            catch (ObjNotExistException )
+            catch (ObjNotExistException)
             {
                 throw new Exception("Can't deliver parcelby drone.");
             }
@@ -297,25 +297,27 @@ namespace BL
 
         private static ParcelStatuses findParcelStatus(DO.Parcel p)
         {
-            if (p.Requeasted == DateTime.MinValue)
-                return ParcelStatuses.Requeasted;
-            else if (p.Scheduled == DateTime.MinValue)
-                return ParcelStatuses.Scheduled;
-            else if (p.PickUp == DateTime.MinValue)
-                return ParcelStatuses.PickedUp;
-            else // if (p.Delivered == DateTime.MinValue)
+            if(p.Delivered != null)
                 return ParcelStatuses.Delivered;
+            else if (p.PickUp != null)
+                return ParcelStatuses.PickedUp;
+            
+            else if(p.Scheduled != null)
+                return ParcelStatuses.Scheduled;
+            else //if (p.Requeasted != null)
+                return ParcelStatuses.Requeasted;
         }
         private static ParcelStatuses findParcelStatus(Parcel p)
         {
-            if (p.Requeasted == DateTime.MinValue)
-                return ParcelStatuses.Requeasted;
-            else if (p.Scheduled == DateTime.MinValue)
-                return ParcelStatuses.Scheduled;
-            else if (p.PickUp == DateTime.MinValue)
-                return ParcelStatuses.PickedUp;
-            else // if (p.Delivered == DateTime.MinValue)
+            if (p.Delivered != null)
                 return ParcelStatuses.Delivered;
+            else if (p.PickUp != null)
+                return ParcelStatuses.PickedUp;
+
+            else if (p.Scheduled != null)
+                return ParcelStatuses.Scheduled;
+            else //if (p.Requeasted != null)
+                return ParcelStatuses.Requeasted;
         }
 
         private void updateBLDrone(Drone d)
