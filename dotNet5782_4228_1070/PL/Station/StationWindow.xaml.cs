@@ -58,7 +58,7 @@ namespace PL
             IdTextBox.Text = $"{station.ID}";
             NameTextBox.Text = $"{ station.Name}";
             ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
-            PositionTextBox.Text = $"( {station.StationPosition.Longitude} , {station.StationPosition.Latitude} )";
+            PositionTextBox.Text = $"( {station.StationPosition.Latitude} , {station.StationPosition.Longitude} )";
             ChargingDronesInStationListView.ItemsSource = station.DronesCharging;
             if (station.DronesCharging.Count() == 0)
                 ChargingDronesInStationListView.Visibility = Visibility.Hidden;
