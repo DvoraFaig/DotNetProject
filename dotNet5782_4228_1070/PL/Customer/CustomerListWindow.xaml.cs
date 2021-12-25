@@ -39,7 +39,19 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             CustomerListView.ItemsSource = blObjectH.DisplayCustomersToList();
         }
-       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blObject"></param>
+        /// <param name="client"></param>
+        //public CustomerListWindow(Ibl blObject , BO.Customer client)
+        //{
+        //    InitializeComponent();
+        //    blObjectH = blObject;
+        //    Loaded += ToolWindowLoaded;//The x button
+        //    CustomerListView.ItemsSource = blObjectH.GetCustomerById(client.Id);
+        //}
+
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window

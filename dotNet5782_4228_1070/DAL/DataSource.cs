@@ -58,12 +58,14 @@ namespace DalObject
             {
                 Customer c = new Customer()
                 {
-                    Id = r.Next(100000000, 1000000000),
+                    //Id = r.Next(100000000, 1000000000),
+                    Id = i,
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
                     Latitude = r.Next(1, 10),
                     Longitude = r.Next(1, 10)
                 };
+
                 Customers.Add(c);
             }
 
@@ -118,7 +120,7 @@ namespace DalObject
                         default:
                             break;
                     }
-                }   
+                }
                 Parcels.Add(p);
             }
 

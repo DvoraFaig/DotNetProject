@@ -11,8 +11,8 @@ namespace DO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public double Longitude { get; set; }
         public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public override string ToString()
         {
             return ($"customer id: {Id}, customer name: {Name}, customer phone: {Phone}, customer latitude: {Latitude}, customer Longitude: {Longitude}\n");

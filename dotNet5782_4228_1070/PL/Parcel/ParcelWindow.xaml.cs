@@ -22,7 +22,7 @@ namespace PL
     public partial class ParcelWindow : Window
     {
         private BlApi.Ibl blObject;
-        private Parcel parcel;
+        private BO.Parcel parcel;
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;

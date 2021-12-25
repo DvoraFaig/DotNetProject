@@ -23,7 +23,7 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private BlApi.Ibl blObjectD;
-        Drone dr;
+        BO.Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         //private bool updateOrAddWindow { get; set; }//true = add drone
 

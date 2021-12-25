@@ -95,5 +95,11 @@ namespace PL
             new CustomerListWindow(blObject).Show();
             this.Close();
         }
+
+        private void ButtonClickSignIn(object sender, RoutedEventArgs e)
+        {
+            new SignInOrUpWindow(blObject).Show();
+            this.Close();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace PL
     public partial class StationWindow : Window
     {
         private BlApi.Ibl blObject;
-        Station station;
+        BO.Station station;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button

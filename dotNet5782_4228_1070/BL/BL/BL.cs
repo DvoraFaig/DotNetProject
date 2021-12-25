@@ -31,7 +31,6 @@ namespace BL
             DO.Customer sender, target;
             Position senderPosition, targetPosition;
             Drone CurrentDrone = new Drone();
-
             foreach(DO.Drone drone in drones )
             {
                 parcel = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == drone.Id).FirstOrDefault();
@@ -68,7 +67,16 @@ namespace BL
                     bool AvailbeDroneWithPosition = false;
                     if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
-                        List<DO.Customer> cWithDeliveredP = findCustomersWithDeliveredParcel();
+                        List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
+                        try
+                        {
+                            cWithDeliveredP = findCustomersWithDeliveredParcel();
+                        }
+                        catch (Exception)
+                        {
+                            int tryThis = 0;
+                        }
+
                         if (cWithDeliveredP.Count > 0)
                         {
                             AvailbeDroneWithPosition = true;
@@ -205,7 +213,7 @@ namespace BL
         /// <returns></returns>
         private List<DO.Customer> findCustomersWithDeliveredParcel()
         {
-            IEnumerable<DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null));
+            IEnumerable<DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null ));
             List<DO.Customer> customersWithDeliveredParcels = new List<DO.Customer>();
             foreach(DO.Parcel parcel in parcels)
             {

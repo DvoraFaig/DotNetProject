@@ -23,10 +23,10 @@ namespace PL
     public partial class CustomerWindow : Window
     {
         private BlApi.Ibl blObjectD;
-        Customer customer;// = new Customer();
+        BO.Customer customer;// = new Customer();
         private bool updateOrAddWindow { get; set; }//true = add drone
+        bool isClient = false;
 
-     
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -65,7 +65,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Ibl instance</param>
         /// <param name="customerInCtor">Recieve the customer to update</param>
-        public CustomerWindow(BlApi.Ibl blObject, Customer customerInCtor)
+        public CustomerWindow(BlApi.Ibl blObject, BO.Customer customerInCtor )
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -80,6 +80,25 @@ namespace PL
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsSender;
             CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsTarget;
+
+        }
+
+        public CustomerWindow(BlApi.Ibl blObject, BO.Customer client , bool isClient)
+        {
+            InitializeComponent();
+            Loaded += ToolWindowLoaded; //The x button
+            updateOrAddWindow = false;
+            this.isClient = true;
+            blObjectD = blObject;
+            customer = client;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
+            IdTextBox.Text = $"{client.Id}";
+            NameTextBox.Text = $"{client.Name}";
+            PhoneTextBox.Text = $"{client.Phone}";
+            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+            CustomerAsTargetListView.ItemsSource = client.CustomerAsSender;
+            CustomerAsSenderListView.ItemsSource = client.CustomerAsTarget;            
         }
 
         /// <summary>
