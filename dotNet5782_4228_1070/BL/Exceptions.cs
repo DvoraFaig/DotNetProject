@@ -16,7 +16,6 @@ namespace BO
             {
             }
         }
-
         public class ObjNotExistException : Exception
         {
             public ObjNotExistException(Type t, int id)

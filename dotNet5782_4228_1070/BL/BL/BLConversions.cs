@@ -115,7 +115,7 @@ namespace BL
                     parcelStatusesTemp = ParcelStatuses.Delivered;
                 else if (p.PickUp != null)
                     parcelStatusesTemp = ParcelStatuses.PickedUp;
-                if (p.Requeasted != null)
+                else if (p.Requeasted != null)
                     parcelStatusesTemp = ParcelStatuses.Requeasted;
                 else
                     parcelStatusesTemp = ParcelStatuses.Scheduled;
@@ -163,7 +163,8 @@ namespace BL
             ParcelToList toAdd = new ParcelToList();
             foreach (Parcel p in parcels)
             {
-                toAdd = new ParcelToList() { Id = p.Id, SenderName = p.Sender.name, TargetName = p.Target.name, Weight = p.Weight, Priority = p.Priority, ParcelStatus = findParcelStatus(convertBLToDalParcel(p)) };
+                toAdd = new ParcelToList() { Id = p.Id, SenderName = p.Sender.name, TargetName = p.Target.name, Weight = p.Weight, Priority = p.Priority };
+                toAdd.ParcelStatus = findParcelStatus(p);
                 listParcels.Add(toAdd);
             }
             return listParcels;
@@ -186,11 +187,11 @@ namespace BL
         private Parcel convertDalToBLParcel(DO.Parcel p)
         {
             DroneInParcel drone = null;
+            Parcel parcel = new Parcel();
             if (!p.Scheduled.Equals(default(DO.Parcel).Scheduled)) //if the parcel is paired with a drone
             {
                 drone = createBLDroneInParcel(p, getBLDroneWithSpecificCondition(d => d.Id == (int)p.DroneId).First().Id);
             }
-
             return new Parcel()
             {
                 Id = p.Id,

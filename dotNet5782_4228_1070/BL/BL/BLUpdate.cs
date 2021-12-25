@@ -306,6 +306,17 @@ namespace BL
             else // if (p.Delivered == DateTime.MinValue)
                 return ParcelStatuses.Delivered;
         }
+        private static ParcelStatuses findParcelStatus(Parcel p)
+        {
+            if (p.Requeasted == DateTime.MinValue)
+                return ParcelStatuses.Requeasted;
+            else if (p.Scheduled == DateTime.MinValue)
+                return ParcelStatuses.Scheduled;
+            else if (p.PickUp == DateTime.MinValue)
+                return ParcelStatuses.PickedUp;
+            else // if (p.Delivered == DateTime.MinValue)
+                return ParcelStatuses.Delivered;
+        }
 
         private void updateBLDrone(Drone d)
         {

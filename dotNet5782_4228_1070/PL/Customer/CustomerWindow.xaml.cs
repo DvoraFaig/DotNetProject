@@ -78,8 +78,8 @@ namespace PL
             NameTextBox.Text = $"{customerInCtor.Name}";
             PhoneTextBox.Text = $"{customerInCtor.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsSender;
-            CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsTarget;
+            CustomerAsTargetListView.ItemsSource = customerInCtor.CustomerAsTarget;
+            CustomerAsSenderListView.ItemsSource = customerInCtor.CustomerAsSender;
 
         }
 
@@ -97,8 +97,8 @@ namespace PL
             NameTextBox.Text = $"{client.Name}";
             PhoneTextBox.Text = $"{client.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetListView.ItemsSource = client.CustomerAsSender;
-            CustomerAsSenderListView.ItemsSource = client.CustomerAsTarget;            
+            CustomerAsTargetListView.ItemsSource = client.CustomerAsTarget;
+            CustomerAsSenderListView.ItemsSource = client.CustomerAsSender;
         }
 
         /// <summary>
@@ -112,7 +112,6 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-
 
         private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
@@ -154,12 +153,23 @@ namespace PL
 
         private void ButtonClickReturnToPageCustomerListWindow(object sender, RoutedEventArgs e)
         {
-
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (messageBoxClosing == MessageBoxResult.OK)
+            if (isClient)
             {
-                new CustomerListWindow(blObjectD).Show();
-                this.Close();
+                MessageBoxResult messageBoxClosing = MessageBox.Show("Are you Sure you wan't to exit", "GoodBy", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (messageBoxClosing == MessageBoxResult.OK)
+                {
+                    new SignInOrUpWindow(blObjectD).Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (messageBoxClosing == MessageBoxResult.OK)
+                {
+                    new CustomerListWindow(blObjectD).Show();
+                    this.Close();
+                }
             }
         }
 
@@ -167,6 +177,20 @@ namespace PL
         {
             blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text);
             new CustomerListWindow(blObjectD).Show();
+            this.Close();
+        }
+
+        private void SelectParcelOfSender(object sender, MouseButtonEventArgs e)
+        {
+            BO.Parcel parcel = (BO.Parcel)CustomerAsSenderListView.SelectedItem;
+            new ParcelWindow(blObjectD, parcel,true).Show();
+            this.Close();
+        }
+
+        private void ClickParcelOfTarget(object sender, MouseButtonEventArgs e)
+        {
+            BO.Parcel parcel = (BO.Parcel)CustomerAsSenderListView.SelectedItem;
+            new ParcelWindow(blObjectD, parcel, false).Show();
             this.Close();
         }
     }

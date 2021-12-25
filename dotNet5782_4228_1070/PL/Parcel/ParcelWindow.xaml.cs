@@ -23,6 +23,10 @@ namespace PL
     {
         private BlApi.Ibl blObject;
         private BO.Parcel parcel;
+        private bool isClientAndNotAdmin = false;
+        private bool clientIsSender = false;
+
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -57,6 +61,18 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             //visibleUpdateForm.Visibility = Visibility;
+            initializeDetails();
+        }
+        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender)
+        {
+            InitializeComponent();
+            isClientAndNotAdmin = true;
+            clientIsSender = isSender;
+            Loaded += ToolWindowLoaded;//The x button
+            this.blObject = blObject;
+            this.parcel = parcel;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
             initializeDetails();
         }
 
@@ -116,11 +132,35 @@ namespace PL
             new ParcelListWindow_(blObject).Show();
             this.Close();
         }
-
+        /// <summary>
+        /// return back:
+        /// if as a client = CustomerWindow with client privilages
+        /// else: parcelListWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            new ParcelListWindow_(blObject).Show();
-            this.Close();
+            if (isClientAndNotAdmin)
+            {
+                BO.Customer customer;
+
+                if (clientIsSender)
+                {
+                    customer = blObject.GetCustomerById(parcel.Sender.Id);
+                }
+                else
+                {
+                    customer = blObject.GetCustomerById(parcel.Target.Id);
+                }
+                new CustomerWindow(blObject, customer, clientIsSender).Show();
+                this.Close();
+            }
+            else
+            {
+                new ParcelListWindow_(blObject).Show();
+                this.Close();
+            }
         }
 
         private void DroneClick(object sender, RoutedEventArgs e)
