@@ -65,7 +65,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Ibl instance</param>
         /// <param name="customerInCtor">Recieve the customer to update</param>
-        public CustomerWindow(BlApi.Ibl blObject, BO.Customer customerInCtor )
+        public CustomerWindow(BlApi.Ibl blObject, BO.Customer customerInCtor)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -185,9 +185,9 @@ namespace PL
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsSenderParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
             if (isClient)
-                new ParcelWindow(blObjectD, parcel, true).Show();
+                new ParcelWindow(blObjectD, parcel, true,this).Show();
             else
-                new ParcelWindow(blObjectD, parcel).Show();
+                new ParcelWindow(blObjectD, parcel,false).Show();
             this.Close();
         }
 
@@ -196,10 +196,20 @@ namespace PL
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsTargetParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
             if(isClient)
-                new ParcelWindow(blObjectD, parcel, false).Show();
+                new ParcelWindow(blObjectD, parcel, false,this).Show();
             else
-                new ParcelWindow(blObjectD, parcel).Show();
+                new ParcelWindow(blObjectD, parcel, false).Show();
             this.Close();
+        }
+
+        private void changeBackGroundCollapsed(object sender, RoutedEventArgs e)
+        {
+            CustomerAsSenderParcelsListView.Background = null;
+        }
+
+        private void changeBackGroundExpanded(object sender, RoutedEventArgs e)
+        {
+            CustomerAsSenderParcelsListView.Background = Brushes.White;
         }
     }
 }

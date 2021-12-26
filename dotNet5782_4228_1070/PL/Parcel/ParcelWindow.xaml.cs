@@ -26,6 +26,7 @@ namespace PL
         private bool isClientAndNotAdmin = false;
         private bool clientIsSender = false;
         private bool returnToParcelListWindow = false;
+        private Window returnBackTo;
 
 
 
@@ -56,22 +57,24 @@ namespace PL
             returnToParcelListWindow = true;
         }
 
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel)
+        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel , bool cameFromPageParcelList = true)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             this.parcel = parcel;
+            returnToParcelListWindow = cameFromPageParcelList;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             //visibleUpdateForm.Visibility = Visibility;
             initializeDetails();
         }
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender)
+        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender , Window window)
         {
             InitializeComponent();
             isClientAndNotAdmin = true;
             clientIsSender = isSender;
+            returnBackTo = window;
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             this.parcel = parcel;
@@ -150,6 +153,7 @@ namespace PL
         /// <param name="e"></param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
+            //returnBackTo.Show();
             if (isClientAndNotAdmin)
             {
                 BO.Customer customer;
@@ -163,16 +167,17 @@ namespace PL
                     customer = blObject.GetCustomerById(parcel.Target.Id);
                 }
                 new CustomerWindow(blObject, customer, clientIsSender).Show();
+                //returnBackTo(blObject, customer, clientIsSender).Show();
                 this.Close();
             }
             else
             {
-                if(returnToParcelListWindow)
+                if (returnToParcelListWindow)
                     new ParcelListWindow_(blObject).Show();
                 else
                 {
                     if (clientIsSender)
-                        new CustomerWindow(blObject,blObject.GetCustomerById(parcel.Sender.Id)).Show();
+                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Sender.Id)).Show();
                     else
                         new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Target.Id)).Show();
                 }

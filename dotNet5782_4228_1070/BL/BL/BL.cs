@@ -25,6 +25,17 @@ namespace BL
             heavyWeight = dal.electricityUseByDrone()[3];
             chargingRate = dal.electricityUseByDrone()[4];
 
+            List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
+            try
+            {
+                cWithDeliveredP = findCustomersWithDeliveredParcel();
+            }
+            catch (Exception)
+            {
+                //bool CustomersWithDeliveredParcel = false;
+            }
+
+
             IEnumerable<DO.Drone> drones = dal.displayDrone();
             DO.Parcel parcel;
             DO.Station station;
@@ -64,22 +75,22 @@ namespace BL
                 else // if drone is not delivery status
                 {
                     CurrentDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
-                    bool AvailbeDroneWithPosition = false;
+                    //bool AvailbeDroneWithPosition = false;
                     if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
-                        List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
-                        try
-                        {
-                            cWithDeliveredP = findCustomersWithDeliveredParcel();
-                        }
-                        catch (Exception)
-                        {
-                            int tryThis = 0;
-                        }
+                        //List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
+                        //try
+                        //{
+                        //    cWithDeliveredP = findCustomersWithDeliveredParcel();
+                        //}
+                        //catch (Exception)
+                        //{
+                        //    bool CustomersWithDeliveredParcel = false;
+                        //}
 
                         if (cWithDeliveredP.Count > 0)
                         {
-                            AvailbeDroneWithPosition = true;
+                            //AvailbeDroneWithPosition = true;
                             target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
