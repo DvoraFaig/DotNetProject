@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using BlApi;
 using BO;
 
-
 namespace PO
 {
     public class Drone
@@ -30,7 +29,7 @@ namespace PO
     {
         public int Id { get; set; }
         public string Model { get; set; }
-        //public WeightCategories MaxWeight { get; set; }
+        public DO.WeightCategories MaxWeight { get; set; }
         public double Battery { get; set; }
         public DroneStatus droneStatus { get; set; }
         public Position DronePosition { get; set; }
