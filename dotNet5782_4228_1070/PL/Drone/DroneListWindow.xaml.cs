@@ -85,7 +85,7 @@ namespace PL
                 status = -1;
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
-            List<DroneToList> b = blObjectH.DisplayDroneToListByFilters((int)weight ,(int)status);
+            IEnumerable<DroneToList> b = blObjectH.DisplayDroneToListByFilters((int)weight ,(int)status);
             DroneListView.ItemsSource = b;
         }
 
