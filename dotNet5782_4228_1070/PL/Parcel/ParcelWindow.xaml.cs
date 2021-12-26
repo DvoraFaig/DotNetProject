@@ -198,8 +198,10 @@ namespace PL
         private void ParcelCustomerSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CustomerInParcel customerSelected = (CustomerInParcel)(sender as ComboBox).SelectedItem;
-            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
-            ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+           // ParcelTargetSelector.SelectedIndex = -1;
+            //ParcelTargetSelector.Items.Remove(customerSelected);
+            //ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+            //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
         }
     }
 }
