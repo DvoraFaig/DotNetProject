@@ -20,16 +20,16 @@ namespace BlApi
         //  Display
         //================
         public List<BLStationToList> DisplayStationsToList();
-        public List<Station> DisplayStations();
+        public IEnumerable<Station> DisplayStations();
         public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
         //public List<Customer> DisplayCustomersToList();
         public List<Drone> DisplayDrones();
-        public List<DroneToList> DisplayDronesToList();
-        public List<ParcelToList> DisplayParcelToList();
-        public List<Parcel> DisplayParcel();
-        public List<Parcel> DisplayFreeParcel();
+        public IEnumerable<DroneToList> DisplayDronesToList();
+        public IEnumerable<ParcelToList> DisplayParcelToList();
+        public IEnumerable<Parcel> DisplayParcel();
+        public IEnumerable<Parcel> DisplayFreeParcel();
         public List<Station> DisplayEmptyDroneCharge();
-        public List<DroneToList> DisplayDroneToListByFilters(int weight, int status);
+        public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
         public IEnumerable<CustomerToList> DisplayCustomersToList();
         public List<CustomerInParcel> CustomerLimitedDisplay(CustomerInParcel customer = null);

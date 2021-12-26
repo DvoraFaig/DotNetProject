@@ -30,7 +30,7 @@ using BO;
 
         private IEnumerable<Parcel> getBLParcelWithSpecificCondition(Predicate<Parcel> predicate)
         {
-            List<Parcel> parcels = DisplayParcel();
+            IEnumerable<Parcel> parcels = DisplayParcel();
             return (from parcel in parcels
                     where predicate(parcel)
                     select parcel);
