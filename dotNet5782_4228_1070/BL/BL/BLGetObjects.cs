@@ -49,6 +49,13 @@ using BO;
             return BLcustomer;
         }
 
+        public Customer GetCustomerByIdAndName(int id,string name)
+        {
+            DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == id && c.Name == name).First();
+            Customer BLcustomer = convertDalToBLCustomer(c);
+            return BLcustomer;
+        }
+
         public Drone GetDroneById(int id)
         {
             return getBLDroneWithSpecificCondition(d => d.Id == id).First();

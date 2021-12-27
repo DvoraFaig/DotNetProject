@@ -49,7 +49,7 @@ namespace PL
         {
             try
             {
-                BO.Customer client = blObject.GetCustomerById(int.Parse(IdTextBox.Text));
+                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text),NameTextBox.Text);
                 if (client != null)
                 {
                     messageBoxResponseFromServer("Sign in Succesfully");
@@ -65,6 +65,17 @@ namespace PL
             catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); }
             catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
             catch (Exception exception) { messageBoxResponseFromServer(exception.Message); }
+        }
+
+        private void SignUpClick(object sender, RoutedEventArgs e)
+        {
+            BO.Customer customer = new BO.Customer(
+            int.Parse(SignUpIdTextBox.Text),
+                SignUpNameTextBox.Text,
+                SignUpPhoneTextBox.Text,
+                int.Parse(SignUpLatitudeTextBox.Text),
+                int.Parse(SignUpLongitudeTextBox.Text)
+                );
         }
     }
 }

@@ -57,26 +57,70 @@
                             <TextBox x:Name="NameTextBox" Grid.Row="3" Grid.Column="3" ></TextBox>
                             <Button x:Name="LogInBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="LogInCLick" >Log In</Button>
                         </Grid>
-                        <Grid x:Name="LogInForm">
-
-                            <!--<Label x:Name="IdLabel" Grid.Row="2" Grid.Column="2"></Label>
-                <TextBox x:Name="IdTextBox" Grid.Row="2" Grid.Column="4" >Id:</TextBox>
-                <Label x:Name="NameLabel" Grid.Row="3" Grid.Column="2">Name:</Label>
-                <TextBox x:Name="NameTextBox" Grid.Row="3" Grid.Column="4" ></TextBox>-->
-                            <Label x:Name="PhoneLabel" Grid.Row="4" Grid.Column="2"  >Phone:</Label>
-                            <TextBox x:Name="PhoneTextBox" Grid.Row="4" Grid.Column="4"  ></TextBox>
-                            <Label x:Name="LatitudeLabel" Grid.Row="5" Grid.Column="2"  >Latitude:</Label>
-                            <TextBox x:Name="LatitudeTextBox" Grid.Row="5" Grid.Column="4"  ></TextBox>
-                            <Label x:Name="LongitudeLabel" Grid.Row="6" Grid.Column="2"  >Longitude:</Label>
-                            <TextBox x:Name="LongitudeTextBox" Grid.Row="6" Grid.Column="4" ></TextBox>
-                            <Button x:Name="SignInBtn" Grid.Row="7" Grid.Column="5" >Sign In</Button>
-
-
-                        </Grid>
+                        
                     </Grid>
                 </TabItem>
-                <TabItem Header="Sign In" >
-                    
+                <TabItem Header="Sign Up" >
+                    <Grid x:Name="SignUp">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="40*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SignUpResponse" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
+
+                        </TextBlock>
+                        <Grid x:Name="SignUpForm" Grid.Row="1" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="100*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="SignUpIdLabel" Grid.Row="2" Grid.Column="1">Id:</Label>
+                            <TextBox x:Name="SignUpIdTextBox" Grid.Row="2" Grid.Column="3" ></TextBox>
+                            <Label x:Name="SignUpNameLabel" Grid.Row="4" Grid.Column="1">Name:</Label>
+                            <TextBox x:Name="SignUpNameTextBox" Grid.Row="4" Grid.Column="3" ></TextBox>
+                            <Label x:Name="SignUpPhoneLabel" Grid.Row="6" Grid.Column="1"  >Phone:</Label>
+                            <TextBox x:Name="SignUpPhoneTextBox" Grid.Row="6" Grid.Column="3"  ></TextBox>
+                            <Label x:Name="SignUpLatitudeLabel" Grid.Row="8" Grid.Column="1"  >Latitude:</Label>
+                            <TextBox x:Name="SignUpLatitudeTextBox" Grid.Row="8" Grid.Column="3"  ></TextBox>
+                            <Label x:Name="SignUpLongitudeLabel" Grid.Row="10" Grid.Column="1"  >Longitude:</Label>
+                            <TextBox x:Name="SignUpLongitudeTextBox" Grid.Row="10" Grid.Column="3" ></TextBox>
+                            <Button x:Name="SignUpSignInBtn" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3" Click="SignUpClick" >Sign Up</Button>
+                        </Grid>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>
