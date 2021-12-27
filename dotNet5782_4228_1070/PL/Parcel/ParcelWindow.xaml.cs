@@ -194,6 +194,8 @@ namespace PL
 
         private void CustomerButton(object sender, RoutedEventArgs e)
         {
+            if (isClientAndNotAdmin)
+                return;
             CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
             new CustomerWindow(blObject, customer).Show();

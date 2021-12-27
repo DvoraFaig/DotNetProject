@@ -144,6 +144,7 @@ namespace BL
                 dronesInBL.Add(CurrentDrone);
             }
         }
+
         /// <summary>
         /// Find a station for a drone with empty charging slots
         /// </summary>
@@ -162,6 +163,7 @@ namespace BL
             }
             return null;
         }
+
         /// <summary>
         /// Calculate Drones' battery accurding to the distance of the delivery;
         /// Distance = From station to sender + from sender to customer + dis from target to closest avialble station.

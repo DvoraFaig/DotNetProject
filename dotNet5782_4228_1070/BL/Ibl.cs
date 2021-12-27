@@ -38,6 +38,7 @@ namespace BlApi
         //================
         public Station GetStationById(int id);
         public Customer GetCustomerById(int id);
+        public Customer GetCustomerByIdAndName(int id, string name);
         public Drone GetDroneById(int id);
         public Parcel GetParcelById(int id);
 
