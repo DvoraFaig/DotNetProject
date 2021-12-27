@@ -72,7 +72,19 @@ namespace BL
                 dal.AddCustomer(c);
             }
         }
+        public void AddCustomer(BO.Customer customer)
+        {
+            if (dal.IsCustomerById(customer.Id))
+            {
+                throw new ObjExistException("customer", customer.Id);
+            }
+            else
+            {
+                DO.Customer customerToAdd = convertBLToDalCustomer(customer);
+                dal.AddCustomer(customerToAdd);
+            }
 
+        }
         public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
         {
             if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))

@@ -26,7 +26,7 @@ namespace PL
         public SignInOrUpWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
-            this.blObject = blObject; 
+            this.blObject = blObject;
             //Response.Visibility = Visibility.Hidden;
         }
         private void messageBoxResponseFromServer(String message)
@@ -39,21 +39,27 @@ namespace PL
                 {
 
                 }
-                    //base.OnClosing(e);
-                    //else
-                    //e.Cancel = true;
+                //base.OnClosing(e);
+                //else
+                //e.Cancel = true;
             }
             //base.OnClosing(e);
         }
+
+        /// <summary>
+        /// Log in customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LogInCLick(object sender, RoutedEventArgs e)
         {
             try
             {
-                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text),NameTextBox.Text);
+                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text), NameTextBox.Text);
                 if (client != null)
                 {
                     messageBoxResponseFromServer("Sign in Succesfully");
-                    new CustomerWindow(blObject, client,true).Show();
+                    new CustomerWindow(blObject, client, true).Show();
                     this.Close();
 
                 }
@@ -67,15 +73,46 @@ namespace PL
             catch (Exception exception) { messageBoxResponseFromServer(exception.Message); }
         }
 
+        /// <summary>
+        /// SignUp customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SignUpClick(object sender, RoutedEventArgs e)
         {
-            BO.Customer customer = new BO.Customer(
-            int.Parse(SignUpIdTextBox.Text),
-                SignUpNameTextBox.Text,
-                SignUpPhoneTextBox.Text,
-                int.Parse(SignUpLatitudeTextBox.Text),
-                int.Parse(SignUpLongitudeTextBox.Text)
-                );
+            try
+            {
+                BO.Customer customer = new BO.Customer()
+                {
+                    Id = int.Parse(SignUpIdTextBox.Text),
+                    Name = SignUpNameTextBox.Text,
+                    Phone = SignUpPhoneTextBox.Text,
+                    CustomerPosition = new BO.Position() { Latitude = int.Parse(SignUpLatitudeTextBox.Text), Longitude = int.Parse(SignUpLongitudeTextBox.Text) }
+                };
+                blObject.AddCustomer(customer);
+                bool isClient = true;
+                new CustomerWindow(blObject, customer, isClient).Show();
+                this.Close();
+            }
+            catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); clearFormTextBox(); }
+            catch (FormatException) { messageBoxResponseFromServer("FormatException"); clearFormTextBox(); }
+            catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
+            //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
+            catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
+            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox();}
+            
+        }
+
+        /// <summary>
+        /// clear form textBoxes from text.
+        /// </summary>
+        private void clearFormTextBox()
+        {
+            SignUpIdTextBox.Text = "";
+            SignUpNameTextBox.Text = "";
+            SignUpPhoneTextBox.Text = "";
+            SignUpLatitudeTextBox.Text = "";
+            SignUpLongitudeTextBox.Text = "";
         }
     }
 }
