@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Content="Add" Margin="10" Click="ButtonClickAdd"></Button>
-            <Button x:Name="CancelButton" Grid.Column="0" Content="Return Back" Margin="10" Click="CancelButtonClick"></Button>
+            <Button x:Name="ApdateButton" Grid.Column="0" Content="Apdate" Margin="10" Click="ApdateButtonClick"></Button>
             <!--<Button Grid.Column="0" Content="Apdate" Margin="20,10" Click="Button_Click"></Button>-->
             <Button x:Name="RemoveBtn" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Content="Remove Pacel" Margin="10" Click="RemoveClick"></Button>
             <Button x:Name="ConfirmButton" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Content="Confirm" Margin="10"></Button>
@@ -40,6 +40,7 @@
                Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto" FontSize="40"  FontWeight="SemiBold"/>
 
+        <Button  x:Name="CancelButton" Content="Return Back" Click="CancelButtonClick" HorizontalAlignment="Left" Height="34" Margin="33,5,0,0" VerticalAlignment="Top" Width="74" Grid.ColumnSpan="2"/>
         <Grid x:Name ="AddDroneDisplay" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1" Background="LightGray" Grid.Column="1">
 
             <Grid.RowDefinitions >

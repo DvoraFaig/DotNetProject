@@ -28,9 +28,6 @@ namespace PL
         private bool returnToParcelListWindow = false;
         private Window returnBackTo;
 
-
-
-
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -57,7 +54,7 @@ namespace PL
             returnToParcelListWindow = true;
         }
 
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel , bool cameFromPageParcelList = true)
+        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool cameFromPageParcelList = true)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -69,7 +66,8 @@ namespace PL
             //visibleUpdateForm.Visibility = Visibility;
             initializeDetails();
         }
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender , Window window)
+        
+        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender, Window window)
         {
             InitializeComponent();
             isClientAndNotAdmin = true;
@@ -112,6 +110,7 @@ namespace PL
             ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
             ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
         }
+        
         private void RemoveClick(object sender, RoutedEventArgs e)
         {
             try
@@ -121,7 +120,7 @@ namespace PL
                 this.Close();
                 MessageBox.Show("Parcel was remove");
             }
-            catch (Exception ex)
+            catch (Exceptions.ObjNotAvailableException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -129,21 +128,36 @@ namespace PL
 
         private void ButtonClickAdd(object sender, RoutedEventArgs e)
         {
-            int senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
-            int targetId = ((CustomerInParcel)ParcelTargetSelector.SelectedItem).Id;
-            DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
-            DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
-            try
+
+            if (isFullField(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector))
             {
-                blObject.AddParcel(senderId, targetId, weight, priority);
+                int senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
+                int targetId = ((CustomerInParcel)ParcelTargetSelector.SelectedItem).Id;
+                DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
+                DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
+                try
+                {
+                    blObject.AddParcel(senderId, targetId, weight, priority);
+                }
+                catch (BO.Exceptions.ObjNotExistException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                new ParcelListWindow_(blObject).Show();
+                this.Close();
             }
-            catch (BO.Exceptions.ObjNotExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            new ParcelListWindow_(blObject).Show();
-            this.Close();
+            else MessageBox.Show("Missinig Details");
         }
+
+        private bool isFullField(params ComboBox[] comboBoxes)
+        {
+            foreach (ComboBox item in comboBoxes)
+            {
+                if (item.SelectedItem == null) return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// return back:
         /// if as a client = CustomerWindow with client privilages
@@ -210,6 +224,11 @@ namespace PL
             //ParcelTargetSelector.SelectedItem = customerSelected;
             //ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
             //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+        }
+
+        private void ApdateButtonClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
