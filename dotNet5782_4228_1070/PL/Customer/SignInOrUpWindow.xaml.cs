@@ -99,8 +99,8 @@ namespace PL
             catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
             //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
             catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
-            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox();}
-            
+            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox(); }
+
         }
 
         /// <summary>
@@ -113,6 +113,33 @@ namespace PL
             SignUpPhoneTextBox.Text = "";
             SignUpLatitudeTextBox.Text = "";
             SignUpLongitudeTextBox.Text = "";
+        }
+
+        private void signUpAsAWorker(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bool ifWorkwerExist = blObject.ifWorkerExist(new BO.Worker()
+                {
+                    Id = int.Parse(WorkerIdTextBox.Text),
+                    Name = WorkerNameTextBox.Text,
+                    Password = WorkerPasswordTextBox.Text
+                });
+                if (ifWorkwerExist)
+                {
+                    new MainWindow().Show();
+                    this.Close();
+                }
+                else
+                    messageBoxResponseFromServer("Sorry...\nYou don't exist");
+            }
+            catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); clearFormTextBox(); }
+            catch (FormatException) { messageBoxResponseFromServer("FormatException"); clearFormTextBox(); }
+            catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
+            //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
+            catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
+            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox(); }
+
         }
     }
 }

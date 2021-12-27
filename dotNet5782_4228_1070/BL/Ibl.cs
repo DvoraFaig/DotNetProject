@@ -42,6 +42,7 @@ namespace BlApi
         public Customer GetCustomerByIdAndName(int id, string name);
         public Drone GetDroneById(int id);
         public Parcel GetParcelById(int id);
+        bool ifWorkerExist(Worker worker);
 
         //================
         //  Updates

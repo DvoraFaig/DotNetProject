@@ -15,6 +15,7 @@ namespace DalObject
         internal static List<Customer> Customers;
         internal static List<Parcel> Parcels;
         internal static List<DroneCharge> DroneCharges;
+        internal static List<Worker> Workers;
 
 
         public static void Initialize()
@@ -24,6 +25,7 @@ namespace DalObject
             Customers = new List<Customer>();
             Parcels = new List<Parcel>();
             DroneCharges = new List<DroneCharge>();
+            Workers = new List<Worker>();
 
             Random r = new Random();
 
@@ -124,51 +126,62 @@ namespace DalObject
                 Parcels.Add(p);
             }
 
-            //DroneCharge
-            //int indexStation;
-            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-            //for (int i = 0; i < dronesNotInDelivery.Count; i++)
-            //{
-            //    int fullChargingSlotsInStation;
-            //    indexStation = r.Next(0, Stations.Count);
-            //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
-            //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
-            //    {
-            //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
-            //    }
-            //}
+            int amountWorkers = r.Next(2, 10);
+            for (int i = 1; i <= amountStations; i++)
+            {
+                Workers.Add(new Worker()
+                {
+                    Id = i,
+                    Name = $"Worker{i}",
+                    Password = $"Worker{i}",
+
+                });
+        }
+        //DroneCharge
+        //int indexStation;
+        //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+        //for (int i = 0; i < dronesNotInDelivery.Count; i++)
+        //{
+        //    int fullChargingSlotsInStation;
+        //    indexStation = r.Next(0, Stations.Count);
+        //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
+        //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
+        //    {
+        //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
+        //    }
+        //}
 
 
-            //DroneCharge
-            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-            //int droneIndex = 0;
-            //for (int i = 0; i < Stations.Count; i++)
-            //{
-            //    if (droneIndex == dronesNotInDelivery.Count)
-            //        break;
-            //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
-            //    {
-            //        if (droneIndex == dronesNotInDelivery.Count)
-            //            break;
-            //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
-            //        droneIndex++;
+        //DroneCharge
+        //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+        //int droneIndex = 0;
+        //for (int i = 0; i < Stations.Count; i++)
+        //{
+        //    if (droneIndex == dronesNotInDelivery.Count)
+        //        break;
+        //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
+        //    {
+        //        if (droneIndex == dronesNotInDelivery.Count)
+        //            break;
+        //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
+        //        droneIndex++;
 
-            //    }
-            //}
-            Config.empty = .1;
+        //    }
+        //}
+        Config.empty = .1;
             Config.lightWeight = .3;
             Config.mediumWeight = .5;
             Config.heavyWeight = .6;
             Config.chargingRate = .7;
         }
 
-        internal static class Config
-        {
-            internal static double empty;
-            internal static double lightWeight;
-            internal static double mediumWeight;
-            internal static double heavyWeight;
-            internal static double chargingRate;
-        }
+    internal static class Config
+    {
+        internal static double empty;
+        internal static double lightWeight;
+        internal static double mediumWeight;
+        internal static double heavyWeight;
+        internal static double chargingRate;
     }
+}
 }

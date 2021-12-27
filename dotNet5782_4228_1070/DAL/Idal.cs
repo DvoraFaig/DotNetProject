@@ -72,6 +72,8 @@ namespace DalApi
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate);
         public IEnumerable<Station> getStationWithSpecificCondition(Predicate<Station> predicate);
         public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Predicate<DroneCharge> predicate);
+        public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate);
+
     }
 
 }
