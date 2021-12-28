@@ -120,15 +120,14 @@ namespace PL
                 blObjectD.AddCustomer(Convert.ToInt32(IdTextBox.Text), NameTextBox.Text, PhoneTextBox.Text, Convert.ToInt32(LatitudeTextBox.Text) , Convert.ToInt32(LongitudeTextBox.Text));
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
-
             }
             catch (FormatException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (Exception)
             {
