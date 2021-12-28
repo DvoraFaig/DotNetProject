@@ -73,7 +73,9 @@
             <Label x:Name="PositionLabel"             Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Position:</Label>
             <TextBox x:Name="PositionTextBox"         Grid.Column="3" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
             <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.ColumnSpan="2" Grid.RowSpan="1" >Customer As Sender:</Label>
-            <ListView x:Name="CustomerAsSenderParcelsListView" HorizontalAlignment="Left" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
+            <Expander x:Name="ExpenderSender" Expanded="changeBackGroundExpenderExpanded" Collapsed="changeBackGroundExpenderCollapsed" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="5" Grid.RowSpan="4" HorizontalAlignment="Right"  >
+
+                <ListView x:Name="CustomerAsSenderParcelsListView" HorizontalAlignment="Left" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
             Grid.Row="6" Grid.RowSpan="5"   Background="White" Grid.ColumnSpan="2" Width="176" MouseDoubleClick="SelectParcelOfSender"  >
                     <ListView.View >
                         <GridView>
@@ -85,7 +87,6 @@
                     </ListView.View>
                 </ListView>
             </Expander>
-            <Label x:Name="CustomerAsSenderLabel"     Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Left" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}" Grid.ColumnSpan="2" >Sending parcels:</Label>
             <Expander x:Name="ExpenderTarget" Expanded="changeBackGroundExpenderExpanded" Collapsed="changeBackGroundExpenderCollapsed" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="4" HorizontalAlignment="Right"  >
                 <ListView x:Name="CustomerAsTargetParcelsListView"  ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
             Background="White"  MouseDoubleClick="SelectParcelOfTarget" >
