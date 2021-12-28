@@ -41,11 +41,11 @@ namespace DalApi
         //==================
         //display lists
         //==================
-        IEnumerable<Station> displayStations();
-        IEnumerable<Drone> displayDrone();
-        IEnumerable<Parcel> displayParcels();
-        IEnumerable<DroneCharge> displayDroneCharge();
-        IEnumerable<Customer> displayCustomers();
+        IEnumerable<Station> GetStations();
+        IEnumerable<Drone> GetDrones();
+        IEnumerable<Parcel> GetParcels();
+        IEnumerable<DroneCharge> GetDroneCharge();
+        IEnumerable<Customer> GetCustomers();
         //==================
         //change info
         //==================

@@ -36,7 +36,7 @@ namespace BL
             }
 
 
-            IEnumerable<DO.Drone> drones = dal.displayDrone();
+            IEnumerable<DO.Drone> drones = dal.GetDrones();
             DO.Parcel parcel;
             DO.Station station;
             DO.Customer sender, target;
@@ -100,7 +100,7 @@ namespace BL
                         }
                         else //couldn't find a delivered parcel.
                         {
-                            List<DO.Station> stationsToFindPlaceToCharge = dal.displayStations().Cast<DO.Station>().ToList();
+                            List<DO.Station> stationsToFindPlaceToCharge = dal.GetStations().Cast<DO.Station>().ToList();
                             int amountStation = dal.amountStations();
                             int randomStation = r.Next(0, amountStation);
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
@@ -110,7 +110,7 @@ namespace BL
                     }
                     if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
                     {
-                        List<DO.Station> stationsToFindPlaceToCharge  = dal.displayStations().Cast< DO.Station>().ToList();
+                        List<DO.Station> stationsToFindPlaceToCharge  = dal.GetStations().Cast< DO.Station>().ToList();
                         //If drone is supposed to be in charging find an avilable station with empty charging slots.
                         //for not having all the drones in the same place:
                         //Try random station if station didn't have an empty place go threw all the stations
@@ -197,7 +197,7 @@ namespace BL
         /// <returns></returns>
         private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
         {
-            IEnumerable<DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.GetStations();
             DO.Station availbleCLosestStation = new DO.Station();
             double dis = -1;
             double minDis = -1;

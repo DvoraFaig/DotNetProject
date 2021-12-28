@@ -78,7 +78,7 @@ namespace DalObject
         }
         public void sendDroneToCharge(Drone drone)
         {
-            IEnumerable<DroneCharge> droneCharges = displayDroneCharge();
+            IEnumerable<DroneCharge> droneCharges = GetDroneCharge();
             Console.WriteLine("Choose id of Station to charge The drone");
             foreach (DroneCharge charge in droneCharges)
             {
