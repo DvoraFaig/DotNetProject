@@ -26,6 +26,7 @@ namespace PL
         private Ibl blObject;
         public enum ShowObjects { Drone, Station };
         private int ShowWindow;
+        CollectionView view;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -40,7 +41,10 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            StationListView.ItemsSource = blObject.DisplayStationsToList().Cast<BLStationToList>().ToList();
+            IEnumerable<BLStationToList> stationToLists = blObject.DisplayStationsToList();
+            StationListView.ItemsSource = stationToLists;//.Cast<BLStationToList>().ToList();
+            DataContext = stationToLists;
+            view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
         }
 
         /// <summary>
@@ -129,6 +133,14 @@ namespace PL
             Station station = blObject.GetStationById(stationToList.Id);
             new StationWindow(blObject, station).Show();
             this.Close();
+        }
+        private void sortStationByAvailableSlotsClick(object sender, RoutedEventArgs e)
+        {
+            string propertyToGroup = "DroneChargeAvailble";
+            //string propertyToGroup = "Priority";
+            view.GroupDescriptions.Clear();
+            PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
+            view.GroupDescriptions.Add(property);
         }
     }
 }

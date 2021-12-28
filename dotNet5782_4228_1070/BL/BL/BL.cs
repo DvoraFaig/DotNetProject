@@ -91,6 +91,7 @@ namespace BL
                         if (cWithDeliveredP.Count > 0)
                         {
                             //AvailbeDroneWithPosition = true;
+                            int index = r.Next(0, cWithDeliveredP.Count);
                             target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);

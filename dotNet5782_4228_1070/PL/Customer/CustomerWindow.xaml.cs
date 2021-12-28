@@ -79,7 +79,7 @@ namespace PL
             PhoneTextBox.Text = $"{customerInCtor.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
-            CustomerAsSenderParcelsListView.ItemsSource = customerInCtor.CustomerAsSender;
+            parcelsListViewContantAndDispaly();
 
         }
 
@@ -97,8 +97,20 @@ namespace PL
             NameTextBox.Text = $"{client.Name}";
             PhoneTextBox.Text = $"{client.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetParcelsListView.ItemsSource = client.CustomerAsTarget;
-            CustomerAsSenderParcelsListView.ItemsSource = client.CustomerAsSender;
+            parcelsListViewContantAndDispaly();
+        }
+        private void parcelsListViewContantAndDispaly()
+        {
+            if (customer.CustomerAsTarget.Count > 0)
+                CustomerAsTargetParcelsListView.ItemsSource = customer.CustomerAsTarget;
+            else
+                ExpenderSender.Visibility = Visibility.Hidden;
+                //CustomerAsTargetParcelsListView.Visibility = Visibility.Hidden;
+            if (customer.CustomerAsSender.Count > 0)
+                CustomerAsSenderParcelsListView.ItemsSource = customer.CustomerAsSender;
+            else
+                ExpenderSender.Visibility = Visibility.Hidden;
+                //CustomerAsSenderParcelsListView.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -202,12 +214,12 @@ namespace PL
             this.Close();
         }
 
-        private void changeBackGroundCollapsed(object sender, RoutedEventArgs e)
+        private void changeBackGroundExpenderCollapsed(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = null;
         }
 
-        private void changeBackGroundExpanded(object sender, RoutedEventArgs e)
+        private void changeBackGroundExpenderExpanded(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = Brushes.White;
         }

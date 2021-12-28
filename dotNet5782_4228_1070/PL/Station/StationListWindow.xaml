@@ -45,7 +45,7 @@
             <Button x:Name="AddStationBtn" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add station" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddStationBtnClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
-
+        <Button Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Content="Sort by available slots" VerticalAlignment="Bottom" Click="sortStationByAvailableSlotsClick"></Button>
         <ListView x:Name="StationListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="StationSelection" >
             <ListView.View >
@@ -56,6 +56,31 @@
                     <GridViewColumn Header="Occupied Charging Slots" Width="200" DisplayMemberBinding="{Binding DroneChargeOccupied}" />
                 </GridView>
             </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"  FontSize="14" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" available charging slots. " FontSize="14" Foreground="#FF4B4A4A" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="14" Foreground="#FF4B4A4A" FontWeight="Bold"  Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" item(s). " FontSize="12" Foreground="#FF4B4A4A" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </Grid>
 </Window>
