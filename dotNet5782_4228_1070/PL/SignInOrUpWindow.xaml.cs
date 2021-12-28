@@ -23,6 +23,13 @@ namespace PL
     {
         private BlApi.Ibl blObject;
         BO.Customer customer = new BO.Customer();
+        public SignInOrUpWindow()
+        {
+            InitializeComponent();
+            this.blObject = BlApi.IBL.BLFactory.Factory();
+            //Response.Visibility = Visibility.Hidden;
+        }
+
         public SignInOrUpWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();

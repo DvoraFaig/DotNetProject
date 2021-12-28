@@ -66,20 +66,20 @@
 
             </Grid.RowDefinitions>
             <Label x:Name="IdLabel"                   Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"   >Station id:</Label>
-            <TextBox x:Name="IdTextBox"               Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" />
+            <TextBox x:Name="IdTextBox"               Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="NameLabel"                 Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Station Name:</Label>
             <TextBox x:Name="NameTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}" Margin="0,0,18,0"/>
             <Label x:Name="ChargingSlotsLabel"        Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Station charging slots:</Label>
-            <TextBox x:Name="ChargingSlotsTextBox"    Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}"/>
+            <TextBox x:Name="ChargingSlotsTextBox"    Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="StationLatitudeLabel"      Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}">Station' Latitude:</Label>
-            <TextBox x:Name="StationLatitudeTextBox"  Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}"/>
+            <TextBox x:Name="StationLatitudeTextBox"  Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="StationLongitudeLabel"     Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}">Station Longitude:</Label>
-            <TextBox x:Name="StationLongitudeTextBox" Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  />
+            <TextBox x:Name="StationLongitudeTextBox" Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
 
             <Label x:Name="PositionLabel"                  Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Station position :</Label>
             <TextBox x:Name="PositionTextBox"              Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" />
             <Label x:Name="ChargingSlotsAvailbleLabel"     Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Availble charging slots:</Label>
-            <TextBox x:Name="ChargingSlotsAvailbleTextBox" Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" />
+            <TextBox x:Name="ChargingSlotsAvailbleTextBox" Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="ChargingDronesLabel"            Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}"  >Charging drones</Label>
             <TextBox x:Name="NoDronesInCharge"             Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  >-------</TextBox>
 
