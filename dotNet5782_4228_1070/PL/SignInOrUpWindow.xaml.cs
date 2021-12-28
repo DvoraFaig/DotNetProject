@@ -36,6 +36,7 @@ namespace PL
             this.blObject = blObject;
             //Response.Visibility = Visibility.Hidden;
         }
+        
         private void messageBoxResponseFromServer(String message)
         {
             bool wasCodeClosed = new StackTrace().GetFrames().FirstOrDefault(x => x.GetMethod() == typeof(Window).GetMethod("Close")) != null;
@@ -146,7 +147,6 @@ namespace PL
             //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
             catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
             catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox(); }
-
         }
     }
 }
