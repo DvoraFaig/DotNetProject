@@ -113,12 +113,14 @@ namespace PL
         {
 
         }
+        
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             StatusSelector.SelectedItem = null;
             ChosenStatus.Visibility = Visibility.Hidden;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
         }
+        
         private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
         {
             WeightSelector.SelectedItem = null;

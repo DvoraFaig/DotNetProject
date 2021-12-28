@@ -24,6 +24,7 @@ namespace PL
         private BlApi.Ibl blObject;
         BO.Station station;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
+        
         private bool updateOrAddWindow { get; set; }//true = add drone
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -33,6 +34,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
+        
         public StationWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
@@ -46,6 +48,7 @@ namespace PL
             StationLatitudeTextBox.Text = "Latitude....";
             StationLongitudeTextBox.Text = "Longitude....";
         }
+        
         public StationWindow(BlApi.Ibl blObject, BO.Station station)
         {
             InitializeComponent();
@@ -113,6 +116,7 @@ namespace PL
             ChargingDronesInStationListView.Visibility = visibility;
 
         }
+        
         /// <summary>
         /// Code to remove close box from window
         /// </summary>
@@ -137,6 +141,7 @@ namespace PL
             StationLatitudeTextBox.Text = "Latitude....";
             StationLongitudeTextBox.Text = "Longitude....";
         }
+        
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
         {
 

@@ -20,7 +20,6 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneListWindow.xaml
     /// </summary>
-
     public partial class CustomerListWindow : Window
     {
         private Ibl blObjectH;
@@ -39,6 +38,7 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             CustomerListView.ItemsSource = blObjectH.DisplayCustomersToList();
         }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -51,7 +51,6 @@ namespace PL
         //    Loaded += ToolWindowLoaded;//The x button
         //    CustomerListView.ItemsSource = blObjectH.GetCustomerById(client.Id);
         //}
-
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window

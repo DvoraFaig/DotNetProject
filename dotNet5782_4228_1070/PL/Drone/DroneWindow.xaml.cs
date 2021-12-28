@@ -60,6 +60,7 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
 
         }
+        
         public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
         {
             InitializeComponent();
@@ -169,8 +170,6 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-
-
         private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
             int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
@@ -204,6 +203,7 @@ namespace PL
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(DO.WeightCategories));
             StationIdTextBox.Text = "Station id...";
         }
+        
         private void ButtonClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
         {
 

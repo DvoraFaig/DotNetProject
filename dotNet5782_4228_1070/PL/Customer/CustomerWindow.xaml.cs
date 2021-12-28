@@ -99,6 +99,7 @@ namespace PL
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             parcelsListViewContantAndDispaly();
         }
+        
         private void parcelsListViewContantAndDispaly()
         {
             if (customer.CustomerAsTarget.Count > 0)
@@ -125,6 +126,7 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
+        
         private void ButtoClickAdd(object sender, RoutedEventArgs e)
         {
             try

@@ -69,14 +69,14 @@ namespace PL
             new StationWindow(blObject).Show();
             this.Close();
         }
+        
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
             //Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)StationListView.SelectedItem);
             //new DroneWindow(blObjectH, drone).Show();
             this.Close();
         }
-
-        
+      
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             //StatusSelector.SelectedItem = null;
@@ -88,10 +88,12 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        
         private void CheckedAvailbleChargingSlots(object sender, RoutedEventArgs e)
         {
             AvailbleChargingSlots();
         }
+        
         /// <summary>
         /// Find availble charging slots with int amountAvilableSlots occurding to the checked box
         /// </summary>
@@ -102,6 +104,7 @@ namespace PL
             if(AvailbleChargingSlotsChecked.IsChecked == true)
                 AvailbleChargingSlots();
         }
+        
         /// <summary>
         /// Change amount avilable charging slots to null
         /// </summary>
@@ -113,6 +116,7 @@ namespace PL
             StationListView.ItemsSource = blObject.DisplayStationsWithFreeSlots().Cast<BLStationToList>().ToList(); ;
 
         }
+        
         private void AvailbleChargingSlots()
         {
             int amountAvilableSlots = 0;
@@ -126,7 +130,7 @@ namespace PL
             catch (FormatException) { }
             catch (OverflowException) { }
         }
-
+        
         private void StationSelection(object sender, MouseButtonEventArgs e)
         {
             BLStationToList stationToList = (BLStationToList)StationListView.SelectedItem;
@@ -134,6 +138,7 @@ namespace PL
             new StationWindow(blObject, station).Show();
             this.Close();
         }
+        
         private void sortStationByAvailableSlotsClick(object sender, RoutedEventArgs e)
         {
             string propertyToGroup = "DroneChargeAvailble";
