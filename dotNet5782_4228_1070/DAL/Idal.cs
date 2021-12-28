@@ -23,11 +23,7 @@ namespace DalApi
         //remove Obj;
         //====================
         void removeParcel(Parcel parcel);
-        void removeDrone(Drone drone);
-        void removeCustomer(Customer customer);
-        void removeDroneCharge(DroneCharge droneCharge);
-        void removeStation(Station station);
-
+       
 
         //==================
         //Update functions//
@@ -74,6 +70,35 @@ namespace DalApi
         public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Predicate<DroneCharge> predicate);
         public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate);
 
+
+        public double[] electricityUseByDrone(Drone drone);
+
+
     }
 
 }
+
+//function to use in the futer
+//======================================================
+//void removeDrone(Drone drone);
+//void removeDroneCharge(DroneCharge droneCharge);
+//void removeStation(Station station);
+//void removeCustomer(Customer customer);
+
+//public void removeStation(Station station)
+//{
+//    DataSource.Stations.Remove(station);
+//}
+//public void removeCustomer(Customer customer)
+//{
+//    DataSource.Customers.Remove(customer);
+//}
+//public void removeDrone(Drone drone)
+//{
+//    DataSource.Drones.Remove(drone);
+//}
+//public void removeDroneCharge(DroneCharge droneCharge)
+//{
+//    DataSource.DroneCharges.Remove(droneCharge);
+//}
+//===========================================================

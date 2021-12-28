@@ -10,6 +10,7 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
+
         public double[] electricityUseByDrone(Drone drone)
         {
             double[] droneInfo = new double[5];

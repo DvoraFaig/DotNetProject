@@ -23,7 +23,8 @@ namespace BL
             {
                 dronesInBL.Remove(newDrone);
                 dronesInBL.Add(newDrone);
-                dal.changeDroneInfo(newDrone.Id, newDrone.Model);
+                dal.changeDroneInfo(convertBLToDalDrone(newDrone));
+                //dal.changeDroneInfo(newDrone.Id, newDrone.Model);
             }
             catch (Exception)
             {
@@ -39,7 +40,8 @@ namespace BL
                 Drone d = getBLDroneWithSpecificCondition(drone => drone.Id == newDrone.Id).First();
                 dronesInBL.Remove(d);
                 dronesInBL.Add(d);
-                dal.changeDroneInfo(d.Id, d.Model);
+                dal.changeDroneInfo(convertBLToDalDrone(d));
+                //dal.changeDroneInfo(d.Id, d.Model);
             }
             catch (Exception)
             {

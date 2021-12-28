@@ -13,37 +13,37 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
+        /// <summary>
+        /// Remove specific parcel
+        /// </summary>
+        /// <param name="parcel">remove current parcel</param>
         public void removeParcel(Parcel parcel)
         {
             DataSource.Parcels.Remove(parcel);
         }
-        public void removeStation(Station station)
+       
+        /// <summary>
+        /// Change specific stations info
+        /// </summary>
+        /// <param name="stationWithUpdateInfo">Station with the changed info</param>
+        public void changeStationInfo(Station stationWithUpdateInfo)
         {
-            DataSource.Stations.Remove(station);
-        }
-        public void removeCustomer(Customer customer)
-        {
-            DataSource.Customers.Remove(customer);
-        }
-        public void removeDrone(Drone drone)
-        {
-            DataSource.Drones.Remove(drone);
-        }
-        public void removeDroneCharge(DroneCharge droneCharge)
-        {
-            DataSource.DroneCharges.Remove(droneCharge);
-        }
-        public void changeStationInfo(Station goodStation)
-        {
-            Station sToErase = getStationWithSpecificCondition(s => s.Id == goodStation.Id).First();
+            Station sToErase = getStationWithSpecificCondition(s => s.Id == stationWithUpdateInfo.Id).First();
             DataSource.Stations.Remove(sToErase);
-            DataSource.Stations.Add(goodStation);
+            DataSource.Stations.Add(stationWithUpdateInfo);
         }
-        public void changeDroneInfo(Drone d)
+
+        /// <summary>
+        /// Change specific drone info
+        /// </summary>
+        /// <param name="droneWithUpdateInfo">Drone with the changed info</param>
+        public void changeDroneInfo(Drone droneWithUpdateInfo)
         {
-            DataSource.Drones.Remove(d);
-            DataSource.Drones.Add(d);
+            DataSource.Drones.Remove(droneWithUpdateInfo);
+            DataSource.Drones.Add(droneWithUpdateInfo);
         }
+
+        
         public void changeDroneInfo(int id, string newModel)
         {
             Drone dToChange = getDroneWithSpecificCondition(d => d.Id == id).First();
