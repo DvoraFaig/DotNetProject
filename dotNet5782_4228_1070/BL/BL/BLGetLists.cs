@@ -13,7 +13,7 @@ namespace BL
     {
         public IEnumerable<Station> DisplayStations()
         {
-            IEnumerable<DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.GetStations();
             //List<Station> stationsWithMoreInfo = new List<Station>();
             return (from station in stations
             select convertDalToBLStation(station));
@@ -27,7 +27,7 @@ namespace BL
         
         public IEnumerable<CustomerToList> DisplayCustomersToList()
         {
-            IEnumerable<DO.Customer> customers = dal.displayCustomers();
+            IEnumerable<DO.Customer> customers = dal.GetCustomers();
             List<CustomerToList> customerToLists = new List<CustomerToList>();
             return from customer in customers
                    select converteCustomerToList(customer);
@@ -41,7 +41,7 @@ namespace BL
 
         public List<CustomerInParcel> CustomerLimitedDisplay(CustomerInParcel customer = null)
         {
-            IEnumerable<DO.Customer> customers = dal.displayCustomers();
+            IEnumerable<DO.Customer> customers = dal.GetCustomers();
             List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
             foreach (var c in customers)
             {
@@ -57,7 +57,7 @@ namespace BL
 
         public List<BLStationToList> DisplayStationsToList()
         {
-            IEnumerable<DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.GetStations();
             List<BLStationToList> stationToList = new List<BLStationToList>();
             foreach (var station in stations)
             {
@@ -111,7 +111,7 @@ namespace BL
 
         public IEnumerable<ParcelToList> DisplayParcelToList()//////
         {
-            IEnumerable<BO.Parcel> parcels = (from parcel in dal.displayParcels()
+            IEnumerable<BO.Parcel> parcels = (from parcel in dal.GetParcels()
                    select convertDalToBLParcel(parcel));
             return convertBLParcelToBLParcelsToList(parcels);
         }
@@ -123,7 +123,7 @@ namespace BL
 
         public IEnumerable<Parcel> DisplayParcel()
         {
-            IEnumerable<DO.Parcel> parcels = dal.displayParcels();
+            IEnumerable<DO.Parcel> parcels = dal.GetParcels();
             return (from parcel in parcels
                     select convertDalToBLParcel(parcel));
             //List<Parcel> parcelsWithMoreInfo = new List<Parcel>();
@@ -149,7 +149,7 @@ namespace BL
 
         public List<Station> DisplayEmptyDroneCharge()
         {
-            IEnumerable<DO.Station> stations = dal.displayStations();
+            IEnumerable<DO.Station> stations = dal.GetStations();
             List<Station> stationsWithEmptySlots = new List<Station>();
             foreach (DO.Station station in stations)
             {

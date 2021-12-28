@@ -148,7 +148,7 @@ namespace BL
                 DO.Customer senderMaxParcel;
                 double disMaxPToSender = Math.Pow(2, 53); // the biggest number
                 Drone droneToParcel = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
-                IEnumerable<DO.Parcel> parcels = dal.displayParcels();
+                IEnumerable<DO.Parcel> parcels = dal.GetParcels();
                 DO.Parcel maxParcel = new DO.Parcel();// = new IDal.DO.Parcel() { Weight = 0 };//parcels.First(); //check if weight is good=====================
                 foreach (DO.Parcel p in parcels)
                 {
