@@ -24,6 +24,8 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private Ibl blObjectH;
+        CollectionView view;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -37,14 +39,16 @@ namespace PL
             InitializeComponent();
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
+            //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
+            IEnumerable<DroneToList> dronesToList = blObject.DisplayDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-             
+            DataContext = dronesToList;
+            view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
         }
-       
+
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -126,6 +130,14 @@ namespace PL
             WeightSelector.SelectedItem = null;
             ChosenWeight.Visibility = Visibility.Hidden;
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+        }
+
+        private void sortDronesByStatus(object sender, RoutedEventArgs e)
+        {
+            string propertyToGroup = "droneStatus";
+            view.GroupDescriptions.Clear();
+            PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
+            view.GroupDescriptions.Add(property);
         }
     }
 }

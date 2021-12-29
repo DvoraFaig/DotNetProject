@@ -84,7 +84,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
             updateOrAddWindow = false;
-            this.isClient = true;
+            this.isClient = isClient;
             blObjectD = blObject;
             customer = client;
             visibleAddForm.Visibility = Visibility.Hidden;
@@ -94,6 +94,11 @@ namespace PL
             PhoneTextBox.Text = $"{client.Phone}";
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             parcelsListViewContantAndDispaly();
+            if (isClient)
+            {
+                AddlButton.Visibility = Visibility.Visible;
+                ReturnToPageDroneListWindow.Content = "Log Out";
+            }
         }
         
         /// <summary>
@@ -101,16 +106,14 @@ namespace PL
         /// </summary>
         private void parcelsListViewContantAndDispaly()
         {
-            if (customer.CustomerAsTarget.Count > 0)
-                CustomerAsTargetParcelsListView.ItemsSource = customer.CustomerAsTarget;
-            else
-                ExpenderSender.Visibility = Visibility.Hidden;
-                //CustomerAsTargetParcelsListView.Visibility = Visibility.Hidden;
             if (customer.CustomerAsSender.Count > 0)
                 CustomerAsSenderParcelsListView.ItemsSource = customer.CustomerAsSender;
             else
                 ExpenderSender.Visibility = Visibility.Hidden;
-                //CustomerAsSenderParcelsListView.Visibility = Visibility.Hidden;
+            if (customer.CustomerAsTarget.Count > 0)
+                CustomerAsTargetParcelsListView.ItemsSource = customer.CustomerAsTarget;
+            else
+                ExpenderTarget.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -132,6 +135,11 @@ namespace PL
         /// <param name="e"></param>
         private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
+            if (isClient)
+            {
+                new ParcelWindow(blObjectD,).Show();
+                this.Close();
+            }
             try
             {
                 BO.Customer newCustomer = new BO.Customer()
@@ -317,5 +325,9 @@ namespace PL
         }
         #endregion
 
+        private void CustomerAsTargetParcelsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -54,6 +54,18 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
         }
+        public ParcelWindow(BlApi.Ibl blObject, Customer senderCustomer)
+        {
+            InitializeComponent();
+            this.blObject = blObject;
+            Loaded += ToolWindowLoaded;//The x button
+            initializeAdd();
+            isClientAndNotAdmin = true;
+            visibleAddForm.Visibility = Visibility.Visible;
+            visibleUpdateForm.Visibility = Visibility.Hidden;
+            SenderText.Content = senderCustomer.Name;/////////////
+            returnToParcelListWindow = false;
+        }
 
         /// <summary>
         /// Ctor display the update / see info a specific parcel Form.
