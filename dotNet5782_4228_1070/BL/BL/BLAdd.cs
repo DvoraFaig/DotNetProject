@@ -10,16 +10,32 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        Random r = new Random();
-        public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
+        //public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot)
+        //{
+        //    if (dal.IsStationById(id))
+        //    {
+        //        throw new ObjExistException("station", id);
+        //    }
+        //    else
+        //    {
+        //        DO.Station s = new DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
+        //        dal.AddStation(s);
+        //    }
+        //}
+
+        /// <summary>
+        /// Add a new station. checks if this station exist already.
+        /// </summary>
+        /// <param name="stationToAdd">The new station to add.</param>
+        public void AddStation(Station stationToAdd)
         {
-            if (dal.IsStationById(id))
+            if (dal.IsStationById(stationToAdd.Id))
             {
-                throw new ObjExistException("station", id);
+                throw new ObjExistException( typeof(BO.Station), stationToAdd.Id);
             }
             else
             {
-                DO.Station s = new DO.Station() { Id = id, Name = name, Longitude = longitude, Latitude = latitude, ChargeSlots = chargeSlot };
+                DO.Station s = new DO.Station() { Id = stationToAdd.Id, Name = stationToAdd.Name, Longitude = stationToAdd.StationPosition.Longitude, Latitude = stationToAdd.StationPosition.Latitude, ChargeSlots = stationToAdd.DroneChargeAvailble};
                 dal.AddStation(s);
             }
         }
@@ -28,7 +44,7 @@ namespace BL
         {
             if (dal.IsDroneById(id))
             {
-                throw new ObjExistException("drone", id);
+                throw new ObjExistException(typeof(BO.Drone), id);
             }
             else
             {
@@ -64,7 +80,7 @@ namespace BL
         {
             if (dal.IsCustomerById(id))
             {
-                throw new ObjExistException("customer", id);
+                throw new ObjExistException(typeof(BO.Customer), id);
             }
             else
             {
@@ -76,7 +92,8 @@ namespace BL
         {
             if (dal.IsCustomerById(customer.Id))
             {
-                throw new ObjExistException("customer", customer.Id);
+                throw new ObjExistException(typeof(BO.Customer), customer.Id);
+                //throw new ObjExistException("customer", customer.Id);
             }
             else
             {
@@ -85,6 +102,7 @@ namespace BL
             }
 
         }
+
         public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
         {
             if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))

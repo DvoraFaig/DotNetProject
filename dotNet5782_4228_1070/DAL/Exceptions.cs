@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    public partial class DalExceptions:Exception
+    public partial class Exceptions:Exception
     {
         public class ObjNotExistException : Exception
         {

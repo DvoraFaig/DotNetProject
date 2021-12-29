@@ -51,11 +51,6 @@ namespace PL
             PhoneTextBox.Text = "";
             LatitudeTextBox.Text = "";
             LongitudeTextBox.Text = "";
-            //IdTextBox.Text = "Id...";
-            //NameTextBox.Text = "Name...";
-            //PhoneTextBox.Text = "Phone...";
-            //LatitudeTextBox.Text = "latitude...";
-            //LongitudeTextBox.Text = "longitude...";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
         }
@@ -126,14 +121,34 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-        
-        private void ButtoClickAdd(object sender, RoutedEventArgs e)
+        private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                blObjectD.AddCustomer(Convert.ToInt32(IdTextBox.Text), NameTextBox.Text, PhoneTextBox.Text, Convert.ToInt32(LatitudeTextBox.Text) , Convert.ToInt32(LongitudeTextBox.Text));
+                BO.Customer newCustomer = new BO.Customer()
+                {
+                    Id = int.Parse(IdTextBox.Text),
+                    Name = NameTextBox.Text,
+                    Phone = PhoneTextBox.Text,
+                    CustomerPosition = new BO.Position()
+                    {
+                        Latitude = int.Parse(LatitudeTextBox.Text),
+                        Longitude = int.Parse(LongitudeTextBox.Text)
+                    }
+                };
+                blObjectD.AddCustomer(newCustomer);
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
+            }
+
+            #region catch exeptions
+            catch (BO.Exceptions.ObjExistException)
+            {
+                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (FormatException)
             {
@@ -143,10 +158,15 @@ namespace PL
             {
                 MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
             catch (Exception)
             {
-                MessageBox.Show("Cann't add a drone", "Drone Error");
+                MessageBox.Show("Cann't add a customer", "Customer Error");
             }
+            #endregion
 
         }
 
@@ -257,5 +277,6 @@ namespace PL
             return;
         }
         #endregion
+
     }
 }

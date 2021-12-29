@@ -24,8 +24,7 @@ namespace PL
         private BlApi.Ibl blObject;
         BO.Station station;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
-        
-        private bool updateOrAddWindow { get; set; }//true = add drone
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -34,31 +33,23 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        
+
         public StationWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
-            updateOrAddWindow = true;
-            displayWindowAddOrUpdate();
-            IdTextBox.Text = "Id...";
-            NameTextBox.Text = "Name....";
-            ChargingSlotsTextBox.Text = "Amount...";
-            StationLatitudeTextBox.Text = "Latitude....";
-            StationLongitudeTextBox.Text = "Longitude....";
+            visibleAddForm.Visibility = Visibility.Visible;
+            visibleUpdateForm.Visibility = Visibility.Hidden;
         }
-        
+
         public StationWindow(BlApi.Ibl blObject, BO.Station station)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
-            updateOrAddWindow = false;
-            displayWindowAddOrUpdate();
             this.blObject = blObject;
             this.station = station;
-           
-            IdTextBox.Text = $"{station.ID}";
+            IdTextBox.Text = $"{station.Id}";
             NameTextBox.Text = $"{ station.Name}";
             ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
             PositionTextBox.Text = $"( {station.StationPosition.Latitude} , {station.StationPosition.Longitude} )";
@@ -67,56 +58,10 @@ namespace PL
                 ChargingDronesInStationListView.Visibility = Visibility.Hidden;
             else
                 NoDronesInCharge.Visibility = Visibility.Hidden;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
         }
 
-        private void setDeliveryButton()
-        {
-            
-        }
-
-        /// <summary>
-        /// Display DroneWindow Add or Update
-        /// false == show update window
-        /// true == show add window
-        /// </summary>
-        private void displayWindowAddOrUpdate()
-        {
-            Visibility visibility;
-            visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
-            IdLabel.Visibility = visibility;
-            IdTextBox.Visibility = visibility;
-            NameLabel.Visibility = visibility;
-            NameTextBox.Visibility = visibility;
-            ChargingSlotsLabel.Visibility = visibility;
-            ChargingSlotsTextBox.Visibility = visibility;
-            StationLatitudeLabel.Visibility = visibility;
-            StationLatitudeTextBox.Visibility = visibility;
-            StationLongitudeLabel.Visibility = visibility;
-            StationLongitudeTextBox.Visibility = visibility;
-            labelAddStation.Visibility = visibility;
-            RestartButton.Visibility = visibility;
-   
-
-            visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
-            if (updateOrAddWindow == false)//if Add Drone don't go in
-            {
-                NameLabel.Visibility = visibility;
-                NameTextBox.Visibility = visibility;
-                IdLabel.Visibility = visibility;
-                IdTextBox.Visibility = visibility;
-                IdTextBox.IsReadOnly = true;
-            }
-            NoDronesInCharge.Visibility = visibility;
-            PositionLabel.Visibility = visibility;
-            PositionTextBox.Visibility = visibility;
-            PositionTextBox.IsReadOnly = true;
-            ChargingSlotsAvailbleLabel.Visibility = visibility;
-            ChargingSlotsAvailbleTextBox.Visibility = visibility;
-            ChargingDronesLabel.Visibility = visibility;
-            ChargingDronesInStationListView.Visibility = visibility;
-
-        }
-        
         /// <summary>
         /// Code to remove close box from window
         /// </summary>
@@ -128,20 +73,63 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-        private void BtnAddStation(object sender, RoutedEventArgs e)
+        private void addStationBtnClick(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                BO.Station newStation = new BO.Station()
+                {
+                    Id = int.Parse(IdTextBox.Text),
+                    Name = NameTextBox.Text,
+                    DroneChargeAvailble = int.Parse(ChargingSlotsTextBox.Text),
+                    StationPosition = new BO.Position()
+                    {
+                        Latitude = double.Parse(StationLatitudeTextBox.Text),
+                        Longitude = double.Parse(StationLongitudeTextBox.Text)
+                    }
+                };
+                blObject.AddStation(newStation);
+                new StationListWindow(blObject).Show();
+                this.Close();
+            }
+            #region catch exeptions
+            catch (BO.Exceptions.ObjExistException)
+            {
+                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cann't add a station", "Station Error");
+            }
+            #endregion
 
         }
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            IdTextBox.Text = "Id...";
-            NameTextBox.Text = "Name....";
-            ChargingSlotsTextBox.Text = "Amount...";
-            StationLatitudeTextBox.Text = "Latitude....";
-            StationLongitudeTextBox.Text = "Longitude....";
+            IdTextBox.Text = "";
+            NameTextBox.Text = "";
+            ChargingSlotsTextBox.Text = "";
+            StationLatitudeTextBox.Text = "";
+            StationLongitudeTextBox.Text = "";
         }
-        
+
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
         {
 
@@ -151,8 +139,8 @@ namespace PL
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
-        } 
-        
+        }
+
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
             ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
@@ -164,15 +152,14 @@ namespace PL
         private void UpdateBtnClick(object sender, RoutedEventArgs e)
         {
             //if (NameTextBox.Text != station.Name)
-            //{
-                
+            //   
             //}
 
             //if (int.Parse(ChargingSlotsAvailbleTextBox.Text) != station.DroneChargeAvailble)
             //{
 
             //}
-            blObject.StationChangeDetails(station.ID, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+            blObject.StationChangeDetails(station.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
@@ -207,5 +194,6 @@ namespace PL
             return;
         }
         #endregion
+
     }
 }

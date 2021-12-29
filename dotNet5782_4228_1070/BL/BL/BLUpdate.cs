@@ -99,7 +99,7 @@ namespace BL
                     Position availbleStationforCharging = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     double dis = (distance(drone.DronePosition, availbleStationforCharging));
                     if (dis != 0)
-                        drone.Battery = (int)dis * (int)empty;
+                        drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
                     drone.Status = DroneStatus.Maintenance;
                     drone.DronePosition = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     availbleSforCharging.ChargeSlots--;
@@ -128,7 +128,7 @@ namespace BL
             {
                 Drone blDrone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
-                blDrone.Battery += (double)timeCharging * requestElectricity(4);
+                blDrone.Battery += (double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;

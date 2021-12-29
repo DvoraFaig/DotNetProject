@@ -10,20 +10,33 @@ namespace BL
     public sealed partial class BL : BlApi.Ibl
     {
         static public DalApi.Idal dal;
-        private double empty { get; set; }
-        private double lightWeight { get; set; }
-        private double mediumWeight { get; set; }
-        private double heavyWeight { get; set; }
-        private double chargingRate { get; set; }
+
+        /// <summary>
+        /// Electicity usage of drone
+        /// and chargingRateOfDrone.
+        /// </summary>
+        private double electricityUsageWhenDroneIsEmpty { get; set; }
+        private double electricityUsageWhenDroneILightWeight { get; set; }
+        private double electricityUsageWhenDroneIsMediumWeight { get; set; }
+        private double electricityUsageWhenDroneIsHeavyWeight { get; set; }
+        private double chargingRateOfDrone { get; set; }
+
+        Random r = new Random();
+
+
+        /// <summary>
+        /// BL ctor.
+        /// Initialize the drones in this namespace accurding to data in database.
+        /// </summary>
         private BL()
         {
             dronesInBL = new List<Drone>();
             dal = DalApi.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
-            empty = dal.electricityUseByDrone()[0];
-            lightWeight = dal.electricityUseByDrone()[1];
-            mediumWeight = dal.electricityUseByDrone()[2];
-            heavyWeight = dal.electricityUseByDrone()[3];
-            chargingRate = dal.electricityUseByDrone()[4];
+            electricityUsageWhenDroneIsEmpty = dal.electricityUseByDrone()[0];
+            electricityUsageWhenDroneILightWeight = dal.electricityUseByDrone()[1];
+            electricityUsageWhenDroneIsMediumWeight = dal.electricityUseByDrone()[2];
+            electricityUsageWhenDroneIsHeavyWeight = dal.electricityUseByDrone()[3];
+            chargingRateOfDrone = dal.electricityUseByDrone()[4];
 
             List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
             try
@@ -221,6 +234,7 @@ namespace BL
             }
             return availbleCLosestStation;
         }
+
         /// <summary>
         /// Find a customer who received a parcel.
         /// </summary>
@@ -251,10 +265,9 @@ namespace BL
             return dal.electricityUseByDrone();
         }
 
-        
-
         /// <summary>
         /// Amount of power consumption of Drone
+        /// returns the value of drones' electricity usage from the props.
         /// </summary>
         /// <param name="choice"></param>
         /// <returns></returns>
@@ -263,15 +276,15 @@ namespace BL
             switch ((Electricity)choice)
             {
                 case Electricity.Empty:
-                    return empty;
+                    return electricityUsageWhenDroneIsEmpty;
                 case Electricity.LightWeight:
-                    return lightWeight;
+                    return electricityUsageWhenDroneILightWeight;
                 case Electricity.MediumWeight:
-                    return mediumWeight;
+                    return electricityUsageWhenDroneIsMediumWeight;
                 case Electricity.HeavyWeight:
-                    return chargingRate;
+                    return chargingRateOfDrone;
                 case Electricity.ChargingRate:
-                    return chargingRate;
+                    return chargingRateOfDrone;
                 default:
                     return 0;
             }

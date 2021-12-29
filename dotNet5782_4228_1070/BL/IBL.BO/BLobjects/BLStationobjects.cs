@@ -12,7 +12,7 @@ namespace BO
 {
     public class Station
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public Position StationPosition { get; set; }
         public int DroneChargeAvailble { get; set; }
@@ -20,7 +20,7 @@ namespace BO
         //public object ChargingDrone { get; private set; }//??????????????????????????
         public override string ToString()
         {
-            return $"station name: {Name}, station Id: {ID} , DroneChargeAvailble: {DroneChargeAvailble},\n\t{StationPosition.ToString()}, \tChargingDrone: { string.Join(", ", DronesCharging)}";
+            return $"station name: {Name}, station Id: {Id} , DroneChargeAvailble: {DroneChargeAvailble},\n\t{StationPosition.ToString()}, \tChargingDrone: { string.Join(", ", DronesCharging)}";
         }
 
     }

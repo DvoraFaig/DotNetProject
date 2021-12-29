@@ -23,7 +23,7 @@ namespace BL
         {
             return new DO.Station()
             {
-                Id = s.ID,
+                Id = s.Id,
                 Name = s.Name,
                 ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(),
                 Longitude = s.StationPosition.Longitude,
@@ -84,7 +84,7 @@ namespace BL
                 blDroneChargingByStation.Add(new ChargingDrone() { Id = d.DroneId, Battery = getBLDroneById(d.DroneId).Battery });
             };
             int availableChargingSlots = s.ChargeSlots - blDroneChargingByStation.Count();
-            return new Station() { ID = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = availableChargingSlots, DronesCharging = blDroneChargingByStation };
+            return new Station() { Id = s.Id, Name = s.Name, StationPosition = new BO.Position() { Longitude = s.Longitude, Latitude = s.Latitude }, DroneChargeAvailble = availableChargingSlots, DronesCharging = blDroneChargingByStation };
         }
         private Customer convertDalToBLCustomer(DO.Customer c)
         {

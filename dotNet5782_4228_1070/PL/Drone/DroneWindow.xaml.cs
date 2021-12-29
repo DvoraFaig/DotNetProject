@@ -175,24 +175,38 @@ namespace PL
             int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
-                blObjectD.AddDrone(Convert.ToInt32(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
+                // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
+                blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 TextBlock addedDrone = new TextBlock();
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
-
+            }
+            #region catch exeptions
+            catch (BO.Exceptions.ObjExistException)
+            {
+                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (FormatException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("== ERROR receiving data ==");
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
             }
             catch (Exception)
             {
                 MessageBox.Show("Cann't add a drone", "Drone Error");
             }
+            #endregion
 
         }
 
