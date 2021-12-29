@@ -12,13 +12,7 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
-        public IEnumerable<Drone> getWorkerWithSpecificCondition(Predicate<Drone> predicate)
-        {
-            return (from drone in DataSource.Drones
-                    where predicate(drone)
-                    select drone);
-        }
-
+        
         /// <summary>
         /// Get a Drone/s with a specific condition = predicate
         /// </summary>
@@ -78,6 +72,19 @@ namespace DalObject
                     where predicate(DroneCharge)
                     select DroneCharge);
         }
+
+        /// <summary>
+        /// Get a Worker/s with a specific condition = predicate
+        /// </summary>
+        /// <param name="predicate">return a worker/s that meeets the condition</param>
+        /// <returns></returns>
+        public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate)
+        {
+            return (from worker in DataSource.Workers
+                    where predicate(worker)
+                    select worker);
+        }
+
     }
 }
 

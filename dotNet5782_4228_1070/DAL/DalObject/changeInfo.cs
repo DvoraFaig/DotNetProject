@@ -44,19 +44,6 @@ namespace DalObject
         }
 
         /// <summary>
-        /// hange specific drone info
-        /// </summary>
-        /// <param name="id">The Drones' id who is needed to change info</param>
-        /// <param name="newModel">Drone.Model = newModel</param>
-        public void changeDroneInfo(int id, string newModel)
-        {
-            Drone dToChange = getDroneWithSpecificCondition(d => d.Id == id).First();
-            DataSource.Drones.Remove(dToChange);
-            dToChange.Model = newModel;
-            DataSource.Drones.Add(dToChange);
-        }
-
-        /// <summary>
         ///  Change specific drone info
         /// </summary>
         /// <param name="goodParcel">The parcel with the changed info</param>

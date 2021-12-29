@@ -57,36 +57,3 @@ namespace DalObject
     }
 }
 
-
-//public void AddDrone(int id, string Model, WeightCategories MaxWeight)
-//{
-//    Drone drone = new Drone();
-//    drone.Id = id;
-//    drone.Model = Model;
-//    drone.MaxWeight = MaxWeight;
-//    DataSource.Drones.Add(drone);
-//}
-
-//public void AddCustomer(int id, string Name, string Phone, double Longitude, double Latitude)
-//{
-//    Customer customer = new Customer();
-//    customer.Id = id;
-//    customer.Name = Name;
-//    customer.Phone = Phone;
-//    customer.Longitude = Longitude;
-//    customer.Latitude = Latitude;
-//    DataSource.Customers.Add(customer);
-//}
-
-
-//public void AddParcelToDelivery(int id, int Serderid, int TargetId, WeightCategories Weight, Priorities Priority, DateTime requestedTime)
-//{
-//    Parcel parcel = new Parcel();
-//    parcel.Id = id;
-//    parcel.SenderId = Serderid;
-//    parcel.TargetId = TargetId;
-//    parcel.Weight = Weight;
-//    parcel.Priority = Priority;
-//    parcel.Requeasted = requestedTime;
-//    DataSource.Parcels.Add(parcel);
-//}

@@ -17,7 +17,9 @@ namespace DalObject
         internal static List<DroneCharge> DroneCharges;
         internal static List<Worker> Workers;
 
-
+        /// <summary>
+        /// Initialize info of the program.
+        /// </summary>
         public static void Initialize()
         {
             Drones = new List<Drone>();

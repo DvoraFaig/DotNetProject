@@ -21,6 +21,18 @@ namespace DO
             }
 
         }
+        public class ObjExistException : Exception
+        {
+            public ObjExistException(Type t, int id)
+                : base(String.Format($"The {t.Name} with id {id} exist."))
+            {
+            }
+            public ObjExistException(string message)
+                : base(String.Format($"The {message}"))
+            {
+            }
+
+        }
 
     }
 }

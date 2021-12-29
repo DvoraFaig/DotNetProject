@@ -31,16 +31,3 @@ namespace DalObject
         }
     }
 }
-
-//public int amountDrones()
-//{
-//    return DataSource.Drones.Count();
-//}
-//public int amountCustomers()
-//{
-//    return DataSource.Customers.Count;
-//}
-//public int amountDroneCharges()
-//{
-//    return DataSource.DroneCharges.Count();
-//}
