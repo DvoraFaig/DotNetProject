@@ -41,10 +41,10 @@ namespace BO
     public class CustomerInParcel //targetId in parcel
     {
         public int Id { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
         public override string ToString()
         {
-            return ($"Id: {Id} , Name: {name} \n");
+            return ($"Id: {Id} , Name: {Name} \n");
         }
     }
 }

@@ -49,6 +49,7 @@ namespace PL
             PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
+            AddOrUpdateCustomer.Height = 400;
         }
 
         /// <summary>
@@ -71,11 +72,17 @@ namespace PL
             PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
             parcelsListViewContantAndDispaly();
+            AddOrUpdateCustomer.Height = 400;
 
         }
-        // public CustomerWindow(BlApi.Ibl blObject, BO.Customer client , bool isClient , isAdmin)
 
-        public CustomerWindow(BlApi.Ibl blObject, BO.Customer client , bool isClient)
+        /// <summary>
+        /// Ctor display the update/see info a specific clients Form.
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="client">The customer to update/see info</param>
+        /// <param name="isClient">if the user is a client or a worker</param>
+        public CustomerWindow(BlApi.Ibl blObject, BO.Customer client, bool isClient)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -96,7 +103,7 @@ namespace PL
                 ReturnToPageDroneListWindow.Content = "Log Out";
             }
         }
-        
+
         /// <summary>
         /// If there is no list hide the list space.....
         /// </summary>
@@ -131,55 +138,57 @@ namespace PL
         /// <param name="e"></param>
         private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
-            if (isClient)
+            if (isClient) // go to page add parcel
             {
-                new ParcelWindow(blObjectD,).Show();
+                new ParcelWindow(blObjectD, customer).Show();
                 this.Close();
             }
-            try
-            {
-                BO.Customer newCustomer = new BO.Customer()
+            else
+            { // try to add a customer
+                try
                 {
-                    Id = int.Parse(IdTextBox.Text),
-                    Name = NameTextBox.Text,
-                    Phone = PhoneTextBox.Text,
-                    CustomerPosition = new BO.Position()
+                    BO.Customer newCustomer = new BO.Customer()
                     {
-                        Latitude = int.Parse(LatitudeTextBox.Text),
-                        Longitude = int.Parse(LongitudeTextBox.Text)
-                    }
-                };
-                blObjectD.AddCustomer(newCustomer);
-                new CustomerListWindow(blObjectD).Show();
-                this.Close();
+                        Id = int.Parse(IdTextBox.Text),
+                        Name = NameTextBox.Text,
+                        Phone = PhoneTextBox.Text,
+                        CustomerPosition = new BO.Position()
+                        {
+                            Latitude = int.Parse(LatitudeTextBox.Text),
+                            Longitude = int.Parse(LongitudeTextBox.Text)
+                        }
+                    };
+                    blObjectD.AddCustomer(newCustomer);
+                    new CustomerListWindow(blObjectD).Show();
+                    this.Close();
+                }
+                #region catch exeptions
+                catch (BO.Exceptions.ObjExistException)
+                {
+                    MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+                }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Cann't add a customer", "Customer Error");
+                }
+                #endregion
             }
-            #region catch exeptions
-            catch (BO.Exceptions.ObjExistException)
-            {
-                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
-            }
-            catch (ArgumentNullException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (OverflowException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cann't add a customer", "Customer Error");
-            }
-            #endregion
-
         }
 
         /// <summary>
@@ -242,9 +251,9 @@ namespace PL
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsSenderParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
             if (isClient)
-                new ParcelWindow(blObjectD, parcel, true,this).Show();
+                new ParcelWindow(blObjectD, parcel, true, this).Show();
             else
-                new ParcelWindow(blObjectD, parcel,false).Show();
+                new ParcelWindow(blObjectD, parcel, false).Show();
             this.Close();
         }
 
@@ -257,11 +266,21 @@ namespace PL
         {
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsTargetParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
-            if(isClient)
-                new ParcelWindow(blObjectD, parcel, false,this).Show();
+            if (isClient)
+                new ParcelWindow(blObjectD, parcel, false, this).Show();
             else
                 new ParcelWindow(blObjectD, parcel, false).Show();
             this.Close();
+        }
+
+        /// <summary>
+        /// Avoid writing chars in a specific textbox like id.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
 
         /// <summary>
@@ -272,21 +291,41 @@ namespace PL
         private void changeBackGroundExpenderCollapsed(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = null;
+            ExpenderTarget.Visibility = Visibility.Visible;
         }
 
         /// <summary>
-        /// Change background of parcels list when the there is a click on expender to open the listview
+        /// Change background of parcels list where customer is a sender when the there is a click on expender to open the listview
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void changeBackGroundExpenderExpanded(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = Brushes.White;
+            if (customer.CustomerAsTarget.Count > 0)
+                ExpenderTarget.Visibility = Visibility.Hidden;
         }
 
-        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Change background of parcels list where customer is the target when the there is a click on expender to close the listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeBackGroundExpenderExpandedTarget(object sender, RoutedEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            CustomerAsTargetParcelsListView.Background = Brushes.White;
         }
+
+        /// <summary>
+        /// Change background of parcels where customer is the target list when the there is a click on expender to open the listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeBackGroundExpenderCollapsedTarget(object sender, RoutedEventArgs e)
+        {
+            CustomerAsTargetParcelsListView.Background = null;
+        }
+
+
     }
 }

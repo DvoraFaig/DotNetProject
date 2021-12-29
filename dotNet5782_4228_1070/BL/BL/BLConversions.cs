@@ -104,12 +104,12 @@ namespace BL
                 if (senderOrTaget) //sender
                 {
                     bLCustomerInParcel.Id = parcel.SenderId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.SenderId).First().Name;
+                    bLCustomerInParcel.Name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.SenderId).First().Name;
                 }
                 else //target
                 {
                     bLCustomerInParcel.Id = parcel.TargetId;
-                    bLCustomerInParcel.name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First().Name;
+                    bLCustomerInParcel.Name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First().Name;
                 }
                 parcelStatusesTemp = findParcelStatus(parcel);
                 //if (parcel.Delivered != null)
@@ -200,8 +200,8 @@ namespace BL
                 toAdd = new ParcelToList()
                 {
                     Id = p.Id,
-                    SenderName = p.Sender.name,
-                    TargetName = p.Target.name,
+                    SenderName = p.Sender.Name,
+                    TargetName = p.Target.Name,
                     Weight = p.Weight,
                     Priority = p.Priority,
                     ParcelStatus = findParcelStatus(p)
@@ -228,8 +228,8 @@ namespace BL
             return new Parcel()
             {
                 Id = p.Id,
-                Sender = new CustomerInParcel() { Id = p.SenderId, name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name },
-                Target = new CustomerInParcel() { Id = p.TargetId, name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name },
+                Sender = new CustomerInParcel() { Id = p.SenderId, Name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name },
+                Target = new CustomerInParcel() { Id = p.TargetId, Name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name },
                 Weight = p.Weight,
                 Drone = drone,
                 Requeasted = p.Requeasted,
@@ -250,7 +250,7 @@ namespace BL
             return new CustomerInParcel()
             {
                 Id = customer.Id,
-                name = customer.Name
+                Name = customer.Name
             };
         }
 

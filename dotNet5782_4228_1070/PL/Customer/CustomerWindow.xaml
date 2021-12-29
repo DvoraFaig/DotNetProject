@@ -85,9 +85,9 @@
                     </ListView.View>
                 </ListView>
             </Expander>
-            <Expander x:Name="ExpenderTarget" Expanded="changeBackGroundExpenderExpanded" Collapsed="changeBackGroundExpenderCollapsed" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="4" Header="Customer As Target"  >
+            <Expander x:Name="ExpenderTarget" Expanded="changeBackGroundExpenderExpandedTarget" Collapsed="changeBackGroundExpenderCollapsedTarget" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="4" Header="Customer As Target"  >
                 <ListView x:Name="CustomerAsTargetParcelsListView"  ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
-            Background="White"  MouseDoubleClick="SelectParcelOfTarget" SelectionChanged="CustomerAsTargetParcelsListView_SelectionChanged" >
+            Background="White"  MouseDoubleClick="SelectParcelOfTarget"  >
                     <ListView.View >
                         <GridView>
                             <GridViewColumn Header="Id:"  Width="50" DisplayMemberBinding="{Binding Id}" />

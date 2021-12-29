@@ -68,7 +68,7 @@ namespace PL
         {
             CustomerToList customerToList = (CustomerToList)CustomerListView.SelectedItem;
             Customer customer = blObjectH.GetCustomerById(customerToList.Id);////changed frrom get with specific...
-            new CustomerWindow(blObjectH, customer).Show();
+            new CustomerWindow(blObjectH, customer , false ).Show();
             this.Close();
         }
 

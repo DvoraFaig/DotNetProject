@@ -23,6 +23,7 @@ namespace PL
     {
         private BlApi.Ibl blObject;
         private BO.Parcel parcel;
+        private BO.Customer clientCustomer;
         private bool isClientAndNotAdmin = false;
         private bool clientIsSender = false;
         private bool returnToParcelListWindow = false;
@@ -63,8 +64,13 @@ namespace PL
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            SenderText.Content = senderCustomer.Name;/////////////
+            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(new CustomerInParcel() { Id = senderCustomer.Id , Name = senderCustomer.Name});
+            ParcelSenderSelector.Visibility = Visibility.Hidden;
+            SenderText.Visibility = Visibility.Visible;
+            SenderText.Content = senderCustomer.Name;
+            clientIsSender = true;
             returnToParcelListWindow = false;
+            clientCustomer = senderCustomer;
         }
 
         /// <summary>
@@ -144,12 +150,17 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RemoveClick(object sender, RoutedEventArgs e)
+        private void removeParcelBtnClick(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (!clientIsSender)//////
+                    return;
                 blObject.RemoveParcel(parcel);
-                new ParcelListWindow_(blObject).Show();
+                if(isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer , true).Show();
+                else
+                    new ParcelListWindow_(blObject).Show();
                 this.Close();
                 MessageBox.Show("Parcel was remove");
             }
@@ -168,9 +179,14 @@ namespace PL
         private void addParcelBtnClick(object sender, RoutedEventArgs e)
         {
 
-            if (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector))
+            if ((isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector) && !isClientAndNotAdmin)
+                || (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelTargetSelector) && isClientAndNotAdmin))
             {
-                int senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
+                int senderId;
+                if (isClientAndNotAdmin)
+                    senderId = clientCustomer.Id;
+                else
+                    senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
                 int targetId = ((CustomerInParcel)ParcelTargetSelector.SelectedItem).Id;
                 DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
                 DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
@@ -182,7 +198,10 @@ namespace PL
                 {
                     MessageBox.Show(ex.Message);
                 }
-                new ParcelListWindow_(blObject).Show();
+                if (isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer, true).Show();
+                else
+                    new ParcelListWindow_(blObject).Show();
                 this.Close();
             }
             else MessageBox.Show("Missinig Details");
@@ -218,7 +237,7 @@ namespace PL
 
                 if (clientIsSender)
                 {
-                    customer = blObject.GetCustomerById(parcel.Sender.Id);
+                    customer = (parcel == null)? clientCustomer : blObject.GetCustomerById(parcel.Sender.Id);
                 }
                 else
                 {
@@ -235,9 +254,9 @@ namespace PL
                 else
                 {
                     if (clientIsSender)
-                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Sender.Id)).Show();
+                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Sender.Id), false).Show();
                     else
-                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Target.Id)).Show();
+                        new CustomerWindow(blObject, blObject.GetCustomerById(parcel.Target.Id), false).Show();
                 }
                 this.Close();
             }
@@ -245,6 +264,8 @@ namespace PL
 
         private void DroneClick(object sender, RoutedEventArgs e)
         {
+            if (isClientAndNotAdmin)
+                return;
             Drone d = blObject.GetDroneById(parcel.Drone.Id);
             new DroneWindow(blObject, d).Show();
             this.Close();
@@ -256,7 +277,7 @@ namespace PL
                 return;
             CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
-            new CustomerWindow(blObject, customer).Show();
+            new CustomerWindow(blObject, customer,false).Show();
             this.Close();
         }
 
@@ -272,7 +293,7 @@ namespace PL
             //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
         }
 
-        private void ApdateButtonClick(object sender, RoutedEventArgs e)
+        private void updateParcelInfoBtnClick(object sender, RoutedEventArgs e)
         {
 
         }

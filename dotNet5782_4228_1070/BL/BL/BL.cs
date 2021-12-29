@@ -91,16 +91,6 @@ namespace BL
                     //bool AvailbeDroneWithPosition = false;
                     if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
-                        //List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
-                        //try
-                        //{
-                        //    cWithDeliveredP = findCustomersWithDeliveredParcel();
-                        //}
-                        //catch (Exception)
-                        //{
-                        //    bool CustomersWithDeliveredParcel = false;
-                        //}
-
                         if (cWithDeliveredP.Count > 0)
                         {
                             //AvailbeDroneWithPosition = true;
