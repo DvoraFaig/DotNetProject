@@ -10,17 +10,32 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
-
-        public double[] electricityUseByDrone(Drone drone)
+        /// <summary>
+        /// Returns electricity usage of drone.
+        /// </summary>
+        /// <returns></returns>
+        public double[] electricityUseByDrone()
         {
-            double[] droneInfo = new double[5];
-            droneInfo[0] = DataSource.Config.empty;
-            droneInfo[1] = DataSource.Config.lightWeight;
-            droneInfo[2] = DataSource.Config.mediumWeight;
-            droneInfo[3] = DataSource.Config.heavyWeight;
-            droneInfo[4] = DataSource.Config.chargingRate;
-            return droneInfo;
+            double[] arr = {
+                DataSource.Config.empty,
+                DataSource.Config.lightWeight,
+                DataSource.Config.mediumWeight,
+                DataSource.Config.heavyWeight,
+                DataSource.Config.chargingRate };
+            return arr;
         }
+
+
+        //public double[] electricityUseByDrone(Drone drone)
+        //{
+        //    double[] droneInfo = new double[5];
+        //    droneInfo[0] = DataSource.Config.empty;
+        //    droneInfo[1] = DataSource.Config.lightWeight;
+        //    droneInfo[2] = DataSource.Config.mediumWeight;
+        //    droneInfo[3] = DataSource.Config.heavyWeight;
+        //    droneInfo[4] = DataSource.Config.chargingRate;
+        //    return droneInfo;
+        //}
 
     }
 }

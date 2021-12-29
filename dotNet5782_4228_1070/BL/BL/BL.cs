@@ -92,7 +92,7 @@ namespace BL
                         {
                             //AvailbeDroneWithPosition = true;
                             int index = r.Next(0, cWithDeliveredP.Count);
-                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[r.Next(0, cWithDeliveredP.Count)].Id).First();
+                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[index].Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
                             double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
@@ -265,3 +265,20 @@ namespace BL
         }
     }
 }
+
+//using System;
+//using BlApi;
+//using DalApi;
+
+//namespace BL
+//{
+//    sealed class BL : IBL
+//    {
+//        static readonly IBL instance = new BL();
+//        public static IBL Instance { get => instance; }
+
+//        internal IDal dal = DalFactory.GetDal();
+//        BL() { }
+
+//    }
+//}

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DO;
 
 
 namespace DalObject
@@ -11,43 +7,43 @@ namespace DalObject
     public partial class DalObject : DalApi.Idal
     {
         /// <summary>
-        /// If station with the same id exist
+        /// If station with the requested id exist
         /// </summary>
-        /// <param name="id">Looking for station with this id</param>
+        /// <param name="requestedId">Looking for station with this id</param>
         /// <returns></returns>
-        public Boolean IsStationById(int id)
+        public Boolean IsStationById(int requestedId)
         {
-            return DataSource.Stations.Any(s => s.Id == id);
+            return DataSource.Stations.Any(s => s.Id == requestedId);
         }
 
         /// <summary>
-        /// If drone with the same id exist
+        /// If drone with the requested id exist
         /// </summary>
-        /// <param name="id">Looking for drone with this id</param>
+        /// <param name="requestedId">Looking for drone with this id</param>
         /// <returns></returns>
-        public Boolean IsDroneById(int id)
+        public Boolean IsDroneById(int requestedId)
         {
-            return DataSource.Drones.Any(d => d.Id == id);
+            return DataSource.Drones.Any(d => d.Id == requestedId);
         }
 
         /// <summary>
-        /// If customer with the same id exist
+        /// If customer with the requested id exist
         /// </summary>
-        /// <param name="id">Looking for customer with this id</param>
+        /// <param name="requestedId">Looking for customer with this id</param>
         /// <returns></returns>
-        public Boolean IsCustomerById(int id)
+        public Boolean IsCustomerById(int requestedId)
         {
-            return DataSource.Customers.Any(c => c.Id == id);
+            return DataSource.Customers.Any(c => c.Id == requestedId);
         }
 
         /// <summary>
-        /// If parcel with the same id exist
+        /// If parcel with the requested id exist
         /// </summary>
-        /// <param name="id">Looking for parcel with this id</param>
+        /// <param name="requestedId">Looking for parcel with this id</param>
         /// <returns></returns>
-        public Boolean IsParcelById(int id)
+        public Boolean IsParcelById(int requestedId)
         {
-            return DataSource.Parcels.Any(p => p.Id == id);
+            return DataSource.Parcels.Any(p => p.Id == requestedId);
         }
     }
 }

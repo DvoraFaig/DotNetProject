@@ -43,7 +43,11 @@ namespace DalObject
             DataSource.Drones.Add(droneWithUpdateInfo);
         }
 
-        
+        /// <summary>
+        /// hange specific drone info
+        /// </summary>
+        /// <param name="id">The Drones' id who is needed to change info</param>
+        /// <param name="newModel">Drone.Model = newModel</param>
         public void changeDroneInfo(int id, string newModel)
         {
             Drone dToChange = getDroneWithSpecificCondition(d => d.Id == id).First();
@@ -51,17 +55,27 @@ namespace DalObject
             dToChange.Model = newModel;
             DataSource.Drones.Add(dToChange);
         }
+
+        /// <summary>
+        ///  Change specific drone info
+        /// </summary>
+        /// <param name="goodParcel">The parcel with the changed info</param>
         public void changeParcelInfo(Parcel goodParcel)
         {
             Parcel pToErase = getParcelWithSpecificCondition(p => p.Id == goodParcel.Id).First();
             DataSource.Parcels.Remove(pToErase);
             DataSource.Parcels.Add(goodParcel);
         }
-        public void changeCustomerInfo(Customer customer)
+
+        /// <summary>
+        ///  Change specific customer info
+        /// </summary>
+        /// <param name="goodCustomer">DrThe customer with the changed info</param>
+        public void changeCustomerInfo(Customer goodCustomer)
         {
-            Customer cToErase = getCustomerWithSpecificCondition( c => c.Id == customer.Id ).First();
+            Customer cToErase = getCustomerWithSpecificCondition( c => c.Id == goodCustomer.Id ).First();
             DataSource.Customers.Remove(cToErase);
-            DataSource.Customers.Add(customer);
+            DataSource.Customers.Add(goodCustomer);
         }
     }
 }
