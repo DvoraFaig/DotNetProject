@@ -41,8 +41,7 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
-            ChosenWeight.Visibility = Visibility.Hidden;
-             
+            ChosenWeight.Visibility = Visibility.Hidden;            
         }
        
         void ToolWindowLoaded(object sender, RoutedEventArgs e)

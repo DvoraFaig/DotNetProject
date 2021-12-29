@@ -88,6 +88,7 @@ namespace BL
                 dal.AddCustomer(c);
             }
         }
+
         public void AddCustomer(BO.Customer customer)
         {
             if (dal.IsCustomerById(customer.Id))

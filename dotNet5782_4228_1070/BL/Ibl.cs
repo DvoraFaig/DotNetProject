@@ -10,10 +10,8 @@ namespace BlApi
         //================
         //  Add
         //================
-        //public void AddStation(int id, string name, int latitude, int longitude, int chargeSlot);
         public void AddStation(Station stationToAdd);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
-        // public void AddCustomer(int id, string name, string phone, Position position);
         public void AddCustomer(int id, string name, string phone, int latitude, int longitude);
         public void AddCustomer(BO.Customer customer);
         public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
@@ -24,7 +22,6 @@ namespace BlApi
         public List<BLStationToList> DisplayStationsToList();
         public IEnumerable<Station> DisplayStations();
         public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
-        //public List<Customer> DisplayCustomersToList();
         public List<Drone> DisplayDrones();
         public IEnumerable<DroneToList> DisplayDronesToList();
         public IEnumerable<ParcelToList> DisplayParcelToList();
@@ -58,18 +55,7 @@ namespace BlApi
         public void DronePicksUpParcel(int droneId);
         public void DeliveryParcelByDrone(int idDrone);
         public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
-
-        //===================
-        //  predicat
-        //===================
-
-        //===================
-        //  Convertions
-        //===================
-
-        //public Drone convertDroneToListToDrone(int droneId);
-
-
+       
         //========================
         //  Get Data About Object
         //========================

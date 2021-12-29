@@ -116,11 +116,7 @@ namespace PL
         /// </summary>
         private void clearFormTextBox()
         {
-            SignUpIdTextBox.Text = "";
-            SignUpNameTextBox.Text = "";
-            SignUpPhoneTextBox.Text = "";
-            SignUpLatitudeTextBox.Text = "";
-            SignUpLongitudeTextBox.Text = "";
+            PLFuncions.clearFormTextBox(SignUpIdTextBox, SignUpNameTextBox, SignUpPhoneTextBox, SignUpLatitudeTextBox, SignUpLongitudeTextBox);
         }
 
         private void signUpAsAWorker(object sender, RoutedEventArgs e)
