@@ -37,9 +37,9 @@ namespace PL
         #endregion
 
         /// <summary>
-        /// Ctor Add form
+        /// Ctor display the add a customer Form
         /// </summary>
-        /// <param name="blObject"></param>
+        /// <param name="blObject">Instance of the interface Ibl</param>
         public CustomerWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
@@ -56,10 +56,10 @@ namespace PL
         }
 
         /// <summary>
-        /// Ctor Update form
+        /// Ctor display the update/see info a specific customer Form.
         /// </summary>
-        /// <param name="blObject">Ibl instance</param>
-        /// <param name="customerInCtor">Recieve the customer to update</param>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="customerInCtor">The customer to update/see info</param>
         public CustomerWindow(BlApi.Ibl blObject, BO.Customer customerInCtor)
         {
             InitializeComponent();
@@ -77,6 +77,7 @@ namespace PL
             parcelsListViewContantAndDispaly();
 
         }
+        // public CustomerWindow(BlApi.Ibl blObject, BO.Customer client , bool isClient , isAdmin)
 
         public CustomerWindow(BlApi.Ibl blObject, BO.Customer client , bool isClient)
         {
@@ -95,6 +96,9 @@ namespace PL
             parcelsListViewContantAndDispaly();
         }
         
+        /// <summary>
+        /// If there is no list hide the list space.....
+        /// </summary>
         private void parcelsListViewContantAndDispaly()
         {
             if (customer.CustomerAsTarget.Count > 0)
@@ -121,6 +125,11 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
+        /// <summary>
+        /// Add a customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -140,7 +149,6 @@ namespace PL
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
             }
-
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException)
             {
@@ -184,6 +192,12 @@ namespace PL
             LongitudeTextBox.Text = "";
         }
 
+        /// <summary>
+        /// Return back to CustomerList
+        /// if isClient = true return back to logIn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickReturnToPageCustomerListWindow(object sender, RoutedEventArgs e)
         {
             if (isClient)
@@ -206,6 +220,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Update the customers info.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text);
@@ -213,6 +232,11 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// Select a spaecific parcel of customer as sender and open specific parcelWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectParcelOfSender(object sender, MouseButtonEventArgs e)
         {
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsSenderParcelsListView.SelectedItem;
@@ -224,6 +248,11 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// Select a spaecific parcel of customer as target and open specific parcelWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectParcelOfTarget(object sender, MouseButtonEventArgs e)
         {
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsTargetParcelsListView.SelectedItem;
@@ -235,11 +264,21 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// Change background of parcels list when the there is a click on expender to close the listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeBackGroundExpenderCollapsed(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = null;
         }
 
+        /// <summary>
+        /// Change background of parcels list when the there is a click on expender to open the listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeBackGroundExpenderExpanded(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = Brushes.White;

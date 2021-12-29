@@ -43,6 +43,7 @@ namespace PL
         }
         #endregion
 
+
         public ParcelWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
@@ -54,6 +55,12 @@ namespace PL
             returnToParcelListWindow = true;
         }
 
+        /// <summary>
+        /// Ctor display the update / see info a specific parcel Form.
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="parcel">The parcel to update / see info</param>
+        /// <param name="cameFromPageParcelList">To know were to return back. if ture = parcelList, if false = return to a specific customer </param>
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool cameFromPageParcelList = true)
         {
             InitializeComponent();
@@ -66,14 +73,21 @@ namespace PL
             //visibleUpdateForm.Visibility = Visibility;
             initializeDetails();
         }
-        
+
+        /// <summary>
+        /// Ctor display the update / see info a specific parcel Form.
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="parcel">The parcel to update / see info </param>
+        /// <param name="isSender">to know to witch specific customer to return back. sender / target</param>
+        /// <param name="window"></param>
         public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender, Window window)
         {
             InitializeComponent();
             isClientAndNotAdmin = true;
             clientIsSender = isSender;
             returnBackTo = window;
-            Loaded += ToolWindowLoaded;//The x button
+            Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
             this.parcel = parcel;
             visibleAddForm.Visibility = Visibility.Hidden;
@@ -101,9 +115,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// initialize the add from textBoxes
+        /// </summary>
         private void initializeAdd()
         {
-            //visibleAddForm.Visibility = Visibility;
             ParcelTitle.Content = "Add a Parcel";
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
@@ -111,6 +127,11 @@ namespace PL
             ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
         }
         
+        /// <summary>
+        /// Remove the parcel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveClick(object sender, RoutedEventArgs e)
         {
             try
@@ -126,10 +147,16 @@ namespace PL
             }
         }
 
-        private void ButtonClickAdd(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// addParcelBtnClick
+        private void addParcelBtnClick(object sender, RoutedEventArgs e)
         {
 
-            if (isFullField(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector))
+            if (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector))
             {
                 int senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
                 int targetId = ((CustomerInParcel)ParcelTargetSelector.SelectedItem).Id;
@@ -149,7 +176,12 @@ namespace PL
             else MessageBox.Show("Missinig Details");
         }
 
-        private bool isFullField(params ComboBox[] comboBoxes)
+        /// <summary>
+        /// Return true if the comboBoxes' fields are full
+        /// </summary>
+        /// <param name="comboBoxes">The comboBoxes to check their fields.</param>
+        /// <returns></returns>
+        private bool isComboBoxesFieldsFull(params ComboBox[] comboBoxes)
         {
             foreach (ComboBox item in comboBoxes)
             {

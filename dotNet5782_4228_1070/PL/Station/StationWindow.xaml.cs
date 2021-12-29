@@ -34,6 +34,10 @@ namespace PL
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
 
+        /// <summary>
+        /// Ctor display the add a station Form
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
         public StationWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
@@ -43,6 +47,11 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Ctor display the update/see info a specific station Form.
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="station">The station to update/see info</param>
         public StationWindow(BlApi.Ibl blObject, BO.Station station)
         {
             InitializeComponent();

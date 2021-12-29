@@ -25,17 +25,6 @@ namespace PL
         private BlApi.Ibl blObjectD;
         BO.Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
-        //private bool updateOrAddWindow { get; set; }//true = add drone
-
-        //  public static readonly DependencyProperty AgeProperty =
-        //DependencyProperty.Register("Age", typeof(string), typeof(DroneWindow),
-        //                             new UIPropertyMetadata(0));
-        //  public string Age
-        //  {
-        //      get { return (string)GetValue(AgeProperty); }
-        //      set { SetValue(AgeProperty, value); }
-        //  }
-
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -45,28 +34,30 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
+
+        /// <summary>
+        /// Ctor display the add a drone Form
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
         public DroneWindow(BlApi.Ibl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
-            //updateOrAddWindow = true;
-            displayWindowAddOrUpdate();
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            IdTextBox.Text = "Drone id....";
-            ModelTextBox.Text = "Model id....";
-            StationIdTextBox.Text = "Station Id...";
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-
         }
-        
+
+        /// <summary>
+        /// Ctor display the update/see info a specific drone Form.
+        /// </summary>
+        /// <param name="blObject">Instance of interface Ibl</param>
+        /// <param name="drone">The drone to update/see info</param>
         public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
-            //updateOrAddWindow = false;
-            displayWindowAddOrUpdate();
             blObjectD = blObject;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
@@ -116,52 +107,7 @@ namespace PL
             }
         }
 
-        /// <summary>
-        /// Display DroneWindow Add or Update
-        /// false == show update window
-        /// true == show add window
-        /// </summary>
-        private void displayWindowAddOrUpdate()
-        {
-            Visibility visibility;
-            //visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
-            //labelAddADrone.Visibility = visibility;
-            //IdTextBoxLabel.Visibility = visibility;
-            //IdTextBox.Visibility = visibility;
-            //ModelTextBoxLabel.Visibility = visibility;
-            //ModelTextBox.Visibility = visibility;
-            //DroneWeightSelectorLabel.Visibility = visibility;
-            //DroneWeightSelector.Visibility = visibility;
-            //StationIdTextBoxLabel.Visibility = visibility;
-            //StationIdTextBox.Visibility = visibility;
-            //RestartButton.Visibility = visibility;
-            //AddlButton.Visibility = visibility;
 
-            //visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
-            //if (updateOrAddWindow == false)//if Add Drone don't go in
-            //{
-            //    IdTextBoxLabel.Visibility = visibility;
-            //    IdTextBox.Visibility = visibility;
-            //    IdTextBox.IsReadOnly = true;
-            //    ModelTextBoxLabel.Visibility = visibility;
-            //    ModelTextBox.Visibility = visibility;
-            //}
-            //DroneWeightLabel.Visibility = visibility;
-            //DroneWeightUpdate.Visibility = visibility;
-            //BatteryTextBoxLabel.Visibility = visibility;
-            //BatteryTextBox.Visibility = visibility;
-            //StatusTextBoxLabel.Visibility = visibility;
-            //StatusTextBox.Visibility = visibility;
-            //PositionDroneTLabel.Visibility = visibility;
-            //PositionDroneTextBox.Visibility = visibility;
-            //ParcelTextBoxLabel.Visibility = visibility;
-            //ParcelIdIdTextBox.Visibility = visibility;
-            //UpdateButton.Visibility = visibility;
-            //ChargeButton.Visibility = visibility;
-            //TimeTochargeText.Visibility = visibility;
-            //TimeTocharge.Visibility = visibility;
-            //DeliveryStatusButton.Visibility = visibility;
-        }
 
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
@@ -342,3 +288,49 @@ namespace PL
         #endregion
     }
 }
+///// <summary>
+///// Display DroneWindow Add or Update
+///// false == show update window
+///// true == show add window
+///// </summary>
+//private void displayWindowAddOrUpdate()
+//{
+//    Visibility visibility;
+//    //visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
+//    //labelAddADrone.Visibility = visibility;
+//    //IdTextBoxLabel.Visibility = visibility;
+//    //IdTextBox.Visibility = visibility;
+//    //ModelTextBoxLabel.Visibility = visibility;
+//    //ModelTextBox.Visibility = visibility;
+//    //DroneWeightSelectorLabel.Visibility = visibility;
+//    //DroneWeightSelector.Visibility = visibility;
+//    //StationIdTextBoxLabel.Visibility = visibility;
+//    //StationIdTextBox.Visibility = visibility;
+//    //RestartButton.Visibility = visibility;
+//    //AddlButton.Visibility = visibility;
+
+//    //visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
+//    //if (updateOrAddWindow == false)//if Add Drone don't go in
+//    //{
+//    //    IdTextBoxLabel.Visibility = visibility;
+//    //    IdTextBox.Visibility = visibility;
+//    //    IdTextBox.IsReadOnly = true;
+//    //    ModelTextBoxLabel.Visibility = visibility;
+//    //    ModelTextBox.Visibility = visibility;
+//    //}
+//    //DroneWeightLabel.Visibility = visibility;
+//    //DroneWeightUpdate.Visibility = visibility;
+//    //BatteryTextBoxLabel.Visibility = visibility;
+//    //BatteryTextBox.Visibility = visibility;
+//    //StatusTextBoxLabel.Visibility = visibility;
+//    //StatusTextBox.Visibility = visibility;
+//    //PositionDroneTLabel.Visibility = visibility;
+//    //PositionDroneTextBox.Visibility = visibility;
+//    //ParcelTextBoxLabel.Visibility = visibility;
+//    //ParcelIdIdTextBox.Visibility = visibility;
+//    //UpdateButton.Visibility = visibility;
+//    //ChargeButton.Visibility = visibility;
+//    //TimeTochargeText.Visibility = visibility;
+//    //TimeTocharge.Visibility = visibility;
+//    //DeliveryStatusButton.Visibility = visibility;
+//}
