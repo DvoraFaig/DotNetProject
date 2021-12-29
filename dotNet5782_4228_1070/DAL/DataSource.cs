@@ -134,9 +134,7 @@ namespace DalObject
                 Workers.Add(new Worker()
                 {
                     Id = i,
-                    Name = $"Worker{i}",
                     Password = $"Worker{i}",
-
                 });
         }
         //DroneCharge

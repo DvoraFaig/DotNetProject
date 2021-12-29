@@ -45,6 +45,7 @@
             <Button x:Name="AddDroneButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Drone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddDroneButtonClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
+        <Button Grid.Column="1" Grid.Row="1" Content="Sort by Status" VerticalAlignment="Top" HorizontalAlignment="Left" Click="sortDronesByStatus"></Button>
 
         <ListView x:Name="DroneListView"  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="DroneSelection"  >
@@ -59,6 +60,31 @@
                     <GridViewColumn Header="IdParcel" Width="110" DisplayMemberBinding="{Binding IdParcel}" />
                 </GridView>
             </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text=" Status: " FontSize="14" Foreground="#FF4B4A4A" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding Status}" FontWeight="Bold"  FontSize="14" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="14" Foreground="#FF4B4A4A" FontWeight="Bold"  Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" item(s). " FontSize="12" Foreground="#FF4B4A4A" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
 
         <Grid Grid.Row="1" Grid.Column="2" Width="300" HorizontalAlignment="Right">

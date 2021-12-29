@@ -142,7 +142,6 @@ namespace PL
         private void sortStationByAvailableSlotsClick(object sender, RoutedEventArgs e)
         {
             string propertyToGroup = "DroneChargeAvailble";
-            //string propertyToGroup = "Priority";
             view.GroupDescriptions.Clear();
             PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
             view.GroupDescriptions.Add(property);

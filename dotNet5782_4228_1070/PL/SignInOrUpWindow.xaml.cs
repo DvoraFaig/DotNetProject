@@ -126,7 +126,6 @@ namespace PL
                 bool ifWorkwerExist = blObject.ifWorkerExist(new BO.Worker()
                 {
                     Id = int.Parse(WorkerIdTextBox.Text),
-                    Name = WorkerNameTextBox.Text,
                     Password = WorkerPasswordTextBox.Text
                 });
                 if (ifWorkwerExist)
