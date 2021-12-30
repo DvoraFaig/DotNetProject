@@ -10,10 +10,23 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        /// <summary>
+        /// Checks if the parcel to remove exist.
+        /// If exist send to remove
+        /// else throw an error
+        /// </summary>
+        /// <param name="parcel">The parcel </param>
         public void RemoveParcel(Parcel parcel)
         {
             if (parcel.Drone == null)
-                dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+            {
+                try
+                {
+                    dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+                }
+                catch (ArgumentNullException) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
+                catch (InvalidOperationException) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
+            }
             else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
         }
 

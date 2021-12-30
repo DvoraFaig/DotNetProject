@@ -40,7 +40,11 @@ namespace PL
             //allow list of system keys (add other key here if you want to allow)
             if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
                 e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home || e.Key == Key.End ||
-                e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right ||
+                e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 ||
+                e.Key == Key.NumPad4 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || 
+                e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9
+                )
                 return;
 
             char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
@@ -56,6 +60,16 @@ namespace PL
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
+        }
+
+        /// <summary>
+        /// Message from the server. like errors
+        /// </summary>
+        /// <param name="header">the name of the header of the messageBox</param>
+        /// <param name="message">The message</param>
+        public static void messageBoxResponseFromServer(String header, String message)
+        {
+            MessageBox.Show(header, message);
         }
     }
 }

@@ -165,27 +165,27 @@ namespace PL
                 #region catch exeptions
                 catch (BO.Exceptions.ObjExistException)
                 {
-                    MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer","== ERROR receiving data or enter a different Id ==\nPlease try again");
                 }
                 catch (ArgumentNullException)
                 {
-                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
                 }
                 catch (OverflowException)
                 {
-                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
                 }
                 catch (NullReferenceException)
                 {
-                    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Cann't add a customer", "Customer Error");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
                 }
                 #endregion
             }
@@ -218,15 +218,15 @@ namespace PL
                     this.Close();
                 }
             }
-            else
-            {
-                MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                if (messageBoxClosing == MessageBoxResult.OK)
-                {
-                    new CustomerListWindow(blObjectD).Show();
-                    this.Close();
-                }
-            }
+            //else
+            //{
+            //    MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            //    if (messageBoxClosing == MessageBoxResult.OK)
+            //    {
+            //        new CustomerListWindow(blObjectD).Show();
+            //        this.Close();
+            //    }
+            //}
         }
 
         /// <summary>

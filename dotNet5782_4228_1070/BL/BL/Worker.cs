@@ -10,7 +10,11 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-
+        /// <summary>
+        /// For worker to sign in check if he exist.
+        /// </summary>
+        /// <param name="worker">The worker who loged in</param>
+        /// <returns></returns>
         public bool ifWorkerExist(Worker worker)
         {
             try

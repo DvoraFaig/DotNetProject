@@ -27,7 +27,8 @@ namespace PL
         private bool isClientAndNotAdmin = false;
         private bool clientIsSender = false;
         private bool returnToParcelListWindow = false;
-        private Window returnBackTo;
+        private Window returnBackToUnupdateWindow;
+        private bool customerUpdateHisParcel = false;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -50,7 +51,7 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            initializeAdd();
+            initializeDetailsAddForm();
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
@@ -60,7 +61,7 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            initializeAdd();
+            initializeDetailsAddForm();
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
@@ -88,8 +89,7 @@ namespace PL
             returnToParcelListWindow = cameFromPageParcelList;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            //visibleUpdateForm.Visibility = Visibility;
-            initializeDetails();
+            initializeDetailsUpdateForm();
         }
 
         /// <summary>
@@ -104,21 +104,30 @@ namespace PL
             InitializeComponent();
             isClientAndNotAdmin = true;
             clientIsSender = isSender;
-            returnBackTo = window;
+            returnBackToUnupdateWindow = window;
             Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
             this.parcel = parcel;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            initializeDetails();
+            if(clientIsSender)
+                this.clientCustomer = blObject.GetCustomerById(parcel.Sender.Id);
+            else
+                this.clientCustomer = blObject.GetCustomerById(parcel.Target.Id);
+            initializeDetailsUpdateForm();
             if (isClientAndNotAdmin)
             {
-                if (!clientIsSender || parcel.Drone != null)//parcel was squedueld already
+                if(parcel.Drone != null) // parcel was schedualed
+                    RemoveBtn.Visibility = Visibility.Hidden;
+                if(!isSender)
                     RemoveBtn.Visibility = Visibility.Hidden;
             }
         }
 
-        private void initializeDetails()
+        /// <summary>
+        /// initialize update form details of parcels' textBoxes.
+        /// </summary>
+        private void initializeDetailsUpdateForm()
         {
             IdText.Text = $"{parcel.Id}";
             SenderText.Content = parcel.Sender;
@@ -134,9 +143,9 @@ namespace PL
         }
 
         /// <summary>
-        /// initialize the add from textBoxes
+        /// initialize add form details of parcels' textBoxes.
         /// </summary>
-        private void initializeAdd()
+        private void initializeDetailsAddForm()
         {
             ParcelTitle.Content = "Add a Parcel";
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
@@ -144,9 +153,11 @@ namespace PL
             ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
             ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
         }
-        
+
         /// <summary>
-        /// Remove the parcel.
+        /// Try sending the parcel to remove.
+        /// if isClientAndNotAdmin = true go to CustomerWindow
+        /// If Admin go back to parcelListWIndow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -156,19 +167,39 @@ namespace PL
             {
                 if (!clientIsSender)//////
                     return;
-                blObject.RemoveParcel(parcel);
-                if(isClientAndNotAdmin)
+                try
+                {
+                    blObject.RemoveParcel(parcel);
+                    customerUpdateHisParcel = true;
+                }
+                catch(ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
+                catch (InvalidOperationException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
+                catch (Exceptions.ObjNotExistException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
+
+                if (isClientAndNotAdmin && !customerUpdateHisParcel)//if customer der=tailes are not updated. return to the window(without creating a new window).
+                    returnBackToUnupdateWindow.Show();
+                else if(isClientAndNotAdmin)
                     new CustomerWindow(blObject, clientCustomer , true).Show();
                 else
                     new ParcelListWindow_(blObject).Show();
                 this.Close();
-                MessageBox.Show("Parcel was remove");
+                PLFuncions.messageBoxResponseFromServer("Parcel Remove","Parcel was removed succesfully");
             }
             catch (Exceptions.ObjNotAvailableException ex)
             {
-                MessageBox.Show(ex.Message);
+               PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
             }
         }
+
+        ///// <summary>
+        ///// Message from the server. like errors
+        ///// </summary>
+        ///// <param name="header">the name of the header of the messageBox</param>
+        ///// <param name="message">The message</param>
+        //private void messageBoxResponseFromServer(String header,String message)
+        //{
+        //    MessageBox.Show(header , message);
+        //}
 
         /// <summary>
         /// 
@@ -198,13 +229,37 @@ namespace PL
                 {
                     MessageBox.Show(ex.Message);
                 }
+                catch (BO.Exceptions.ObjExistException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data or enter a different Id ==\nPlease try again");
+                }
+                catch (ArgumentNullException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (FormatException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (OverflowException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (NullReferenceException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (Exception)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
                 if (isClientAndNotAdmin)
                     new CustomerWindow(blObject, clientCustomer, true).Show();
                 else
                     new ParcelListWindow_(blObject).Show();
                 this.Close();
             }
-            else MessageBox.Show("Missinig Details");
+            else PLFuncions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
         }
 
         /// <summary>
@@ -243,8 +298,7 @@ namespace PL
                 {
                     customer = blObject.GetCustomerById(parcel.Target.Id);
                 }
-                new CustomerWindow(blObject, customer, clientIsSender).Show();
-                //returnBackTo(blObject, customer, clientIsSender).Show();
+                new CustomerWindow(blObject, customer, true).Show();
                 this.Close();
             }
             else
@@ -262,6 +316,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// If Admin/worker go to the droneWindow and dispaly the parcels' drone.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DroneClick(object sender, RoutedEventArgs e)
         {
             if (isClientAndNotAdmin)
@@ -271,6 +330,11 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// If Admin/worker go to the CustomerWindow and dispaly the parcels' customer (sender / target).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CustomerButton(object sender, RoutedEventArgs e)
         {
             if (isClientAndNotAdmin)
