@@ -18,19 +18,18 @@ namespace BlApi
         //================
         //  Display
         //================
-        public List<BLStationToList> DisplayStationsToList();
-        public IEnumerable<Station> DisplayStations();
-        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0);
+        public List<StationToList> GetStationsToList();
+        //public IEnumerable<Station> GetStation();
+        public IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0);
         public List<Drone> DisplayDrones();
         public IEnumerable<DroneToList> DisplayDronesToList();
-        public IEnumerable<ParcelToList> DisplayParcelToList();
-        public IEnumerable<Parcel> DisplayParcel();
-        public IEnumerable<Parcel> DisplayFreeParcel();
-        public List<Station> DisplayEmptyDroneCharge();
+        public IEnumerable<ParcelToList> GetParcelToList();
+        public IEnumerable<Parcel> getParcels();
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
-        public IEnumerable<CustomerToList> DisplayCustomersToList();
-        public List<CustomerInParcel> CustomerLimitedDisplay(CustomerInParcel customer = null);
+        public IEnumerable<CustomerToList> GetCustomersToList();
+        public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
+
         //================
         //  Get object
         //================
@@ -45,7 +44,6 @@ namespace BlApi
         //  Updates
         //================
         public void DroneChangeModel(Drone drone);
-        public void DroneChangeModel(DroneToList drone);
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1);
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public void SendDroneToCharge(int droneId);
@@ -53,7 +51,7 @@ namespace BlApi
         public void PairParcelWithDrone(int droneId);
         public void DronePicksUpParcel(int droneId);
         public void DeliveryParcelByDrone(int idDrone);
-        public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
+        //public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
        
         //========================
         //  Get Data About Object

@@ -65,7 +65,7 @@ namespace PL
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(new CustomerInParcel() { Id = senderCustomer.Id , Name = senderCustomer.Name});
+            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(new CustomerInParcel() { Id = senderCustomer.Id , Name = senderCustomer.Name});
             ParcelSenderSelector.Visibility = Visibility.Hidden;
             SenderText.Visibility = Visibility.Visible;
             SenderText.Content = senderCustomer.Name;
@@ -150,8 +150,8 @@ namespace PL
             ParcelTitle.Content = "Add a Parcel";
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
-            ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay();
-            ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay();
+            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList();
+            ParcelSenderSelector.ItemsSource = blObject.GetLimitedCustomersList();
         }
 
         /// <summary>

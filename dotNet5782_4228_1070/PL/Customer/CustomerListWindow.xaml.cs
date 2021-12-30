@@ -36,7 +36,7 @@ namespace PL
             InitializeComponent();
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            CustomerListView.ItemsSource = blObjectH.DisplayCustomersToList();
+            CustomerListView.ItemsSource = blObjectH.GetCustomersToList();
         }
         
         /// <summary>

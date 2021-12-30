@@ -8,6 +8,6 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        private List<Drone> dronesInBL { get; set; }
+        private List<Drone> droensList { get; set; }
     }
 }

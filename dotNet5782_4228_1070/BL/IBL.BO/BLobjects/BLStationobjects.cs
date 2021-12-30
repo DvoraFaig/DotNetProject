@@ -24,7 +24,7 @@ namespace BO
         }
 
     }
-    public class BLStationToList
+    public class StationToList
     {
         public int Id { get; set; }
         public string Name { get; set; }

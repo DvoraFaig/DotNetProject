@@ -144,15 +144,13 @@
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="LogInAsAsWorker" Grid.Row="1" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="3">
+                        <Grid x:Name="LogInAsAsWorker" Grid.Row="3" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100*"/>
-                                <RowDefinition Height="30*"/>
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="30*"/>
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="30*"/>
-                                <RowDefinition Height="100*"/>
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="100*"/>
                             </Grid.RowDefinitions>
@@ -163,11 +161,11 @@
                                 <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="40*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="WorkerIdLabel" Grid.Row="2" Grid.Column="1">Id:</Label>
-                            <TextBox x:Name="WorkerIdTextBox" Grid.Row="2" Grid.Column="3" ></TextBox>
-                            <Label x:Name="WorkerPasswordLabel" Grid.Row="6" Grid.Column="1"  >Password:</Label>
-                            <TextBox x:Name="WorkerPasswordTextBox" Grid.Row="6" Grid.Column="3"  ></TextBox>
-                            <Button x:Name="LogInWorkerBtn" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3" Click="signUpAsAWorker" >Sign Up</Button>
+                            <Label x:Name="WorkerIdLabel" Grid.Row="1" Grid.Column="1">Id:</Label>
+                            <TextBox x:Name="WorkerIdTextBox" Grid.Row="1" Grid.Column="3" ></TextBox>
+                            <Label x:Name="WorkerPasswordLabel" Grid.Row="3" Grid.Column="1"  >Password:</Label>
+                            <TextBox x:Name="WorkerPasswordTextBox" Grid.Row="3" Grid.Column="3"  ></TextBox>
+                            <Button x:Name="LogInWorkerBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="signUpAsAWorker" >Sign Up</Button>
                         </Grid>
                     </Grid>
                 </TabItem>

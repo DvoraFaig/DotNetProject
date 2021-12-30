@@ -30,7 +30,7 @@ namespace BL
         /// </summary>
         private BL()
         {
-            dronesInBL = new List<Drone>();
+            droensList = new List<Drone>();
             dal = DalApi.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
             electricityUsageWhenDroneIsEmpty = dal.electricityUseByDrone()[0];
             electricityUsageWhenDroneILightWeight = dal.electricityUseByDrone()[1];
@@ -70,7 +70,7 @@ namespace BL
                     DO.Station closestStationToSender = new DO.Station();
                     sender = dal.getCustomerWithSpecificCondition(customer => customer.Id == parcel.SenderId).First();
                     target = dal.getCustomerWithSpecificCondition(customer => customer.Id == parcel.TargetId).First();
-                    CurrentDrone.ParcelInTransfer = createParcelInTransfer(parcel, sender, target);//.First();
+                    CurrentDrone.ParcelInTransfer = returnAParcelInTransfer(parcel, sender, target);//.First();
                     senderPosition = CurrentDrone.ParcelInTransfer.SenderPosition;
                     targetPosition = CurrentDrone.ParcelInTransfer.TargetPosition;
                     if (parcel.PickUp == null) //position like the closest station to the sender of parcel.
@@ -145,7 +145,7 @@ namespace BL
                         #endregion
                     }
                 }
-                dronesInBL.Add(CurrentDrone);
+                droensList.Add(CurrentDrone);
             }
         }
 

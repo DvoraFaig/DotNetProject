@@ -11,155 +11,108 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        public IEnumerable<Station> DisplayStations()
-        {
-            IEnumerable<DO.Station> stations = dal.GetStations();
-            //List<Station> stationsWithMoreInfo = new List<Station>();
-            return (from station in stations
-            select convertDalToBLStation(station));
-            //foreach (var station in stations)
-            //{
-            //    stationsWithMoreInfo.Add(convertDalToBLStation(station));
-            //}
-            //return stationsWithMoreInfo;
-
-        }
-        
-        public IEnumerable<CustomerToList> DisplayCustomersToList()
+        /// <summary>
+        /// Returns a IEnumerable<CustomerToList> by recieving customers and converting them to CustomerToList
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<CustomerToList> GetCustomersToList()
         {
             IEnumerable<DO.Customer> customers = dal.GetCustomers();
             List<CustomerToList> customerToLists = new List<CustomerToList>();
             return from customer in customers
                    select converteCustomerToList(customer);
-
-            //foreach (var customer in customers)
-            //{
-            //    customerToLists.Add(converteCustomerToList(customer));
-            //}
-            //return customerToLists;
         }
 
-        public List<CustomerInParcel> CustomerLimitedDisplay(CustomerInParcel customer = null)
+        /// <summary>
+        /// Return a List<CustomerInParcel>
+        /// </summary>
+        /// <param name="customerInParcel"></param>
+        /// <returns></returns>
+        public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customerInParcel = null)
         {
             IEnumerable<DO.Customer> customers = dal.GetCustomers();
             List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
-            foreach (var c in customers)
+            foreach (var customer in customers)
             {
-                customerToLists.Add(convertDalToBLCustomerInParcel(c));
+                customerToLists.Add(convertDalToBLCustomerInParcel(customer));
             }
-            if (customer != null)
+            if (customerInParcel != null)
             {
-                customer = customerToLists.SingleOrDefault(c=>c.Id==customer.Id);
-                customerToLists.Remove(customer);
+                customerInParcel = customerToLists.SingleOrDefault(c=>c.Id==customerInParcel.Id);
+                customerToLists.Remove(customerInParcel);
             }
             return customerToLists;
         }
 
-        public List<BLStationToList> DisplayStationsToList()
+        /// <summary>
+        /// Returns a IEnumerable<StationToList> by recieving staions and converting them to BLStationToList
+        /// </summary>
+        /// <returns></returns>
+        public List<StationToList> GetStationsToList()
         {
             IEnumerable<DO.Station> stations = dal.GetStations();
-            List<BLStationToList> stationToList = new List<BLStationToList>();
+            List<StationToList> stationToList = new List<StationToList>();
             foreach (var station in stations)
             {
                 int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
                 int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
-                stationToList.Add(new BLStationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
+                stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
 
             }
             return stationToList;
         }
 
-        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots()
+        /// <summary>
+        /// Return IEnumerable<StationToList> by receiving a converted list of station (one of BO.Station is availableChargeSlots).
+        /// </summary>
+        /// <param name="amountAvilableSlots"></param>
+        /// <returns></returns>
+        public IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0)
         {
-            List<BLStationToList> stationToList = DisplayStationsToList();
-            return (from station in stationToList
-                    where station.DroneChargeAvailble > 0
-                    select station);
-        }
-        public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots(int amountAvilableSlots = 0)
-        {
-            List<BLStationToList> stationToList = DisplayStationsToList();
+            List<StationToList> stationToList = GetStationsToList();
             return (from station in stationToList
                     where station.DroneChargeAvailble >= amountAvilableSlots
                     select station);
         }
 
-        //public List<Customer> DisplayCustomers()
-        //{
-        //    IEnumerable<DO.Customer> customers = dal.displayCustomers();//c.id>100000000
-        //    List<Customer> costomersWithMoreInfo = new List<Customer>();
-        //    foreach (var customer in customers)
-        //    {
-        //        costomersWithMoreInfo.Add(convertDalToBLCustomer(customer));
-        //    }
-        //    return costomersWithMoreInfo;
-        //}
-
+        /// <summary>
+        /// Return DronesList
+        /// </summary>
+        /// <returns></returns>
         public List<Drone> DisplayDrones()
         {
-            return dronesInBL;
+            return droensList;
         }
 
-        //public List<DroneToList> DisplayDronesToList()
-        //{
-        //    return convertBLDroneToBLDronesToList(dronesInBL);
-        //}
+        /// <summary>
+        /// Return DroneList converted to DronesToList
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DroneToList> DisplayDronesToList()
         {
-            return convertBLDroneToBLDronesToList(dronesInBL);
+            return convertDronesToDronesToList(droensList);
         }
 
-        public IEnumerable<ParcelToList> DisplayParcelToList()//////
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ParcelToList> GetParcelToList()//////
         {
             IEnumerable<BO.Parcel> parcels = (from parcel in dal.GetParcels()
                    select convertDalToBLParcel(parcel));
             return convertBLParcelToBLParcelsToList(parcels);
         }
 
-        //public List<ParcelToList> DisplayParcelToList(List<Parcel> parcels)
-        //{
-        //    return convertBLParcelToBLParcelsToList(parcels);
-        //}
-
-        public IEnumerable<Parcel> DisplayParcel()
+        /// <summary>
+        /// Returns a IEnumerable<Parcels> by recieving parcels from dal and converting them to BO.Parcel.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Parcel> getParcels()
         {
             IEnumerable<DO.Parcel> parcels = dal.GetParcels();
             return (from parcel in parcels
                     select convertDalToBLParcel(parcel));
-            //List<Parcel> parcelsWithMoreInfo = new List<Parcel>();
-            //foreach (var parcel in parcels)
-            //{
-            //    parcelsWithMoreInfo.Add(convertDalToBLParcel(parcel));
-            //}
-            //return parcelsWithMoreInfo;
-        }
-
-        public IEnumerable<Parcel> DisplayFreeParcel()
-        {
-            IEnumerable<DO.Parcel> freeParcels = dal.getParcelWithSpecificCondition(x => x.DroneId == null);
-            return (from parcel in freeParcels
-                    select convertDalToBLParcel(parcel));
-            //List<Parcel> FreeParcelsWithMoreInfo = new List<Parcel>();
-            //foreach (var freeParcel in freeParcels)
-            //{
-            //    FreeParcelsWithMoreInfo.Add(convertDalToBLParcel(freeParcel));
-            //}
-            //return FreeParcelsWithMoreInfo;
-        }
-
-        public List<Station> DisplayEmptyDroneCharge()
-        {
-            IEnumerable<DO.Station> stations = dal.GetStations();
-            List<Station> stationsWithEmptySlots = new List<Station>();
-            foreach (DO.Station station in stations)
-            {
-                int amountDroneChargeFullInStation = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
-                if (station.ChargeSlots > amountDroneChargeFullInStation)
-                {
-                    stationsWithEmptySlots.Add(convertDalToBLStation(station));
-                }
-            }
-            return stationsWithEmptySlots;
         }
 
         /// <summary>
@@ -170,22 +123,14 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status)
         {
-            //List<Drone> list = new List<Drone>();
             IEnumerable<Drone> IList = DisplayDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
             if (weight >= 0 && status == -1)
-                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight);
+                IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (DO.WeightCategories)weight);
             else if (weight == -1 && status >= 0)
-                IList = getBLDroneWithSpecificCondition(d => d.Status == (DroneStatus)status);
+                IList = getDroneWithSpecificConditionFromDronesList(d => d.Status == (DroneStatus)status);
             else if (weight >= 0 && status >= 0)
-                IList = getBLDroneWithSpecificCondition(d => d.MaxWeight == (DO.WeightCategories)weight && d.Status == (DroneStatus)status);
-
-            //foreach (var i in IList)
-            //{
-            //    list.Add(i);
-            //}
-            //return (from drone in IList
-            //        select convertBLDroneToBLDronesToList(list))
-            return convertBLDroneToBLDronesToList(IList);
+                IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (DO.WeightCategories)weight && d.Status == (DroneStatus)status);
+            return convertDronesToDronesToList(IList);
         }
 
         /// <summary>
@@ -198,16 +143,15 @@ namespace BL
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
         {
             List<Parcel> list = new List<Parcel>();
-            IEnumerable<Parcel> IList;// = DisplayParcel();
-
-            if (weight >= 0 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
-            else if (weight >= 0 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status );
-            else if (weight >= 0 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight&& p.Priority == (DO.Priorities)priority);
-            else if (weight >= 0 && status == -1 && priority == -1) IList = getBLParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
-            else if (weight == -1 && status >= 0 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status&& p.Priority == (DO.Priorities)priority);
-            else if (weight == -1 && status >= 0 && priority == -1) IList = getBLParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
-            else if (weight == -1 && status == -1 && priority >= 0) IList = getBLParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
-            else IList = DisplayParcel();
+            IEnumerable<Parcel> IList;
+            if (weight >= 0 && status >= 0 && priority >= 0) IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status >= 0 && priority == -1) IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status );
+            else if (weight >= 0 && status == -1 && priority >= 0) IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight&& p.Priority == (DO.Priorities)priority);
+            else if (weight >= 0 && status == -1 && priority == -1) IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
+            else if (weight == -1 && status >= 0 && priority >= 0) IList = getParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status&& p.Priority == (DO.Priorities)priority);
+            else if (weight == -1 && status >= 0 && priority == -1) IList = getParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
+            else if (weight == -1 && status == -1 && priority >= 0) IList = getParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
+            else IList = getParcels();
             foreach (var i in IList)
             {
                 list.Add(i);
@@ -229,4 +173,56 @@ namespace BL
 //        customerToLists.Add(converteCustomerToList(customer));
 //    }
 //    return customerToLists;
+//}
+//public List<ParcelToList> DisplayParcelToList(List<Parcel> parcels)
+//{
+//    return convertBLParcelToBLParcelsToList(parcels);
+//}
+//public IEnumerable<Station> GetStation()
+//{
+//    IEnumerable<DO.Station> stations = dal.GetStations();
+//    return (from station in stations
+//    select convertDalToBLStation(station));
+//}
+//public IEnumerable<BLStationToList> DisplayStationsWithFreeSlots()
+//{
+//    List<BLStationToList> stationToList = GetStationsToList();
+//    return (from station in stationToList
+//            where station.DroneChargeAvailble > 0
+//            select station);
+//}
+
+//public List<Customer> DisplayCustomers()
+//{
+//    IEnumerable<DO.Customer> customers = dal.displayCustomers();//c.id>100000000
+//    List<Customer> costomersWithMoreInfo = new List<Customer>();
+//    foreach (var customer in customers)
+//    {
+//        costomersWithMoreInfo.Add(convertDalToBLCustomer(customer));
+//    }
+//    return costomersWithMoreInfo;
+//}
+//public List<DroneToList> DisplayDronesToList()
+//{
+//    return convertBLDroneToBLDronesToList(dronesInBL);
+//}
+//public IEnumerable<Parcel> DisplayFreeParcel()
+//{
+//    IEnumerable<DO.Parcel> freeParcels = dal.getParcelWithSpecificCondition(x => x.DroneId == null);
+//    return (from parcel in freeParcels
+//            select convertDalToBLParcel(parcel));
+//}
+//public List<Station> DisplayEmptyDroneCharge()
+//{
+//    IEnumerable<DO.Station> stations = dal.GetStations();
+//    List<Station> stationsWithEmptySlots = new List<Station>();
+//    foreach (DO.Station station in stations)
+//    {
+//        int amountDroneChargeFullInStation = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
+//        if (station.ChargeSlots > amountDroneChargeFullInStation)
+//        {
+//            stationsWithEmptySlots.Add(convertDalToBLStation(station));
+//        }
+//    }
+//    return stationsWithEmptySlots;
 //}

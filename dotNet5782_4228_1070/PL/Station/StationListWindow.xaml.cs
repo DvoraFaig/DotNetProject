@@ -41,7 +41,7 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            IEnumerable<BLStationToList> stationToLists = blObject.DisplayStationsToList();
+            IEnumerable<StationToList> stationToLists = blObject.GetStationsToList();
             StationListView.ItemsSource = stationToLists;//.Cast<BLStationToList>().ToList();
             DataContext = stationToLists;
             view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
@@ -113,7 +113,7 @@ namespace PL
         private void ChangeAmountToNull(object sender, MouseButtonEventArgs e)
         {
             amountChargingSlots.Text = "";
-            StationListView.ItemsSource = blObject.DisplayStationsWithFreeSlots().Cast<BLStationToList>().ToList(); ;
+            StationListView.ItemsSource = blObject.GetStationsWithFreeSlots().Cast<StationToList>().ToList(); ;
 
         }
         
@@ -124,7 +124,7 @@ namespace PL
             {
                 if (int.Parse(amountChargingSlots.Text) > 0)
                     amountAvilableSlots = int.Parse(amountChargingSlots.Text);
-                StationListView.ItemsSource = blObject.DisplayStationsWithFreeSlots(amountAvilableSlots).Cast<BLStationToList>().ToList(); ;
+                StationListView.ItemsSource = blObject.GetStationsWithFreeSlots(amountAvilableSlots).Cast<StationToList>().ToList(); ;
             }
             catch (ArgumentNullException) { }
             catch (FormatException) { }
@@ -133,7 +133,7 @@ namespace PL
         
         private void StationSelection(object sender, MouseButtonEventArgs e)
         {
-            BLStationToList stationToList = (BLStationToList)StationListView.SelectedItem;
+            StationToList stationToList = (StationToList)StationListView.SelectedItem;
             Station station = blObject.GetStationById(stationToList.Id);
             new StationWindow(blObject, station).Show();
             this.Close();

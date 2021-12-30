@@ -34,8 +34,8 @@ namespace BL
         {
             try
             {
-                dronesInBL.Remove(newDrone);
-                dronesInBL.Add(newDrone);
+                droensList.Remove(newDrone);
+                droensList.Add(newDrone);
                 dal.changeDroneInfo(convertBLToDalDrone(newDrone));
                 //dal.changeDroneInfo(newDrone.Id, newDrone.Model);
             }
@@ -46,21 +46,7 @@ namespace BL
             }
         }
 
-        public void DroneChangeModel(DroneToList newDrone)
-        {
-            try
-            {
-                Drone d = getBLDroneWithSpecificCondition(drone => drone.Id == newDrone.Id).First();
-                dronesInBL.Remove(d);
-                dronesInBL.Add(d);
-                dal.changeDroneInfo(convertBLToDalDrone(d));
-                //dal.changeDroneInfo(d.Id, d.Model);
-            }
-            catch (Exception)
-            {
-                throw new InvalidStringException("Drones' Model");
-            }
-        }
+
 
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
@@ -102,7 +88,7 @@ namespace BL
         {
             try
             {
-                Drone drone = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+                Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
                 if (drone.Status == DroneStatus.Available)
                 {
                     DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
@@ -139,7 +125,7 @@ namespace BL
         {
             try
             {
-                Drone blDrone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
+                Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
                 blDrone.Battery += (double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
@@ -162,7 +148,7 @@ namespace BL
                 DO.Customer targetP;
                 DO.Customer senderMaxParcel;
                 double disMaxPToSender = Math.Pow(2, 53); // the biggest number
-                Drone droneToParcel = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+                Drone droneToParcel = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
                 IEnumerable<DO.Parcel> parcels = dal.GetParcels();
                 DO.Parcel maxParcel = new DO.Parcel();// = new IDal.DO.Parcel() { Weight = 0 };//parcels.First(); //check if weight is good=====================
                 foreach (DO.Parcel p in parcels)
@@ -221,7 +207,7 @@ namespace BL
                     throw new Exception("Drone with the parcels' conditions wasn't found.");
                 }
                 droneToParcel.Status = DroneStatus.Delivery;
-                droneToParcel.ParcelInTransfer = createParcelInTransfer(
+                droneToParcel.ParcelInTransfer = returnAParcelInTransfer(
                     maxParcel, convertBLToDalCustomer(GetCustomerById(maxParcel.SenderId)),
                     convertBLToDalCustomer(GetCustomerById(maxParcel.TargetId)));
                 updateBLDrone(droneToParcel);
@@ -241,7 +227,7 @@ namespace BL
         {
             try
             {
-                Drone drone = getBLDroneWithSpecificCondition(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
+                Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
                 DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
                 if (!parcel.PickUp.Equals(default(DO.Parcel).PickUp))
                 {
@@ -279,7 +265,7 @@ namespace BL
         {
             try
             {
-                Drone bLDroneToSuplly = getBLDroneWithSpecificCondition(d => d.Id == droneId).First();
+                Drone bLDroneToSuplly = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
                 DO.Parcel parcelToDelivery = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
                 if (parcelToDelivery.PickUp.Equals(default(DO.Parcel).PickUp) && !parcelToDelivery.Delivered.Equals(default(DO.Parcel).Delivered))
                 {
@@ -339,7 +325,7 @@ namespace BL
         {
             try
             {
-                Drone findDrone = getBLDroneWithSpecificCondition(e => e.Id == d.Id).First();
+                Drone findDrone = getDroneWithSpecificConditionFromDronesList(e => e.Id == d.Id).First();
                 findDrone = d;
             }
             catch (Exception)
@@ -348,16 +334,32 @@ namespace BL
             }
         }
 
-        public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
-        {
-            DO.Parcel p = new DO.Parcel() { SenderId = senderId, TargetId = targetId, Priority = priority, Requeasted = DateTime.Now, Weight = weight };
-            dal.AddParcel(p);
-        }
+        //public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
+        //{
+        //    DO.Parcel p = new DO.Parcel() { SenderId = senderId, TargetId = targetId, Priority = priority, Requeasted = DateTime.Now, Weight = weight };
+        //    dal.AddParcel(p);
+        //}
 
         private DroneInParcel createBLDroneInParcel(DO.Parcel p, int droneId)
         {
-            Drone d = getBLDroneById(droneId);
+            Drone d = getDroneByIdFromDronesList(droneId);
             return new DroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
     }
 }
+
+//public void DroneChangeModel(DroneToList newDrone)
+//{
+//    try
+//    {
+//        Drone d = getDroneWithSpecificConditionFromDronesList(drone => drone.Id == newDrone.Id).First();
+//        droensList.Remove(d);
+//        droensList.Add(d);
+//        dal.changeDroneInfo(convertBLToDalDrone(d));
+//        //dal.changeDroneInfo(d.Id, d.Model);
+//    }
+//    catch (Exception)
+//    {
+//        throw new InvalidStringException("Drones' Model");
+//    }
+//}

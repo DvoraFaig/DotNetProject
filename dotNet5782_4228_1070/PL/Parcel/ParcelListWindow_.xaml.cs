@@ -40,7 +40,7 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
-            IEnumerable<ParcelToList> parcels = blObject.DisplayParcelToList();
+            IEnumerable<ParcelToList> parcels = blObject.GetParcelToList();
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
             ChosenPriority.Visibility = Visibility.Hidden;
