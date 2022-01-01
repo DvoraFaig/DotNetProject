@@ -30,19 +30,21 @@ namespace BL
             else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
         }
 
-        public void DroneChangeModel(Drone newDrone)
+        /// <summary>
+        /// Change name of drones' model.
+        /// </summary>
+        /// <param name="newDrone">Drone with the new Model name</param>
+        public void ChangeDroneModel(Drone newDrone)
         {
             try
             {
                 droensList.Remove(newDrone);
                 droensList.Add(newDrone);
                 dal.changeDroneInfo(convertBLToDalDrone(newDrone));
-                //dal.changeDroneInfo(newDrone.Id, newDrone.Model);
             }
             catch (Exception)
             {
-                //throw new InvalidOperationException("Couldn't change Model");
-                throw new Exception("Couldn't change Model");
+                throw new InvalidOperationException($"Couldn't change Model of drone with id {newDrone.Id} ");
             }
         }
 
@@ -93,16 +95,16 @@ namespace BL
                 {
                     DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
                     if (availbleSforCharging.Id == 0)
-                        throw new Exception("Drone cant charge");
+                        throw new ObjNotExistException("Drone cann't charge");
                     DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
                     Position availbleStationforCharging = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     double dis = (distance(drone.DronePosition, availbleStationforCharging));
-                    if (dis != 0)
+                    if (dis != 0) // if the drone is supposed to fly to tha station to charge
                         drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
                     drone.Status = DroneStatus.Maintenance;
                     drone.DronePosition = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     availbleSforCharging.ChargeSlots--;
-                    dal.AddDroneCharge(droneCharge);
+                    dal.AddDroneToCharge(droneCharge);
                     dal.changeStationInfo(availbleSforCharging);
                     dal.changeDroneInfo(convertBLToDalDrone(drone));
                 }
@@ -113,11 +115,11 @@ namespace BL
             }
             catch (ObjNotExistException)
             {
-                throw new Exception("Drone cant charge");
+                throw new ObjNotExistException(typeof(Drone),droneId);
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later.....");
             }
         }
 

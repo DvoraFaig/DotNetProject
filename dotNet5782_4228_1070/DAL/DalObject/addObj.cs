@@ -40,7 +40,7 @@ namespace DalObject
         /// Add the new DroneCharge to DroneCharges.
         /// </summary>
         /// <param name="newDroneCharge">DroneCharge to add.</param>
-        public void AddDroneCharge(DroneCharge newDroneCharge)
+        public void AddDroneToCharge(DroneCharge newDroneCharge)
         {
             DataSource.DroneCharges.Add(newDroneCharge);
         }

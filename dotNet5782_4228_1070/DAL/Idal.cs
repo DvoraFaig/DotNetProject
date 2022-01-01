@@ -16,7 +16,7 @@ namespace DalApi
         void AddStation(Station s);
         void AddCustomer(Customer c);
         void AddParcel(Parcel parcel);
-        void AddDroneCharge(DroneCharge parcel);
+        void AddDroneToCharge(DroneCharge parcel);
         int amountParcels();
         int amountStations();
 

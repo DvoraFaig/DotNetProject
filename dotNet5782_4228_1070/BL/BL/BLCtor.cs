@@ -160,7 +160,7 @@ namespace BL
             int amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
             if (station.ChargeSlots > amountChargingDronesInStation)
             {
-                dal.AddDroneCharge(new DO.DroneCharge() { DroneId = drone.Id, StationId = station.Id });
+                dal.AddDroneToCharge(new DO.DroneCharge() { DroneId = drone.Id, StationId = station.Id });
                 drone.DronePosition = new Position() { Latitude = station.Latitude, Longitude = station.Longitude };
                 drone.Battery = r.Next(0, 20);
                 return drone;

@@ -28,8 +28,8 @@ namespace DalObject
         /// <param name="stationWithUpdateInfo">Station with the changed info</param>
         public void changeStationInfo(Station stationWithUpdateInfo)
         {
-            Station sToErase = getStationWithSpecificCondition(s => s.Id == stationWithUpdateInfo.Id).First();
-            DataSource.Stations.Remove(sToErase);
+            Station stationToErase = getStationWithSpecificCondition(s => s.Id == stationWithUpdateInfo.Id).First();
+            DataSource.Stations.Remove(stationToErase);
             DataSource.Stations.Add(stationWithUpdateInfo);
         }
 

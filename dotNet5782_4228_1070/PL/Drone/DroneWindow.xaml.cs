@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
 
+
 namespace PL
 {
     /// <summary>
@@ -36,7 +37,7 @@ namespace PL
         #endregion
 
         /// <summary>
-        /// Ctor display the add a drone Form
+        /// Ctor display the add a drone Form.
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         public DroneWindow(BlApi.Ibl blObject)
@@ -94,6 +95,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Content of a btn in the update form occurding to the drones' status.
+        /// </summary>
         private void setDeliveryButton()
         {
             switch (dr.Status)
@@ -107,6 +111,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Avoid the display of the X closing btn.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -114,54 +123,71 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
-        private void ButtoClickAdd(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Send the drone to an addition func.
+        /// If succeed: Go to DroneListWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddDroneClickBtn(object sender, RoutedEventArgs e)
         {
             int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
                 // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
                 blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
-                TextBlock addedDrone = new TextBlock();
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException)
             {
-                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data or enter a different Id ==\nPlease try again");
             }
             catch (ArgumentNullException)
             {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone","== ERROR receiving data ==\nPlease try again");
             }
             catch (FormatException)
             {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             catch (OverflowException)
             {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             catch (Exception)
             {
-                MessageBox.Show("Cann't add a drone", "Drone Error");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "Cann't add a drone");
             }
             #endregion
         }
 
-        private void ButtonClickRestart(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Restart textBox(es) and selector content in add drone form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// RestartTextBoxesAndSelectorBtnClick
+        private void RestartTextBoxesAndSelectorBtnClick(object sender, RoutedEventArgs e)
         {
-            IdTextBox.Text = "Id...";
-            ModelTextBox.Text = "Model....";
+            IdTextBox.Text = "";
+            ModelTextBox.Text = "";
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(DO.WeightCategories));
-            StationIdTextBox.Text = "Station id...";
+            StationIdTextBox.Text = "";
         }
-        
-        private void ButtonClickReturnToPageDroneListWindow(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Return To DroneListWindow.
+        /// Ensure if the worker wants to exit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReturnToDroneListWindowBtnClick(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (messageBoxClosing == MessageBoxResult.OK)
@@ -171,14 +197,29 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Try to send the drone with the new name to an update func.
+        /// If succeed: go to DroneListWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            dr.Model = ModelTextBox.Text;
-            blObjectD.DroneChangeModel(dr);
-            new DroneListWindow(blObjectD).Show();
-            this.Close();
+            try
+            {
+                dr.Model = ModelTextBox.Text;
+                blObjectD.ChangeDroneModel(dr);
+                new DroneListWindow(blObjectD).Show();
+                this.Close();
+            }
+            catch (InvalidOperationException exeptionInvalid) { PLFuncions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
         }
 
+        /// <summary>
+        /// Try to send a drone to charge.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChargeButtonClick(object sender, RoutedEventArgs e)
         {
             if (ChargeButton.Content.ToString() == "Send Drone To Charge")
@@ -189,16 +230,15 @@ namespace PL
                     StatusTextBox.Text = $"{dr.Status}";
                     setDeliveryButton();
                 }
-                catch (Exception)
-                {
-
-                }
+                catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
+                catch (BO.Exceptions.ObjNotAvailableException) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
+                catch (Exception){ PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
             }
             else
             {
                 if (TimeTocharge.Text == "")
                 {
-                    MessageBox.Show("ERROR\nEnter time to charge");
+                   PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge","ERROR\nEnter time to charge");
                 }
                 else
                 {
@@ -211,38 +251,46 @@ namespace PL
                     }
                     catch (Exception)
                     {
-
+                        PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nCan't charge the drone\nPlease try later....");
                     }
                 }
             }
         }
 
-        private void SendDroneToChargeClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// The btn:
+        /// Content is: 
+        /// if "Send To Delivery" :
+        /// Check if valid to send a specific drone to charge.
+        /// if valid: send to a function that pairs drones with a parcel.
+        /// if  "Pick Up Parcel":
+        /// Try to send to a function where drone can pick up the parcel.
+        /// if "Which Package Delivery" :
+        /// Try to send to a function where drone will delivere the package.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendDroneOccurdingToStatusBtnClick(object sender, RoutedEventArgs e)
         {
             string contentClickedButton = DeliveryStatusButton.Content.ToString();
-            if (contentClickedButton == deliveryButtonOptionalContent[0])
+            if (contentClickedButton == deliveryButtonOptionalContent[0]) // Send To Delivery = pair with a parcel
             {
                 try { blObjectD.PairParcelWithDrone(dr.Id); }
-                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
-                catch (Exception e2) { MessageBox.Show(e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone",e1.Message); }
+                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone" , e2.Message); }
             }
-            else if (contentClickedButton == deliveryButtonOptionalContent[1])
+            else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel
             {
                 try { blObjectD.DronePicksUpParcel(dr.Id); }
-                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
-                catch (Exception e2) { MessageBox.Show(e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone" ,e2.Message); }
             }
-            else if (contentClickedButton == deliveryButtonOptionalContent[2])
+            else if (contentClickedButton == deliveryButtonOptionalContent[2]) // Which Package Delivery - to delivere the package
             {
                 try { blObjectD.DeliveryParcelByDrone(dr.Id); }
-                catch (BO.Exceptions.ObjNotExistException e1) { MessageBox.Show(e1.Message); }
-                catch (Exception e2) { MessageBox.Show(e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }
-        }
-
-        private string GetDebuggerDisplay()
-        {
-            return ToString();
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
@@ -253,49 +301,3 @@ namespace PL
         #endregion
     }
 }
-///// <summary>
-///// Display DroneWindow Add or Update
-///// false == show update window
-///// true == show add window
-///// </summary>
-//private void displayWindowAddOrUpdate()
-//{
-//    Visibility visibility;
-//    //visibility = (updateOrAddWindow == false) ? Visibility.Hidden : Visibility.Visible;
-//    //labelAddADrone.Visibility = visibility;
-//    //IdTextBoxLabel.Visibility = visibility;
-//    //IdTextBox.Visibility = visibility;
-//    //ModelTextBoxLabel.Visibility = visibility;
-//    //ModelTextBox.Visibility = visibility;
-//    //DroneWeightSelectorLabel.Visibility = visibility;
-//    //DroneWeightSelector.Visibility = visibility;
-//    //StationIdTextBoxLabel.Visibility = visibility;
-//    //StationIdTextBox.Visibility = visibility;
-//    //RestartButton.Visibility = visibility;
-//    //AddlButton.Visibility = visibility;
-
-//    //visibility = (visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
-//    //if (updateOrAddWindow == false)//if Add Drone don't go in
-//    //{
-//    //    IdTextBoxLabel.Visibility = visibility;
-//    //    IdTextBox.Visibility = visibility;
-//    //    IdTextBox.IsReadOnly = true;
-//    //    ModelTextBoxLabel.Visibility = visibility;
-//    //    ModelTextBox.Visibility = visibility;
-//    //}
-//    //DroneWeightLabel.Visibility = visibility;
-//    //DroneWeightUpdate.Visibility = visibility;
-//    //BatteryTextBoxLabel.Visibility = visibility;
-//    //BatteryTextBox.Visibility = visibility;
-//    //StatusTextBoxLabel.Visibility = visibility;
-//    //StatusTextBox.Visibility = visibility;
-//    //PositionDroneTLabel.Visibility = visibility;
-//    //PositionDroneTextBox.Visibility = visibility;
-//    //ParcelTextBoxLabel.Visibility = visibility;
-//    //ParcelIdIdTextBox.Visibility = visibility;
-//    //UpdateButton.Visibility = visibility;
-//    //ChargeButton.Visibility = visibility;
-//    //TimeTochargeText.Visibility = visibility;
-//    //TimeTocharge.Visibility = visibility;
-//    //DeliveryStatusButton.Visibility = visibility;
-//}
