@@ -97,7 +97,7 @@ namespace BL
                 {
                     DO.Station availbleSforCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition);
                     if (availbleSforCharging.Id == 0)
-                        throw new ObjNotExistException("Drone cann't charge");
+                        throw new ObjNotExistException("Drone cann't charge.\nNo Available charging slots\nPlease try later");
                     DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleSforCharging.Id, DroneId = droneId };
                     Position availbleStationforCharging = new Position() { Latitude = availbleSforCharging.Latitude, Longitude = availbleSforCharging.Longitude };
                     double dis = (distance(drone.DronePosition, availbleStationforCharging));
@@ -131,7 +131,11 @@ namespace BL
             {
                 Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
-                blDrone.Battery += (double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
+                blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
+                blDrone.Battery = Math.Min(100,blDrone.Battery) ;//requestElectricity(4);
+
+                //if (blDrone.Battery >= 100)
+                //    blDrone.Battery = 100;
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
@@ -254,14 +258,15 @@ namespace BL
                 double disDroneToSenderP = distance(drone.DronePosition, senderPosition);
                 drone.Battery -= disDroneToSenderP * requestElectricity((int)parcel.Weight);
                 drone.DronePosition = senderPosition;
+
                 updateBLDrone(drone);
                 parcel.PickUp = DateTime.Now;
                 dal.changeParcelInfo(parcel);
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ObjNotExistException(typeof(Drone), droneId);
+                throw new ObjNotExistException(e.Message);
             }
         }
 

@@ -104,6 +104,19 @@ namespace PL
             }
         }
 
+        private void findDroneStatusContentBtn()
+        {
+            try
+            {
+                int contentIndex = blObjectD.GetDroneStatusInDelivery(dr);
+                DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
+                DeliveryStatusButton.Visibility = Visibility.Visible;
+            }
+            catch (Exception)
+            {
+                DeliveryStatusButton.Visibility = Visibility.Hidden;
+            }
+        }
         /// <summary>
         /// Content of a btn in the update form occurding to the drones' status.
         /// </summary>
@@ -294,7 +307,15 @@ namespace PL
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel
             {
-                try { blObjectD.DronePicksUpParcel(dr.Id); }
+                try
+                {
+                    blObjectD.DronePicksUpParcel(dr.Id);
+                    BatteryTextBox.Text = $"{dr.Battery}";
+                    PositionDroneTextBox.Text = $"({dr.DronePosition.Latitude},{dr.DronePosition.Longitude})";
+                    dr = blObjectD.GetDroneById(dr.Id);
+                    findDroneStatusContentBtn();
+
+                }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }

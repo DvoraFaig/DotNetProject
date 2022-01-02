@@ -80,7 +80,7 @@ namespace BL
                     }
                     else if (parcel.Delivered == null) //else position sender of parcel.
                     {
-                        CurrentDrone.DronePosition = new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+                        CurrentDrone.DronePosition = senderPosition;//new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
                     CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
                 }
@@ -201,7 +201,7 @@ namespace BL
         private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
         {
             IEnumerable<DO.Station> stations = dal.GetStations();
-            DO.Station availbleCLosestStation = new DO.Station();
+            DO.Station availbleClosestStation = new DO.Station();
             double dis = -1;
             double minDis = -1;
             int fullChargingSlots;
@@ -214,15 +214,16 @@ namespace BL
                     if (minDis == -1)
                     {
                         minDis = dis;
+                        availbleClosestStation = station;
                     }
                     else if (minDis > dis)
                     {
                         minDis = dis;
-                        availbleCLosestStation = station;
+                        availbleClosestStation = station;
                     }
                 }
             }
-            return availbleCLosestStation;
+            return availbleClosestStation;
         }
 
         /// <summary>
