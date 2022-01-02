@@ -93,6 +93,10 @@ namespace PL
                     DeliveryStatusButton.Visibility = Visibility.Hidden;
                 }
             }
+            if (drone.Status != DroneStatus.Maintenance)
+            {
+                ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
+            }
         }
 
         /// <summary>
@@ -146,7 +150,7 @@ namespace PL
             }
             catch (ArgumentNullException)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Drone","== ERROR receiving data ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             catch (FormatException)
             {
@@ -228,17 +232,19 @@ namespace PL
                 {
                     blObjectD.SendDroneToCharge(dr.Id);
                     StatusTextBox.Text = $"{dr.Status}";
+                    BatteryTextBox.Text = $"{dr.Battery}";
                     setDeliveryButton();
+                    ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
                 catch (BO.Exceptions.ObjNotAvailableException) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
-                catch (Exception){ PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
+                catch (Exception) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
             }
             else
             {
                 if (TimeTocharge.Text == "")
                 {
-                   PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge","ERROR\nEnter time to charge");
+                    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nEnter time to charge");
                 }
                 else
                 {
@@ -246,8 +252,10 @@ namespace PL
                     {
                         blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
                         StatusTextBox.Text = $"{dr.Status}";
+                        BatteryTextBox.Text = $"{dr.Battery}";
                         setDeliveryButton();
-                        TimeTocharge.Text = "";
+                        //TimeTocharge.Text = "";
+                        ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
                     }
                     catch (Exception)
                     {
@@ -276,14 +284,14 @@ namespace PL
             if (contentClickedButton == deliveryButtonOptionalContent[0]) // Send To Delivery = pair with a parcel
             {
                 try { blObjectD.PairParcelWithDrone(dr.Id); }
-                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone",e1.Message); }
-                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone" , e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel
             {
                 try { blObjectD.DronePicksUpParcel(dr.Id); }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
-                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone" ,e2.Message); }
+                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[2]) // Which Package Delivery - to delivere the package
             {

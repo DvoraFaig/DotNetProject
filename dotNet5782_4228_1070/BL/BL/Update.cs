@@ -33,18 +33,20 @@ namespace BL
         /// <summary>
         /// Change name of drones' model.
         /// </summary>
-        /// <param name="newDrone">Drone with the new Model name</param>
-        public void ChangeDroneModel(Drone newDrone)
+        /// <param name="droneWithUpdateInfo">Drone with the new Model name</param>
+        public void ChangeDroneModel(Drone droneWithUpdateInfo)
         {
             try
             {
-                droensList.Remove(newDrone);
-                droensList.Add(newDrone);
-                dal.changeDroneInfo(convertBLToDalDrone(newDrone));
+                int index = droensList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
+                droensList[index] = droneWithUpdateInfo;
+                //droensList.Remove(newDrone);
+                //droensList.Add(newDrone);
+                dal.changeDroneInfo(convertBLToDalDrone(droneWithUpdateInfo));
             }
             catch (Exception)
             {
-                throw new InvalidOperationException($"Couldn't change Model of drone with id {newDrone.Id} ");
+                throw new InvalidOperationException($"Couldn't change Model of drone with id {droneWithUpdateInfo.Id} ");
             }
         }
 

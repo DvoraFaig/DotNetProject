@@ -37,19 +37,28 @@
         <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="AddDroneClickBtn"  />
         <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
         <Button x:Name="ChargeButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
-        <TextBlock x:Name="TimeTochargeText" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
-        <TextBox 
+        <Grid x:Name="ChargeDroneTimeGrid" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="15*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TimeTochargeText" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
+            <TextBox 
             x:Name="TimeTocharge" 
             Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"
             FontFamily="Tahoma" 
             FontSize="10" 
             FontWeight="Bold" 
             VerticalAlignment="Top" 
-            Grid.Column="6" 
-            Grid.Row="5" 
+            Grid.Column="1" 
+            Grid.Row="0" 
             TextWrapping="Wrap" 
             Height="20" 
-            Width="30"/>
+            Width="50"/>
+        </Grid>
         <Button x:Name="DeliveryStatusButton" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneOccurdingToStatusBtnClick"/>
         <Grid x:Name ="AddDroneDisplay" Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="1" Background="LightGray" Margin="0,45,0,10" Grid.Column="1">
             <Grid.ColumnDefinitions >

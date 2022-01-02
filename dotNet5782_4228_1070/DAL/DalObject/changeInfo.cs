@@ -28,9 +28,11 @@ namespace DalObject
         /// <param name="stationWithUpdateInfo">Station with the changed info</param>
         public void changeStationInfo(Station stationWithUpdateInfo)
         {
-            Station stationToErase = getStationWithSpecificCondition(s => s.Id == stationWithUpdateInfo.Id).First();
-            DataSource.Stations.Remove(stationToErase);
-            DataSource.Stations.Add(stationWithUpdateInfo);
+            //Station stationToErase = getStationWithSpecificCondition(s => s.Id == stationWithUpdateInfo.Id).First();
+            //DataSource.Stations.Remove(stationToErase);
+            //DataSource.Stations.Add(stationWithUpdateInfo);
+            int index = DataSource.Stations.FindIndex(s => s.Id == stationWithUpdateInfo.Id);
+            DataSource.Stations[index] = stationWithUpdateInfo;
         }
 
         /// <summary>
@@ -39,30 +41,36 @@ namespace DalObject
         /// <param name="droneWithUpdateInfo">Drone with the changed info</param>
         public void changeDroneInfo(Drone droneWithUpdateInfo)
         {
-            DataSource.Drones.Remove(droneWithUpdateInfo);
-            DataSource.Drones.Add(droneWithUpdateInfo);
+            //DataSource.Drones.Remove(droneWithUpdateInfo);
+            //DataSource.Drones.Add(droneWithUpdateInfo);
+            int index = DataSource.Drones.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
+            DataSource.Drones[index] = droneWithUpdateInfo;
         }
 
         /// <summary>
-        ///  Change specific drone info
+        ///  Change specific parcel info
         /// </summary>
-        /// <param name="goodParcel">The parcel with the changed info</param>
-        public void changeParcelInfo(Parcel goodParcel)
+        /// <param name="parcelWithUpdateInfo">The parcel with the changed info</param>
+        public void changeParcelInfo(Parcel parcelWithUpdateInfo)
         {
-            Parcel pToErase = getParcelWithSpecificCondition(p => p.Id == goodParcel.Id).First();
-            DataSource.Parcels.Remove(pToErase);
-            DataSource.Parcels.Add(goodParcel);
+            //Parcel pToErase = getParcelWithSpecificCondition(p => p.Id == goodParcel.Id).First();
+            //DataSource.Parcels.Remove(pToErase);
+            //DataSource.Parcels.Add(goodParcel);
+            int index = DataSource.Parcels.FindIndex(d => d.Id == parcelWithUpdateInfo.Id);
+            DataSource.Parcels[index] = parcelWithUpdateInfo;
         }
 
         /// <summary>
         ///  Change specific customer info
         /// </summary>
-        /// <param name="goodCustomer">DrThe customer with the changed info</param>
-        public void changeCustomerInfo(Customer goodCustomer)
+        /// <param name="customerWithUpdateInfo">DrThe customer with the changed info</param>
+        public void changeCustomerInfo(Customer customerWithUpdateInfo)
         {
-            Customer cToErase = getCustomerWithSpecificCondition( c => c.Id == goodCustomer.Id ).First();
-            DataSource.Customers.Remove(cToErase);
-            DataSource.Customers.Add(goodCustomer);
+            //Customer cToErase = getCustomerWithSpecificCondition( c => c.Id == customerWithUpdateInfo.Id ).First();
+            //DataSource.Customers.Remove(cToErase);
+            //DataSource.Customers.Add(customerWithUpdateInfo);
+            int index = DataSource.Customers.FindIndex(d => d.Id == customerWithUpdateInfo.Id);
+            DataSource.Customers[index] = customerWithUpdateInfo;
         }
     }
 }
