@@ -237,8 +237,11 @@ namespace PL
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text);
-            new CustomerListWindow(blObjectD).Show();
-            this.Close();
+            if (!isClient)
+            {
+                new CustomerListWindow(blObjectD).Show();
+                this.Close();
+            }
         }
 
         /// <summary>

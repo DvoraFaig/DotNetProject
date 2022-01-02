@@ -69,12 +69,14 @@ namespace PL
             BatteryTextBox.Text = $"{drone.Battery}";
             StatusTextBox.Text = $"{drone.Status}";
             PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
-
+            IdTextBox.IsReadOnly = true;
             if (drone.ParcelInTransfer == null)
             {
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
+            ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
+            ParcelIdIdBtn.Content = $"{drone.ParcelInTransfer.Id}";
             setDeliveryButton();
 
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
@@ -307,5 +309,10 @@ namespace PL
             PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
         #endregion
+
+        private void displayParcelOfDrone(object sender, RoutedEventArgs e)
+        {
+            //new ParcelWindow(blObject,)
+        }
     }
 }

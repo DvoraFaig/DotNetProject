@@ -69,7 +69,7 @@ namespace PL
         /// <param name="message">The message</param>
         public static void messageBoxResponseFromServer(String header, String message)
         {
-            MessageBox.Show( message , header);
+            MessageBox.Show(message, header);
         }
     }
 }
