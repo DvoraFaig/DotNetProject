@@ -97,6 +97,8 @@ namespace PL
                     Phone = SignUpPhoneTextBox.Text,
                     CustomerPosition = new BO.Position() { Latitude = int.Parse(SignUpLatitudeTextBox.Text), Longitude = int.Parse(SignUpLongitudeTextBox.Text) }
                 };
+                customer.CustomerAsSender = new List<BO.ParcelAtCustomer>();
+                customer.CustomerAsTarget = new List<BO.ParcelAtCustomer>();
                 blObject.AddCustomer(customer);
                 bool isClient = true;
                 new CustomerWindow(blObject, customer, isClient).Show();
