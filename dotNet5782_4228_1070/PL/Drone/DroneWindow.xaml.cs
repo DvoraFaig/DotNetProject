@@ -75,8 +75,11 @@ namespace PL
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
             }
-            ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
-            ParcelIdIdBtn.Content = $"{drone.ParcelInTransfer.Id}";
+            else
+            {
+                ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
+            }
+            //ParcelIdIdBtn.Content = $"{drone.ParcelInTransfer.Id}";
             setDeliveryButton();
 
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
