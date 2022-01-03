@@ -39,8 +39,8 @@ namespace DalObject
                     Id = i,
                     Name = $"station{i}",
                     ChargeSlots = r.Next(5, 10),
-                    Latitude = r.Next(1, 10),
-                    Longitude = r.Next(1, 10)
+                    Latitude = r.Next(1, 50),
+                    Longitude = r.Next(1, 50)
                 };
                 Stations.Add(s);
             }
@@ -66,8 +66,8 @@ namespace DalObject
                     Id = i,
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
-                    Latitude = r.Next(1, 10),
-                    Longitude = r.Next(1, 10)
+                    Latitude = r.Next(1, 50),
+                    Longitude = r.Next(1, 50)
                 };
 
                 Customers.Add(c);

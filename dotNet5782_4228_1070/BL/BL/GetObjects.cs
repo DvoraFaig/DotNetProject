@@ -51,6 +51,41 @@ using BO;
                     where predicate(parcel)
                     select parcel);
         }
+        public Parcel getParcelByDrone(int droneId)
+        {
+            try
+            {
+                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (parcel.Equals(null))//
+                    throw new Exceptions.ObjNotExistException(typeof(ParcelInTransfer), -1);//
+
+               return convertDalToBLParcel(parcel);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ObjNotExistException(typeof(ParcelInTransfer),-1 );
+            }
+        }
+
+        /// <summary>
+        /// Check a predicate to dal and check if drone is schedualed to Parcel.
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public bool checkIfExistParcelByDrone(int droneId)
+        {
+            try
+            {
+                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (parcel.Equals(null))//
+                    return false;
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Return a BO.Station(converted) by an id from dal.getStationWithSpecificCondition

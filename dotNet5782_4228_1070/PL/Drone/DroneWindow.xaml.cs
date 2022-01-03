@@ -272,8 +272,22 @@ namespace PL
                         StatusTextBox.Text = $"{dr.Status}";
                         BatteryTextBox.Text = $"{dr.Battery}";
                         setDeliveryButton();
-                        //TimeTocharge.Text = "";
                         ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
+                        BO.Parcel parcelOfDrone;
+                        try//(!blObjectD.checkIfExistParcelByDrone(dr.Id))
+                        {
+                            parcelOfDrone =blObjectD.getParcelByDrone(dr.Id);
+                            StatusTextBox.Text = $"{DroneStatus.Delivery}";
+                            DeliveryStatusButton.Visibility = Visibility.Visible;
+                            DeliveryStatusButton.Content = deliveryButtonOptionalContent[];
+                        }
+                        catch(Exception)//check if func goes in here.................
+                        {
+                            DeliveryStatusButton.Visibility = Visibility.Visible;
+                            setDeliveryButton();
+                            //DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
+
+                        }
                     }
                     catch (Exception)
                     {
@@ -303,6 +317,8 @@ namespace PL
             {
                 try { blObjectD.PairParcelWithDrone(dr.Id); }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (BO.Exceptions.ObjNotAvailableException e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                //catch (BO.Exceptions.ObjNotAvailableException e3) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e3.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel

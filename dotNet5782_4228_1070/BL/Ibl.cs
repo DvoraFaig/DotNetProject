@@ -25,6 +25,8 @@ namespace BlApi
         public IEnumerable<DroneToList> DisplayDronesToList();
         public IEnumerable<ParcelToList> GetParcelToList();
         public IEnumerable<Parcel> getParcels();
+        public Parcel getParcelByDrone(int droneId);
+        public bool checkIfExistParcelByDrone(int droneId);
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
         public IEnumerable<CustomerToList> GetCustomersToList();
