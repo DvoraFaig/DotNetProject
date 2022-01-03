@@ -279,7 +279,7 @@ namespace PL
                             parcelOfDrone =blObjectD.getParcelByDrone(dr.Id);
                             StatusTextBox.Text = $"{DroneStatus.Delivery}";
                             DeliveryStatusButton.Visibility = Visibility.Visible;
-                            DeliveryStatusButton.Content = deliveryButtonOptionalContent[];
+                            DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
                         }
                         catch(Exception)//check if func goes in here.................
                         {
