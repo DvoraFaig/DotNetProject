@@ -11,6 +11,11 @@ namespace DalObject
 {
     public partial class DalObject : DalApi.Idal
     {
+        /// <summary>
+        /// If station exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.
+        /// </summary>
+        /// <param name="stationToRemove">The station to remove. stationToRemove.IsActive = false</param>
         public void removeStation(Station stationToRemove)
         {
             try
@@ -31,6 +36,11 @@ namespace DalObject
             }
         }
 
+        /// <summary>
+        /// if customer exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.
+        /// </summary>
+        /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
         public void removeCustomer(Customer customerToRemove)
         {
             try
@@ -50,6 +60,11 @@ namespace DalObject
                 throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
             }
         }
+
+        /// <summary>
+        /// if drone exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.</summary>
+        /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
         public void removeDrone(Drone droneToRemove)
         {
             try

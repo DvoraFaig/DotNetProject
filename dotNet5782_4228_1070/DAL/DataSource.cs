@@ -84,7 +84,8 @@ namespace DalObject
                     Id = i,
                     Weight = (WeightCategories)r.Next(1, 4),
                     Priority = (Priorities)r.Next(1, 4),
-                    Requeasted = DateTime.Now
+                    Requeasted = DateTime.Now,
+                    IsActive = true
                 };
                 p.SenderId = Customers[r.Next(0, Customers.Count)].Id;
                 p.TargetId = Customers[r.Next(0, Customers.Count)].Id;

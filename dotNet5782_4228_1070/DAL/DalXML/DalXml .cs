@@ -11,7 +11,7 @@ using DalObject;
 
 namespace DalXML
 {
-    class DalXml //: //DalApi.Idal
+    class DalXml : DalApi.Idal
     {
         //dir need to be up from bin
         static string dir = @"..\..\..\..\xmlData\";
@@ -57,7 +57,7 @@ namespace DalXML
                 configRoot.Add(new XElement("DalObjectOrDalXml", "DalXml"));
                 double[] DroneElectricityUsage = { 0.1, 0.2, 0.4, 0.6, 0.7 };
                 //IEnumerable<double> DroneElectricityUsageList = DroneElectricityUsage;
-                configRoot.Add(DroneElectricityUsage);                
+                configRoot.Add(DroneElectricityUsage);
                 configRoot.Save(dir + configFilePath);
                 //DL.XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
                 //XElement empty = new XElement("empty", "0.1");
@@ -171,18 +171,93 @@ namespace DalXML
         /// <summary>
         /// Remove specific parcel
         /// </summary>
-        /// <param name="parcel">remove current parcel</param>
-        public void removeParcel(Parcel parcel)
+        /// <param name="parcelToRemove">remove current parcel</param>
+        public void removeParcel(Parcel parcelToRemove)
         {
-            IEnumerable<DO.Parcel> parcelLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            if (!parcelLits.Any(t => t.Id == parcel.Id))
+            IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+            try
             {
-                throw new DO.Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id);
+                Parcel parcel = getParcelWithSpecificCondition(s => s.Id == parcelToRemove.Id).First();
+                if (parcel.IsActive)
+                    parcel.IsActive = false;
+                changeParcelInfo(parcel);
             }
-            DO.Parcel newParcel = getParcelWithSpecificCondition(p => p.Id == parcel.Id).First();
-            parcelLits.ToList().Remove(newParcel);
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Parcel), parcelToRemove.Id, e1);
+            }
+            #region check
+            //IEnumerable<DO.Parcel> parcelLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+            //if (!parcelLits.Any(t => t.Id == parcel.Id))
+            //{
+            //    throw new DO.Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id);
+            //}
+            //DO.Parcel newParcel = getParcelWithSpecificCondition(p => p.Id == parcel.Id).First();
+            //parcelLits.ToList().Remove(newParcel);
+            //DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelLits, dir + parcelFilePath);
+            #endregion
+        }
 
-            DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelLits, dir + parcelFilePath);
+        /// <summary>
+        /// If station exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.
+        /// </summary>
+        /// <param name="stationToRemove">The station to remove. stationToRemove.IsActive = false</param>
+        public void removeStation(Station stationToRemove)
+        {
+            IEnumerable<DO.Station> stationsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
+            try
+            {
+                Station station = getStationWithSpecificCondition(s => s.Id == stationToRemove.Id).First();
+                if (station.IsActive)
+                    station.IsActive = false;
+                changeStationInfo(station);
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Station), stationToRemove.Id, e1);
+            }
+        }
+
+        /// <summary>
+        /// if customer exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.
+        /// </summary>
+        /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
+        public void removeCustomer(Customer customerToRemove)
+        {
+            IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            try
+            {
+                Customer customer = getCustomerWithSpecificCondition(s => s.Id == customerToRemove.Id).First();
+                if (customer.IsActive)
+                    customer.IsActive = false;
+                changeCustomerInfo(customer);
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
+            }
+        }
+
+        /// <summary>
+        /// if drone exist: IsActive = false + change its info (In DataSource)
+        /// If doesn't exist throw NoMatchingData exception.</summary>
+        /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
+        public void removeDrone(Drone droneToRemove)
+        {
+            IEnumerable<DO.Drone> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            try
+            {
+                Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
+                if (drone.IsActive)
+                    drone.IsActive = false;
+                changeDroneInfo(drone);
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+            }
         }
 
         /// <summary>
@@ -362,6 +437,62 @@ namespace DalXML
         }
 
         /// <summary>
+        /// If station with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for station with this id</param>
+        /// <returns></returns>
+        public bool IsStationActive(int requestedId)
+        {
+            IEnumerable<DO.Station> stationsLists = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
+            if (stationsLists.Any(s => s.Id == requestedId && s.IsActive))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// If customer with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for customer with this id</param>
+        /// <returns></returns>
+        public bool IsCustomerActive(int requestedId)
+        {
+            IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            if (customersList.Any(c => c.Id == requestedId))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// If drone with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for drone with this id</param>
+        /// <returns></returns>
+        public bool IsDroneActive(int requestedId)
+        {
+            IEnumerable<DO.Drone> dronesLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            if (dronesLits.Any(d => d.Id == requestedId && d.IsActive))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// If parcel with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for parcel with this id</param>
+        /// <returns></returns>
+        public bool IsParcelActive(int requestedId)
+        {
+            IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+            if (parcelsList.Any(s => s.Id == requestedId && s.IsActive))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
         /// Get a Drone/s with a specific condition = predicate
         /// </summary>
         /// <param name="predicate">return a drone/s that meeets the condition</param>
@@ -485,6 +616,10 @@ namespace DalXML
         {
             throw new NotImplementedException();
         }
+
+
+
+
     }
 
     class DL
