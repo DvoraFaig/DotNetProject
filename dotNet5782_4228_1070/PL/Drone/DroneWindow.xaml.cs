@@ -157,7 +157,9 @@ namespace PL
             try
             {
                 // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
-                blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
+                
+                //blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
+                blObjectD.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (DO.WeightCategories)(DroneWeightSelector.SelectedIndex + 1) }, Convert.ToInt32(StationIdTextBox.Text));
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
