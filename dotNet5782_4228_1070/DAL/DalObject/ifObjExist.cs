@@ -36,6 +36,16 @@ namespace DalObject
         }
 
         /// <summary>
+        /// If drone with the requested id exist and active
+        /// </summary>
+        /// <param name="requestedId">Looking for drone with this id</param>
+        /// <returns></returns>
+        public Boolean IsDroneActive(int requestedId)
+        {
+            return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);
+        }
+        
+        /// <summary>
         /// If customer with the requested id exist
         /// </summary>
         /// <param name="requestedId">Looking for customer with this id</param>

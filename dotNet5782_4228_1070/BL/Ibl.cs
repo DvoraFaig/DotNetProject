@@ -20,7 +20,7 @@ namespace BlApi
         //================
         public void RemoveStation(Station station);
         public void RemoveCustomer(Customer customer);
-
+        public void RemoveDrone(Drone drone);
 
         //================
         //  Display

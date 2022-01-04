@@ -25,7 +25,7 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3.5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="visibleAddForm"></TextBlock>
@@ -38,6 +38,7 @@
         <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="AddDroneClickBtn"  />
         <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
         <Button x:Name="ChargeButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
+        <Button x:Name="RemoveDrone"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Content="remove" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Width="90" Grid.Row="5" Height="30" Click="RemoveBtnClick" />
         <Grid x:Name="ChargeDroneTimeGrid" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30*"/>

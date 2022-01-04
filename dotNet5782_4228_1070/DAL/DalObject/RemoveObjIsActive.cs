@@ -50,5 +50,22 @@ namespace DalObject
                 throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
             }
         }
+        public void removeDrone(Drone droneToRemove)
+        {
+            try
+            {
+                Drone drone = (from d in DataSource.Drones
+                                     where d.Id == droneToRemove.Id
+                                    && d.Model == droneToRemove.Model
+                                    && d.MaxWeight == droneToRemove.MaxWeight
+                                     select d).First();
+                drone.IsActive = false;
+                changeDroneInfo(drone);
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+            }
+        }
     }
 }

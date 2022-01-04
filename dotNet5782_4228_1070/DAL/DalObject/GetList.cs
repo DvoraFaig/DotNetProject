@@ -29,7 +29,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Drone> GetDrones()
         {
-            return from d in DataSource.Drones select d;
+            return from d in DataSource.Drones 
+                   where d.IsActive == true
+                   select d;
         }
 
         /// <summary>

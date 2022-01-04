@@ -53,7 +53,8 @@ namespace DalObject
                 {
                     Id = i,
                     Model = $"Drone{i}",
-                    MaxWeight = (WeightCategories)r.Next(1, 4)
+                    MaxWeight = (WeightCategories)r.Next(1, 4),
+                    IsActive = true
                 };
                 Drones.Add(d);
             }

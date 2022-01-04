@@ -19,7 +19,6 @@ namespace BL
                     dal.removeStation(convertBLToDalStation(station));
                 else
                     throw new Exceptions.ObjExistException(typeof(Station), station.Id, "is active");
-
             }
             catch (ArgumentNullException) { }
             catch (InvalidOperationException) { }
@@ -27,7 +26,6 @@ namespace BL
             {
                 throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
             }
-            //throw new Exceptions.DataOfOjectChanged()
         }
         public void RemoveCustomer(Customer customer)
         {
@@ -37,7 +35,6 @@ namespace BL
                     dal.removeCustomer(convertBLToDalCustomer(customer));
                 else
                     throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
-
             }
             catch (ArgumentNullException) { }
             catch (InvalidOperationException) { }
@@ -45,7 +42,23 @@ namespace BL
             {
                 throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
             }
-            //throw new Exceptions.DataOfOjectChanged()
+        }
+
+        public void RemoveDrone(Drone drone)
+        {
+            try
+            {
+                if (dal.IsDroneById(drone.Id))
+                    dal.removeDrone(convertBLToDalDrone(drone));
+                else
+                    throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
+            }
+            catch (ArgumentNullException) { }
+            catch (InvalidOperationException) { }
+            catch (DO.Exceptions.NoMatchingData e1)
+            {
+                throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
+            }
         }
     }
 }
