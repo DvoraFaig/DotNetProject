@@ -18,7 +18,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Station> GetStations()
         {
-            return from s in DataSource.Stations select s;
+            return from s in DataSource.Stations
+                   where s.IsActive == true
+                   select s;
         }
 
         /// <summary>

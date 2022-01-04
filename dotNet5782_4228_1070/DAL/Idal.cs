@@ -17,6 +17,14 @@ namespace DalApi
         void AddCustomer(Customer c);
         void AddParcel(Parcel parcel);
         void AddDroneToCharge(DroneCharge parcel);
+
+        //==================
+        //Remove functions
+        //==================
+        public void removeStation(Station stationToRemove);
+        public void removeCustomer(Customer customerToRemove);
+
+
         int amountParcels();
         int amountStations();
 
@@ -49,6 +57,7 @@ namespace DalApi
         public Boolean IsParcelById(int id); ///
         public Boolean IsDroneById(int id);
         public Boolean IsStationById(int id);
+        public Boolean IsStationActive(int requestedId);
 
         //======================
         //Get Object/s with specific condition = Predicate

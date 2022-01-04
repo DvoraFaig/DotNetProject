@@ -11,7 +11,7 @@ using DalObject;
 
 namespace DalXML
 {
-    class DalXml : DalApi.Idal
+    class DalXml //: //DalApi.Idal
     {
         //dir need to be up from bin
         static string dir = @"..\..\..\..\xmlData\";

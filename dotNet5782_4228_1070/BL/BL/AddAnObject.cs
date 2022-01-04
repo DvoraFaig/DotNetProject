@@ -10,6 +10,18 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        private DO.Station convertBLToDalStation(Station s)
+        {
+            return new DO.Station()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Longitude = s.StationPosition.Longitude,
+                Latitude = s.StationPosition.Latitude,
+                ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(),
+                IsActive = true //////////////
+            };
+        }
         /// <summary>
         /// Add a new station. checks if this station exist already.
         /// If exist throw an error
@@ -18,15 +30,26 @@ namespace BL
         /// <param name="stationToAdd">The new station to add.</param>
         public void AddStation(Station stationToAdd)
         {
-            if (dal.IsStationById(stationToAdd.Id))
+            DO.Station station;
+            try
             {
-                throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
+                station = dal.getStationWithSpecificCondition(s => s.Id == stationToAdd.Id).First();
+                if (station.IsActive)
+                    throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
+                station.IsActive = true;
+                dal.changeStationInfo(station); //convertBLToDalStation(stationToAdd)
+                string message = "";
+                if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
+                    message += "Position";
+                if(stationToAdd.DronesCharging.Count() + stationToAdd.DroneChargeAvailble != station.ChargeSlots )
+                    message += ", Amount charge slots";
+                if(message != "")
+                    throw new Exceptions.DataOfOjectChanged(typeof(Station), station.Id, $"Data: {message} was changed");
+                return;
             }
-            else
-            {
-                DO.Station s = new DO.Station() { Id = stationToAdd.Id, Name = stationToAdd.Name, Longitude = stationToAdd.StationPosition.Longitude, Latitude = stationToAdd.StationPosition.Latitude, ChargeSlots = stationToAdd.DroneChargeAvailble };
-                dal.AddStation(s);
-            }
+            catch (ArgumentNullException) { }
+            catch (InvalidOperationException) { }
+            dal.AddStation(convertBLToDalStation(stationToAdd));
         }
 
         /// <summary>
@@ -81,21 +104,30 @@ namespace BL
         /// If exist throw an error
         /// If doesn't exist send if it to a func to add
         /// </summary>
-        /// <param name="newCustomer">The new customer to add.</param>
-        public void AddCustomer(BO.Customer newCustomer)
+        /// <param name="customerToAdd">The new customer to add.</param>
+        public void AddCustomer(BO.Customer customerToAdd)
         {
-
-            if (dal.IsCustomerById(newCustomer.Id))
+            try
             {
-                throw new ObjExistException(typeof(BO.Customer), newCustomer.Id);
-                //throw new ObjExistException("customer", customer.Id);
+                DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
+                if(customer.IsActive)
+                    throw new ObjExistException(typeof(BO.Customer), customer.Id);
+                customer.IsActive = true;
+                dal.changeCustomerInfo(customer);
+                string message = "";
+                if (customerToAdd.CustomerPosition.Latitude != customer.Latitude || customerToAdd.CustomerPosition.Longitude != customer.Longitude)
+                    message = "Position";
+                if (customerToAdd.Name != customer.Name)
+                    message += ", Name";
+                if (customerToAdd.Phone != customer.Phone)
+                    message += "and Phone";
+                if(message != "")
+                    throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data: {message} was changed");
+                return;
             }
-            else
-            {
-                DO.Customer customerToAdd = convertBLToDalCustomer(newCustomer);
-                dal.AddCustomer(customerToAdd);
-            }
-
+            catch (ArgumentNullException) { }
+            catch (InvalidOperationException) { }
+            dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
         }
 
         /// <summary>

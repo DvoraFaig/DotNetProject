@@ -39,6 +39,14 @@ namespace DO
                 : base(String.Format($"The {message}", exception))
             {
             }
+        }   
+        public class NoMatchingData: Exception
+        {
+            public NoMatchingData(Type t ,int id ,Exception exception)
+                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
+            {
+
+            }
 
         }
 

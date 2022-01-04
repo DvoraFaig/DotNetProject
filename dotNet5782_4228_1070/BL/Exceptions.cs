@@ -36,27 +36,38 @@ namespace BO
             {
             }
         }
-
-        public class ObjExistException : Exception
+        public class DataOfOjectChanged : Exception
         {
-            public ObjExistException(Type objType, int id , Exception exception)
-                : base(String.Format($"The {objType.GetType()} with id: {id} exist."), exception)
-            {
-            }
-            public ObjExistException(Type objType, int id)
-                : base(String.Format($"The {objType.GetType()} with id: {id} exist."))
-            {
-            }
-            public ObjExistException(string objType, int id , Exception exception)
-                : base(String.Format($"The {objType} with id: {id} exist."), exception)
+            public DataOfOjectChanged(Type objType, int id,string message)
+                : base(String.Format($"The {objType.Name} with id: {id} : Data Changed\n{message}."))
             {
             }
         }
 
-        public class NoDataMatchingBetweenDalandBL<T> : Exception
+            public class ObjExistException : Exception
         {
-            public NoDataMatchingBetweenDalandBL(T obj , Exception exception)
+            public ObjExistException(Type objType, int id , Exception exception)
+                : base(String.Format($"The {objType.Name} with id: {id} exist."), exception)
+            {
+            }
+            public ObjExistException(Type objType, int id)
+                : base(String.Format($"The {objType.Name} with id: {id} exist."))
+            {
+            }
+            public ObjExistException(Type objType, int id , string message )
+                : base(String.Format($"The {objType} with id: {id} {message}."))
+            {
+            }
+        }
+
+        public class NoDataMatchingBetweenDalandBL : Exception
+        {
+            public NoDataMatchingBetweenDalandBL(Type obj , Exception exception)
                 : base(String.Format($"The {obj.GetType()} doesn't exist.\n BL and Dal data are not matching"), exception)
+            {
+            }
+            public NoDataMatchingBetweenDalandBL(string message)
+                : base(String.Format($"{message}"))
             {
             }
         }

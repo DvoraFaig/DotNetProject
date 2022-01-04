@@ -158,7 +158,11 @@ namespace PL
                             Longitude = int.Parse(LongitudeTextBox.Text)
                         }
                     };
-                    blObjectD.AddCustomer(newCustomer);
+                    try
+                    {
+                        blObjectD.AddCustomer(newCustomer);
+                    }
+                    catch (Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", e1.Message); }
                     new CustomerListWindow(blObjectD).Show();
                     this.Close();
                 }

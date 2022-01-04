@@ -17,6 +17,12 @@ namespace BlApi
         //public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
 
         //================
+        //  Remove
+        //================
+        public void removeStation(Station station);
+
+
+        //================
         //  Display
         //================
         public List<StationToList> GetStationsToList();

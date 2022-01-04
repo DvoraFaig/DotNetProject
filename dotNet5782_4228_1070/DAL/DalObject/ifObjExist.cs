@@ -15,7 +15,10 @@ namespace DalObject
         {
             return DataSource.Stations.Any(s => s.Id == requestedId);
         }
-
+        public Boolean IsStationActive(int requestedId)
+        {
+            return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
+        }
         /// <summary>
         /// If drone with the requested id exist
         /// </summary>
