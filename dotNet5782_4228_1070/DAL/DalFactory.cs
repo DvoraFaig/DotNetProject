@@ -8,17 +8,19 @@ namespace DalApi
 {
     public static class DalFactory
     {
-        public static global::DalApi.Idal factory(string objName)
+        public static global::DalApi.Idal factory()
         {
-            switch (objName)
-            {
-                case "DalObject":
-                    return DalObject.DalObject.GetInstance;
-                case "DalXml":
-                    return DalObject.DalObject.GetInstance;
-                default:
-                    throw new Exception();
-            }
+            
+            return DalObject.DalObject.GetInstance;
+            //switch ()
+            //{
+            //    case "DalObject":
+            //        return DalObject.DalObject.GetInstance;
+            //    case "DalXml":
+            //        return DalObject.DalObject.GetInstance;
+            //    default:
+            //        throw new Exception();
+            //}
         }
     }
 }

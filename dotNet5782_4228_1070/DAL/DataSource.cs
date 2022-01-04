@@ -136,52 +136,53 @@ namespace DalObject
                     Id = i,
                     Password = $"Worker{i}",
                 });
-        }
-        //DroneCharge
-        //int indexStation;
-        //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-        //for (int i = 0; i < dronesNotInDelivery.Count; i++)
-        //{
-        //    int fullChargingSlotsInStation;
-        //    indexStation = r.Next(0, Stations.Count);
-        //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
-        //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
-        //    {
-        //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
-        //    }
-        //}
+            }
+            //DroneCharge
+            //int indexStation;
+            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+            //for (int i = 0; i < dronesNotInDelivery.Count; i++)
+            //{
+            //    int fullChargingSlotsInStation;
+            //    indexStation = r.Next(0, Stations.Count);
+            //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
+            //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
+            //    {
+            //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
+            //    }
+            //}
 
 
-        //DroneCharge
-        //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-        //int droneIndex = 0;
-        //for (int i = 0; i < Stations.Count; i++)
-        //{
-        //    if (droneIndex == dronesNotInDelivery.Count)
-        //        break;
-        //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
-        //    {
-        //        if (droneIndex == dronesNotInDelivery.Count)
-        //            break;
-        //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
-        //        droneIndex++;
+            //DroneCharge
+            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
+            //int droneIndex = 0;
+            //for (int i = 0; i < Stations.Count; i++)
+            //{
+            //    if (droneIndex == dronesNotInDelivery.Count)
+            //        break;
+            //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
+            //    {
+            //        if (droneIndex == dronesNotInDelivery.Count)
+            //            break;
+            //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
+            //        droneIndex++;
 
-        //    }
-        //}
-        Config.empty = .1;
-            Config.lightWeight = .3;
-            Config.mediumWeight = .5;
+            //    }
+            //}
+            Config.empty = .1;
+            Config.lightWeight = .2;
+            Config.mediumWeight = .4;
             Config.heavyWeight = .6;
             Config.chargingRate = .7;
         }
 
-    internal static class Config
-    {
-        internal static double empty;
-        internal static double lightWeight;
-        internal static double mediumWeight;
-        internal static double heavyWeight;
-        internal static double chargingRate;
+        internal static class Config
+        {
+            internal static double empty = .1;
+            internal static double lightWeight = .2;
+            internal static double mediumWeight = .4;
+            internal static double heavyWeight = .6;
+            internal static double chargingRate = .7;
+            internal static string DalObjectOrDalXml = "DalXml";
+        }
     }
-}
 }

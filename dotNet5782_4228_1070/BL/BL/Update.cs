@@ -24,8 +24,8 @@ namespace BL
                 {
                     dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
                 }
-                catch (ArgumentNullException) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
-                catch (InvalidOperationException) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
+                catch (ArgumentNullException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id ,e); }
+                catch (InvalidOperationException e1) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id , e1); }
             }
             else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
         }
@@ -44,9 +44,9 @@ namespace BL
                 //droensList.Add(newDrone);
                 dal.changeDroneInfo(convertBLToDalDrone(droneWithUpdateInfo));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new InvalidOperationException($"Couldn't change Model of drone with id {droneWithUpdateInfo.Id} ");
+                throw new InvalidOperationException($"Couldn't change Model of drone with id {droneWithUpdateInfo.Id} " , e);
             }
         }
 
@@ -82,9 +82,9 @@ namespace BL
                     c.Phone = phone;
                 dal.changeCustomerInfo(c);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ObjNotExistException(typeof(DO.Customer), id);
+                throw new ObjNotExistException(typeof(DO.Customer), id , e);
             }
         }
 
@@ -115,13 +115,13 @@ namespace BL
                     throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later.....");
                 }
             }
-            catch (ObjNotExistException)
+            catch (ObjNotExistException e)
             {
-                throw new ObjNotExistException(typeof(Drone),droneId);
+                throw new ObjNotExistException(typeof(Drone),droneId , e);
             }
-            catch (Exception e)
+            catch (Exception e1)
             {
-                throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later.....");
+                throw new ObjNotAvailableException("The Drone can't charge now\nPlease try later....." , e1);
             }
         }
 
@@ -133,18 +133,14 @@ namespace BL
                 blDrone.Status = DroneStatus.Available;
                 blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
                 blDrone.Battery = Math.Min(100,blDrone.Battery) ;//requestElectricity(4);
-
-                //if (blDrone.Battery >= 100)
-                //    blDrone.Battery = 100;
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //throw new ObjNotExistException(typeof(Drone), droneId);
-                throw new Exception("Can't free Drone from charge.\nPlease try later...");
+                throw new Exception("Can't free Drone from charge.\nPlease try later...",e);
             }
         }
 
@@ -214,10 +210,6 @@ namespace BL
                 {
                     throw new Exceptions.ObjNotAvailableException("No Parcel matching drones' conditions");
                 }
-                //if (droneToParcel.ParcelInTransfer == null)
-                //{
-                    
-                //}
                 droneToParcel.Status = DroneStatus.Delivery;
                 droneToParcel.ParcelInTransfer = returnAParcelInTransfer(
                     maxParcel, convertBLToDalCustomer(GetCustomerById(maxParcel.SenderId)),
@@ -230,7 +222,7 @@ namespace BL
             //////
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new ObjNotAvailableException(e.Message);
             }
             ///////
         }

@@ -11,11 +11,15 @@ namespace DO
     {
         public class ObjNotExistException : Exception
         {
+            public ObjNotExistException(Type t, int id , Exception exception)
+                : base(String.Format($"The {t.Name} with id {id} doesn't exist." , exception))
+            {
+            }
             public ObjNotExistException(Type t, int id)
                 : base(String.Format($"The {t.Name} with id {id} doesn't exist."))
             {
             }
-            public ObjNotExistException(string message )
+            public ObjNotExistException(string message ,Exception exception)
                 : base(String.Format($"The {message}"))
             {
             }
@@ -23,12 +27,16 @@ namespace DO
         }
         public class ObjExistException : Exception
         {
+            public ObjExistException(Type t, int id , Exception exception)
+                : base(String.Format($"The {t.Name} with id {id} exist."),exception)
+            {
+            }
             public ObjExistException(Type t, int id)
                 : base(String.Format($"The {t.Name} with id {id} exist."))
             {
             }
-            public ObjExistException(string message)
-                : base(String.Format($"The {message}"))
+            public ObjExistException(string message, Exception exception)
+                : base(String.Format($"The {message}", exception))
             {
             }
 

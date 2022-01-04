@@ -21,9 +21,9 @@ using BO;
             {
                 return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First() ;
             }
-            catch (InvalidOperationException )
+            catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(Drone), droneRequestedId);
+                throw new ObjNotExistException(typeof(Drone), droneRequestedId,e);
             }
         }
 
@@ -61,9 +61,9 @@ using BO;
 
                return convertDalToBLParcel(parcel);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(ParcelInTransfer),-1 );
+                throw new ObjNotExistException(typeof(ParcelInTransfer),-1 ,e);
             }
         }
 

@@ -64,7 +64,6 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             dr = new PO.Drone(drone);
-            //IdTextBox.Text = $"{drone.Id}";
             IdTextBox.DataContext = dr;
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
@@ -81,9 +80,7 @@ namespace PL
             {
                 ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
             }
-            //ParcelIdIdBtn.Content = $"{drone.ParcelInTransfer.Id}";
             setDeliveryButton();
-
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
             if (drone.Status == DroneStatus.Maintenance)
                 DeliveryStatusButton.Visibility = Visibility.Hidden;
@@ -119,6 +116,7 @@ namespace PL
                 DeliveryStatusButton.Visibility = Visibility.Hidden;
             }
         }
+
         /// <summary>
         /// Content of a btn in the update form occurding to the drones' status.
         /// </summary>
@@ -275,21 +273,9 @@ namespace PL
                         BatteryTextBox.Text = $"{dr.Battery}";
                         setDeliveryButton();
                         ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
-                        BO.Parcel parcelOfDrone;
-                        try//(!blObjectD.checkIfExistParcelByDrone(dr.Id))
-                        {
-                            parcelOfDrone =blObjectD.getParcelByDrone(dr.Id);
-                            StatusTextBox.Text = $"{DroneStatus.Delivery}";
-                            DeliveryStatusButton.Visibility = Visibility.Visible;
-                            DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
-                        }
-                        catch(Exception)//check if func goes in here.................
-                        {
-                            DeliveryStatusButton.Visibility = Visibility.Visible;
-                            setDeliveryButton();
-                            //DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
-
-                        }
+                        StatusTextBox.Text = $"{DroneStatus.Available}";
+                        DeliveryStatusButton.Visibility = Visibility.Visible;
+                        DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
                     }
                     catch (Exception)
                     {

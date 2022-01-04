@@ -20,11 +20,11 @@ namespace BL
         {
             if (dal.IsStationById(stationToAdd.Id))
             {
-                throw new ObjExistException( typeof(BO.Station), stationToAdd.Id);
+                throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
             }
             else
             {
-                DO.Station s = new DO.Station() { Id = stationToAdd.Id, Name = stationToAdd.Name, Longitude = stationToAdd.StationPosition.Longitude, Latitude = stationToAdd.StationPosition.Latitude, ChargeSlots = stationToAdd.DroneChargeAvailble};
+                DO.Station s = new DO.Station() { Id = stationToAdd.Id, Name = stationToAdd.Name, Longitude = stationToAdd.StationPosition.Longitude, Latitude = stationToAdd.StationPosition.Latitude, ChargeSlots = stationToAdd.DroneChargeAvailble };
                 dal.AddStation(s);
             }
         }
@@ -54,7 +54,7 @@ namespace BL
                 DO.Station s;
                 try
                 {
-                     s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                    s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
                 }
                 catch (InvalidOperationException)
                 {
@@ -84,6 +84,7 @@ namespace BL
         /// <param name="newCustomer">The new customer to add.</param>
         public void AddCustomer(BO.Customer newCustomer)
         {
+
             if (dal.IsCustomerById(newCustomer.Id))
             {
                 throw new ObjExistException(typeof(BO.Customer), newCustomer.Id);
@@ -94,6 +95,7 @@ namespace BL
                 DO.Customer customerToAdd = convertBLToDalCustomer(newCustomer);
                 dal.AddCustomer(customerToAdd);
             }
+
         }
 
         /// <summary>

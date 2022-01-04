@@ -153,22 +153,27 @@ namespace PL
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
             ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
-            Drone drone = blObject.GetDroneById(chargingDrone.Id);////
+            Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
             new DroneWindow(blObject, drone).Show();
             this.Close();
         }
 
+        /// <summary>
+        /// Try to send a stations update info to a func.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateBtnClick(object sender, RoutedEventArgs e)
         {
-            //if (NameTextBox.Text != station.Name)
-            //   
-            //}
-
-            //if (int.Parse(ChargingSlotsAvailbleTextBox.Text) != station.DroneChargeAvailble)
-            //{
-
-            //}
-            blObject.StationChangeDetails(station.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+            try
+            {
+                blObject.StationChangeDetails(station.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+                new StationListWindow(blObject);
+                this.Close();
+            }
+            catch (ArgumentNullException e1) { PLFuncions.messageBoxResponseFromServer("Change Station information", e1.Message); }
+            catch (FormatException e2) { PLFuncions.messageBoxResponseFromServer("Change Station information", e2.Message); }
+            catch (OverflowException e3) { PLFuncions.messageBoxResponseFromServer("Change Station information", e3.Message); }
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function

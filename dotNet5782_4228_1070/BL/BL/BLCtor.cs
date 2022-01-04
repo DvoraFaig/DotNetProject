@@ -31,7 +31,7 @@ namespace BL
         private BL()
         {
             droensList = new List<Drone>();
-            dal = DalApi.DalFactory.factory("DalObject"); //start one time an IDal.DO.IDal object.
+            dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
             electricityUsageWhenDroneIsEmpty = dal.electricityUseByDrone()[0];
             electricityUsageWhenDroneILightWeight = dal.electricityUseByDrone()[1];
             electricityUsageWhenDroneIsMediumWeight = dal.electricityUseByDrone()[2];

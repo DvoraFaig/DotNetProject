@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-
+//check if needed to throw ArgumentNullException = the list is empty
 
 namespace DalObject
 {
