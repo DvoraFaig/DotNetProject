@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-
-
+using System.Windows;
 
 namespace PO
 {
-    public class Station
+    public class Station : DependencyObject
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -24,14 +21,16 @@ namespace PO
         }
 
     }
-    public class BLStationToList
+    
+    public class BLStationToList : DependencyObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int DroneChargeAvailble { get; set; }
         public int DroneChargeOccupied { get; set; }
     }
-    public class DistanceFromStation
+    
+    public class DistanceFromStation : DependencyObject
     {
         public DO.Station Station_ { get; set; }
         public double DistanceFromGivenPosotion { get; set; }

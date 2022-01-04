@@ -24,7 +24,8 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private BlApi.Ibl blObjectD;
-        BO.Drone dr;
+        //BO.Drone dr;
+        PO.Drone dr;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
 
         #region the closing button
@@ -62,8 +63,9 @@ namespace PL
             blObjectD = blObject;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            dr = drone;
-            IdTextBox.Text = $"{drone.Id}";
+            dr = new PO.Drone(drone);
+            //IdTextBox.Text = $"{drone.Id}";
+            IdTextBox.DataContext = dr;
             ModelTextBox.Text = $"{ drone.Model}";
             DroneWeightUpdate.Text = $"{drone.MaxWeight}";
             BatteryTextBox.Text = $"{drone.Battery}";
@@ -89,7 +91,7 @@ namespace PL
             {
                 try
                 {
-                    int contentIndex = blObjectD.GetDroneStatusInDelivery(dr);
+                    int contentIndex = blObjectD.GetDroneStatusInDelivery(dr.BO());
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                 }
@@ -108,7 +110,7 @@ namespace PL
         {
             try
             {
-                int contentIndex = blObjectD.GetDroneStatusInDelivery(dr);
+                int contentIndex = blObjectD.GetDroneStatusInDelivery(dr.BO());
                 DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                 DeliveryStatusButton.Visibility = Visibility.Visible;
             }
@@ -230,7 +232,7 @@ namespace PL
             try
             {
                 dr.Model = ModelTextBox.Text;
-                blObjectD.ChangeDroneModel(dr);
+                blObjectD.ChangeDroneModel(dr.BO());
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
@@ -328,7 +330,7 @@ namespace PL
                     blObjectD.DronePicksUpParcel(dr.Id);
                     BatteryTextBox.Text = $"{dr.Battery}";
                     PositionDroneTextBox.Text = $"({dr.DronePosition.Latitude},{dr.DronePosition.Longitude})";
-                    dr = blObjectD.GetDroneById(dr.Id);
+                    dr = new PO.Drone(blObjectD.GetDroneById(dr.Id));
                     findDroneStatusContentBtn();
 
                 }
@@ -353,6 +355,11 @@ namespace PL
         private void displayParcelOfDrone(object sender, RoutedEventArgs e)
         {
             //new ParcelWindow(blObject,)
+        }
+
+        private void ReturnToPageDroneListWindow_1_Click(object sender, RoutedEventArgs e)
+        {
+            dr.Id = 100;
         }
     }
 }

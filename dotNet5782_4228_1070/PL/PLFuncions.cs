@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BO;
 
 namespace PL
 {
@@ -71,5 +72,15 @@ namespace PL
         {
             MessageBox.Show(message, header);
         }
+
+        /*static PO.Drone ConvertBOToPO(BO.Drone item)
+        {
+            return new PO.Drone() { Id = item.Id,}
+            *//*Type S = item.GetType();
+            if (S.Equals(typeof(BO.Drone)){
+                return new PO.Drone() { Id = item.Id }
+            }
+            return 0;*//*
+        }*/
     }
 }

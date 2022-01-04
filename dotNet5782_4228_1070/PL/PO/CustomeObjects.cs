@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using System.Windows;
 
 namespace PO
 {
-    public class Customer
+    public class Customer : DependencyObject
     {
         public int Id
         {
@@ -26,7 +25,7 @@ namespace PO
         }
     }
 
-    public class CustomerToList
+    public class CustomerToList : DependencyObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -37,7 +36,7 @@ namespace PO
         public int AmountAsTargetUnDeliveredParcels { get; set; }
     }
 
-    public class CustomerInParcel //targetId in parcel
+    public class CustomerInParcel : DependencyObject //targetId in parcel
     {
         public int Id { get; set; }
         public string name { get; set; }
