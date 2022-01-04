@@ -39,17 +39,17 @@ namespace BL
         /// <param name="model">Drones' model name</param>
         /// <param name="maxWeight">Drones' maxweight he could carry</param>
         /// <param name="stationId">In witch station to charge the drone in.</param>
-        public void AddDrone(int id, string model, int maxWeight, int stationId)
+        public void AddDrone(Drone droneToAdd, int stationId)
         {
-            if (dal.IsDroneById(id))
+            if (dal.IsDroneById(droneToAdd.Id))
             {
-                throw new ObjExistException(typeof(BO.Drone), id);
+                throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
             }
             else
             {
-                if (maxWeight > 3 || maxWeight < 1)
+                if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
                     throw new Exception("Weight of drone is out of range");
-                DO.WeightCategories maxWeightconvertToEnum = (DO.WeightCategories)maxWeight;
+                DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
                 int battery = r.Next(20, 40);
                 DO.Station s;
                 try
@@ -64,9 +64,9 @@ namespace BL
                 if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
                 {
                     Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
-                    Drone dr = new Drone() { Id = id, Model = model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                    Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
                     droensList.Add(dr);
-                    dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = id });
+                    dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                     dal.AddDrone(convertBLToDalDrone(dr));
                 }
                 else
@@ -108,24 +108,24 @@ namespace BL
         /// <param name="targetId">Parcels' target(customer) id</param>
         /// <param name="weight">Parcels' weight</param>
         /// <param name="priority">Parcels' priority</param>
-        public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority)
+        public void AddParcel(Parcel parcelToAdd)
         {
-            if (dal.IsCustomerById(senderId) && dal.IsCustomerById(targetId))
+            if (dal.IsCustomerById(parcelToAdd.Sender.Id) && dal.IsCustomerById(parcelToAdd.Target.Id))
             {
                 DO.Parcel p = new DO.Parcel()
                 {
                     Id = dal.amountParcels() + 1,
-                    SenderId = senderId,
-                    TargetId = targetId,
-                    Weight = weight,
-                    Priority = priority,
+                    SenderId = parcelToAdd.Sender.Id,
+                    TargetId = parcelToAdd.Target.Id,
+                    Weight = parcelToAdd.Weight,
+                    Priority = parcelToAdd.Priority,
                     Requeasted = DateTime.Now
                 };
                 dal.AddParcel(p);
             }
             else
             {
-                throw new ObjNotExistException($"sender customer {senderId} or terget customer {targetId} not exsist");
+                throw new ObjNotExistException($"sender customer {parcelToAdd.Sender.Id} or terget customer {parcelToAdd.Target.Id} not exsist");
             }
         }
     }
