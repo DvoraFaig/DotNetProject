@@ -15,6 +15,12 @@ namespace DalObject
         {
             return DataSource.Stations.Any(s => s.Id == requestedId);
         }
+
+        /// <summary>
+        /// If station with the requested id exist and active.
+        /// </summary>
+        /// <param name="requestedId">Looking for station with this id</param>
+        /// <returns></returns>
         public Boolean IsStationActive(int requestedId)
         {
             return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
@@ -37,6 +43,16 @@ namespace DalObject
         public Boolean IsCustomerById(int requestedId)
         {
             return DataSource.Customers.Any(c => c.Id == requestedId);
+        }
+
+        /// <summary>
+        /// If customer with the requested id exist and Active
+        /// </summary>
+        /// <param name="requestedId"></param>
+        /// <returns></returns>
+        public Boolean IsCustomerActive(int requestedId)
+        {
+            return DataSource.Customers.Any(c => c.Id == requestedId && c.IsActive == true);
         }
 
         /// <summary>

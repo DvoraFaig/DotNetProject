@@ -23,6 +23,7 @@ namespace DalObject
                                    && s.Longitude == stationToRemove.Longitude
                                    select s).First();
                 station.IsActive = false;
+                changeStationInfo(station);
             }
             catch(Exception e1)
             {
@@ -32,14 +33,22 @@ namespace DalObject
 
         public void removeCustomer(Customer customerToRemove)
         {
-            Customer customer = (from c in DataSource.Customers
-                                where c.Id == customerToRemove.Id
-                               && c.Name == customerToRemove.Name
-                               && c.Phone == customerToRemove.Phone
-                               && c.Latitude == customerToRemove.Latitude
-                               && c.Longitude == customerToRemove.Longitude
-                               select c).First();
-            customer.IsActive = false;
+            try
+            {
+                Customer customer = (from c in DataSource.Customers
+                                     where c.Id == customerToRemove.Id
+                                    && c.Name == customerToRemove.Name
+                                    && c.Phone == customerToRemove.Phone
+                                    && c.Latitude == customerToRemove.Latitude
+                                    && c.Longitude == customerToRemove.Longitude
+                                     select c).First();
+                customer.IsActive = false;
+                changeCustomerInfo(customer);
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
+            }
         }
     }
 }

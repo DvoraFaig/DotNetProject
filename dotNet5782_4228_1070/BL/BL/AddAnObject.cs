@@ -41,10 +41,10 @@ namespace BL
                 string message = "";
                 if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
                     message += "Position";
-                if(stationToAdd.DronesCharging.Count() + stationToAdd.DroneChargeAvailble != station.ChargeSlots )
+                if(stationToAdd.DroneChargeAvailble != station.ChargeSlots )
                     message += ", Amount charge slots";
                 if(message != "")
-                    throw new Exceptions.DataOfOjectChanged(typeof(Station), station.Id, $"Data: {message} was changed");
+                    throw new Exceptions.DataOfOjectChanged(typeof(Station), station.Id, $"Data changed: {message} was changed");
                 return;
             }
             catch (ArgumentNullException) { }
@@ -122,7 +122,7 @@ namespace BL
                 if (customerToAdd.Phone != customer.Phone)
                     message += "and Phone";
                 if(message != "")
-                    throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data: {message} was changed");
+                    throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
                 return;
             }
             catch (ArgumentNullException) { }

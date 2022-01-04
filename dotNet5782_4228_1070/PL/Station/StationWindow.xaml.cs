@@ -198,7 +198,7 @@ namespace PL
         {
             try
             {
-                blObject.removeStation(station);
+                blObject.RemoveStation(station);
                 new StationListWindow(blObject).Show();
                 this.Close();
             }

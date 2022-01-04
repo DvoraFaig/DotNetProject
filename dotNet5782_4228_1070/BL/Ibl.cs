@@ -19,7 +19,8 @@ namespace BlApi
         //================
         //  Remove
         //================
-        public void removeStation(Station station);
+        public void RemoveStation(Station station);
+        public void RemoveCustomer(Customer customer);
 
 
         //================

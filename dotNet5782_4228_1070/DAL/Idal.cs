@@ -58,6 +58,8 @@ namespace DalApi
         public Boolean IsDroneById(int id);
         public Boolean IsStationById(int id);
         public Boolean IsStationActive(int requestedId);
+        public Boolean IsCustomerActive(int requestedId);
+
 
         //======================
         //Get Object/s with specific condition = Predicate

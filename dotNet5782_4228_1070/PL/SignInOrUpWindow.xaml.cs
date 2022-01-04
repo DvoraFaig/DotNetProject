@@ -47,11 +47,7 @@ namespace PL
                 {
 
                 }
-                //base.OnClosing(e);
-                //else
-                //e.Cancel = true;
             }
-            //base.OnClosing(e);
         }
 
         /// <summary>

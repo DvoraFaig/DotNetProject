@@ -47,7 +47,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            return from c in DataSource.Customers select c;
+            return from c in DataSource.Customers
+                   where c.IsActive == true
+                   select c;
         }
 
         /// <summary>
