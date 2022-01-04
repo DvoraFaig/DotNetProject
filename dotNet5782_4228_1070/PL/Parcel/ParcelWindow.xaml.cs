@@ -65,7 +65,7 @@ namespace PL
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(new CustomerInParcel() { Id = senderCustomer.Id , Name = senderCustomer.Name});
+            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(new CustomerInParcel() { Id = senderCustomer.Id, Name = senderCustomer.Name });
             ParcelSenderSelector.Visibility = Visibility.Hidden;
             SenderText.Visibility = Visibility.Visible;
             SenderText.Content = senderCustomer.Name;
@@ -110,16 +110,16 @@ namespace PL
             this.parcel = parcel;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            if(clientIsSender)
+            if (clientIsSender)
                 this.clientCustomer = blObject.GetCustomerById(parcel.Sender.Id);
             else
                 this.clientCustomer = blObject.GetCustomerById(parcel.Target.Id);
             initializeDetailsUpdateForm();
             if (isClientAndNotAdmin)
             {
-                if(parcel.Drone != null) // parcel was schedualed
+                if (parcel.Drone != null) // parcel was schedualed
                     RemoveBtn.Visibility = Visibility.Hidden;
-                if(!isSender)
+                if (!isSender)
                     RemoveBtn.Visibility = Visibility.Hidden;
             }
         }
@@ -172,22 +172,22 @@ namespace PL
                     blObject.RemoveParcel(parcel);
                     customerUpdateHisParcel = true;
                 }
-                catch(ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
+                catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
                 catch (InvalidOperationException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
                 catch (Exceptions.ObjNotExistException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {parcel.Id} wasn't found"); }
 
                 if (isClientAndNotAdmin && !customerUpdateHisParcel)//if customer der=tailes are not updated. return to the window(without creating a new window).
                     returnBackToUnupdateWindow.Show();
-                else if(isClientAndNotAdmin)
-                    new CustomerWindow(blObject, clientCustomer , true).Show();
+                else if (isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer, true).Show();
                 else
                     new ParcelListWindow_(blObject).Show();
                 this.Close();
-                PLFuncions.messageBoxResponseFromServer("Parcel Remove","Parcel was removed succesfully");
+                PLFuncions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
             }
             catch (Exceptions.ObjNotAvailableException ex)
             {
-               PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
+                PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
             }
         }
 
@@ -213,17 +213,17 @@ namespace PL
             if ((isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector) && !isClientAndNotAdmin)
                 || (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelTargetSelector) && isClientAndNotAdmin))
             {
-                int senderId;
+                CustomerInParcel senderCustomer;
                 if (isClientAndNotAdmin)
-                    senderId = clientCustomer.Id;
-                else
-                    senderId = ((CustomerInParcel)ParcelSenderSelector.SelectedItem).Id;
-                int targetId = ((CustomerInParcel)ParcelTargetSelector.SelectedItem).Id;
+                    senderCustomer = new CustomerInParcel() { Id = clientCustomer.Id, Name = clientCustomer.Name };
+                else 
+                    senderCustomer = ((CustomerInParcel)ParcelSenderSelector.SelectedItem);
+                CustomerInParcel targetCustomer = ((CustomerInParcel)ParcelTargetSelector.SelectedItem);
                 DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
                 DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
                 try
                 {
-                    blObject.AddParcel(senderId, targetId, weight, priority);
+                    blObject.AddParcel(new Parcel() { Sender = senderCustomer, Target = targetCustomer, Weight = weight, Priority = priority });
                 }
                 catch (BO.Exceptions.ObjNotExistException ex)
                 {
@@ -292,7 +292,7 @@ namespace PL
 
                 if (clientIsSender)
                 {
-                    customer = (parcel == null)? clientCustomer : blObject.GetCustomerById(parcel.Sender.Id);
+                    customer = (parcel == null) ? clientCustomer : blObject.GetCustomerById(parcel.Sender.Id);
                 }
                 else
                 {
@@ -341,7 +341,7 @@ namespace PL
                 return;
             CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? parcel.Target : parcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
-            new CustomerWindow(blObject, customer,false).Show();
+            new CustomerWindow(blObject, customer, false).Show();
             this.Close();
         }
 
