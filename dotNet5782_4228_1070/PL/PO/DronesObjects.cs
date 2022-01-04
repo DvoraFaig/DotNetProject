@@ -21,6 +21,7 @@ namespace PO
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
         }
+
         public BO.Drone BO()
         {
             return new BO.Drone()

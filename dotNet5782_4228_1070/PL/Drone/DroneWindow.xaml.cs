@@ -64,16 +64,12 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             dr = new PO.Drone(drone);
-            DataContext = dr;
+            AddDroneDisplay.DataContext = dr;
             IdTextBox.IsReadOnly = true;
             if (drone.ParcelInTransfer == null)
             {
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
             }
             setDeliveryButton();
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
@@ -152,7 +148,7 @@ namespace PL
             try
             {
                 // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
-                
+
                 //blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 blObjectD.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (DO.WeightCategories)(DroneWeightSelector.SelectedIndex + 1) }, Convert.ToInt32(StationIdTextBox.Text));
                 new DroneListWindow(blObjectD).Show();
@@ -194,10 +190,8 @@ namespace PL
         /// RestartTextBoxesAndSelectorBtnClick
         private void RestartTextBoxesAndSelectorBtnClick(object sender, RoutedEventArgs e)
         {
-            IdTextBox.Text = "";
-            ModelTextBox.Text = "";
+            PLFuncions.clearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(DO.WeightCategories));
-            StationIdTextBox.Text = "";
         }
 
         /// <summary>
@@ -245,9 +239,12 @@ namespace PL
             {
                 try
                 {
-                    blObjectD.SendDroneToCharge(dr.Id);
-                    StatusTextBox.Text = $"{dr.Status}";
-                    BatteryTextBox.Text = $"{dr.Battery}";
+                    PO.Drone d = new PO.Drone(blObjectD.SendDroneToCharge(dr.Id));
+                    dr.Status = d.Status;
+                    dr.Battery = d.Battery;
+                    //dr = new PO.Drone(blObjectD.GetDroneById(dr.Id));
+                    //StatusTextBox.Text = $"{dr.Status}";
+                    //BatteryTextBox.Text = $"{dr.Battery}";
                     setDeliveryButton();
                     ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
@@ -265,12 +262,14 @@ namespace PL
                 {
                     try
                     {
-                        blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text));
-                        StatusTextBox.Text = $"{dr.Status}";
-                        BatteryTextBox.Text = $"{dr.Battery}";
+                        PO.Drone d = new PO.Drone(blObjectD.FreeDroneFromCharging(dr.Id, int.Parse(TimeTocharge.Text)));
+                        dr.Status = d.Status;
+                        dr.Battery = d.Battery;
+                        //StatusTextBox.Text = $"{dr.Status}";
+                        //BatteryTextBox.Text = $"{dr.Battery}";
                         setDeliveryButton();
                         ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
-                        StatusTextBox.Text = $"{DroneStatus.Available}";
+                        //StatusTextBox.Text = $"{DroneStatus.Available}";
                         DeliveryStatusButton.Visibility = Visibility.Visible;
                         DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
                     }
