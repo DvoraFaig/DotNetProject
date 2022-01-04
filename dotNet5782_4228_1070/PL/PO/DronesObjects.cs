@@ -17,9 +17,11 @@ namespace PO
             Model = d.Model;
             Battery = d.Battery;
             Status = d.Status;
-            /*ParcelInTransfer = d.ParcelInTransfer;
-            DronePosition = d.DronePosition;*/
+            MaxWeight = (WeightCategories)d.MaxWeight;
+            ParcelInTransfer = d.ParcelInTransfer;
+            DronePosition = d.DronePosition;
         }
+
         public BO.Drone BO()
         {
             return new BO.Drone()
@@ -27,9 +29,10 @@ namespace PO
                 Id = this.Id,
                 Model = this.Model,
                 Battery = this.Battery,
-                Status = this.Status
-                /*ParcelInTransfer = d.ParcelInTransfer,
-                DronePosition = d.DronePosition*/
+                Status = this.Status,
+                MaxWeight = (DO.WeightCategories)this.MaxWeight,
+                ParcelInTransfer = this.ParcelInTransfer,
+                DronePosition = this.DronePosition
             };
         }
 
@@ -38,12 +41,38 @@ namespace PO
             get { return (int)GetValue(IdProperty); }
             set { SetValue(IdProperty, value); }
         }
-        public string Model { get; set; }
+        public string Model
+        {
+            get { return (string)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
         //public WeightCategories MaxWeight { get; set; }
-        public double Battery { get; set; }
-        public DroneStatus Status { get; set; } //DroneStatus ?? the same name
-        public ParcelInTransfer ParcelInTransfer { get; set; }
-        public Position DronePosition { get; set; }
+        public double Battery
+        {
+            get { return (double)GetValue(BatteryProperty); }
+            set { SetValue(BatteryProperty, value); }
+        }
+        public DroneStatus Status
+        {
+            get { return (DroneStatus)GetValue(StatusProperty); }
+            set { SetValue(StatusProperty, value); }
+        } //DroneStatus ?? the same name
+        public BO.ParcelInTransfer ParcelInTransfer
+        {
+            get { return (BO.ParcelInTransfer)GetValue(ParcelInTransferProperty); }
+            set { SetValue(ParcelInTransferProperty, value); }
+        }
+        public BO.Position DronePosition
+        {
+            get { return (BO.Position)GetValue(DronePositionProperty); }
+            set { SetValue(DronePositionProperty, value); }
+        }
+        public WeightCategories MaxWeight
+        {
+            get { return (WeightCategories)GetValue(MaxWeightProperty); }
+            set { SetValue(MaxWeightProperty, value); }
+        }
+
 
         public override string ToString()
         {
@@ -52,11 +81,13 @@ namespace PO
             return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: /* MaxWeight*/ drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
         }
 
-        public static readonly DependencyProperty IdProperty =
-        DependencyProperty.Register("Id",
-                                    typeof(object),
-                                    typeof(Drone),
-                                    new UIPropertyMetadata(0));
+        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty BatteryProperty = DependencyProperty.Register("Battery", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty StatusProperty = DependencyProperty.Register("Status", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty ParcelInTransferProperty = DependencyProperty.Register("ParcelInTransfer", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DronePositionProperty = DependencyProperty.Register("DronePosition", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty MaxWeightProperty = DependencyProperty.Register("MaxWeight", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
     }
 
     public class DroneToList : DependencyObject

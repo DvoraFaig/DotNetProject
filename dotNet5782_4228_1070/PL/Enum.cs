@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PL
+namespace PO
 {
+    public enum WeightCategories { Light = 1, Medium, Heavy }
+
 }

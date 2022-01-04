@@ -88,7 +88,7 @@ namespace BL
             }
         }
 
-        public void SendDroneToCharge(int droneId)
+        public Drone SendDroneToCharge(int droneId)
         {
             try
             {
@@ -109,6 +109,7 @@ namespace BL
                     dal.AddDroneToCharge(droneCharge);
                     dal.changeStationInfo(availbleSforCharging);
                     dal.changeDroneInfo(convertBLToDalDrone(drone));
+                    return drone;
                 }
                 else
                 {
@@ -125,7 +126,7 @@ namespace BL
             }
         }
 
-        public void FreeDroneFromCharging(int droneId, double timeCharging)
+        public Drone FreeDroneFromCharging(int droneId, double timeCharging)
         {
             try
             {
@@ -137,6 +138,7 @@ namespace BL
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
+                return blDrone;
             }
             catch (Exception e)
             {
