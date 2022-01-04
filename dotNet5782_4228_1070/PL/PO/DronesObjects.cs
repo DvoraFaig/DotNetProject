@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using BlApi;
 using BO;
 using System.Windows;
+using System.ComponentModel;
 
 namespace PO
 {
-    public class Drone : DependencyObject
+    public class Drone : INotifyPropertyChanged
     {
         public Drone(BO.Drone d)
         {
@@ -36,6 +37,11 @@ namespace PO
             };
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public int Id
         {
             get { return (int)GetValue(IdProperty); }
@@ -88,6 +94,7 @@ namespace PO
         public static readonly DependencyProperty ParcelInTransferProperty = DependencyProperty.Register("ParcelInTransfer", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
         public static readonly DependencyProperty DronePositionProperty = DependencyProperty.Register("DronePosition", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
         public static readonly DependencyProperty MaxWeightProperty = DependencyProperty.Register("MaxWeight", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+
     }
 
     public class DroneToList : DependencyObject
