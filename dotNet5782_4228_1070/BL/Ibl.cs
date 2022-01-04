@@ -14,7 +14,6 @@ namespace BlApi
         public void AddDrone(Drone droneToAdd, int stationId);
         public void AddCustomer(BO.Customer customer);
         public void AddParcel(Parcel parcelToAdd);
-        //public void AddParcel(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
 
         //================
         //  Display

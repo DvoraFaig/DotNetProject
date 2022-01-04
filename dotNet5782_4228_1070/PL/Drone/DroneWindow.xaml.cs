@@ -64,12 +64,7 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             dr = new PO.Drone(drone);
-            IdTextBox.DataContext = dr;
-            ModelTextBox.Text = $"{ drone.Model}";
-            DroneWeightUpdate.Text = $"{drone.MaxWeight}";
-            BatteryTextBox.Text = $"{drone.Battery}";
-            StatusTextBox.Text = $"{drone.Status}";
-            PositionDroneTextBox.Text = $"({drone.DronePosition.Latitude},{drone.DronePosition.Longitude})";
+            DataContext = dr;
             IdTextBox.IsReadOnly = true;
             if (drone.ParcelInTransfer == null)
             {
