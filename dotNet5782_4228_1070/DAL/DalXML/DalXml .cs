@@ -195,6 +195,16 @@ namespace DalXML
             //DO.Parcel newParcel = getParcelWithSpecificCondition(p => p.Id == parcel.Id).First();
             //parcelLits.ToList().Remove(newParcel);
             //DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelLits, dir + parcelFilePath);
+
+            //XElement parcelRoot = DL.XMLTools.LoadData(dir + parcelFilePath);
+            //XElement parcelXElemnt;
+            //parcelXElemnt = (from p in parcelRoot.Elements()
+            //                   where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
+            //                   select p).FirstOrDefault();
+            //if (parcelXElemnt != null)
+            //{
+            //    parcelXElemnt.Element("IsActive").Value = "false";
+            //}
             #endregion
         }
 
@@ -217,6 +227,15 @@ namespace DalXML
             {
                 throw new Exceptions.NoMatchingData(typeof(Station), stationToRemove.Id, e1);
             }
+            //XElement stationRoot = DL.XMLTools.LoadData(dir + stationFilePath);
+            //XElement stationXElemnt;
+            //stationXElemnt = (from s in stationRoot.Elements()
+            //                   where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
+            //                   select s).FirstOrDefault();
+            //if (stationXElemnt != null)
+            //{
+            //    stationXElemnt.Element("IsActive").Value = "false";
+            //}
         }
 
         /// <summary>
@@ -238,6 +257,15 @@ namespace DalXML
             {
                 throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
             }
+            //XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            //XElement customerXElemnt;
+            //customerXElemnt = (from c in customerRoot.Elements()
+            //                where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
+            //                select c).FirstOrDefault();
+            //if (customerXElemnt != null)
+            //{
+            //    customerXElemnt.Element("IsActive").Value = "false";
+            //}
         }
 
         /// <summary>
@@ -258,6 +286,15 @@ namespace DalXML
             {
                 throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
             }
+            //XElement droneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
+            //XElement droneXElemnt;
+            //droneXElemnt = (from d in droneRoot.Elements()
+            //                where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
+            //                select d).FirstOrDefault();
+            //if (droneXElemnt != null)
+            //{
+            //    droneXElemnt.Element("IsActive").Value = "false";
+            //}
         }
 
         /// <summary>
