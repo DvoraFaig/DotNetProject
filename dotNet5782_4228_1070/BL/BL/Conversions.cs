@@ -184,6 +184,18 @@ namespace BL
             }
             return listParcels;
         }
+        private ParcelToList convertParcelToParcelToList(Parcel parcel)
+        { 
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                SenderName = parcel.Sender.Name,
+                TargetName = parcel.Target.Name,
+                Weight = parcel.Weight,
+                Priority = parcel.Priority,
+                ParcelStatus = findParcelStatus(parcel)
+            };
+        }
 
         /// <summary>
         /// Convert DalToBL Parcel

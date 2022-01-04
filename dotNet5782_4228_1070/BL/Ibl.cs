@@ -22,14 +22,14 @@ namespace BlApi
         public List<StationToList> GetStationsToList();
         //public IEnumerable<Station> GetStation();
         public IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0);
-        public List<Drone> DisplayDrones();
+        public IEnumerable<Drone> DisplayDrones();/// change from List - chrck
         public IEnumerable<DroneToList> DisplayDronesToList();
         public IEnumerable<ParcelToList> GetParcelToList();
         public IEnumerable<Parcel> getParcels();
         public Parcel getParcelByDrone(int droneId);
         public bool checkIfExistParcelByDrone(int droneId);
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
-        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
+        public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
         public IEnumerable<CustomerToList> GetCustomersToList();
         public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
 
