@@ -34,9 +34,10 @@ namespace PL
         {
             InitializeComponent();
             this.blObject = blObject;
+            //GetPassword.Visibility = Visibility.Hidden;
             //Response.Visibility = Visibility.Hidden;
         }
-        
+
         private void messageBoxResponseFromServer(String message)
         {
             bool wasCodeClosed = new StackTrace().GetFrames().FirstOrDefault(x => x.GetMethod() == typeof(Window).GetMethod("Close")) != null;
@@ -59,7 +60,7 @@ namespace PL
         {
             try
             {
-                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text), NameTextBox.Text);
+                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text), passwordBoxCustomer.Password.ToString());
                 if (client != null)
                 {
                     messageBoxResponseFromServer("Sign in Succesfully");
@@ -124,7 +125,7 @@ namespace PL
                 bool ifWorkwerExist = blObject.ifWorkerExist(new BO.Worker()
                 {
                     Id = int.Parse(WorkerIdTextBox.Text),
-                    Password = WorkerPasswordTextBox.Text
+                    Password = passwordBox.Password.ToString()//WorkerPasswordTextBox.Text
                 });
                 if (ifWorkwerExist)
                 {
@@ -139,7 +140,44 @@ namespace PL
             catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
             //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
             catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
-            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox(); }
+            catch (Exception exception) { messageBoxResponseFromServer($"{exception.Message}\nOr {passwordBox.Password.ToString()} doesn't match id: {WorkerIdTextBox.Text}." ); clearFormTextBox(); }
+        }
+
+        private void getPassword(object sender, MouseButtonEventArgs e)
+        {
+
+            //passwordBox.Password = passwordBox.Password.ToString();
+            passwordTextBox.Text = passwordBox.Password.ToString();
+            passwordTextBox.Visibility = Visibility.Visible;
+            passwordBox.Visibility = Visibility.Hidden;
+            HidePassword.Visibility = Visibility.Hidden;
+            GetPassword.Visibility = Visibility.Visible;
+        }
+
+        private void hidePassword(object sender, MouseButtonEventArgs e)
+        {
+            //passwordBox.Password = passwordBox.Password.ToString();
+            passwordTextBox.Visibility = Visibility.Hidden;
+            passwordBox.Visibility = Visibility.Visible;
+            HidePassword.Visibility = Visibility.Visible;
+            GetPassword.Visibility = Visibility.Hidden;
+        }
+
+        private void hidePasswordCustomer(object sender, MouseButtonEventArgs e)
+        {
+            //passwordBox.Password = passwordBoxCustomer.Password.ToString();
+            passwordTextBoxCustomer.Visibility = Visibility.Hidden;
+            passwordBoxCustomer.Visibility = Visibility.Visible;
+            HidePasswordCustomer.Visibility = Visibility.Visible;
+            GetPasswordCustomer.Visibility = Visibility.Hidden;
+        }
+        private void getPasswordCustomer(object sender, MouseButtonEventArgs e)
+        {
+            passwordTextBoxCustomer.Text = passwordBoxCustomer.Password.ToString();
+            passwordTextBoxCustomer.Visibility = Visibility.Visible;
+            passwordBoxCustomer.Visibility = Visibility.Hidden;
+            HidePasswordCustomer.Visibility = Visibility.Hidden;
+            GetPasswordCustomer.Visibility = Visibility.Visible;
         }
     }
 }
