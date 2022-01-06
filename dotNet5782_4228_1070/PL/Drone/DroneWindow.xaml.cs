@@ -240,11 +240,9 @@ namespace PL
                 try
                 {
                     PO.Drone d = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
+                    //currentDrone = d;     //Not working well
                     currentDrone.Status = d.Status;
                     currentDrone.Battery = d.Battery;
-                    //dr = new PO.Drone(blObjectD.GetDroneById(dr.Id));
-                    //StatusTextBox.Text = $"{dr.Status}";
-                    //BatteryTextBox.Text = $"{dr.Battery}";
                     setDeliveryButton();
                     ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
