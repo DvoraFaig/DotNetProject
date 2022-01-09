@@ -146,7 +146,7 @@ namespace BL
             }
         }
 
-        public void PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
+        public Drone PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
         {
             try
             {
@@ -220,6 +220,7 @@ namespace BL
                 maxParcel.DroneId = droneToParcel.Id;
                 maxParcel.Scheduled = DateTime.Now;
                 dal.changeParcelInfo(maxParcel);
+                return droneToParcel;
             }
             //////
             catch (Exception e)
@@ -229,7 +230,7 @@ namespace BL
             ///////
         }
 
-        public void DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
+        public Drone DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             try
             {
@@ -262,6 +263,7 @@ namespace BL
                 updateBLDrone(drone);
                 parcel.PickUp = DateTime.Now;
                 dal.changeParcelInfo(parcel);
+                return drone;
             }
 
             catch (Exception e)
@@ -270,7 +272,7 @@ namespace BL
             }
         }
 
-        public void DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.
+        public Drone DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.
         {
             try
             {
@@ -294,6 +296,7 @@ namespace BL
                 updateBLDrone(bLDroneToSuplly);
                 parcelToDelivery.Delivered = DateTime.Now;
                 dal.changeParcelInfo(parcelToDelivery);
+                return bLDroneToSuplly;
             }
             catch (ObjNotExistException)
             {

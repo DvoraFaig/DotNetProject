@@ -57,9 +57,9 @@ namespace BlApi
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public Drone SendDroneToCharge(int droneId);
         public Drone FreeDroneFromCharging(int droneId, double timeCharging);
-        public void PairParcelWithDrone(int droneId);
-        public void DronePicksUpParcel(int droneId);
-        public void DeliveryParcelByDrone(int idDrone);
+        public Drone PairParcelWithDrone(int droneId);
+        public Drone DronePicksUpParcel(int droneId);
+        public Drone DeliveryParcelByDrone(int idDrone);
         //public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
        
         //========================

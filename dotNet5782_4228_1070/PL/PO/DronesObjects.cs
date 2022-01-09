@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using BlApi;
 using BO;
 using System.Windows;
+//using System.Runtime.Serialization.Formatters.Binary;
+//using System.IO;
 
 namespace PO
 {
-    public class Drone : DependencyObject
+    //[Serializable]
+    public class Drone : DependencyObject 
     {
         public Drone(BO.Drone d)
         {
@@ -20,6 +23,11 @@ namespace PO
             MaxWeight = (WeightCategories)d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
+        }
+
+        public Drone()
+        {
+            //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
         }
 
         public BO.Drone BO()
