@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace PO
 {
-    public class Position : DependencyObject
+    /*public class Position : DependencyObject
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
@@ -15,6 +15,6 @@ namespace PO
         {
             return ($"({Latitude},{Longitude}).");
         }
-    }
+    }*/
 }
 

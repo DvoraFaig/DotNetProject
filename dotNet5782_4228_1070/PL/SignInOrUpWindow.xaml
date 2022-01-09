@@ -24,16 +24,16 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40*"/>
-                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="200*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="30*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Response" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
+                        <TextBlock x:Name="Response" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3"></TextBlock>
+                        <Image Source="/pic/target2.jpg" Grid.Row="1" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="2" />
 
-                        </TextBlock>
                         <Grid x:Name="SignInForm" Grid.Row="3" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100*"/>
@@ -51,13 +51,18 @@
                                 <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="40*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="IdLabel" Grid.Row="1" Grid.Column="1">Id:</Label>
+                            <Label x:Name="IdLabel" Grid.Row="1" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold">Id:</Label>
                             <TextBox x:Name="IdTextBox" Grid.Row="1" Grid.Column="3" ></TextBox>
-                            <Label x:Name="NameLabel" Grid.Row="3" Grid.Column="1">Name:</Label>
-                            <TextBox x:Name="NameTextBox" Grid.Row="3" Grid.Column="3" ></TextBox>
-                            <Button x:Name="LogInBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="LogInCLick" >Log In</Button>
+                            <Label x:Name="NameLabel" Grid.Row="3" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold">Name:</Label>
+                            <Image Source="/pic/password.png" x:Name="GetPasswordCustomer" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" Visibility="Hidden" MouseDown="hidePasswordCustomer"/>
+                            <Image Source="/pic/passwordView.png"  x:Name="HidePasswordCustomer" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" MouseDown="getPasswordCustomer"/>
+                            <StackPanel x:Name="NameTextBox"  Grid.Row="3" Grid.ColumnSpan="1" Grid.Column="3" >
+                                <PasswordBox x:Name="passwordBoxCustomer" Width="130" Height="50" />
+                            </StackPanel>
+                            <TextBlock x:Name="passwordTextBoxCustomer"  Grid.Column="3" Grid.Row="3" ></TextBlock>
+                            <!--<TextBox x:Name="NameTextBox" Grid.Row="3" Grid.Column="3" ></TextBox>-->
+                            <Button x:Name="LogInBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="LogInCLick" FontWeight="Bold" FontSize="18">Log In</Button>
                         </Grid>
-                        
                     </Grid>
                 </TabItem>
                 <TabItem Header="Sign Up" >
@@ -75,16 +80,15 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40*"/>
-                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="200*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="30*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="SignUpResponse" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
-
-                        </TextBlock>
+                        <TextBlock x:Name="SignUpResponse" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3"></TextBlock>
+                        <Image Source="/pic/target2.jpg" Grid.Row="1" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="2" />
                         <Grid x:Name="SignUpForm" Grid.Row="1" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100*"/>
@@ -108,17 +112,22 @@
                                 <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="40*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="SignUpIdLabel" Grid.Row="2" Grid.Column="1">Id:</Label>
+                            <Image Source="/pic/id-badge.png" Grid.Row="1" Grid.Column="0" Margin="0,12,2,10" Grid.RowSpan="2"/>
+                            <Label x:Name="SignUpIdLabel" Grid.Row="2" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold">Id:</Label>
                             <TextBox x:Name="SignUpIdTextBox" Grid.Row="2" Grid.Column="3" ></TextBox>
-                            <Label x:Name="SignUpNameLabel" Grid.Row="4" Grid.Column="1">Name:</Label>
+                            <Image Source="/pic/incognito.png" Grid.Row="3" Grid.Column="0" Margin="0,12,2,10" Grid.RowSpan="2"/>
+                            <Label x:Name="SignUpNameLabel" Grid.Row="4" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold">Name:</Label>
                             <TextBox x:Name="SignUpNameTextBox" Grid.Row="4" Grid.Column="3" ></TextBox>
-                            <Label x:Name="SignUpPhoneLabel" Grid.Row="6" Grid.Column="1"  >Phone:</Label>
+                            <Image Source="/pic/call-history.png" Grid.Row="5" Grid.Column="0"  Margin="0,12,2,10" Grid.RowSpan="2"/>
+                            <Label x:Name="SignUpPhoneLabel" Grid.Row="6" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold" >Phone:</Label>
                             <TextBox x:Name="SignUpPhoneTextBox" Grid.Row="6" Grid.Column="3"  ></TextBox>
-                            <Label x:Name="SignUpLatitudeLabel" Grid.Row="8" Grid.Column="1"  >Latitude:</Label>
+                            <Image Source="/pic/map-marker-home (1).png" Grid.Row="7" Grid.Column="0"  Margin="0,10,2,10" Grid.RowSpan="2"/>
+                            <Label x:Name="SignUpLatitudeLabel" Grid.Row="8" Grid.Column="1"  Style="{StaticResource styleLabelForms}" FontWeight="Bold" >Latitude:</Label>
                             <TextBox x:Name="SignUpLatitudeTextBox" Grid.Row="8" Grid.Column="3"  ></TextBox>
-                            <Label x:Name="SignUpLongitudeLabel" Grid.Row="10" Grid.Column="1"  >Longitude:</Label>
+                            <Image Source="/pic/map-marker-home (1).png" Grid.Row="9" Grid.Column="0" Margin="0,10,2,10" Grid.RowSpan="2"  />
+                            <Label x:Name="SignUpLongitudeLabel" Grid.Row="10" Grid.Column="1"  Style="{StaticResource styleLabelForms}" FontWeight="Bold">Longitude:</Label>
                             <TextBox x:Name="SignUpLongitudeTextBox" Grid.Row="10" Grid.Column="3" ></TextBox>
-                            <Button x:Name="SignUpSignInBtn" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3" Click="SignUpClick" >Sign Up</Button>
+                            <Button x:Name="SignUpSignInBtn" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3" Click="SignUpClick" FontWeight="Bold" FontSize="18" >Sign Up</Button>
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -144,15 +153,16 @@
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
+
                         <Grid x:Name="LogInAsAsWorker" Grid.Row="3" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="16*"/>
+                                <RowDefinition Height="16*"/>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="32.229"/>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="16*"/>
+                                <RowDefinition Height="16*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40*"/>
@@ -161,11 +171,17 @@
                                 <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="40*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="WorkerIdLabel" Grid.Row="1" Grid.Column="1">Id:</Label>
+                            <Label x:Name="WorkerIdLabel" Grid.Row="1" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold">Id:</Label>
                             <TextBox x:Name="WorkerIdTextBox" Grid.Row="1" Grid.Column="3" ></TextBox>
-                            <Label x:Name="WorkerPasswordLabel" Grid.Row="3" Grid.Column="1"  >Password:</Label>
-                            <TextBox x:Name="WorkerPasswordTextBox" Grid.Row="3" Grid.Column="3"  ></TextBox>
-                            <Button x:Name="LogInWorkerBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="signUpAsAWorker" >Sign Up</Button>
+                            <Label x:Name="WorkerPasswordLabel" Grid.Row="3" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold" >Password:</Label>
+                            <Image Source="/pic/password.png" x:Name="GetPassword" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" MouseDown="hidePassword" Visibility="Hidden"/>
+                            <Image Source="/pic/passwordView.png"  x:Name="HidePassword" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" MouseDown="getPassword"/>
+                            
+                            <StackPanel x:Name="WorkerPasswordTextBox"  Grid.Row="3" Grid.ColumnSpan="1" Grid.Column="3" >
+                                <PasswordBox x:Name="passwordBox" Width="130" Height="50" />
+                            </StackPanel>
+                            <TextBlock x:Name="passwordTextBox"  Grid.Column="3" Grid.Row="3" ></TextBlock>
+                            <Button x:Name="LogInWorkerBtn" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Click="signUpAsAWorker" FontWeight="Bold" FontSize="18">Sign Up</Button>
                         </Grid>
                     </Grid>
                 </TabItem>

@@ -17,6 +17,15 @@ namespace DalObject
         }
 
         /// <summary>
+        /// If station with the requested id exist and active.
+        /// </summary>
+        /// <param name="requestedId">Looking for station with this id</param>
+        /// <returns></returns>
+        public Boolean IsStationActive(int requestedId)
+        {
+            return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
+        }
+        /// <summary>
         /// If drone with the requested id exist
         /// </summary>
         /// <param name="requestedId">Looking for drone with this id</param>
@@ -27,6 +36,16 @@ namespace DalObject
         }
 
         /// <summary>
+        /// If drone with the requested id exist and active
+        /// </summary>
+        /// <param name="requestedId">Looking for drone with this id</param>
+        /// <returns></returns>
+        public Boolean IsDroneActive(int requestedId)
+        {
+            return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);
+        }
+        
+        /// <summary>
         /// If customer with the requested id exist
         /// </summary>
         /// <param name="requestedId">Looking for customer with this id</param>
@@ -34,6 +53,16 @@ namespace DalObject
         public Boolean IsCustomerById(int requestedId)
         {
             return DataSource.Customers.Any(c => c.Id == requestedId);
+        }
+
+        /// <summary>
+        /// If customer with the requested id exist and Active
+        /// </summary>
+        /// <param name="requestedId"></param>
+        /// <returns></returns>
+        public Boolean IsCustomerActive(int requestedId)
+        {
+            return DataSource.Customers.Any(c => c.Id == requestedId && c.IsActive == true);
         }
 
         /// <summary>

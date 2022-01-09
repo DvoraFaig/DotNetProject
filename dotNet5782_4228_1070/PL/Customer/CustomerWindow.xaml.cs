@@ -49,7 +49,7 @@ namespace PL
             PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            AddOrUpdateCustomer.Height = 400;
+            //AddOrUpdateCustomer.Height = 400;
         }
 
         /// <summary>
@@ -101,6 +101,7 @@ namespace PL
             {
                 AddlButton.Visibility = Visibility.Visible;
                 ReturnToPageDroneListWindow.Content = "Log Out";
+                RemoveBtn.Visibility = Visibility.Hidden;
             }
         }
 
@@ -158,14 +159,18 @@ namespace PL
                             Longitude = int.Parse(LongitudeTextBox.Text)
                         }
                     };
-                    blObjectD.AddCustomer(newCustomer);
+                    try
+                    {
+                        blObjectD.AddCustomer(newCustomer);
+                    }
+                    catch (Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
                     new CustomerListWindow(blObjectD).Show();
                     this.Close();
                 }
                 #region catch exeptions
                 catch (BO.Exceptions.ObjExistException)
                 {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer","== ERROR receiving data or enter a different Id ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data or enter a different Id ==\nPlease try again");
                 }
                 catch (ArgumentNullException)
                 {
@@ -218,15 +223,11 @@ namespace PL
                     this.Close();
                 }
             }
-            //else
-            //{
-            //    MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            //    if (messageBoxClosing == MessageBoxResult.OK)
-            //    {
-            //        new CustomerListWindow(blObjectD).Show();
-            //        this.Close();
-            //    }
-            //}
+            else
+            {
+                new CustomerListWindow(blObjectD).Show();
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -329,6 +330,24 @@ namespace PL
             CustomerAsTargetParcelsListView.Background = null;
         }
 
-
+        /// <summary>
+        /// Try to send the customer to be removed = not active.
+        /// Occurding to instuctions the customer will be removed and no sending and recieving new parcels.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveBtnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                blObjectD.RemoveCustomer(customer);
+                new CustomerListWindow(blObjectD).Show();
+                this.Close();
+            }
+            catch (BO.Exceptions.ObjExistException e1)
+            {
+                PLFuncions.messageBoxResponseFromServer("Remove Customer", e1.Message);
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3.5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="visibleAddForm"></TextBlock>
@@ -33,11 +33,11 @@
 
         <Label  x:Name="labelAddADrone"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="6" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center"  FontStretch="Medium"  FontSize="40" FontWeight="SemiBold" >Add a Drone</Label>
         <Button x:Name="ReturnToPageDroneListWindow" FontSize="10" FontWeight="DemiBold" Grid.Column="0" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Return Back"    HorizontalAlignment="Left"  VerticalAlignment="Center"  Click="ReturnToDroneListWindowBtnClick" Margin="10,0,0,0"/>
-        <Button x:Name="ReturnToPageDroneListWindow_1" FontSize="10" FontWeight="DemiBold" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Width="60"  Content="Trying"    HorizontalAlignment="Left"  VerticalAlignment="Top"  Margin="44,10,0,0" Click="ReturnToPageDroneListWindow_1_Click"/>
         <Button x:Name="RestartButton"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Height="30" Width="150"  Content="Restart" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="RestartTextBoxesAndSelectorBtnClick" />
         <Button x:Name="AddlButton"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="145"  Content="Add"    HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Click="AddDroneClickBtn"  />
         <Button x:Name="UpdateButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="90" Content="Update Details" Click="UpdateButtonClick"/>
         <Button x:Name="ChargeButton"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" Height="30" Width="126" Click="ChargeButtonClick" Margin="41,0,0,0"/>
+        <Button x:Name="RemoveDrone"  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Content="remove" FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Width="90" Grid.Row="5" Height="30" Click="RemoveBtnClick" />
         <Grid x:Name="ChargeDroneTimeGrid" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30*"/>
@@ -86,7 +86,7 @@
             <Label x:Name="ModelTextBoxLabel"           Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Drones' model:</Label>
             <TextBox x:Name="ModelTextBox"              Text="{Binding Model, Mode=TwoWay}" Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
             <Label x:Name="DroneWeightSelectorLabel"  Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Drones' weight:</Label>
-            <ComboBox x:Name="DroneWeightSelector"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="3"   Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
+            <ComboBox x:Name="DroneWeightSelector"    SelectedItem="{Binding MaxWeight, Mode=TwoWay}" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="3"   Width="120" Height="30" HorizontalAlignment="Left" Padding="4" FontFamily="Tahoma" FontSize="16" VerticalAlignment="Center"  Grid.ColumnSpan="2" />
             <Label x:Name="StationIdTextBoxLabel"     Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Station id:</Label>
             <TextBox x:Name="StationIdTextBox"        Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="DroneWeightLabel"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Drones' weight:</Label>

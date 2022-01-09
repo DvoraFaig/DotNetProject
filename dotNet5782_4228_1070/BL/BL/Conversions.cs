@@ -39,6 +39,7 @@ namespace BL
                 Phone = customer.Phone,
                 Longitude = customer.CustomerPosition.Longitude,
                 Latitude = customer.CustomerPosition.Latitude,
+                IsActive = true
             };
         }
 

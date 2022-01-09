@@ -7,7 +7,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-using BO;
+    using BO;
     public sealed partial class BL : BlApi.Ibl
     {
         /// <summary>
@@ -19,11 +19,11 @@ using BO;
         {
             try
             {
-                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First() ;
+                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(Drone), droneRequestedId,e);
+                throw new ObjNotExistException(typeof(Drone), droneRequestedId, e);
             }
         }
 
@@ -59,11 +59,11 @@ using BO;
                 if (parcel.Equals(null))//
                     throw new Exceptions.ObjNotExistException(typeof(ParcelInTransfer), -1);//
 
-               return convertDalToBLParcel(parcel);
+                return convertDalToBLParcel(parcel);
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(ParcelInTransfer),-1 ,e);
+                throw new ObjNotExistException(typeof(ParcelInTransfer), -1, e);
             }
         }
 
@@ -117,9 +117,14 @@ using BO;
         /// <param name="customerRequestedId">The id of the customer that requested<</param>
         /// <param name="customerRequestedName">The name of the customer that requested<</param>
         /// <returns></returns>
-        public Customer GetCustomerByIdAndName(int customerRequestedId,string customerRequestedName)
+        public Customer GetCustomerByIdAndName(int customerRequestedId, string customerRequestedName)
         {
             DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
+            if (c.IsActive == false)
+            {
+                c.IsActive = true;
+                dal.AddCustomer(c); 
+            }
             Customer BLcustomer = convertDalToBLCustomer(c);
             return BLcustomer;
         }

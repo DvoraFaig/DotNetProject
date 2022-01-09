@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
+//using PO;
 
 namespace PL
 {
@@ -23,6 +24,7 @@ namespace PL
     {
         private BlApi.Ibl blObject;
         BO.Station station;
+        PO.Station currentStation;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
 
         #region the closing button
@@ -43,6 +45,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
+            currentStation = new PO.Station();
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
         }
@@ -57,7 +60,8 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
-            this.station = station;
+            currentStation = new PO.Station(station);
+            //this.station = station;
             IdTextBox.Text = $"{station.Id}";
             NameTextBox.Text = $"{ station.Name}";
             ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
@@ -97,14 +101,18 @@ namespace PL
                         Longitude = double.Parse(StationLongitudeTextBox.Text)
                     }
                 };
-                blObject.AddStation(newStation);
+                try
+                {
+                    blObject.AddStation(newStation);
+                }
+                catch(Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
             #region catch exeptions
-            catch (BO.Exceptions.ObjExistException)
+            catch (BO.Exceptions.ObjExistException e1)
             {
-                MessageBox.Show("== ERROR receiving data or enter a different Id ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add a Station" , e1.Message);
             }
             catch (ArgumentNullException)
             {
@@ -168,12 +176,13 @@ namespace PL
             try
             {
                 blObject.StationChangeDetails(station.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
-                new StationListWindow(blObject);
+                new StationListWindow(blObject).Show();
                 this.Close();
             }
             catch (ArgumentNullException e1) { PLFuncions.messageBoxResponseFromServer("Change Station information", e1.Message); }
             catch (FormatException e2) { PLFuncions.messageBoxResponseFromServer("Change Station information", e2.Message); }
             catch (OverflowException e3) { PLFuncions.messageBoxResponseFromServer("Change Station information", e3.Message); }
+            catch (Exception) { }
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
@@ -183,5 +192,25 @@ namespace PL
         }
         #endregion
 
+        /// <summary>
+        /// Try to send the station to be removed = not active.
+        /// Occurding to instuctions the station will be removed and no drones can be sent.
+        /// The charging Drones will be able to stay till they are freed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveBtnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                blObject.RemoveStation(station);
+                new StationListWindow(blObject).Show();
+                this.Close();
+            }
+            catch (BO.Exceptions.ObjExistException e1)
+            {
+                PLFuncions.messageBoxResponseFromServer("Remove Station", e1.Message);
+            }   
+        }
     }
 }

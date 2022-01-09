@@ -10,7 +10,8 @@ using System.ComponentModel;
 
 namespace PO
 {
-    public class Drone : INotifyPropertyChanged
+    //[Serializable]
+    public class Drone : DependencyObject 
     {
         public Drone(BO.Drone d)
         {
@@ -21,6 +22,11 @@ namespace PO
             MaxWeight = (WeightCategories)d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
+        }
+
+        public Drone()
+        {
+            //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
         }
 
         public BO.Drone BO()
@@ -127,7 +133,7 @@ namespace PO
         }
     }
 
-    public class ChargingDrone : DependencyObject
+    /*public class ChargingDrone : DependencyObject
     {
         public int Id { get; set; }
         public double Battery { get; set; }
@@ -135,6 +141,6 @@ namespace PO
         {
             return ($"ChargingDrone Id: {Id}, ChargingDrone Battery: {Battery}\n");
         }
-    }
+    }*/
 }
 

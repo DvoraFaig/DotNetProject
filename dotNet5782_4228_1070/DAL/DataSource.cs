@@ -40,7 +40,8 @@ namespace DalObject
                     Name = $"station{i}",
                     ChargeSlots = r.Next(5, 10),
                     Latitude = r.Next(1, 50),
-                    Longitude = r.Next(1, 50)
+                    Longitude = r.Next(1, 50),
+                    IsActive = true
                 };
                 Stations.Add(s);
             }
@@ -52,7 +53,8 @@ namespace DalObject
                 {
                     Id = i,
                     Model = $"Drone{i}",
-                    MaxWeight = (WeightCategories)r.Next(1, 4)
+                    MaxWeight = (WeightCategories)r.Next(1, 4),
+                    IsActive = true
                 };
                 Drones.Add(d);
             }
@@ -67,7 +69,8 @@ namespace DalObject
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
                     Latitude = r.Next(1, 50),
-                    Longitude = r.Next(1, 50)
+                    Longitude = r.Next(1, 50),
+                    IsActive = true
                 };
 
                 Customers.Add(c);
@@ -81,7 +84,8 @@ namespace DalObject
                     Id = i,
                     Weight = (WeightCategories)r.Next(1, 4),
                     Priority = (Priorities)r.Next(1, 4),
-                    Requeasted = DateTime.Now
+                    Requeasted = DateTime.Now,
+                    IsActive = true
                 };
                 p.SenderId = Customers[r.Next(0, Customers.Count)].Id;
                 p.TargetId = Customers[r.Next(0, Customers.Count)].Id;
