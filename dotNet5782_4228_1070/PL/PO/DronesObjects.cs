@@ -128,7 +128,7 @@ namespace PO
         }
     }
 
-    public class ChargingDrone : DependencyObject
+    /*public class ChargingDrone : DependencyObject
     {
         public int Id { get; set; }
         public double Battery { get; set; }
@@ -136,6 +136,6 @@ namespace PO
         {
             return ($"ChargingDrone Id: {Id}, ChargingDrone Battery: {Battery}\n");
         }
-    }
+    }*/
 }
 

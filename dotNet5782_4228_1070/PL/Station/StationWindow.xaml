@@ -70,9 +70,9 @@
 
             </Grid.RowDefinitions>
             <Label x:Name="IdLabel"                   Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"   >Station id:</Label>
-            <TextBox x:Name="IdTextBox"               Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
+            <TextBox x:Name="IdTextBox"               Text="{Binding Id, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="NameLabel"                 Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Station Name:</Label>
-            <TextBox x:Name="NameTextBox"             Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}" Margin="0,0,18,0"/>
+            <TextBox x:Name="NameTextBox"             Text="{Binding Name,Mode=TwoWay}" Grid.Column="2" Grid.Row="2" Style="{StaticResource styleTextBoxForms}" Margin="0,0,18,0"/>
             <Label x:Name="ChargingSlotsLabel"        Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Station charging slots:</Label>
             <TextBox x:Name="ChargingSlotsTextBox"    Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="StationLatitudeLabel"      Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}">Station' Latitude:</Label>
@@ -83,11 +83,11 @@
             <Label x:Name="PositionLabel"                  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Station position :</Label>
             <TextBox x:Name="PositionTextBox"              Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" />
             <Label x:Name="ChargingSlotsAvailbleLabel"     Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Availble charging slots:</Label>
-            <TextBox x:Name="ChargingSlotsAvailbleTextBox" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
+            <TextBox x:Name="ChargingSlotsAvailbleTextBox" Text="{Binding DroneChargeAvailble, Mode=TwoWay}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="ChargingDronesLabel"            Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}"  >Charging drones</Label>
             <TextBox x:Name="NoDronesInCharge"             Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  >-------</TextBox>
 
-            <ListView x:Name="ChargingDronesInStationListView" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
+            <ListView x:Name="ChargingDronesInStationListView" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding DronesCharging,Mode=TwoWay}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="5" Grid.RowSpan="3" Grid.Column="2"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="DroneChargeSelection" >
                 <ListView.View >
                     <GridView>

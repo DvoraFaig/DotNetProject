@@ -15,7 +15,7 @@ namespace PO
         }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public Position CustomerPosition { get; set; }
+        public BO.Position CustomerPosition { get; set; }
         public List<ParcelAtCustomer> CustomerAsSender { get; set; }
         public List<ParcelAtCustomer> CustomerAsTarget { get; set; }
         public override string ToString()
