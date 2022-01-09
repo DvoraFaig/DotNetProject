@@ -81,7 +81,7 @@
             <TextBox x:Name="StationLongitudeTextBox" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}" Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
 
             <Label x:Name="PositionLabel"                  Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Station position :</Label>
-            <TextBox x:Name="PositionTextBox"              Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" />
+            <TextBox x:Name="PositionTextBox"              Text="{Binding StationPosition, Mode=TwoWay}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="3" Style="{StaticResource styleTextBoxForms}" />
             <Label x:Name="ChargingSlotsAvailbleLabel"     Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="4" Style="{StaticResource styleLabelForms}" >Availble charging slots:</Label>
             <TextBox x:Name="ChargingSlotsAvailbleTextBox" Text="{Binding DroneChargeAvailble, Mode=TwoWay}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="2" Grid.Row="4" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="ChargingDronesLabel"            Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}"  >Charging drones</Label>

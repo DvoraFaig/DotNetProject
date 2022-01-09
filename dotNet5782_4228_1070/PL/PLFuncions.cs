@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BO;
+using System.Reflection;
 
 namespace PL
 {
@@ -27,6 +28,18 @@ namespace PL
                 t.Text = "";
             }
         }
+
+        /*public static void Reset(Object obj)
+        {
+            foreach (PropertyInfo objs in obj.GetType().GetProperties())
+            {
+                if (objs.GetType() == typeof(string))
+                {
+                    objs = "";
+                }
+                else objs = null;
+            }
+        }*/
 
         public static void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {

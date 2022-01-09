@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace PO
 {
     //[Serializable]
-    public class Drone : DependencyObject 
+    public class Drone : DependencyObject //, ICloneable
     {
         public Drone(BO.Drone d)
         {
@@ -43,11 +43,12 @@ namespace PO
             };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        //public event PropertyChangedEventHandler PropertyChanged;
+        /*private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }*/
+
         public int Id
         {
             get { return (int)GetValue(IdProperty); }
@@ -91,6 +92,17 @@ namespace PO
             if (DronePosition == null)
                 return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: /*MaxWeight*/, drone battery: {Battery} , drone status: {Status}");
             return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: /* MaxWeight*/ drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
+        }
+
+        public void Update(BO.Drone d)
+        {
+            Id = d.Id;
+            Model = d.Model;
+            Battery = d.Battery;
+            Status = d.Status;
+            ParcelInTransfer = d.ParcelInTransfer;
+            DronePosition = d.DronePosition;
+            MaxWeight = (WeightCategories)d.MaxWeight;
         }
 
         public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));

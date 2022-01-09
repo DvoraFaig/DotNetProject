@@ -18,10 +18,10 @@ namespace PO
             DroneChargeAvailble = d.DroneChargeAvailble;
             DronesCharging = d.DronesCharging != null ? d.DronesCharging : null;
         }
-        
+
         public Station()
         {
-            
+
         }
 
         public BO.Station BO()
