@@ -7,7 +7,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DO;
-using DalObject;
+
 
 namespace DalXML
 {

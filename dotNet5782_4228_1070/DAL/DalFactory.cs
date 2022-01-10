@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,8 +11,9 @@ namespace DalApi
     {
         public static global::DalApi.Idal factory()
         {
-            
-            return DalObject.DalObject.GetInstance;
+            string nameOfProj = "DalXml";
+            Assembly assembly = Assembly.ReflectionOnlyLoadFrom(nameOfProj);
+            object instance = assembly.CreateInstance("DalXml");
             //switch ()
             //{
             //    case "DalObject":
@@ -21,6 +23,18 @@ namespace DalApi
             //    default:
             //        throw new Exception();
             //}
+
+            // Use the file name to load the assembly into the current
+            // application domain.
+            Assembly a = Assembly.Load("DalXml");
+            // Get the type to use.
+            Type myType = a.GetType("DalXml");
+            // Get the method to call.
+            MethodInfo myMethod = myType.GetMethod("MethodA");
+            // Create an instance.
+            object obj = Activator.CreateInstance(myType);
+            // Execute the method.
+            myMethod.Invoke(obj, null);
         }
     }
 }
