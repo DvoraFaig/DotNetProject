@@ -14,7 +14,7 @@ namespace DalXML
     class DalXml : DalApi.Idal
     {
         //dir need to be up from bin
-        static string dir = @"..\..\..\..\xmlData\";
+        static string dir = @"..\..\..\..\DalXml\";
         static DalXml()
         {
             if (!Directory.Exists(dir))
