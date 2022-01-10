@@ -241,8 +241,8 @@ namespace PL
             {
                 try
                 {
-                    PO.Drone d = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    currentDrone = d;
+                    currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
+                    //currentDrone.
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     AddDroneDisplay.DataContext = currentDrone;
@@ -263,8 +263,8 @@ namespace PL
                 {
                     try
                     {
-                        currentDrone = new PO.Drone(blObjectD.FreeDroneFromCharging(currentDrone.Id, int.Parse(TimeTocharge.Text)));
-                        AddDroneDisplay.DataContext = currentDrone;
+                        currentDrone.Update(blObjectD.FreeDroneFromCharging(currentDrone.Id, int.Parse(TimeTocharge.Text)));
+                        //AddDroneDisplay.DataContext = currentDrone;
                         //currentDrone.Status = d.Status;
                         //currentDrone.Battery = d.Battery;
                         //StatusTextBox.Text = $"{dr.Status}";

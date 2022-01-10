@@ -61,12 +61,13 @@ namespace PL
             Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
             currentStation = new PO.Station(station);
+            AddDroneDisplay.DataContext = currentStation;
             //this.station = station;
-            IdTextBox.Text = $"{station.Id}";
-            NameTextBox.Text = $"{ station.Name}";
-            ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
-            PositionTextBox.Text = $"( {station.StationPosition.Latitude} , {station.StationPosition.Longitude} )";
-            ChargingDronesInStationListView.ItemsSource = station.DronesCharging;
+            //IdTextBox.Text = $"{station.Id}";
+            //NameTextBox.Text = $"{ station.Name}";
+            //ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
+            //PositionTextBox.Text = $"( {station.StationPosition.Latitude} , {station.StationPosition.Longitude} )";
+            //ChargingDronesInStationListView.ItemsSource = station.DronesCharging;
             if (station.DronesCharging.Count() == 0)
                 ChargingDronesInStationListView.Visibility = Visibility.Hidden;
             else
@@ -75,6 +76,7 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Visible;
         }
 
+        #region ToolWindowLoaded
         /// <summary>
         /// Code to remove close box from window
         /// </summary>
@@ -85,6 +87,7 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+        #endregion
 
         private void addStationBtnClick(object sender, RoutedEventArgs e)
         {
@@ -105,14 +108,14 @@ namespace PL
                 {
                     blObject.AddStation(newStation);
                 }
-                catch(Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
+                catch (Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add a Station" , e1.Message);
+                PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message);
             }
             catch (ArgumentNullException)
             {
@@ -134,12 +137,13 @@ namespace PL
             {
                 MessageBox.Show("Cann't add a station", "Station Error");
             }
-            #endregion
+            #endregion 
 
         }
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
+            PLFuncions.clearFormTextBox(currentStation);
             IdTextBox.Text = "";
             NameTextBox.Text = "";
             ChargingSlotsTextBox.Text = "";
@@ -210,7 +214,7 @@ namespace PL
             catch (BO.Exceptions.ObjExistException e1)
             {
                 PLFuncions.messageBoxResponseFromServer("Remove Station", e1.Message);
-            }   
+            }
         }
     }
 }
