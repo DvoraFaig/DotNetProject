@@ -143,7 +143,7 @@ namespace PL
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(currentStation);
+            //PLFuncions.clearFormTextBox(currentStation);
             IdTextBox.Text = "";
             NameTextBox.Text = "";
             ChargingSlotsTextBox.Text = "";
