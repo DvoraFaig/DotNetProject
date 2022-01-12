@@ -23,7 +23,7 @@ namespace PL
     public partial class StationWindow : Window
     {
         private BlApi.Ibl blObject;
-        BO.Station station;
+        //BO.Station station;
         PO.Station currentStation;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
 
@@ -138,17 +138,11 @@ namespace PL
                 MessageBox.Show("Cann't add a station", "Station Error");
             }
             #endregion 
-
         }
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(currentStation);
-            IdTextBox.Text = "";
-            NameTextBox.Text = "";
-            ChargingSlotsTextBox.Text = "";
-            StationLatitudeTextBox.Text = "";
-            StationLongitudeTextBox.Text = "";
+            PLFuncions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
         }
 
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
@@ -179,7 +173,7 @@ namespace PL
         {
             try
             {
-                blObject.StationChangeDetails(station.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+                blObject.StationChangeDetails(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
@@ -207,7 +201,7 @@ namespace PL
         {
             try
             {
-                blObject.RemoveStation(station);
+                blObject.RemoveStation(currentStation.Id);
                 new StationListWindow(blObject).Show();
                 this.Close();
             }

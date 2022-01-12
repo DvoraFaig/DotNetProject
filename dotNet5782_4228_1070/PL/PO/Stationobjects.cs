@@ -28,8 +28,29 @@ namespace PO
         {
             return new BO.Station()
             {
+                Id = this.Id,
+                Name = this.Name,
+                StationPosition = this.StationPosition != null ? this.StationPosition : null,
+                DroneChargeAvailble = this.DroneChargeAvailble,
+                DronesCharging = this.DronesCharging != null ? this.DronesCharging : null,
             };
         }
+
+        public void Update(BO.Station d)
+        {
+            Id = d.Id;
+            Name = d.Name;
+            StationPosition = d.StationPosition != null ? d.StationPosition : null;
+            DroneChargeAvailble = d.DroneChargeAvailble;
+            DronesCharging = d.DronesCharging != null ? d.DronesCharging : null;
+        }
+
+        /*public BO.Station BO()
+        {
+            return new BO.Station()
+            {
+            };
+        }*/
 
         public int Id
         {

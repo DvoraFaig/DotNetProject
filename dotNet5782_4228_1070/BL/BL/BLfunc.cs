@@ -27,8 +27,9 @@ namespace BL
             return d;
         }
 
-        public int GetDroneStatusInDelivery(Drone drone)
+        public int GetDroneStatusInDelivery(int droneId)
         {
+            Drone drone = GetDroneById(droneId);
             if (drone.Status == DroneStatus.Available)
             {
                 return (int)DeliveryStatusAction.Available;

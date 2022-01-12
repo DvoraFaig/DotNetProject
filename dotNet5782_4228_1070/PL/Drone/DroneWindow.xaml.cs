@@ -81,7 +81,7 @@ namespace PL
             {
                 try
                 {
-                    int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.BO());
+                    int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.Id);
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                 }
@@ -100,7 +100,7 @@ namespace PL
         {
             try
             {
-                int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.BO());
+                int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.Id);
                 DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                 DeliveryStatusButton.Visibility = Visibility.Visible;
             }
@@ -153,6 +153,7 @@ namespace PL
 
                 //blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 blObjectD.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (DO.WeightCategories)(DroneWeightSelector.SelectedIndex + 1) }, Convert.ToInt32(StationIdTextBox.Text));
+                //blObjectD.AddDrone(currentDrone.BO(),Convert.ToInt32(StationIdTextBox.Text));
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
@@ -222,8 +223,8 @@ namespace PL
         {
             try
             {
-                currentDrone.Model = ModelTextBox.Text;
-                blObjectD.ChangeDroneModel(currentDrone.BO());
+                //currentDrone.Model = ModelTextBox.Text;
+                blObjectD.ChangeDroneModel(currentDrone.Id, currentDrone.Model);
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
@@ -241,11 +242,11 @@ namespace PL
             {
                 try
                 {
-                    currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    //currentDrone.
+                    //currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
+                    currentDrone.Update(blObjectD.SendDroneToCharge(currentDrone.Id));
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
-                    AddDroneDisplay.DataContext = currentDrone;
+                    //AddDroneDisplay.DataContext = currentDrone;
                     setDeliveryButton();
                     ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
@@ -303,8 +304,9 @@ namespace PL
             {
                 try
                 {
-                    currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
-                    AddDroneDisplay.DataContext = currentDrone;
+                    //currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
+                    //AddDroneDisplay.DataContext = currentDrone;
+                    currentDrone.Update(blObjectD.PairParcelWithDrone(currentDrone.Id));
                 }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (BO.Exceptions.ObjNotAvailableException e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
@@ -315,11 +317,12 @@ namespace PL
             {
                 try
                 {
-                    currentDrone = new PO.Drone(blObjectD.DronePicksUpParcel(currentDrone.Id));
                     //BatteryTextBox.Text = $"{currentDrone.Battery}";
                     //PositionDroneTextBox.Text = $"({currentDrone.DronePosition.Latitude},{currentDrone.DronePosition.Longitude})";
                     //currentDrone = new PO.Drone(blObjectD.GetDroneById(currentDrone.Id));
-                    AddDroneDisplay.DataContext = currentDrone;
+                    //currentDrone = new PO.Drone(blObjectD.DronePicksUpParcel(currentDrone.Id));
+                    //AddDroneDisplay.DataContext = currentDrone;
+                    currentDrone.Update(blObjectD.DronePicksUpParcel(currentDrone.Id));
                     findDroneStatusContentBtn();
 
                 }
@@ -330,8 +333,9 @@ namespace PL
             {
                 try
                 {
-                    currentDrone = new PO.Drone(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
-                    AddDroneDisplay.DataContext = currentDrone;
+                    //currentDrone = new PO.Drone(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
+                    //AddDroneDisplay.DataContext = currentDrone;
+                    currentDrone.Update(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
                 }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
@@ -356,7 +360,7 @@ namespace PL
         {
             try
             {
-                blObjectD.RemoveDrone(currentDrone.BO());
+                blObjectD.RemoveDrone(currentDrone.Id);
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }

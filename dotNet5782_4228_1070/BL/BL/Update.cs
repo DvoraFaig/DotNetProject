@@ -16,8 +16,9 @@ namespace BL
         /// else throw an error
         /// </summary>
         /// <param name="parcel">The parcel </param>
-        public void RemoveParcel(Parcel parcel)
+        public void RemoveParcel(int parcelId)
         {
+            Parcel parcel = GetParcelById(parcelId);
             if (parcel.Drone == null)
             {
                 try
@@ -34,19 +35,18 @@ namespace BL
         /// Change name of drones' model.
         /// </summary>
         /// <param name="droneWithUpdateInfo">Drone with the new Model name</param>
-        public void ChangeDroneModel(Drone droneWithUpdateInfo)
+        public void ChangeDroneModel(int droneId, string newModel)
         {
             try
             {
-                int index = droensList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
-                droensList[index] = droneWithUpdateInfo;
-                //droensList.Remove(newDrone);
-                //droensList.Add(newDrone);
-                dal.changeDroneInfo(convertBLToDalDrone(droneWithUpdateInfo));
+                int index = droensList.FindIndex(d => d.Id == droneId);
+                droensList[index].Id = droneId;
+                droensList[index].Model = newModel;
+                dal.changeDroneInfo(convertBLToDalDrone(droensList[index]));
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Couldn't change Model of drone with id {droneWithUpdateInfo.Id} " , e);
+                throw new InvalidOperationException($"Couldn't change Model of drone with id {droneId} " , e);
             }
         }
 

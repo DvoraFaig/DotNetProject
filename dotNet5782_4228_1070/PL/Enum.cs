@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace PO
 {
     public enum WeightCategories { Light = 1, Medium, Heavy }
+    public enum Priorities { Regular = 1, Fast, Emergency }
 
 }

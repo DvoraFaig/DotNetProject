@@ -26,6 +26,7 @@ namespace PO
 
         public Drone()
         {
+            //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
         }
 
