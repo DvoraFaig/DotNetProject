@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="IBL.BO\BLobjects\DataSource.cs" />
+    <Compile Remove="BO\Objects\DataSource.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,12 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Include="IBL.BO\BLobjects\DataSource.cs" />
+    <Page Include="BO\Objects\DataSource.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\DalObject\DalObject.csproj" />
+    <ProjectReference Include="..\DalXml\DalXml.csproj" />
+    <ProjectReference Include="..\DAL\DalFacade.csproj" />
   </ItemGroup>
 
 </Project>
