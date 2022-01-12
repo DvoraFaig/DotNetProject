@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 
-namespace DalXML
+namespace Dal
 {
     internal static class DataSource
     {

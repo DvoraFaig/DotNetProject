@@ -8,15 +8,18 @@ using DalApi;
 
 
 
-namespace DalObject
+namespace Dal
 {
     public partial class DalObject : DalApi.Idal
     {
-     
+
         /// <summary>
         /// instance of DalObject and will be equal to DalApi
         /// </summary>
-        static DalObject instance;
+        static DalObject Instance;
+        //private static DalObject Instance = null;
+
+        //    private static readonly object padlock = new object();
 
         /// <summary>
         /// Ctor - calls Initialize  = Initialize info of the program
@@ -33,9 +36,12 @@ namespace DalObject
         {
             get
             {
-                if (instance == null)
-                    instance = new DalObject();
-                return instance;
+                //lock (padlock)
+                //{
+                    if (Instance == null)
+                        Instance = new DalObject();
+                    return Instance;
+                //}
             }
         }
         

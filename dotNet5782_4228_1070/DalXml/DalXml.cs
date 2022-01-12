@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 using DO;
 
 
-namespace DalXML
+namespace Dal
 {
     class DalXml : DalApi.Idal
     {

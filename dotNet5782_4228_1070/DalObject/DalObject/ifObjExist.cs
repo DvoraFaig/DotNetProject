@@ -4,7 +4,7 @@ using DalApi;
 using DO;
 //check if needed to throw ArgumentNullException = the list is empty
 
-namespace DalObject
+namespace Dal
 {
     public partial class DalObject : DalApi.Idal
     {

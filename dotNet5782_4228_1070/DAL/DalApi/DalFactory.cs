@@ -26,7 +26,8 @@ namespace DalApi
 
             if (type == null) throw new DalConfigException($"Class {dalPkg} was not fount in the {dalPkg}.dll");
 
-            DalApi.Idal dal = (DalApi.Idal)type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+            //DalApi.Idal dal = (DalApi.Idal)type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+            DalApi.Idal dal = (DalApi.Idal)type.GetProperty("GetInstance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
 
             if (dal == null) throw new DalConfigException($"Class {dalPkg} is not a singelton or wrong property name for Instance");
 

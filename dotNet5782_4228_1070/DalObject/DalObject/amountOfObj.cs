@@ -9,7 +9,7 @@ using DO;
 
 
 
-namespace DalObject
+namespace Dal
 {
     public partial class DalObject : DalApi.Idal
     {
