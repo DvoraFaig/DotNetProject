@@ -18,6 +18,8 @@ namespace DO
         public DateTime? Scheduled { get; set; } //pair a parcel to drone
         public DateTime? PickUp { get; set; }
         public DateTime? Delivered { get; set; }
+        public bool IsActive { get; set; }
+
         public override string ToString()
         {
             return ($"parcel ID: {Id}, parcel SenderId: {SenderId}, parcel TargetId: {TargetId}, parcel Priority: {Priority}, parcel weight: {Weight}, parcel Requeasted: {Requeasted}, parcel DroneId {DroneId}, parcel scheduled {Scheduled}, parcel pickUp{PickUp}, parcel delivered: {Delivered}\n");

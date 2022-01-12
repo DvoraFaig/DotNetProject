@@ -15,6 +15,7 @@ namespace DO
         public int ChargeSlots { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+        public bool IsActive { get; set; }
         public override string ToString()
         {
             return ($"station name: {Name}, station Id: {Id}, station latitude: {Latitude}, station longitude: {Longitude}\n");

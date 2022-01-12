@@ -22,9 +22,9 @@ namespace BL
                 DO.Worker worker1 = dal.getWorkerWithSpecificCondition(w => w.Id == worker.Id && w.Password == worker.Password).First();
                 return true;
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(Worker), worker.Id);
+                throw new ObjNotExistException(typeof(Worker), worker.Id , e);
             }
         }
     }

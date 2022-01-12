@@ -79,7 +79,7 @@ namespace BL
         /// Return DronesList
         /// </summary>
         /// <returns></returns>
-        public List<Drone> DisplayDrones()
+        public IEnumerable<Drone> DisplayDrones()
         {
             return droensList;
         }
@@ -140,7 +140,7 @@ namespace BL
         /// <param name="status"></param>
         /// <param name="priority"></param>
         /// <returns></returns>
-        public List<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
+        public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
         {
             List<Parcel> list = new List<Parcel>();
             IEnumerable<Parcel> IList;
@@ -152,11 +152,13 @@ namespace BL
             else if (weight == -1 && status >= 0 && priority == -1) IList = getParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
             else if (weight == -1 && status == -1 && priority >= 0) IList = getParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
             else IList = getParcels();
-            foreach (var i in IList)
-            {
-                list.Add(i);
-            }
-            return convertBLParcelToBLParcelsToList(list);
+            //foreach (var i in IList)
+            //{
+            //    list.Add(i);
+            //}
+            //return convertBLParcelToBLParcelsToList(list);
+            return from parcel in IList
+                   select convertParcelToParcelToList(parcel);
         }
     }
 }

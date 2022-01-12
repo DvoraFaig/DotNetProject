@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BO;
+using System.Reflection;
 
 namespace PL
 {
@@ -26,6 +28,18 @@ namespace PL
                 t.Text = "";
             }
         }
+
+        /*public static void Reset(Object obj)
+        {
+            foreach (PropertyInfo objs in obj.GetType().GetProperties())
+            {
+                if (objs.GetType() == typeof(string))
+                {
+                    objs = "";
+                }
+                else objs = null;
+            }
+        }*/
 
         public static void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -71,5 +85,15 @@ namespace PL
         {
             MessageBox.Show(message, header);
         }
+
+        /*static PO.Drone ConvertBOToPO(BO.Drone item)
+        {
+            return new PO.Drone() { Id = item.Id,}
+            *//*Type S = item.GetType();
+            if (S.Equals(typeof(BO.Drone)){
+                return new PO.Drone() { Id = item.Id }
+            }
+            return 0;*//*
+        }*/
     }
 }

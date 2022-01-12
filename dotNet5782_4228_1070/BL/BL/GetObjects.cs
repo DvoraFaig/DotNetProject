@@ -7,7 +7,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-using BO;
+    using BO;
     public sealed partial class BL : BlApi.Ibl
     {
         /// <summary>
@@ -19,11 +19,11 @@ using BO;
         {
             try
             {
-                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First() ;
+                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
             }
-            catch (InvalidOperationException )
+            catch (InvalidOperationException e)
             {
-                throw new ObjNotExistException(typeof(Drone), droneRequestedId);
+                throw new ObjNotExistException(typeof(Drone), droneRequestedId, e);
             }
         }
 
@@ -50,6 +50,41 @@ using BO;
             return (from parcel in parcels
                     where predicate(parcel)
                     select parcel);
+        }
+        public Parcel getParcelByDrone(int droneId)
+        {
+            try
+            {
+                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (parcel.Equals(null))//
+                    throw new Exceptions.ObjNotExistException(typeof(ParcelInTransfer), -1);//
+
+                return convertDalToBLParcel(parcel);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new ObjNotExistException(typeof(ParcelInTransfer), -1, e);
+            }
+        }
+
+        /// <summary>
+        /// Check a predicate to dal and check if drone is schedualed to Parcel.
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public bool checkIfExistParcelByDrone(int droneId)
+        {
+            try
+            {
+                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+                if (parcel.Equals(null))//
+                    return false;
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -82,9 +117,14 @@ using BO;
         /// <param name="customerRequestedId">The id of the customer that requested<</param>
         /// <param name="customerRequestedName">The name of the customer that requested<</param>
         /// <returns></returns>
-        public Customer GetCustomerByIdAndName(int customerRequestedId,string customerRequestedName)
+        public Customer GetCustomerByIdAndName(int customerRequestedId, string customerRequestedName)
         {
             DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
+            if (c.IsActive == false)
+            {
+                c.IsActive = true;
+                dal.AddCustomer(c); 
+            }
             Customer BLcustomer = convertDalToBLCustomer(c);
             return BLcustomer;
         }

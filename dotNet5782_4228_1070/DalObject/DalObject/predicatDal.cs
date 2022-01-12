@@ -5,8 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 using DO;
-
 
 namespace DalObject
 {

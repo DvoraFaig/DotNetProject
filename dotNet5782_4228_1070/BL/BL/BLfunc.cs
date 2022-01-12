@@ -35,13 +35,14 @@ namespace BL
             }
             else if (drone.Status == DroneStatus.Delivery)
             {
+                if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
+                    drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude ) // i erased else if
+                {
+                    return (int)DeliveryStatusAction.PickedParcel;
+                }
                 if (drone.ParcelInTransfer != null)
                 {
                     return (int)DeliveryStatusAction.AsignedParcel;
-                }
-                else if (drone.DronePosition == drone.ParcelInTransfer.SenderPosition)
-                {
-                    return (int)DeliveryStatusAction.PickedParcel;
                 }
             }
             throw new Exception("No macthing status");

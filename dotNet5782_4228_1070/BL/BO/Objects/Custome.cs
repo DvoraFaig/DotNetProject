@@ -26,26 +26,5 @@ namespace BO
               $"\tCustomerAsSenderAmount:  { CustomerAsSender.Count()}\n\tCustomerAsTargetAmount: {CustomerAsTarget.Count()}\n");
         }
     }
-
-    public class CustomerToList
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public int AmountAsSendingDeliveredParcels { get; set; }
-        public int AmountAsSendingUnDeliveredParcels { get; set; }
-        public int AmountAsTargetDeliveredParcels { get; set; }
-        public int AmountAsTargetUnDeliveredParcels { get; set; }
-    }
-
-    public class CustomerInParcel //targetId in parcel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public override string ToString()
-        {
-            return ($"Id: {Id} , Name: {Name} \n");
-        }
-    }
 }
 

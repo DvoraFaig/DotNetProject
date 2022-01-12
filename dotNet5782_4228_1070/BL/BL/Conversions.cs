@@ -39,6 +39,7 @@ namespace BL
                 Phone = customer.Phone,
                 Longitude = customer.CustomerPosition.Longitude,
                 Latitude = customer.CustomerPosition.Latitude,
+                IsActive = true
             };
         }
 
@@ -183,6 +184,18 @@ namespace BL
                 listParcels.Add(toAdd);
             }
             return listParcels;
+        }
+        private ParcelToList convertParcelToParcelToList(Parcel parcel)
+        { 
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                SenderName = parcel.Sender.Name,
+                TargetName = parcel.Target.Name,
+                Weight = parcel.Weight,
+                Priority = parcel.Priority,
+                ParcelStatus = findParcelStatus(parcel)
+            };
         }
 
         /// <summary>

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Windows;
 
 namespace PO
 {
-    public class Parcel
+    public class Parcel : DependencyObject
     {
         public int Id { get; set; }
         public CustomerInParcel Sender { get; set; }
@@ -29,7 +29,7 @@ namespace PO
         }
     }
 
-    public class ParcelToList
+    public class ParcelToList : DependencyObject
     {
         public int Id { get; set; }
         public string SenderName { get; set; }
@@ -39,7 +39,7 @@ namespace PO
         public ParcelStatuses ParcelStatus { get; set; }
     }
 
-    public class ParcelAtCustomer
+    public class ParcelAtCustomer : DependencyObject
     {
         public int Id { get; set; }
         //public WeightCategories Weight { get; set; }
@@ -52,7 +52,7 @@ namespace PO
         }
     }
 
-    public class ParcelInTransfer
+    public class ParcelInTransfer : DependencyObject
     {
         public int Id { get; set; }
         /// <summary>

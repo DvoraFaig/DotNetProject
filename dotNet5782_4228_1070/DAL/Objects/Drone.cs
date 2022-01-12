@@ -12,6 +12,7 @@ namespace DO
         public int Id { get; set; }
         public string Model { get; set; }
         public WeightCategories MaxWeight { get; set; } //not here
+        public bool IsActive { get; set; }
         public override string ToString()
         {
             return ($"drone id: {Id}, drone model{Model}\n");

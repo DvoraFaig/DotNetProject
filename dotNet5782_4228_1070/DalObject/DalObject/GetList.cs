@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using DalApi;
 
 
 
@@ -18,7 +19,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Station> GetStations()
         {
-            return from s in DataSource.Stations select s;
+            return from s in DataSource.Stations
+                   where s.IsActive == true
+                   select s;
         }
 
         /// <summary>
@@ -27,7 +30,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Drone> GetDrones()
         {
-            return from d in DataSource.Drones select d;
+            return from d in DataSource.Drones 
+                   where d.IsActive == true
+                   select d;
         }
 
         /// <summary>
@@ -45,7 +50,9 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            return from c in DataSource.Customers select c;
+            return from c in DataSource.Customers
+                   where c.IsActive == true
+                   select c;
         }
 
         /// <summary>
