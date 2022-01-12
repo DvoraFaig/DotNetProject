@@ -86,7 +86,7 @@ namespace PO
             get { return (WeightCategories)GetValue(MaxWeightProperty); }
             set { SetValue(MaxWeightProperty, value); }
         }
-
+        public DateTime? SartToCharge { set; get; }
 
         public override string ToString()
         {

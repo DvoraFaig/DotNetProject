@@ -132,7 +132,9 @@ namespace BL
             {
                 Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 blDrone.Status = DroneStatus.Available;
-                blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
+                TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge);
+                blDrone.Battery = second.TotalMinutes * chargingRateOfDrone;
+                //blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
                 blDrone.Battery = Math.Min(100,blDrone.Battery) ;//requestElectricity(4);
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
