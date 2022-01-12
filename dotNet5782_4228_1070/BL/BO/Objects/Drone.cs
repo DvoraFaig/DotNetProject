@@ -18,6 +18,7 @@ namespace BO
         public DroneStatus Status { get; set; } //DroneStatus ?? the same name
         public ParcelInTransfer ParcelInTransfer { get; set; }
         public Position DronePosition { get; set; }
+        public DateTime? SartToCharge { set; get; }
         public override string ToString()
         {
             if (DronePosition == null)

@@ -26,6 +26,7 @@ namespace PO
 
         public Drone()
         {
+            //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
         }
 
@@ -85,7 +86,7 @@ namespace PO
             get { return (WeightCategories)GetValue(MaxWeightProperty); }
             set { SetValue(MaxWeightProperty, value); }
         }
-
+        public DateTime? SartToCharge { set; get; }
 
         public override string ToString()
         {

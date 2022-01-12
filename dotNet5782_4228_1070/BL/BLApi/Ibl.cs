@@ -18,9 +18,10 @@ namespace BlApi
         //================
         //  Remove
         //================
-        public void RemoveStation(Station station);
+        //public void RemoveStation(Station station);
+        public void RemoveStation(int stationId);
         public void RemoveCustomer(Customer customer);
-        public void RemoveDrone(Drone drone);
+        public void RemoveDrone(int droneId);
 
         //================
         //  Display
@@ -52,7 +53,8 @@ namespace BlApi
         //================
         //  Updates
         //================
-        public void ChangeDroneModel(Drone drone);
+        //public void ChangeDroneModel(Drone drone);
+        public void ChangeDroneModel(int droneId, string newModel);
         public void StationChangeDetails(int id, string name = null, int ChargeSlots = -1);
         public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public Drone SendDroneToCharge(int droneId);
@@ -65,11 +67,12 @@ namespace BlApi
         //========================
         //  Get Data About Object
         //========================
-        public int GetDroneStatusInDelivery(Drone drone);
+        //public int GetDroneStatusInDelivery(Drone drone);
+        public int GetDroneStatusInDelivery(int droneId);
 
         //===================
         //  Remove
         //===================
-        public void RemoveParcel(Parcel parcel);
+        public void RemoveParcel(int parcelId);
     }
 }

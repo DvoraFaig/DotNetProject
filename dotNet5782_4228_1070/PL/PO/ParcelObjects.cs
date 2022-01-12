@@ -10,16 +10,75 @@ namespace PO
 {
     public class Parcel : DependencyObject
     {
-        public int Id { get; set; }
-        public CustomerInParcel Sender { get; set; }
-        public CustomerInParcel Target { get; set; }
+        public Parcel(BO.Parcel p)
+        {
+            Id = p.Id;
+            Sender = p.Sender;
+            Target = p.Target;
+            Weight = (WeightCategories)p.Weight;
+            Priority = (Priorities)p.Priority;
+            Drone = p.Drone;
+            Requeasted = p.Requeasted;
+            Scheduled = p.Scheduled;
+            PickUp = p.PickUp;
+            Delivered = p.Delivered;
+        }
+        public Parcel()
+        {
+                
+        }
+        public int Id
+        {
+            get { return (int)GetValue(IdProperty); }
+            set { SetValue(IdProperty, value); }
+        }
+        public BO.CustomerInParcel Sender
+        {
+            get { return (BO.CustomerInParcel)GetValue(SenderProperty); }
+            set { SetValue(SenderProperty, value); }
+        }
+        public BO.CustomerInParcel Target
+        {
+            get { return (BO.CustomerInParcel)GetValue(TargetProperty); }
+            set { SetValue(TargetProperty, value); }
+        }
+        public WeightCategories Weight
+        {
+            get { return (WeightCategories)GetValue(WeightProperty); }
+            set { SetValue(WeightProperty, value); }
+        }
+        public Priorities Priority
+        {
+            get { return (Priorities)GetValue(PriorityProperty); }
+            set { SetValue(PriorityProperty, value); }
+        }
         //public WeightCategories Weight { get; set; }
         //public Priorities Priority { get; set; }
-        public DroneInParcel Drone { get; set; }
-        public DateTime? Requeasted { get; set; } //prepare a parcel to delivery
-        public DateTime? Scheduled { get; set; } //pair a parcel to drone
-        public DateTime? PickUp { get; set; }
-        public DateTime? Delivered { get; set; }
+        public BO.DroneInParcel Drone
+        {
+            get { return (BO.DroneInParcel)GetValue(DroneProperty); }
+            set { SetValue(DroneProperty, value); }
+        }
+        public DateTime? Requeasted
+        {
+            get { return (DateTime?)GetValue(RequeastedProperty); }
+            set { SetValue(RequeastedProperty, value); }
+        } //prepare a parcel to delivery
+        public DateTime? Scheduled
+        {
+            get { return (DateTime?)GetValue(ScheduledProperty); }
+            set { SetValue(ScheduledProperty, value); }
+        } //pair a parcel to drone
+        public DateTime? PickUp
+        {
+            get { return (DateTime?)GetValue(PickUpProperty); }
+            set { SetValue(PickUpProperty, value); }
+        }
+        public DateTime? Delivered
+        {
+            get { return (DateTime?)GetValue(DeliveredProperty); }
+            set { SetValue(DeliveredProperty, value); }
+        }
         public override string ToString()
         {
             //string notFilled = "not filled";
@@ -27,6 +86,17 @@ namespace PO
                 $"\n\tDrone: {(!Drone.Equals(default(DroneInParcel)) ? Drone.ToString() : (char)'-') } " +
                 $"\n\tparcel Requeasted: {(Requeasted != null ? Requeasted : (char)'-')}, parcel scheduled: {(Scheduled != null ? Scheduled : (char)'-')}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
         }
+
+        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty SenderProperty = DependencyProperty.Register("Sender", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DroneProperty = DependencyProperty.Register("Drone", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty RequeastedProperty = DependencyProperty.Register("Requeasted", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty ScheduledProperty = DependencyProperty.Register("Scheduled", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty PickUpProperty = DependencyProperty.Register("PickUp", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DeliveredProperty = DependencyProperty.Register("Delivered", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty WeightProperty = DependencyProperty.Register("Weight", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty PriorityProperty = DependencyProperty.Register("Priority", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
     }
 
     public class ParcelToList : DependencyObject
@@ -68,7 +138,7 @@ namespace PO
         public double distance { get; set; }
         //public override string ToString()
         //{
-         //   return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},\n\tSenderCustomer:{SenderCustomer}, \tTargetCustomer :{TargetCustomer}, \tSenderPosition: {SenderPosition}, \tTargetPosition: {TargetPosition}, distance: {distance} ");
+        //   return ($"id: {Id} , parcelStatus: {parcelStatus},Weight: {Weight}, parcelPriority: {Priority},\n\tSenderCustomer:{SenderCustomer}, \tTargetCustomer :{TargetCustomer}, \tSenderPosition: {SenderPosition}, \tTargetPosition: {TargetPosition}, distance: {distance} ");
         //}
     }
 }

@@ -10,11 +10,11 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-
-        public void RemoveStation(Station station)
+        public void RemoveStation(int stationId)
         {
             try
             {
+                Station station = GetStationById(stationId);
                 if (dal.IsStationActive(station.Id))
                     dal.removeStation(convertBLToDalStation(station));
                 else
@@ -44,14 +44,14 @@ namespace BL
             }
         }
 
-        public void RemoveDrone(Drone drone)
+        public void RemoveDrone(int droneId)
         {
             try
             {
-                if (dal.IsDroneById(drone.Id))
-                    dal.removeDrone(convertBLToDalDrone(drone));
+                if (dal.IsDroneById(droneId))
+                    dal.removeDrone(convertBLToDalDrone(GetDroneById(droneId)));
                 else
-                    throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
+                    throw new Exceptions.ObjExistException(typeof(Drone), droneId, "is active");
             }
             catch (ArgumentNullException) { }
             catch (InvalidOperationException) { }
