@@ -126,6 +126,7 @@ namespace BL
                         {
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                             CurrentDrone.Battery = r.Next(0, 20);
+                            CurrentDrone.SartToCharge = DateTime.Now;
                         }
                         #endregion
                         #region go threw all the stations
@@ -138,6 +139,7 @@ namespace BL
                                 {
                                     CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                                     CurrentDrone.Battery = r.Next(0, 20);
+                                    CurrentDrone.SartToCharge = DateTime.Now;
                                     break;
                                 }
                             }

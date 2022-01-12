@@ -66,6 +66,7 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             currentDrone = new PO.Drone(drone);
+            //BatteryFill.Width =(int)drone.Battery*2;////////////////////////////////
             AddDroneDisplay.DataContext = currentDrone;
             IdTextBox.IsReadOnly = true;
             if (drone.ParcelInTransfer == null)

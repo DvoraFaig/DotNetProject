@@ -109,6 +109,7 @@ namespace BL
                     dal.AddDroneToCharge(droneCharge);
                     dal.changeStationInfo(availbleSforCharging);
                     dal.changeDroneInfo(convertBLToDalDrone(drone));
+                    drone.SartToCharge = DateTime.Now;
                     return drone;
                 }
                 else
@@ -118,7 +119,7 @@ namespace BL
             }
             catch (ObjNotExistException e)
             {
-                throw new ObjNotExistException(typeof(Drone),droneId , e);
+                throw new ObjNotExistException(e.Message);
             }
             catch (Exception e1)
             {
@@ -131,15 +132,16 @@ namespace BL
             try
             {
                 Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
-                blDrone.Status = DroneStatus.Available;
-                TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge);
-                blDrone.Battery = second.TotalMinutes * chargingRateOfDrone;
-                //blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
-                blDrone.Battery = Math.Min(100,blDrone.Battery) ;//requestElectricity(4);
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 s.ChargeSlots++;
                 StationChangeDetails(s.Id, null, s.ChargeSlots);
+                blDrone.Status = DroneStatus.Available;
+                TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge)*100;///
+                double baterryToAdd = Math.Round(second.TotalMinutes * chargingRateOfDrone);
+                blDrone.Battery += baterryToAdd;
+                //blDrone.Battery +=(double)timeCharging * chargingRateOfDrone;//requestElectricity(4);
+                blDrone.Battery = Math.Min(100,blDrone.Battery) ;//requestElectricity(4);
                 return blDrone;
             }
             catch (Exception e)
