@@ -33,6 +33,13 @@ namespace DO
             }
 
         }
+        public class DalConfigException : Exception
+        {
+            public DalConfigException(string s)
+                : base(String.Format($"{s}"))
+            {
+            }
+        }
 
     }
 }
