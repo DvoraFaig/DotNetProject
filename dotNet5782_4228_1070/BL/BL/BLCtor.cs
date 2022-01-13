@@ -32,11 +32,12 @@ namespace BL
         {
             droensList = new List<Drone>();
             dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
-            electricityUsageWhenDroneIsEmpty = dal.electricityUseByDrone()[0];
-            electricityUsageWhenDroneILightWeight = dal.electricityUseByDrone()[1];
-            electricityUsageWhenDroneIsMediumWeight = dal.electricityUseByDrone()[2];
-            electricityUsageWhenDroneIsHeavyWeight = dal.electricityUseByDrone()[3];
-            chargingRateOfDrone = dal.electricityUseByDrone()[4];
+            double[] electricityUsageDrone = dal.electricityUseByDrone();
+            electricityUsageWhenDroneIsEmpty = electricityUsageDrone[0];
+            electricityUsageWhenDroneILightWeight = electricityUsageDrone[1];
+            electricityUsageWhenDroneIsMediumWeight = electricityUsageDrone[2];
+            electricityUsageWhenDroneIsHeavyWeight = electricityUsageDrone[3];
+            chargingRateOfDrone = electricityUsageDrone[4];
 
             List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
             try
@@ -55,6 +56,7 @@ namespace BL
             DO.Customer sender, target;
             Position senderPosition, targetPosition;
             Drone CurrentDrone = new Drone();
+            int amountStations = dal.amountStations();
             foreach(DO.Drone drone in drones )
             {
                 parcel = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == drone.Id).FirstOrDefault();
@@ -104,8 +106,8 @@ namespace BL
                         else //couldn't find a delivered parcel.
                         {
                             List<DO.Station> stationsToFindPlaceToCharge = dal.GetStations().Cast<DO.Station>().ToList();
-                            int amountStation = dal.amountStations();
-                            int randomStation = r.Next(0, amountStation);
+                            ////int amountStation = dal.amountStations();
+                            int randomStation = r.Next(0, amountStations);
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                             CurrentDrone.Battery = r.Next(20, 100);
                         }
@@ -117,9 +119,9 @@ namespace BL
                         //If drone is supposed to be in charging find an avilable station with empty charging slots.
                         //for not having all the drones in the same place:
                         //Try random station if station didn't have an empty place go threw all the stations
-                        int amountStation = dal.amountStations();
+                        ////int amountStation = dal.amountStations();
                         #region Find random station
-                        int randomStation = r.Next(0, amountStation);
+                        int randomStation = r.Next(0, amountStations);
                         Drone temp = new Drone();
                         temp = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
                         if (temp != null)

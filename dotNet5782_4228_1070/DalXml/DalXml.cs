@@ -15,11 +15,32 @@ namespace Dal
     {
         //dir need to be up from bin
         static string dir = @"..\..\..\..\DalXml\";
+
+        /// <summary>
+        /// instance of DalXml and will be equal to DalApi
+        /// </summary>
+        static DalXml Instance;
+
         static DalXml()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             DataSource.Initialize(); ////
+        }
+        /// <summary>
+        /// return one and only one instance of DalXml 
+        /// </summary>
+        public static DalXml GetInstance
+        {
+            get
+            {
+                //lock (padlock)
+                //{
+                if (Instance == null)
+                    Instance = new DalXml();
+                return Instance;
+                //}
+            }
         }
 
         string stationFilePath = @"StationsList.xml";
@@ -52,21 +73,9 @@ namespace Dal
 
             if (!File.Exists(dir + configFilePath))
             {
-                //DL.XMLTools.SaveListToXMLSerializer(DataSource.Config.DalObjectOrDalXml, dir + configFilePath);
                 XElement configRoot = DL.XMLTools.LoadData(dir + configFilePath);
-                configRoot.Add(new XElement("DalObjectOrDalXml", "DalXml"));
                 double[] DroneElectricityUsage = { 0.1, 0.2, 0.4, 0.6, 0.7 };
-                //IEnumerable<double> DroneElectricityUsageList = DroneElectricityUsage;
-                configRoot.Add(DroneElectricityUsage);
-                configRoot.Save(dir + configFilePath);
-                //DL.XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
-                //XElement empty = new XElement("empty", "0.1");
-                //XElement lightWeight = new XElement("lightWeight", "0.2");
-                //XElement mediumWeight = new XElement("mediumWeight", "0.4");
-                //XElement heavyWeight = new XElement("heavyWeight", "0.6");
-                //XElement chargingRate = new XElement("lightWeight", "0.7");
-                //XElement DalObjectOrDalXml = new XElement("lightWeight", "DalXml");
-                //configRoot.Add(new XElement("DroneElectricityUsage",empty, lightWeight, mediumWeight, heavyWeight ));
+                DL.XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
             }
         }
 
@@ -140,7 +149,7 @@ namespace Dal
         /// <param name="newDroneCharge">DroneCharge to add.</param>
         public void AddDroneToCharge(DroneCharge newDroneCharge)
         {
-            IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneFilePath);
+            IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
             if (droneChargesList.Any(d => d.DroneId == newDroneCharge.DroneId))
             {
                 throw new DO.Exceptions.ObjExistException(typeof(DO.DroneCharge), newDroneCharge.DroneId);
@@ -651,12 +660,8 @@ namespace Dal
 
         public double[] electricityUseByDrone()
         {
-            throw new NotImplementedException();
+            return DL.XMLTools.LoadListFromXMLSerializer<double>(dir + configFilePath).ToArray();
         }
-
-
-
-
     }
 
     class DL
