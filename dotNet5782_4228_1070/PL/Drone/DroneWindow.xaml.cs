@@ -157,7 +157,7 @@ namespace PL
                 //blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
                 blObjectD.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (DO.WeightCategories)(DroneWeightSelector.SelectedIndex + 1) }, Convert.ToInt32(StationIdTextBox.Text));
                 //blObjectD.AddDrone(currentDrone.BO(),Convert.ToInt32(StationIdTextBox.Text));
-                new DroneListWindow(blObjectD).Show();
+                ////////new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
             #region catch exeptions
@@ -208,12 +208,12 @@ namespace PL
         /// <param name="e"></param>
         private void ReturnToDroneListWindowBtnClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (messageBoxClosing == MessageBoxResult.OK)
-            {
-                new DroneListWindow(blObjectD).Show();
-                this.Close();
-            }
+            //MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            //if (messageBoxClosing == MessageBoxResult.OK)
+            //{
+            ////new DroneListWindow(blObjectD).Show();
+            this.Close();
+            //}
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace PL
             {
                 //currentDrone.Model = ModelTextBox.Text;
                 blObjectD.ChangeDroneModel(currentDrone.Id, currentDrone.Model);
-                new DroneListWindow(blObjectD).Show();
+                //new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
             catch (InvalidOperationException exeptionInvalid) { PLFuncions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };

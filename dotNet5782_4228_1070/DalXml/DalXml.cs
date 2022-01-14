@@ -21,6 +21,12 @@ namespace Dal
         /// </summary>
         static DalXml Instance;
 
+        /// <summary>
+        /// Avoid reaching DalXml instance by the same time a few places.
+        /// DalXml is supposed to be a Singelton
+        /// </summary>
+        private static readonly object padlock = new object();
+
         static DalXml()
         {
             if (!Directory.Exists(dir))
@@ -34,12 +40,12 @@ namespace Dal
         {
             get
             {
-                //lock (padlock)
-                //{
-                if (Instance == null)
-                    Instance = new DalXml();
-                return Instance;
-                //}
+                lock (padlock)
+                {
+                    if (Instance == null)
+                        Instance = new DalXml();
+                    return Instance;
+                }
             }
         }
 

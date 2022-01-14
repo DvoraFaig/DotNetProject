@@ -102,7 +102,7 @@ namespace PL
         private void AddDroneButtonClick(object sender, RoutedEventArgs e)
         {
             new DroneWindow(blObjectH).Show();
-            this.Close();
+            //this.Close();
         }
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
@@ -110,7 +110,7 @@ namespace PL
             DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             Drone drone = blObjectH.GetDroneById(droneToList.Id);////changed frrom get with specific...
             new DroneWindow(blObjectH, drone).Show();
-            this.Close();
+            //this.Close();
         }
 
         private void DroneListSelectionChanged(object sender, SelectionChangedEventArgs e)
