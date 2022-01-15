@@ -97,8 +97,7 @@
             <TextBlock x:Name="BatteryTextBox"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Text="{Binding Battery}" Panel.ZIndex="5" TextAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Background="#00000000" />
             <TextBlock x:Name="BatteryPercent"          Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Text="%" Panel.ZIndex="6" TextAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Background="#00000000" Grid.ColumnSpan="2" Margin="20,0,18,0" />
             <!--<ProgressBar  x:Name="Battery" Value="{Binding Battery}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="4" Panel.ZIndex="5" />-->
-
-            <Viewbox Width="120" Height="30" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Right" Margin="0,2,5,0" >
+            <Viewbox Width="120" Height="30" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Right" Margin="0,2,5,0" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" >
                 <StackPanel Orientation="Horizontal">
                     <Border Background="#00c000" CornerRadius="2,0,0,2" Padding="2" Width="6" Height="15" RenderTransformOrigin="-0.198,-3.348"/>
                     <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="120" Height="30">

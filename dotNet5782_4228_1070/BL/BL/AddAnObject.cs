@@ -10,18 +10,6 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        private DO.Station convertBLToDalStation(Station s)
-        {
-            return new DO.Station()
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Longitude = s.StationPosition.Longitude,
-                Latitude = s.StationPosition.Latitude,
-                ChargeSlots = s.DroneChargeAvailble + s.DronesCharging.Count(),
-                IsActive = true //////////////
-            };
-        }
         /// <summary>
         /// Add a new station. checks if this station exist already.
         /// If exist throw an error
@@ -41,9 +29,9 @@ namespace BL
                 string message = "";
                 if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
                     message += "Position";
-                if(stationToAdd.DroneChargeAvailble != station.ChargeSlots )
+                if (stationToAdd.DroneChargeAvailble != station.ChargeSlots)
                     message += ", Amount charge slots";
-                if(message != "")
+                if (message != "")
                     throw new Exceptions.DataOfOjectChanged(typeof(Station), station.Id, $"Data changed: {message} was changed");
                 return;
             }
@@ -110,7 +98,7 @@ namespace BL
             try
             {
                 DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
-                if(customer.IsActive)
+                if (customer.IsActive)
                     throw new ObjExistException(typeof(BO.Customer), customer.Id);
                 customer.IsActive = true;
                 dal.changeCustomerInfo(customer);
@@ -121,7 +109,7 @@ namespace BL
                     message += ", Name";
                 if (customerToAdd.Phone != customer.Phone)
                     message += "and Phone";
-                if(message != "")
+                if (message != "")
                     throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
                 return;
             }

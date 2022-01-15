@@ -168,9 +168,9 @@ namespace PL
                     this.Close();
                 }
                 #region catch exeptions
-                catch (BO.Exceptions.ObjExistException)
+                catch (BO.Exceptions.ObjExistException e1)
                 {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data or enter a different Id ==\nPlease try again");
+                    PLFuncions.messageBoxResponseFromServer("Add Customer", e1.Message);
                 }
                 catch (ArgumentNullException)
                 {

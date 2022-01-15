@@ -91,14 +91,31 @@ namespace Dal
         /// <param name="newDrone">drone to add.</param>
         public void AddDrone(DO.Drone newDrone)
         {
-            IEnumerable<DO.Drone> droneList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            if (droneList.Any(d => d.Id == newDrone.Id))
-            {
-                throw new DO.Exceptions.ObjExistException(typeof(DO.Drone), newDrone.Id);
-            }
-
-            droneList.ToList().Add(newDrone);
-            DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
+            XElement DroneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
+            DroneRoot.Add(returnDroneXElement(newDrone));
+            DroneRoot.Save(dir + droneFilePath);
+            #region found better way
+            //IEnumerable<DO.Drone> droneList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //if (droneList.Any(d => d.Id == newDrone.Id))
+            //{
+            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Drone), newDrone.Id);
+            //}
+            //droneList.ToList().Add(newDrone);
+            //DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
+            #endregion
+        }
+        /// <summary>
+        /// Receive a DO drone and return a XElemnt drone - copy information.
+        /// </summary>
+        /// <param name="newDrone"></param>
+        /// <returns></returns>
+        private XElement returnDroneXElement(DO.Drone newDrone)
+        {
+            XElement Id = new XElement("Id", newDrone.Id);
+            XElement Model = new XElement("Model", newDrone.Model);
+            XElement MaxWeight = new XElement("MaxWeight", newDrone.MaxWeight);
+            XElement IsActive = new XElement("IsActive", true);
+            return new XElement("Drone", Id, Model, MaxWeight, MaxWeight, IsActive);
         }
 
         /// <summary>
@@ -106,15 +123,40 @@ namespace Dal
         /// </summary>
         /// <param name="newStation">The station to add.</param>
         public void AddStation(Station newStation)
-        {
-            IEnumerable<DO.Station> stationsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-            if (stationsList.Any(s => s.Id == newStation.Id))
-            {
-                throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
-            }
+        { 
+            XElement stationRoot = DL.XMLTools.LoadData(dir + stationFilePath);
+            #region was checked
+            //XElement stationXElemnt;
 
-            stationsList.ToList().Add(newStation);
-            DL.XMLTools.SaveListToXMLSerializer<DO.Station>(stationsList, dir + stationFilePath);
+            //if(IsStationById(newStation.Id))
+            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
+
+            //stationXElemnt = (from s in stationRoot.Elements()
+            //                  where Convert.ToInt32(s.Element("Id").Value) == newStation.Id
+            //                  select s).FirstOrDefault();
+            //if (stationXElemnt != null)
+            //{
+            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
+            //}
+            #endregion
+            stationRoot.Add(returnStationXElement(newStation));
+            stationRoot.Save(dir + stationFilePath);
+        }
+
+        /// <summary>
+        /// Receive a DO station and return a XElemnt station - copy information.
+        /// </summary>
+        /// <param name="newStation"></param>
+        /// <returns></returns>
+        private XElement returnStationXElement(DO.Station newStation)
+        {
+            XElement Id = new XElement("Id", newStation.Id);
+            XElement Name = new XElement("Name", newStation.Name);
+            XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
+            XElement Latitude = new XElement("Latitude", newStation.Latitude);
+            XElement Longitude = new XElement("Longitude", newStation.Longitude);
+            XElement IsActive = new XElement("IsActive", true);
+            return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
         }
 
         /// <summary>
@@ -123,14 +165,35 @@ namespace Dal
         /// <param name="newCustomer">customer to add.</param>
         public void AddCustomer(Customer newCustomer)
         {
-            IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            if (customersList.Any(c => c.Id == newCustomer.Id))
-            {
-                throw new DO.Exceptions.ObjExistException(typeof(DO.Customer), newCustomer.Id);
-            }
+            XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            customerRoot.Add(returnCustomerXElement(newCustomer));
+            customerRoot.Save(dir + customerFilePath);
+            #region found better way
+            //IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //if (customersList.Any(c => c.Id == newCustomer.Id))
+            //{
+            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Customer), newCustomer.Id);
+            //}
+            //List<DO.Customer> newList = customersList.Cast<DO.Customer>().ToList();
+            //newList.Add(newCustomer);
+            //DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(newList, dir + customerFilePath);
+            #endregion
+        }
 
-            customersList.ToList().Add(newCustomer);
-            DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(customersList, dir + customerFilePath);
+        /// <summary>
+        /// Receive a DO Customer and return a XElemnt Customer - copy information.
+        /// </summary>
+        /// <param name="newCustomer"></param>
+        /// <returns></returns>
+        private XElement returnCustomerXElement(DO.Customer newCustomer)
+        {
+            XElement Id = new XElement("Id", newCustomer.Id);
+            XElement Name = new XElement("Name", newCustomer.Name);
+            XElement Phone = new XElement("Phone", newCustomer.Phone);
+            XElement Latitude = new XElement("Latitude", newCustomer.Latitude);
+            XElement Longitude = new XElement("Longitude", newCustomer.Longitude);
+            XElement IsActive = new XElement("IsActive", true);
+            return new XElement("Customer", Id, Name, Phone, Latitude, Longitude, IsActive);
         }
 
         /// <summary>
@@ -139,14 +202,29 @@ namespace Dal
         /// <param name="newParcel">parcel to add</param>
         public void AddParcel(Parcel newParcel)
         {
-            IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            if (parcelsList.Any(p => p.Id == newParcel.Id))
-            {
-                throw new DO.Exceptions.ObjExistException(typeof(DO.Parcel), newParcel.Id);
-            }
-
-            parcelsList.ToList().Add(newParcel);
+            List<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).ToList();
+            parcelsList.Add(newParcel);
             DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
+        }
+        /// <summary>
+        /// Receive a DO parcel and return a XElemnt parcel - copy information.
+        /// </summary>
+        /// <param name="newParcel"></param>
+        /// <returns></returns>
+        private XElement returnParcelXElement(DO.Parcel newParcel)
+        {
+            XElement Id = new XElement("Id", newParcel.Id);
+            XElement SenderId = new XElement("SenderId", newParcel.SenderId);
+            XElement TargetId = new XElement("TargetId", newParcel.TargetId);
+            XElement Weight = new XElement("Weight", newParcel.Weight);
+            XElement Priority = new XElement("Priority", newParcel.Priority);
+            XElement DroneId = new XElement("DroneId", newParcel.DroneId);
+            XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
+            XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
+            XElement PickUp = new XElement("PickUp", newParcel.PickUp);
+            XElement Delivered = new XElement("Delivered", newParcel.Delivered);
+            XElement IsActive = new XElement("IsActive", true);
+            return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority,DroneId,Requeasted,Scheduled,PickUp,Delivered,IsActive);
         }
 
         /// <summary>
@@ -155,14 +233,35 @@ namespace Dal
         /// <param name="newDroneCharge">DroneCharge to add.</param>
         public void AddDroneToCharge(DroneCharge newDroneCharge)
         {
-            IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
-            if (droneChargesList.Any(d => d.DroneId == newDroneCharge.DroneId))
-            {
-                throw new DO.Exceptions.ObjExistException(typeof(DO.DroneCharge), newDroneCharge.DroneId);
-            }
+             XElement droneChargeRoot = DL.XMLTools.LoadData(dir + droneChargeFilePath);
+            droneChargeRoot.Add(returnDroneChargeXElement(newDroneCharge));
+            droneChargeRoot.Save(dir + droneChargeFilePath);
+            #region found a better way
+            //IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
+            //List<DroneCharge> newList = new List<DroneCharge>();
+            //if (droneChargesList.Count() != 0)
+            //{
+            //    if (droneChargesList.Any(d => d.DroneId == newDroneCharge.DroneId))
+            //    {
+            //        throw new DO.Exceptions.ObjExistException(typeof(DO.DroneCharge), newDroneCharge.DroneId);
+            //    }
+            //    newList = droneChargesList.Cast<DO.DroneCharge>().ToList();
+            //}
+            //newList.Add(newDroneCharge);
+            //DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(newList, dir + droneChargeFilePath);
+            #endregion
+        }
 
-            droneChargesList.ToList().Add(newDroneCharge);
-            DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(droneChargesList, dir + droneFilePath);
+        /// <summary>
+        /// Receive a DO DroneCharge and return a XElemnt DroneCharge - copy information.
+        /// </summary>
+        /// <param name="newDroneCharge"></param>
+        /// <returns></returns>
+        private XElement returnDroneChargeXElement(DO.DroneCharge newDroneCharge)
+        {
+            XElement DroneId = new XElement("DroneId", newDroneCharge.DroneId);
+            XElement StationId = new XElement("StationId", newDroneCharge.StationId);
+            return new XElement("DroneCharge", DroneId,StationId);
         }
 
         /// <summary>
@@ -189,37 +288,28 @@ namespace Dal
         /// <param name="parcelToRemove">remove current parcel</param>
         public void removeParcel(Parcel parcelToRemove)
         {
-            IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            try
-            {
-                Parcel parcel = getParcelWithSpecificCondition(s => s.Id == parcelToRemove.Id).First();
-                if (parcel.IsActive)
-                    parcel.IsActive = false;
-                changeParcelInfo(parcel);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Parcel), parcelToRemove.Id, e1);
-            }
+            //IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+            //try
+            //{
+            //    Parcel parcel = getParcelWithSpecificCondition(s => s.Id == parcelToRemove.Id).First();
+            //    if (parcel.IsActive)
+            //        parcel.IsActive = false;
+            //    changeParcelInfo(parcel);
+            //}
+            //catch (Exception e1)
+            //{
+            //    throw new Exceptions.NoMatchingData(typeof(Parcel), parcelToRemove.Id, e1);
+            //}
             #region check
-            //IEnumerable<DO.Parcel> parcelLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            //if (!parcelLits.Any(t => t.Id == parcel.Id))
-            //{
-            //    throw new DO.Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id);
-            //}
-            //DO.Parcel newParcel = getParcelWithSpecificCondition(p => p.Id == parcel.Id).First();
-            //parcelLits.ToList().Remove(newParcel);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelLits, dir + parcelFilePath);
-
-            //XElement parcelRoot = DL.XMLTools.LoadData(dir + parcelFilePath);
-            //XElement parcelXElemnt;
-            //parcelXElemnt = (from p in parcelRoot.Elements()
-            //                   where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
-            //                   select p).FirstOrDefault();
-            //if (parcelXElemnt != null)
-            //{
-            //    parcelXElemnt.Element("IsActive").Value = "false";
-            //}
+            XElement parcelRoot = DL.XMLTools.LoadData(dir + parcelFilePath);
+            XElement parcelXElemnt;
+            parcelXElemnt = (from p in parcelRoot.Elements()
+                             where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
+                             select p).FirstOrDefault();
+            if (parcelXElemnt != null)
+            {
+                parcelXElemnt.Element("IsActive").Value = "false";
+            }
             #endregion
         }
 
@@ -722,7 +812,7 @@ namespace Dal
                 }
                 catch
                 {
-                    Console.WriteLine("File upload problem");
+                    //Console.WriteLine("File upload problem");
                     return null;
                 }
             }

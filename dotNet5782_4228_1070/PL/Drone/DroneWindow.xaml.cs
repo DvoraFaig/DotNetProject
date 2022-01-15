@@ -26,7 +26,7 @@ namespace PL
         private BlApi.Ibl blObjectD;
         //BO.Drone dr;
         PO.Drone currentDrone;
-        string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
+        string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Deliver by Target" };
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -76,7 +76,7 @@ namespace PL
             }
             //ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
             //ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
-            setDeliveryButton();
+            setChargeBtn();
             ChargeButton.Visibility = drone.Status == DroneStatus.Delivery ? Visibility.Hidden : Visibility.Visible;
             if (drone.Status == DroneStatus.Maintenance)
                 DeliveryStatusButton.Visibility = Visibility.Hidden;
@@ -116,7 +116,7 @@ namespace PL
         /// <summary>
         /// Content of a btn in the update form occurding to the drones' status.
         /// </summary>
-        private void setDeliveryButton()
+        private void setChargeBtn()
         {
             switch (currentDrone.Status)
             {
@@ -127,6 +127,18 @@ namespace PL
                     ChargeButton.Content = "Free Drone From Charge";
                     break;
             }
+        }
+
+        private void setDeliveryBtn()
+        {
+
+            int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.Id);
+            DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
+            DeliveryStatusButton.Visibility = Visibility.Visible;
+            if (contentIndex != 0)
+                ChargeButton.Visibility = Visibility.Hidden;
+            if (contentIndex == 0)
+                ChargeButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -161,9 +173,9 @@ namespace PL
                 this.Close();
             }
             #region catch exeptions
-            catch (BO.Exceptions.ObjExistException)
+            catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data or enter a different Id ==\nPlease try again");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", e1.Message);
             }
             catch (ArgumentNullException)
             {
@@ -250,7 +262,7 @@ namespace PL
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
-                    setDeliveryButton();
+                    setChargeBtn();
                     ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
@@ -273,7 +285,7 @@ namespace PL
                         //currentDrone.Battery = d.Battery;
                         //StatusTextBox.Text = $"{dr.Status}";
                         //BatteryTextBox.Text = $"{dr.Battery}";
-                        setDeliveryButton();
+                        setChargeBtn();
                         ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
                         //StatusTextBox.Text = $"{DroneStatus.Available}";
                         DeliveryStatusButton.Visibility = Visibility.Visible;
@@ -310,6 +322,7 @@ namespace PL
                     //currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
                     currentDrone.Update(blObjectD.PairParcelWithDrone(currentDrone.Id));
+
                 }
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (BO.Exceptions.ObjNotAvailableException e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
@@ -343,6 +356,7 @@ namespace PL
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
             }
+            //setDeliveryBtn
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function

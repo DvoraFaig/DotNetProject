@@ -122,9 +122,9 @@ namespace BL
                         ////int amountStation = dal.amountStations();
                         #region Find random station
                         int randomStation = r.Next(0, amountStations);
-                        Drone temp = new Drone();
-                        temp = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
-                        if (temp != null)
+                        Drone updatedDroneWithStationInfoAndBattery = new Drone();
+                        updatedDroneWithStationInfoAndBattery = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
+                        if (updatedDroneWithStationInfoAndBattery != null)
                         {
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                             CurrentDrone.Battery = r.Next(0, 20);
@@ -136,8 +136,8 @@ namespace BL
                         {
                             foreach (DO.Station stationsObj in stationsToFindPlaceToCharge)
                             {
-                                temp = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
-                                if (temp != null)
+                                updatedDroneWithStationInfoAndBattery = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
+                                if (updatedDroneWithStationInfoAndBattery != null)
                                 {
                                     CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                                     CurrentDrone.Battery = r.Next(0, 20);

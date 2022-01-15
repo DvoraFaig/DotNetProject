@@ -11,7 +11,7 @@ namespace BL
     public sealed partial class BL : BlApi.Ibl
     {
         /// <summary>
-        /// Receive a DO drone and return a converted DO drone - copy information.
+        /// Receive a BO drone and return a converted DO drone - copy information.
         /// </summary>
         /// <param name="drone">Drone to convert</param>
         /// <returns></returns>
@@ -23,6 +23,32 @@ namespace BL
                 Model = drone.Model,
                 MaxWeight = drone.MaxWeight
             };
+        }
+
+        /// <summary>
+        /// Receive a BO station and return a converted DO station - copy information.
+        /// </summary>
+        /// <param name="s">Station to convert</param>
+        /// <returns></returns>
+        private DO.Station convertBLToDalStation(Station s)
+        {
+            DO.Station station = new DO.Station();
+            station.Id = s.Id;
+            station.Name = s.Name;
+            station.Longitude = s.StationPosition.Longitude;
+            station.Latitude = s.StationPosition.Latitude;
+            int DronesCharging;
+            try //if station doesn't have droneCharging.
+            {
+                DronesCharging = s.DronesCharging.Count();
+            }
+            catch (Exception)
+            {
+                DronesCharging = 0;
+            }
+            station.ChargeSlots = s.DroneChargeAvailble + DronesCharging;
+            station.IsActive = true;
+            return station;
         }
 
         /// <summary>
