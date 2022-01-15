@@ -173,7 +173,7 @@ namespace PL
         {
             try
             {
-                blObject.StationChangeDetails(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+                blObject.changeInfoOfStation(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
                 new StationListWindow(blObject).Show();
                 this.Close();
             }

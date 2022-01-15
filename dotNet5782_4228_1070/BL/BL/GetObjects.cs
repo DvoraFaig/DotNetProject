@@ -34,7 +34,7 @@ namespace BL
         /// <returns></returns>
         private IEnumerable<Drone> getDroneWithSpecificConditionFromDronesList(Predicate<Drone> predicate)
         {
-            return (from drone in droensList
+            return (from drone in dronesList
                     where predicate(drone)
                     select drone);
         }

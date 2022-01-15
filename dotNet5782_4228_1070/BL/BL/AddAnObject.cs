@@ -88,7 +88,7 @@ namespace BL
                 {
                     Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
                     Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-                    droensList.Add(dr);
+                    dronesList.Add(dr);
                     dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                     dal.AddDrone(convertBLToDalDrone(dr));
                 }

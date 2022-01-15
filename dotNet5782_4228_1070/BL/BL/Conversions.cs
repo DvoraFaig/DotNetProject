@@ -209,7 +209,7 @@ namespace BL
             Parcel parcel = new Parcel();
             if (!p.Scheduled.Equals(default(DO.Parcel).Scheduled)) //if the parcel is paired with a drone
             {
-                drone = createBLDroneInParcel(p, getDroneWithSpecificConditionFromDronesList(d => d.Id == (int)p.DroneId).First().Id);
+                drone = createDroneInParcel(p, getDroneWithSpecificConditionFromDronesList(d => d.Id == (int)p.DroneId).First().Id);
             }
             return new Parcel()
             {

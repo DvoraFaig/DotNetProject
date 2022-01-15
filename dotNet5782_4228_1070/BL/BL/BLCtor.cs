@@ -30,7 +30,7 @@ namespace BL
         /// </summary>
         private BL()
         {
-            droensList = new List<Drone>();
+            dronesList = new List<Drone>();
             dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
             double[] electricityUsageDrone = dal.electricityUseByDrone();
             electricityUsageWhenDroneIsEmpty = electricityUsageDrone[0];
@@ -149,7 +149,7 @@ namespace BL
                         #endregion
                     }
                 }
-                droensList.Add(CurrentDrone);
+                dronesList.Add(CurrentDrone);
             }
         }
 
@@ -224,6 +224,40 @@ namespace BL
                     {
                         minDis = dis;
                         availbleClosestStation = station;
+                    }
+                    if (minDis == 0)
+                        return availbleClosestStation;
+                }
+            }
+            return availbleClosestStation;
+        }
+        private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition , double droneBattery)
+        {
+            IEnumerable<DO.Station> stations = dal.GetStations();
+            DO.Station availbleClosestStation = new DO.Station();
+            double dis = -1;
+            double minDis = -1;
+            int fullChargingSlots;
+            foreach (DO.Station station in stations)
+            {
+                fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
+                if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
+                {
+                    dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
+                    if (droneBattery - dis * electricityUsageWhenDroneIsEmpty > 0)
+                    {
+                        if (minDis == -1)
+                        {
+                            minDis = dis;
+                            availbleClosestStation = station;
+                        }
+                        else if (minDis > dis)
+                        {
+                            minDis = dis;
+                            availbleClosestStation = station;
+                        }
+                        if (minDis == 0)
+                            return availbleClosestStation;
                     }
                 }
             }

@@ -31,7 +31,8 @@ namespace Dal
 
             Random r = new Random();
 
-            int amountStations = r.Next(2, 5);
+            //int amountStations = r.Next(2, 5);
+            int amountStations =2;
             for (int i = 1; i <= amountStations; i++)
             {
                 Station s = new Station()

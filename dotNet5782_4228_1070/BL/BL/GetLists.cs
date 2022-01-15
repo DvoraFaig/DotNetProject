@@ -81,7 +81,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Drone> DisplayDrones()
         {
-            return droensList;
+            return dronesList;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<DroneToList> DisplayDronesToList()
         {
-            return convertDronesToDronesToList(droensList);
+            return convertDronesToDronesToList(dronesList);
         }
 
         /// <summary>
