@@ -14,7 +14,7 @@ namespace Dal
     class DalXml : DalApi.Idal
     {
         //dir need to be up from bin
-        static string dir = @"..\..\..\..\DalXml\";
+        static string dir = @"DalXml\DataSource\";
 
         /// <summary>
         /// instance of DalXml and will be equal to DalApi
