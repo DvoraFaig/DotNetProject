@@ -189,7 +189,7 @@ namespace BL
         /// <param name="droneId"></param>
         /// <param name="timeCharging"></param>
         /// <returns></returns>
-        public Drone FreeDroneFromCharging(int droneId, double timeCharging)
+        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
         {
             try
             {

@@ -262,7 +262,7 @@ namespace PL
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
                     setChargeBtn();
-                    ChargeDroneTimeGrid.Visibility = Visibility.Visible;
+                    //ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
                 catch (BO.Exceptions.ObjNotAvailableException) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
@@ -270,31 +270,31 @@ namespace PL
             }
             else
             {
-                if (TimeTocharge.Text == "")
+                //if (TimeTocharge.Text == "")
+                //{
+                //    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nEnter time to charge");
+                //}
+                //else
+                //{
+                try
                 {
-                    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nEnter time to charge");
+                    currentDrone.Update(blObjectD.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    //AddDroneDisplay.DataContext = currentDrone;
+                    //currentDrone.Status = d.Status;
+                    //currentDrone.Battery = d.Battery;
+                    //StatusTextBox.Text = $"{dr.Status}";
+                    //BatteryTextBox.Text = $"{dr.Battery}";
+                    setChargeBtn();
+                    //ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
+                    //StatusTextBox.Text = $"{DroneStatus.Available}";
+                    DeliveryStatusButton.Visibility = Visibility.Visible;
+                    DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
                 }
-                else
+                catch (Exception)
                 {
-                    try
-                    {
-                        currentDrone.Update(blObjectD.FreeDroneFromCharging(currentDrone.Id, int.Parse(TimeTocharge.Text)));
-                        //AddDroneDisplay.DataContext = currentDrone;
-                        //currentDrone.Status = d.Status;
-                        //currentDrone.Battery = d.Battery;
-                        //StatusTextBox.Text = $"{dr.Status}";
-                        //BatteryTextBox.Text = $"{dr.Battery}";
-                        setChargeBtn();
-                        ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
-                        //StatusTextBox.Text = $"{DroneStatus.Available}";
-                        DeliveryStatusButton.Visibility = Visibility.Visible;
-                        DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
-                    }
-                    catch (Exception)
-                    {
-                        PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nCan't charge the drone\nPlease try later....");
-                    }
+                    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nCan't charge the drone\nPlease try later....");
                 }
+                //}
             }
         }
 
