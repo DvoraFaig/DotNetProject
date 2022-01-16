@@ -28,7 +28,7 @@
     <Id>5</Id>
     <Model>Drone5</Model>
     <MaxWeight>Medium</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>6</Id>
