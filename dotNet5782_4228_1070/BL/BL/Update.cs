@@ -110,7 +110,7 @@ namespace BL
                     if (dis != 0)
                     {// if the drone is supposed to fly to tha station to charge
                         double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
-                        batteryForDis = Math.Round(batteryForDis, 2);
+                        batteryForDis = Math.Round(batteryForDis, 1);
                         if (drone.Battery - batteryForDis < 0) //to erase
                             throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
                         drone.Battery =batteryForDis;

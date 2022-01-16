@@ -36,7 +36,7 @@ namespace DalApi
         IEnumerable<Station> GetStations();
         IEnumerable<Drone> GetDrones();
         IEnumerable<Parcel> GetParcels();
-        IEnumerable<DroneCharge> GetDroneCharge();
+        IEnumerable<DroneCharge> GetDroneCharges();
         IEnumerable<Customer> GetCustomers();
 
         //==================

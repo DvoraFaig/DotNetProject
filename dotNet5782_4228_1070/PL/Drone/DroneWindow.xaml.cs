@@ -131,7 +131,6 @@ namespace PL
 
         private void setDeliveryBtn()
         {
-
             int contentIndex = blObjectD.GetDroneStatusInDelivery(currentDrone.Id);
             DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
             DeliveryStatusButton.Visibility = Visibility.Visible;
