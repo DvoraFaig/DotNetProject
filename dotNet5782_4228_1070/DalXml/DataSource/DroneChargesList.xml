@@ -140,4 +140,24 @@
     <DroneId>5</DroneId>
     <StationId>3</StationId>
   </DroneCharge>
+  <DroneCharge>
+    <DroneId>4</DroneId>
+    <StationId>3</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5</DroneId>
+    <StationId>3</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5</DroneId>
+    <StationId>3</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5</DroneId>
+    <StationId>3</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5</DroneId>
+    <StationId>3</StationId>
+  </DroneCharge>
 </ArrayOfDroneCharge>
