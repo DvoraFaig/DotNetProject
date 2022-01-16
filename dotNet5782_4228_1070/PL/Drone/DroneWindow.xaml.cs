@@ -376,7 +376,7 @@ namespace PL
         {
             try
             {
-                blObjectD.RemoveDrone(currentDrone.Id);
+                blObjectD.RemoveDrone(currentDrone.BO());
                 new DroneListWindow(blObjectD).Show();
                 this.Close();
             }

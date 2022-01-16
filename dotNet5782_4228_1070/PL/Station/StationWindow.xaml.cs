@@ -201,7 +201,7 @@ namespace PL
         {
             try
             {
-                blObject.RemoveStation(currentStation.Id);
+                blObject.RemoveStation(currentStation.BO());
                 new StationListWindow(blObject).Show();
                 this.Close();
             }

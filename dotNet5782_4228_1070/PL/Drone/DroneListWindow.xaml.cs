@@ -40,7 +40,7 @@ namespace PL
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
             //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
-            IEnumerable<DroneToList> dronesToList = blObject.DisplayDronesToList();
+            IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
