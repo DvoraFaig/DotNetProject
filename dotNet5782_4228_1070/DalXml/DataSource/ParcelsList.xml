@@ -2,15 +2,28 @@
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
     <Id>1</Id>
-    <SenderId>2</SenderId>
+    <SenderId>4</SenderId>
     <TargetId>1</TargetId>
     <Weight>Medium</Weight>
-    <Priority>Regular</Priority>
+    <Priority>Emergency</Priority>
     <DroneId>1</DroneId>
-    <Requeasted>2022-01-16T01:44:47.7496802+02:00</Requeasted>
-    <Scheduled>2022-01-16T01:44:47.7583416+02:00</Scheduled>
-    <PickUp>2022-01-16T01:44:47.7584072+02:00</PickUp>
-    <Delivered>2022-01-16T01:44:47.7584615+02:00</Delivered>
+    <Requeasted>2022-01-16T21:50:54.8485547+02:00</Requeasted>
+    <Scheduled>2022-01-16T21:50:54.8614216+02:00</Scheduled>
+    <PickUp>2022-01-16T21:50:54.8619436+02:00</PickUp>
+    <Delivered xsi:nil="true" />
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Id>2</Id>
+    <SenderId>2</SenderId>
+    <TargetId>4</TargetId>
+    <Weight>Light</Weight>
+    <Priority>Emergency</Priority>
+    <DroneId xsi:nil="true" />
+    <Requeasted>2022-01-16T21:50:54.8646589+02:00</Requeasted>
+    <Scheduled xsi:nil="true" />
+    <PickUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
     <IsActive>true</IsActive>
   </Parcel>
 </ArrayOfParcel>

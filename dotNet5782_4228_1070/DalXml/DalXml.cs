@@ -31,7 +31,7 @@ namespace Dal
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            DataSource.Initialize(); ////
+            DataSource.Initialize(); //////////
         }
         /// <summary>
         /// return one and only one instance of DalXml 
@@ -442,7 +442,7 @@ namespace Dal
         /// Get all droneCharge.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<DroneCharge> GetDroneCharge()
+        public IEnumerable<DroneCharge> GetDroneCharges()
         {
             IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
             return from item in droneChargesList

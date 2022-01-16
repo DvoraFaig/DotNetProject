@@ -19,24 +19,26 @@ namespace BlApi
         //  Remove
         //================
         //public void RemoveStation(Station station);
-        public void RemoveStation(int stationId);
+        public void RemoveStation(Station station);
         public void RemoveCustomer(Customer customer);
-        public void RemoveDrone(int droneId);
+        public void RemoveDrone(Drone drone);
 
         //================
         //  Display
         //================
         public List<StationToList> GetStationsToList();
-        //public IEnumerable<Station> GetStation();
         public IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0);
-        public IEnumerable<Drone> DisplayDrones();/// change from List - chrck
-        public IEnumerable<DroneToList> DisplayDronesToList();
+
+        public IEnumerable<Drone> getDrones();/// change from List - chrck
+        public IEnumerable<DroneToList> returnDronesToList();
+        public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
+
         public IEnumerable<ParcelToList> GetParcelToList();
         public IEnumerable<Parcel> getParcels();
         public Parcel getParcelByDrone(int droneId);
         public bool checkIfExistParcelByDrone(int droneId);
-        public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
         public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
+
         public IEnumerable<CustomerToList> GetCustomersToList();
         public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
 
