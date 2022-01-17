@@ -278,7 +278,7 @@ namespace PL
                 //{
                 try
                 {
-                    currentDrone.Update(blObjectD.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
                     //AddDroneDisplay.DataContext = currentDrone;
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
