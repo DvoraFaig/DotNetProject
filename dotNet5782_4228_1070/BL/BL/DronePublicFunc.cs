@@ -189,11 +189,11 @@ namespace BL
         /// <param name="droneId"></param>
         /// <param name="timeCharging"></param>
         /// <returns></returns>
-        public Drone FreeDroneFromCharging(int droneId, double timeCharging)
+        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
         {
             try
             {
-                Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
+                Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                 changeInfoOfStation(s.Id, null, s.ChargeSlots);

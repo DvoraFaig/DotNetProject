@@ -10,7 +10,7 @@
     <Id>2</Id>
     <Model>Drone2</Model>
     <MaxWeight>Medium</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>3</Id>
@@ -22,13 +22,13 @@
     <Id>4</Id>
     <Model>Drone4</Model>
     <MaxWeight>Medium</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>5</Id>
     <Model>Drone5</Model>
     <MaxWeight>Medium</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>6</Id>

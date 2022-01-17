@@ -19,7 +19,7 @@
   <Station>
     <Id>3</Id>
     <Name>station3</Name>
-    <ChargeSlots>9</ChargeSlots>
+    <ChargeSlots>20</ChargeSlots>
     <Longitude>22</Longitude>
     <Latitude>4</Latitude>
     <IsActive>true</IsActive>

@@ -46,21 +46,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="TimeTochargeText" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" Text="Time to charge:" TextWrapping="Wrap" Height="20" />
-            <TextBox 
-            x:Name="TimeTocharge" 
-            Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"
-            FontFamily="Tahoma" 
-            FontSize="10" 
-            FontWeight="Bold" 
-            VerticalAlignment="Top" 
-            Grid.Column="1" 
-            Grid.Row="0" 
-            TextWrapping="Wrap" 
-            Height="20" 
-            Width="50"
-            PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"
-            />
         </Grid>
         <Button x:Name="DeliveryStatusButton" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  FontFamily="Tahoma" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="5" Height="30" Width="111"  Click="SendDroneOccurdingToStatusBtnClick"/>
 
