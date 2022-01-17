@@ -32,24 +32,17 @@ namespace BL
         {
             dronesList = new List<Drone>();
             dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
+
+            #region props implemntation
             double[] electricityUsageDrone = dal.electricityUseByDrone();
             electricityUsageWhenDroneIsEmpty = electricityUsageDrone[0];
             electricityUsageWhenDroneILightWeight = electricityUsageDrone[1];
             electricityUsageWhenDroneIsMediumWeight = electricityUsageDrone[2];
             electricityUsageWhenDroneIsHeavyWeight = electricityUsageDrone[3];
             chargingRateOfDrone = electricityUsageDrone[4];
+            #endregion
 
-            List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
-            try
-            {
-                cWithDeliveredP = findCustomersWithDeliveredParcel();
-            }
-            catch (Exception)
-            {
-                //bool CustomersWithDeliveredParcel = false;
-            }
-
-
+            #region Objects and variables declaration
             IEnumerable<DO.Drone> drones = dal.GetDrones();
             DO.Parcel parcel;
             DO.Station station;
@@ -57,16 +50,32 @@ namespace BL
             Position senderPosition, targetPosition;
             Drone CurrentDrone = new Drone();
             int amountStations = dal.amountStations();
-            foreach(DO.Drone drone in drones )
+            List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
+            try
             {
+                cWithDeliveredP = findCustomersWithDeliveredParcel();
+            }
+            #region Exceptions
+            catch (Exception)
+            {
+            }
+            #endregion
+            #endregion
+
+            #region implement Drone.DroneStatus: Available, Maintenance, Delivery.
+            foreach (DO.Drone drone in drones )
+            {
+                #region Objects and variables implemntation
                 parcel = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == drone.Id).FirstOrDefault();
                 station = new DO.Station();
                 CurrentDrone = new Drone();
                 CurrentDrone.Id = drone.Id; /*copyDalToBLDroneInfo(d);*/
                 CurrentDrone.Model = drone.Model;
                 CurrentDrone.MaxWeight =  drone.MaxWeight;
+                #endregion
 
-                if (!(parcel.Scheduled == (null)) && parcel.Delivered == (null) && !parcel.Equals(default(DO.Parcel)) )// pair a parcel to drone but not yed delivered.
+                #region A parcel was paired with Drone but not yet delivered. => parcel.status = to PickUp parcel / to Delivered parcel.
+                if (!(parcel.Scheduled == (null)) && parcel.Delivered == (null) && !parcel.Equals(default(DO.Parcel)) )
                 {
                     CurrentDrone.Status = DroneStatus.Delivery;
                     DO.Station closestStationToSender = new DO.Station();
@@ -86,16 +95,18 @@ namespace BL
                     }
                     CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
                 }
+                #endregion 
 
-                else // if drone is not delivery status
+                #region Drone is not with a delivery status
+                else
                 {
                     CurrentDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
-                    //bool AvailbeDroneWithPosition = false;
+
+                    #region Drone is with available status.
                     if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
                         if (cWithDeliveredP.Count > 0)
                         {
-                            //AvailbeDroneWithPosition = true;
                             int index = r.Next(0, cWithDeliveredP.Count);
                             target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[index].Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
@@ -106,20 +117,24 @@ namespace BL
                         else //couldn't find a delivered parcel.
                         {
                             List<DO.Station> stationsToFindPlaceToCharge = dal.GetStations().Cast<DO.Station>().ToList();
-                            ////int amountStation = dal.amountStations();
                             int randomStation = r.Next(0, amountStations);
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
                             CurrentDrone.Battery = r.Next(20, 100);
                         }
 
                     }
-                    if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance or if couldn't find a position for an availble drone
+                    #endregion
+
+                    #region Drone is with maintenance status.
+                    if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance ////or if couldn't find a position for an availble drone
                     {
                         List<DO.Station> stationsToFindPlaceToCharge  = dal.GetStations().Cast< DO.Station>().ToList();
+                        #region instructions
                         //If drone is supposed to be in charging find an avilable station with empty charging slots.
                         //for not having all the drones in the same place:
                         //Try random station if station didn't have an empty place go threw all the stations
                         ////int amountStation = dal.amountStations();
+                        #endregion
                         #region Find random station
                         int randomStation = r.Next(0, amountStations);
                         Drone updatedDroneWithStationInfoAndBattery = new Drone();
@@ -148,9 +163,13 @@ namespace BL
                         }
                         #endregion
                     }
+                    #endregion
                 }
+                #endregion
+
                 dronesList.Add(CurrentDrone);
             }
+            #endregion
         }
 
         /// <summary>
@@ -231,6 +250,13 @@ namespace BL
             }
             return availbleClosestStation;
         }
+
+        /// <summary>
+        /// find availble & closest station for drone. (occurding to distance* weight < Drone.Battery
+        /// </summary>
+        /// <param name="dronePosition">To find the distance to a station </param>
+        /// <param name="droneBattery">Drone.Batter: To check if could hover to station</param>
+        /// <returns></returns>
         private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition , double droneBattery)
         {
             IEnumerable<DO.Station> stations = dal.GetStations();

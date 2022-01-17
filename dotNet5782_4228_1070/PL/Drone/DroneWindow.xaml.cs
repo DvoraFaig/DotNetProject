@@ -278,7 +278,7 @@ namespace PL
                 //{
                 try
                 {
-                    currentDrone.Update(blObjectD.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
                     //AddDroneDisplay.DataContext = currentDrone;
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
@@ -355,10 +355,12 @@ namespace PL
                     currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
 
                 }
+                #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (BO.Exceptions.ObjNotAvailableException e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
                 //catch (BO.Exceptions.ObjNotAvailableException e3) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e3.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                #endregion
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel
             {
@@ -373,8 +375,10 @@ namespace PL
                     findDroneStatusContentBtn();
 
                 }
+                #region Exceptions 
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                #endregion
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[2]) // Which Package Delivery - to delivere the package
             {
@@ -384,8 +388,10 @@ namespace PL
                     //AddDroneDisplay.DataContext = currentDrone;
                     currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
                 }
+                #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
                 catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                #endregion
             }
             //setDeliveryBtn
         }

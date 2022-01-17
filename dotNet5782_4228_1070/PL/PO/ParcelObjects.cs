@@ -87,16 +87,16 @@ namespace PO
                 $"\n\tparcel Requeasted: {(Requeasted != null ? Requeasted : (char)'-')}, parcel scheduled: {(Scheduled != null ? Scheduled : (char)'-')}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
         }
 
-        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty SenderProperty = DependencyProperty.Register("Sender", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty DroneProperty = DependencyProperty.Register("Drone", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty RequeastedProperty = DependencyProperty.Register("Requeasted", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty ScheduledProperty = DependencyProperty.Register("Scheduled", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty PickUpProperty = DependencyProperty.Register("PickUp", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty DeliveredProperty = DependencyProperty.Register("Delivered", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty WeightProperty = DependencyProperty.Register("Weight", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty PriorityProperty = DependencyProperty.Register("Priority", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty SenderProperty = DependencyProperty.Register("Sender", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DroneProperty = DependencyProperty.Register("Drone", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty RequeastedProperty = DependencyProperty.Register("Requeasted", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty ScheduledProperty = DependencyProperty.Register("Scheduled", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty PickUpProperty = DependencyProperty.Register("PickUp", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DeliveredProperty = DependencyProperty.Register("Delivered", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty WeightProperty = DependencyProperty.Register("Weight", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty PriorityProperty = DependencyProperty.Register("Priority", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
     }
 
     public class ParcelToList : DependencyObject

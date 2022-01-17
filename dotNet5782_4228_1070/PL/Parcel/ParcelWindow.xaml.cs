@@ -77,8 +77,7 @@ namespace PL
             clientIsSender = true;
             returnToParcelListWindow = false;
             clientCustomer = senderCustomer;
-
-
+            initializeObjAndSetConfirm();
         }
 
         /// <summary>
@@ -99,6 +98,7 @@ namespace PL
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             initializeDetailsUpdateForm();
+            initializeObjAndSetConfirm();
         }
 
         /// <summary>
@@ -133,293 +133,316 @@ namespace PL
                 if (!isSender)
                     RemoveBtn.Visibility = Visibility.Hidden;
             }
+            initializeObjAndSetConfirm();
+        }
 
+
+
+        private void initializeObjAndSetConfirm()
+        {
             sender = blObject.GetCustomerById(currentParcel.Sender.Id);
             target = blObject.GetCustomerById(currentParcel.Target.Id);
-            drone = blObject.GetDroneById(currentParcel.Drone.Id);
+            if(currentParcel.Drone != null)
+                drone = blObject.GetDroneById(currentParcel.Drone.Id);
             setConfirmBtn();
+
         }
 
         private void setConfirmBtn()
         {
             if (currentParcel.Requeasted != null)
             {
-                if (currentParcel.PickUp == null)
+                ConfirmButton.Visibility = Visibility.Hidden;
+                if (currentParcel.PickUp == null && currentParcel.Scheduled != null)
                 {
-                    if (drone.DronePosition.Latitude == sender.CustomerPosition.Latitude
+                    if ((drone.DronePosition.Latitude == sender.CustomerPosition.Latitude //parcel was pick up now.
                         && drone.DronePosition.Longitude == sender.CustomerPosition.Longitude)
+                        &&((!isClientAndNotAdmin) //Admin
+                        || (isClientAndNotAdmin && clientIsSender))) //customer is sender 
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm pickUp";
                     }
-                    if(!clientIsSender)
-                        ConfirmButton.Visibility = Visibility.Hidden;
-                    else
-                        ConfirmButton.Visibility = Visibility.Hidden;
                 }
                 if (currentParcel.PickUp != null && currentParcel.Delivered == null)
                 {
-                    if (drone.DronePosition.Latitude == target.CustomerPosition.Latitude
+                    bool a = ((!isClientAndNotAdmin) //Admin
+                        || (isClientAndNotAdmin && !clientIsSender));
+                    bool b = (isClientAndNotAdmin && !clientIsSender);
+                    bool c = (drone.DronePosition.Latitude == target.CustomerPosition.Latitude //parcel was delivered now.
+                        && drone.DronePosition.Longitude == target.CustomerPosition.Longitude);
+                    if ((drone.DronePosition.Latitude == target.CustomerPosition.Latitude //parcel was delivered now.
                         && drone.DronePosition.Longitude == target.CustomerPosition.Longitude)
+                        && ((!isClientAndNotAdmin) //Admin
+                        || (isClientAndNotAdmin && !clientIsSender))) //customer is target 
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm delivery";
                     }
-                    if(clientIsSender)
-                        ConfirmButton.Visibility = Visibility.Hidden;
-                    else
-                        ConfirmButton.Visibility = Visibility.Hidden;
                 }
             }
         }
-    }
 
-    /// <summary>
-    /// initialize update form details of parcels' textBoxes.
-    /// </summary>
-    private void initializeDetailsUpdateForm()
-    {
-        /*IdText.Text = $"{parcel.Id}";
-        SenderText.Content = parcel.Sender;
-        TargetText.Content = parcel.Target;
-        WeightText.Text = $"{parcel.Weight}";
-        PriorityText.Text = $"{parcel.Priority}";*/
-        if (currentParcel.Drone == null) //DroneText.Content = $"{parcel.Drone.Id}";
+
+        /// <summary>
+        /// initialize update form details of parcels' textBoxes.
+        /// </summary>
+        private void initializeDetailsUpdateForm()
         {
-            //DroneText.Content = "No Drone";
-            DroneText.IsEnabled = false;
+            /*IdText.Text = $"{parcel.Id}";
+            SenderText.Content = parcel.Sender;
+            TargetText.Content = parcel.Target;
+            WeightText.Text = $"{parcel.Weight}";
+            PriorityText.Text = $"{parcel.Priority}";*/
+            if (currentParcel.Drone == null) //DroneText.Content = $"{parcel.Drone.Id}";
+            {
+                //DroneText.Content = "No Drone";
+                DroneText.IsEnabled = false;
+            }
+            /*if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
+            else
+            {
+                DroneText.Content = "No Drone";
+                DroneText.IsEnabled = false;
+            }*/
         }
-        /*if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
-        else
-        {
-            DroneText.Content = "No Drone";
-            DroneText.IsEnabled = false;
-        }*/
-    }
 
-    /// <summary>
-    /// initialize add form details of parcels' textBoxes.
-    /// </summary>
-    private void initializeDetailsAddForm()
-    {
-        ParcelTitle.Content = "Add a Parcel";
-        ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-        ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
-        ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList();
-        ParcelSenderSelector.ItemsSource = blObject.GetLimitedCustomersList();
-    }
-
-    /// <summary>
-    /// Try sending the parcel to remove.
-    /// if isClientAndNotAdmin = true go to CustomerWindow
-    /// If Admin go back to parcelListWIndow
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void removeParcelBtnClick(object sender, RoutedEventArgs e)
-    {
-        try
+        /// <summary>
+        /// initialize add form details of parcels' textBoxes.
+        /// </summary>
+        private void initializeDetailsAddForm()
         {
-            if (!clientIsSender)//////
-                return;
+            ParcelTitle.Content = "Add a Parcel";
+            ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
+            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList();
+            ParcelSenderSelector.ItemsSource = blObject.GetLimitedCustomersList();
+        }
+
+        /// <summary>
+        /// Try sending the parcel to remove.
+        /// if isClientAndNotAdmin = true go to CustomerWindow
+        /// If Admin go back to parcelListWIndow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void removeParcelBtnClick(object sender, RoutedEventArgs e)
+        {
             try
             {
-                blObject.RemoveParcel(currentParcel.Id);
-                customerUpdateHisParcel = true;
-            }
-            catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
-            catch (InvalidOperationException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
-            catch (Exceptions.ObjNotExistException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+                if (!clientIsSender)//////
+                    return;
+                try
+                {
+                    blObject.RemoveParcel(currentParcel.Id);
+                    customerUpdateHisParcel = true;
+                }
+                catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+                catch (InvalidOperationException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+                catch (Exceptions.ObjNotExistException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
 
-            if (isClientAndNotAdmin && !customerUpdateHisParcel)//if customer der=tailes are not updated. return to the window(without creating a new window).
-                returnBackToUnupdateWindow.Show();
-            else if (isClientAndNotAdmin)
-                new CustomerWindow(blObject, clientCustomer, true).Show();
-            else
-                new ParcelListWindow_(blObject).Show();
-            this.Close();
-            PLFuncions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
-        }
-        catch (Exceptions.ObjNotAvailableException ex)
-        {
-            PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
-        }
-    }
-
-    ///// <summary>
-    ///// Message from the server. like errors
-    ///// </summary>
-    ///// <param name="header">the name of the header of the messageBox</param>
-    ///// <param name="message">The message</param>
-    //private void messageBoxResponseFromServer(String header,String message)
-    //{
-    //    MessageBox.Show(header , message);
-    //}
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// addParcelBtnClick
-    private void addParcelBtnClick(object sender, RoutedEventArgs e)
-    {
-
-        if ((isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector) && !isClientAndNotAdmin)
-            || (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelTargetSelector) && isClientAndNotAdmin))
-        {
-            CustomerInParcel senderCustomer;
-            if (isClientAndNotAdmin)
-                senderCustomer = new CustomerInParcel() { Id = clientCustomer.Id, Name = clientCustomer.Name };
-            else
-                senderCustomer = ((CustomerInParcel)ParcelSenderSelector.SelectedItem);
-            CustomerInParcel targetCustomer = ((CustomerInParcel)ParcelTargetSelector.SelectedItem);
-            DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
-            DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
-            try
-            {
-                blObject.AddParcel(new Parcel() { Sender = senderCustomer, Target = targetCustomer, Weight = weight, Priority = priority });
-            }
-            catch (BO.Exceptions.ObjNotExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (BO.Exceptions.ObjExistException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data or enter a different Id ==\nPlease try again");
-            }
-            catch (ArgumentNullException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (FormatException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (OverflowException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (NullReferenceException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (Exception)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-            }
-            if (isClientAndNotAdmin)
-                new CustomerWindow(blObject, clientCustomer, true).Show();
-            else
-                new ParcelListWindow_(blObject).Show();
-            this.Close();
-        }
-        else PLFuncions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
-    }
-
-    /// <summary>
-    /// Return true if the comboBoxes' fields are full
-    /// </summary>
-    /// <param name="comboBoxes">The comboBoxes to check their fields.</param>
-    /// <returns></returns>
-    private bool isComboBoxesFieldsFull(params ComboBox[] comboBoxes)
-    {
-        foreach (ComboBox item in comboBoxes)
-        {
-            if (item.SelectedItem == null) return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// return back:
-    /// if as a client = CustomerWindow with client privilages
-    /// else: parcelListWindow
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void CancelButtonClick(object sender, RoutedEventArgs e)
-    {
-        //returnBackTo.Show();
-        if (isClientAndNotAdmin)
-        {
-            BO.Customer customer;
-
-            if (clientIsSender)
-            {
-                customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
-            }
-            else
-            {
-                customer = blObject.GetCustomerById(currentParcel.Target.Id);
-            }
-            new CustomerWindow(blObject, customer, true).Show();
-            this.Close();
-        }
-        else
-        {
-            if (returnToParcelListWindow)
-                new ParcelListWindow_(blObject).Show();
-            else
-            {
-                if (clientIsSender)
-                    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
+                if (isClientAndNotAdmin && !customerUpdateHisParcel)//if customer der=tailes are not updated. return to the window(without creating a new window).
+                    returnBackToUnupdateWindow.Show();
+                else if (isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer, true).Show();
                 else
-                    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
+                    new ParcelListWindow_(blObject).Show();
+                this.Close();
+                PLFuncions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
             }
+            catch (Exceptions.ObjNotAvailableException ex)
+            {
+                PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
+            }
+        }
+
+        ///// <summary>
+        ///// Message from the server. like errors
+        ///// </summary>
+        ///// <param name="header">the name of the header of the messageBox</param>
+        ///// <param name="message">The message</param>
+        //private void messageBoxResponseFromServer(String header,String message)
+        //{
+        //    MessageBox.Show(header , message);
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// addParcelBtnClick
+        private void addParcelBtnClick(object sender, RoutedEventArgs e)
+        {
+
+            if ((isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelSenderSelector, ParcelTargetSelector) && !isClientAndNotAdmin)
+                || (isComboBoxesFieldsFull(ParcelWeightSelector, ParcelPrioritySelector, ParcelTargetSelector) && isClientAndNotAdmin))
+            {
+                CustomerInParcel senderCustomer;
+                if (isClientAndNotAdmin)
+                    senderCustomer = new CustomerInParcel() { Id = clientCustomer.Id, Name = clientCustomer.Name };
+                else
+                    senderCustomer = ((CustomerInParcel)ParcelSenderSelector.SelectedItem);
+                CustomerInParcel targetCustomer = ((CustomerInParcel)ParcelTargetSelector.SelectedItem);
+                DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
+                DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
+                try
+                {
+                    blObject.AddParcel(new Parcel() { Sender = senderCustomer, Target = targetCustomer, Weight = weight, Priority = priority });
+                }
+                #region Exceptions
+                catch (BO.Exceptions.ObjNotExistException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (BO.Exceptions.ObjExistException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data or enter a different Id ==\nPlease try again");
+                }
+                catch (ArgumentNullException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (FormatException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (OverflowException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (NullReferenceException)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                catch (Exception)
+                {
+                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                }
+                #endregion
+                if (isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer, true).Show();
+                else
+                    new ParcelListWindow_(blObject).Show();
+                this.Close();
+            }
+            else PLFuncions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
+        }
+
+        /// <summary>
+        /// Return true if the comboBoxes' fields are full
+        /// </summary>
+        /// <param name="comboBoxes">The comboBoxes to check their fields.</param>
+        /// <returns></returns>
+        private bool isComboBoxesFieldsFull(params ComboBox[] comboBoxes)
+        {
+            foreach (ComboBox item in comboBoxes)
+            {
+                if (item.SelectedItem == null) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// return back:
+        /// if as a client = CustomerWindow with client privilages
+        /// else: parcelListWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            //returnBackTo.Show();
+            if (isClientAndNotAdmin)
+            {
+                BO.Customer customer;
+
+                if (clientIsSender)
+                {
+                    customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
+                }
+                else
+                {
+                    customer = blObject.GetCustomerById(currentParcel.Target.Id);
+                }
+                new CustomerWindow(blObject, customer, true).Show();
+                this.Close();
+            }
+            else
+            {
+                if (returnToParcelListWindow)
+                    new ParcelListWindow_(blObject).Show();
+                else
+                {
+                    if (clientIsSender)
+                        new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
+                    else
+                        new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
+                }
+                this.Close();
+            }
+        }
+
+        /// <summary>
+        /// If Admin/worker go to the droneWindow and dispaly the parcels' drone.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DroneClick(object sender, RoutedEventArgs e)
+        {
+            if (isClientAndNotAdmin)
+                return;
+            Drone d = blObject.GetDroneById(currentParcel.Drone.Id);
+            new DroneWindow(blObject, d).Show();
             this.Close();
         }
+
+        /// <summary>
+        /// If Admin/worker go to the CustomerWindow and dispaly the parcels' customer (sender / target).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CustomerButton(object sender, RoutedEventArgs e)
+        {
+            if (isClientAndNotAdmin)
+                return;
+            CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? currentParcel.Target : currentParcel.Sender;
+            Customer customer = blObject.GetCustomerById(customerClicked.Id);
+            new CustomerWindow(blObject, customer, false).Show();
+            this.Close();
+        }
+
+        private void ParcelCustomerSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //CustomerInParcel customerSelected = (sender as ComboBox).SelectedItem;
+            //var customerSelected = (sender as ComboBox).SelectedIndex;
+            // ParcelTargetSelector.SelectedIndex = -1;
+            //ParcelTargetSelector.Items.Remove(ParcelTargetSelector.SelectedItem);
+            //ParcelSenderSelector.Items.RemoveAt(customerSelected);
+            //ParcelTargetSelector.SelectedItem = customerSelected;
+            //ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+            //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+        }
+
+        private void updateParcelInfoBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void confirmParcelBtn(object sender, RoutedEventArgs e)
+        {
+            ///////////////////
+            ///setConfirmBtn
+            if (ConfirmButton.Content == "Confirm pickUp")
+            {
+                blObject.DronePicksUpParcel(drone.Id); //currentParcel.Drone.Id;
+            }
+            //takes time from pick up to delivery.
+            else if (ConfirmButton.Content == "Confirm delivery")
+            {
+                blObject.DeliveryParcelByDrone(drone.Id);
+            }
+            setConfirmBtn();
+        }
     }
-
-    /// <summary>
-    /// If Admin/worker go to the droneWindow and dispaly the parcels' drone.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void DroneClick(object sender, RoutedEventArgs e)
-    {
-        if (isClientAndNotAdmin)
-            return;
-        Drone d = blObject.GetDroneById(currentParcel.Drone.Id);
-        new DroneWindow(blObject, d).Show();
-        this.Close();
-    }
-
-    /// <summary>
-    /// If Admin/worker go to the CustomerWindow and dispaly the parcels' customer (sender / target).
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void CustomerButton(object sender, RoutedEventArgs e)
-    {
-        if (isClientAndNotAdmin)
-            return;
-        CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? currentParcel.Target : currentParcel.Sender;
-        Customer customer = blObject.GetCustomerById(customerClicked.Id);
-        new CustomerWindow(blObject, customer, false).Show();
-        this.Close();
-    }
-
-    private void ParcelCustomerSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        //CustomerInParcel customerSelected = (sender as ComboBox).SelectedItem;
-        //var customerSelected = (sender as ComboBox).SelectedIndex;
-        // ParcelTargetSelector.SelectedIndex = -1;
-        //ParcelTargetSelector.Items.Remove(ParcelTargetSelector.SelectedItem);
-        //ParcelSenderSelector.Items.RemoveAt(customerSelected);
-        //ParcelTargetSelector.SelectedItem = customerSelected;
-        //ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
-        //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
-    }
-
-    private void updateParcelInfoBtnClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void confirmParcelBtn(object sender, RoutedEventArgs e)
-    {
-
-    }
-}
 }
