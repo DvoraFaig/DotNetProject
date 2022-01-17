@@ -196,14 +196,13 @@ namespace BL
                 Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Maintenance).First();
                 DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
-                //s.ChargeSlots++;
                 changeInfoOfStation(s.Id, null, s.ChargeSlots);
                 blDrone.Status = DroneStatus.Available;
                 TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;///
                 double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                 baterryToAdd = Math.Round(baterryToAdd, 1);
                 blDrone.Battery += baterryToAdd;
-                blDrone.Battery = Math.Min(100, blDrone.Battery);
+                blDrone.Battery = Math.Min(blDrone.Battery , 100);
                 return blDrone;
             }
             #region Exceptions
