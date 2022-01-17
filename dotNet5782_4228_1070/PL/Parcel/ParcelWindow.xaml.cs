@@ -78,6 +78,8 @@ namespace PL
             returnToParcelListWindow = false;
             clientCustomer = senderCustomer;
             initializeObjAndSetConfirm();
+            initializeDrone();
+
         }
 
         /// <summary>
@@ -99,6 +101,7 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Visible;
             initializeDetailsUpdateForm();
             initializeObjAndSetConfirm();
+            initializeDrone();
         }
 
         /// <summary>
@@ -128,12 +131,14 @@ namespace PL
             initializeDetailsUpdateForm();
             if (isClientAndNotAdmin)
             {
+
                 if (currentParcel.Drone != null) // parcel was schedualed
                     RemoveBtn.Visibility = Visibility.Hidden;
                 if (!isSender)
                     RemoveBtn.Visibility = Visibility.Hidden;
             }
             initializeObjAndSetConfirm();
+            initializeDrone();
         }
 
 
@@ -142,12 +147,29 @@ namespace PL
         {
             sender = blObject.GetCustomerById(currentParcel.Sender.Id);
             target = blObject.GetCustomerById(currentParcel.Target.Id);
-            if(currentParcel.Drone != null)
+            if (currentParcel.Drone != null)
                 drone = blObject.GetDroneById(currentParcel.Drone.Id);
             setConfirmBtn();
-
         }
 
+        private void initializeDrone()
+        {
+            if (isClientAndNotAdmin)
+            {
+                if (currentParcel.PickUp != null && currentParcel.Delivered == null)
+                {
+                    List<BO.Drone> d = new List<BO.Drone>();
+                    d.Add(blObject.GetDroneById(currentParcel.Drone.Id));
+                    DroneListView.ItemsSource = new List<BO.Drone>();
+                    DroneText.Visibility = Visibility.Hidden;
+                    return;
+                }
+            }
+            ExpenderTarget.Visibility = Visibility.Hidden;
+            DroneText.Visibility = Visibility.Visible;
+            DroneText.Content = $"{currentParcel.Drone.ToString()}";
+
+        }
         private void setConfirmBtn()
         {
             if (currentParcel.Requeasted != null)
@@ -157,7 +179,7 @@ namespace PL
                 {
                     if ((drone.DronePosition.Latitude == sender.CustomerPosition.Latitude //parcel was pick up now.
                         && drone.DronePosition.Longitude == sender.CustomerPosition.Longitude)
-                        &&((!isClientAndNotAdmin) //Admin
+                        && ((!isClientAndNotAdmin) //Admin
                         || (isClientAndNotAdmin && clientIsSender))) //customer is sender 
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
@@ -181,6 +203,7 @@ namespace PL
                     }
                 }
             }
+            initializeDrone();
         }
 
 
@@ -394,7 +417,7 @@ namespace PL
                 return;
             Drone d = blObject.GetDroneById(currentParcel.Drone.Id);
             new DroneWindow(blObject, d).Show();
-            this.Close();
+            //this.Close();
         }
 
         /// <summary>
@@ -443,6 +466,27 @@ namespace PL
                 blObject.DeliveryParcelByDrone(drone.Id);
             }
             setConfirmBtn();
+        }
+
+
+        /// <summary>
+        /// Change background of drone info when there is a click on colla[s to close the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeBackGroundExpenderCollapsedDroneExpender(object sender, RoutedEventArgs e)
+        {
+            DroneListView.Background = null;
+        }
+
+        /// <summary>
+        /// Change background of drone info when there is a click on expender to close the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeBackGroundExpenderExpandedDroneExpender(object sender, RoutedEventArgs e)
+        {
+            DroneListView.Background = Brushes.White;
         }
     }
 }

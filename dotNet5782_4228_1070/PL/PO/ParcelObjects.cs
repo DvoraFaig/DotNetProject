@@ -29,8 +29,8 @@ namespace PO
         }
         public int Id
         {
-            get { return (int)GetValue(IdProperty); }
-            set { SetValue(IdProperty, value); }
+            get { return (int)GetValue(IdParcelProperty); }
+            set { SetValue(IdParcelProperty, value); }
         }
         public BO.CustomerInParcel Sender
         {
@@ -87,7 +87,7 @@ namespace PO
                 $"\n\tparcel Requeasted: {(Requeasted != null ? Requeasted : (char)'-')}, parcel scheduled: {(Scheduled != null ? Scheduled : (char)'-')}, parcel pickUp: {(PickUp != null ? PickUp : (char)'-')}, parcel delivered: {(Delivered != null ? Delivered : (char)'-')}\n");
         }
 
-        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty IdParcelProperty = DependencyProperty.Register("Id", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
         public static readonly DependencyProperty SenderProperty = DependencyProperty.Register("Sender", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));
         public static readonly DependencyProperty DroneProperty = DependencyProperty.Register("Drone", typeof(object), typeof(Parcel), new UIPropertyMetadata(0));

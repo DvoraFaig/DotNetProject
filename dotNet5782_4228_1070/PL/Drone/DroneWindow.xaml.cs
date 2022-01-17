@@ -97,6 +97,7 @@ namespace PL
             {
                 ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
             }
+            removeDroneBtn();
         }
 
         private void findDroneStatusContentBtn()
@@ -129,6 +130,13 @@ namespace PL
             }
         }
 
+        private void removeDroneBtn()
+        {
+            if (currentDrone.Status == DroneStatus.Available )
+                RemoveDrone.Visibility = Visibility.Visible;
+            else
+                RemoveDrone.Visibility = Visibility.Hidden;
+        }
         private void setDeliveryBtn()
         {
             int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.Id);
@@ -262,6 +270,7 @@ namespace PL
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
                     setChargeBtn();
+                    removeDroneBtn();
                     //ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
@@ -284,11 +293,13 @@ namespace PL
                     //currentDrone.Battery = d.Battery;
                     //StatusTextBox.Text = $"{dr.Status}";
                     //BatteryTextBox.Text = $"{dr.Battery}";
-                    setChargeBtn();
                     //ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
                     //StatusTextBox.Text = $"{DroneStatus.Available}";
+                    blObject.RemoveDroneCharge(currentDrone.Id);
+                    setChargeBtn();
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
+                    removeDroneBtn();
                 }
                 catch (Exception)
                 {
@@ -353,7 +364,6 @@ namespace PL
                     //currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
                     currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
-
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
@@ -394,6 +404,7 @@ namespace PL
                 #endregion
             }
             //setDeliveryBtn
+            removeDroneBtn();
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function

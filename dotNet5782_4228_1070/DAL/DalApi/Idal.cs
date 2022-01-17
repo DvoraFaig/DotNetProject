@@ -24,8 +24,8 @@ namespace DalApi
         public void removeStation(Station stationToRemove);
         public void removeCustomer(Customer customerToRemove);
         public void removeDrone(Drone droneToRemove);
-        void removeParcel(Parcel parcel);
-
+        public void removeParcel(Parcel parcel);
+        public void removeDroneChargeByDroneId(int droneId);
 
         int amountParcels();
         int amountStations();    
@@ -54,6 +54,10 @@ namespace DalApi
         public Boolean IsParcelById(int id); 
         public Boolean IsDroneById(int id);
         public Boolean IsStationById(int id);
+        public Boolean IsDroneChargeById(int id);
+
+
+
 
         //================================
         //check if object exsist & active

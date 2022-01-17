@@ -202,6 +202,7 @@ namespace BL
                 double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                 baterryToAdd = Math.Round(baterryToAdd, 1);
                 blDrone.Battery += baterryToAdd;
+                blDrone.Battery = Math.Round(blDrone.Battery, 1);
                 blDrone.Battery = Math.Min(blDrone.Battery , 100);
                 // Do later: remove drone charge;
                 return blDrone;

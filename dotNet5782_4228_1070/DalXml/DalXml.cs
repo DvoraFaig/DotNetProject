@@ -403,6 +403,29 @@ namespace Dal
         }
 
         /// <summary>
+        /// Remove charging drone by drone id.
+        /// <param name="droneId">The charging drone with droneId - to remove</param>
+        public void removeDroneChargeByDroneId(int droneId)
+        {
+            try
+            {
+                List<DO.DroneCharge> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath).ToList();
+                int index = dronesList.FindIndex(d => d.DroneId == droneId);
+                DataSource.DroneCharges.RemoveAt(index);
+                //DroneCharge droneCharge = getDroneChargeWithSpecificCondition(d => d.DroneId == droneId).First();
+                //dronesList.Remove(droneCharge);
+                DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(dronesList, dir + droneChargeFilePath);
+
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.NoMatchingData(typeof(Drone), droneId, e1);
+            }
+
+
+        }
+
+        /// <summary>
         /// Get all stations.
         /// </summary>
         /// <returns></returns>
@@ -559,6 +582,20 @@ namespace Dal
         {
             IEnumerable<DO.Drone> dronesLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
             if (dronesLits.Any(d => d.Id == requestedId))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// If droneCharge with the DroneId exist
+        /// </summary>
+        /// <param name="requestedId">Looking for droneCharge with this DroneId</param>
+        /// <returns></returns>
+        public Boolean IsDroneChargeById(int droneId)
+        {
+            IEnumerable<DO.DroneCharge> dronesChargeLits = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
+            if (dronesChargeLits.Any(d => d.DroneId == droneId))
                 return true;
 
             return false;
