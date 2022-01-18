@@ -62,19 +62,19 @@
                 <RowDefinition Height="15*"/>
             </Grid.RowDefinitions>
             <Label x:Name="IdLabel"                   Grid.Column="1" Grid.Row="1" Style="{StaticResource styleLabelForms}"  >Customer' id:</Label>
-            <TextBox x:Name="IdTextBox"               Grid.Column="3" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id, Mode=TwoWay}"              Grid.Column="3" Grid.Row="1" Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
             <Label x:Name="NameLabel"                 Grid.Column="1" Grid.Row="2" Style="{StaticResource styleLabelForms}">Customer' name:</Label>
-            <TextBox x:Name="NameTextBox"             Grid.Column="3" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
+            <TextBox x:Name="NameTextBox" Text="{Binding Name, Mode=TwoWay}"            Grid.Column="3" Grid.Row="2" Style="{StaticResource styleTextBoxForms}"  Margin="0,0,18,0"/>
             <Label x:Name="PhoneLabel"                Grid.Column="1" Grid.Row="3" Style="{StaticResource styleLabelForms}">Customer phone:</Label>
-            <TextBox x:Name="PhoneTextBox"            Grid.Column="3" Grid.Row="3"  Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
+            <TextBox x:Name="PhoneTextBox" Text="{Binding Phone, Mode=TwoWay}"           Grid.Column="3" Grid.Row="3"  Style="{StaticResource styleTextBoxForms}" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"></TextBox>
             <Label x:Name="LatitudeLabel"             Grid.Column="1" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Customer latitude:</Label>
             <TextBox x:Name="LatitudeTextBox"         Grid.Column="3" Grid.Row="5" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  Grid.ColumnSpan="2" Margin="0,0,0,3" VerticalAlignment="Bottom"/>
             <Label x:Name="LongitudeLabel"            Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleLabelForms}" >Customer longitude:</Label>
             <TextBox x:Name="LongitudeTextBox"        Grid.Column="3" Grid.Row="4" Visibility="{Binding ElementName=visibleAddForm, Path=Visibility}"     Style="{StaticResource styleTextBoxForms}" />
             <Label x:Name="PositionLabel"             Grid.Column="1" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleLabelForms}">Position:</Label>
-            <TextBox x:Name="PositionTextBox"         Grid.Column="3" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
+            <TextBox x:Name="PositionTextBox"  Text="{Binding CustomerPosition, Mode=TwoWay}"       Grid.Column="3" Grid.Row="4" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
             <Expander x:Name="ExpenderSender" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Expanded="changeBackGroundExpenderExpanded" Collapsed="changeBackGroundExpenderCollapsed" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="5" Grid.RowSpan="4"  Header="Customer As Sender"  >
-                <ListView x:Name="CustomerAsSenderParcelsListView" HorizontalAlignment="Left" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
+                <ListView x:Name="CustomerAsSenderParcelsListView" HorizontalAlignment="Left" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" ItemsSource="{Binding CustomerAsSender,Mode=TwoWay}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
             Grid.Row="6" Grid.RowSpan="5"   Background="White" Grid.ColumnSpan="2"  MouseDoubleClick="SelectParcelOfSender"  >
                     <ListView.View >
                         <GridView>
@@ -87,7 +87,7 @@
                 </ListView>
             </Expander>
             <Expander x:Name="ExpenderTarget" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Expanded="changeBackGroundExpenderExpandedTarget" Collapsed="changeBackGroundExpenderCollapsedTarget" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="4" Header="Customer As Target"  >
-                <ListView x:Name="CustomerAsTargetParcelsListView"  ItemsSource="{Binding}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
+                <ListView x:Name="CustomerAsTargetParcelsListView"  ItemsSource="{Binding CustomerAsTarget, Mode=TwoWay}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
             Background="White"  MouseDoubleClick="SelectParcelOfTarget"  >
                     <ListView.View >
                         <GridView>

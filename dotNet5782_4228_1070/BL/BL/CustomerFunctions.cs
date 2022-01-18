@@ -104,7 +104,7 @@ namespace BL
             return BLcustomer;
         }
 
-        public void UpdateCustomerDetails(int id, string name = null, string phone = null)
+        public BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null)
         {
             DO.Customer c;
             try
@@ -115,6 +115,7 @@ namespace BL
                 if (phone != null && phone.Length >= 9 && phone.Length <= 10)
                     c.Phone = phone;
                 dal.changeCustomerInfo(c);
+                return (convertDalToBLCustomer(c));
             }
             catch (Exception e)
             {

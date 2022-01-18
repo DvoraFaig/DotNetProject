@@ -167,7 +167,7 @@ namespace PL
             }
             ExpenderTarget.Visibility = Visibility.Hidden;
             DroneText.Visibility = Visibility.Visible;
-            DroneText.Content = $"{currentParcel.Drone.ToString()}";
+            //DroneText.Content = $"{currentParcel.Drone.ToString()}";
 
         }
         private void setConfirmBtn()

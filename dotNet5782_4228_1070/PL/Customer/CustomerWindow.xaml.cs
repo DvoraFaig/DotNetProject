@@ -24,6 +24,7 @@ namespace PL
     {
         private BlApi.Ibl blObjectD;
         BO.Customer customer;// = new Customer();
+        PO.Customer currentCustomer;
         private bool updateOrAddWindow { get; set; }//true = add drone
         bool isClient = false;
 
@@ -45,6 +46,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
+            currentCustomer = new PO.Customer();
             updateOrAddWindow = true;
             PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
@@ -64,13 +66,15 @@ namespace PL
             updateOrAddWindow = false;
             blObjectD = blObject;
             customer = customerInCtor;
+            currentCustomer = new PO.Customer(customerInCtor);
+            AddOrUpdateCustomer.DataContext = currentCustomer;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            IdTextBox.Text = $"{customerInCtor.Id}";
-            NameTextBox.Text = $"{customerInCtor.Name}";
-            PhoneTextBox.Text = $"{customerInCtor.Phone}";
-            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
+            //IdTextBox.Text = $"{customerInCtor.Id}";
+            //NameTextBox.Text = $"{customerInCtor.Name}";
+            //PhoneTextBox.Text = $"{customerInCtor.Phone}";
+            //PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+            //CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
             parcelsListViewContantAndDispaly();
             AddOrUpdateCustomer.Height = 400;
 
@@ -92,10 +96,12 @@ namespace PL
             customer = client;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            IdTextBox.Text = $"{client.Id}";
-            NameTextBox.Text = $"{client.Name}";
-            PhoneTextBox.Text = $"{client.Phone}";
-            PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+            currentCustomer = new PO.Customer(client);
+            AddOrUpdateCustomer.DataContext = currentCustomer;
+            //IdTextBox.Text = $"{client.Id}";
+            //NameTextBox.Text = $"{client.Name}";
+            //PhoneTextBox.Text = $"{client.Phone}";
+            //PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
             parcelsListViewContantAndDispaly();
             if (isClient)
             {
@@ -110,13 +116,9 @@ namespace PL
         /// </summary>
         private void parcelsListViewContantAndDispaly()
         {
-            if (customer.CustomerAsSender.Count > 0)
-                CustomerAsSenderParcelsListView.ItemsSource = customer.CustomerAsSender;
-            else
+            if (customer.CustomerAsSender.Count == 0)
                 ExpenderSender.Visibility = Visibility.Hidden;
-            if (customer.CustomerAsTarget.Count > 0)
-                CustomerAsTargetParcelsListView.ItemsSource = customer.CustomerAsTarget;
-            else
+            if (customer.CustomerAsTarget.Count == 0)
                 ExpenderTarget.Visibility = Visibility.Hidden;
         }
 
@@ -237,7 +239,7 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text);
+            currentCustomer.Update(blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text));
             if (!isClient)
             {
                 new CustomerListWindow(blObjectD).Show();

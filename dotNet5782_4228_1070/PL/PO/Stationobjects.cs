@@ -83,11 +83,11 @@ namespace PO
             return $"station name: {Name}, station Id: {Id} , DroneChargeAvailble: {DroneChargeAvailble},\n\t{StationPosition.ToString()}, \tChargingDrone: { string.Join(", ", DronesCharging)}";
         }
 
-        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty StationPositionProperty = DependencyProperty.Register("StationPosition", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty DroneChargeAvailbleProperty = DependencyProperty.Register("DroneChargeAvailble", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty DronesChargingProperty = DependencyProperty.Register("DronesCharging", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Station), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(object), typeof(Station), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty StationPositionProperty = DependencyProperty.Register("StationPosition", typeof(object), typeof(Station), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DroneChargeAvailbleProperty = DependencyProperty.Register("DroneChargeAvailble", typeof(object), typeof(Station), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DronesChargingProperty = DependencyProperty.Register("DronesCharging", typeof(object), typeof(Station), new UIPropertyMetadata(0));
 
     }
 
