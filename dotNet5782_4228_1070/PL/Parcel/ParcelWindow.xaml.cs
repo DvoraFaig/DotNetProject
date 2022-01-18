@@ -61,7 +61,7 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
         }
-        public ParcelWindow(BlApi.Ibl blObject, Customer senderCustomer)
+        public ParcelWindow(BlApi.Ibl blObject, int senderCustomerId)
         {
             InitializeComponent();
             this.blObject = blObject;
@@ -70,6 +70,7 @@ namespace PL
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
+            Customer senderCustomer = blObject.GetCustomerById(senderCustomerId);
             ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(new CustomerInParcel() { Id = senderCustomer.Id, Name = senderCustomer.Name });
             ParcelSenderSelector.Visibility = Visibility.Hidden;
             SenderText.Visibility = Visibility.Visible;
@@ -168,8 +169,8 @@ namespace PL
             ExpenderTarget.Visibility = Visibility.Hidden;
             DroneText.Visibility = Visibility.Visible;
             //DroneText.Content = $"{currentParcel.Drone.ToString()}";
-
         }
+
         private void setConfirmBtn()
         {
             if (currentParcel.Requeasted != null)

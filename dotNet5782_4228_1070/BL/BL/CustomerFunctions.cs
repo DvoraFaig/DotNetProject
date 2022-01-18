@@ -127,10 +127,11 @@ namespace BL
         /// Remove specific customer
         /// </summary>
         /// <param name="parcelToRemove">remove current customer</param>
-        public void RemoveCustomer(Customer customer)
+        public void RemoveCustomer(int customerId)
         {
             try
             {
+                Customer customer = GetCustomerById(customerId);
                 if (dal.IsCustomerActive(customer.Id))
                     dal.removeCustomer(convertBLToDalCustomer(customer));
                 else

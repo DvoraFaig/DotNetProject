@@ -23,7 +23,7 @@ namespace PL
     public partial class CustomerWindow : Window
     {
         private BlApi.Ibl blObjectD;
-        BO.Customer customer;// = new Customer();
+        //BO.Customer customer;// = new Customer();
         PO.Customer currentCustomer;
         private bool updateOrAddWindow { get; set; }//true = add drone
         bool isClient = false;
@@ -65,7 +65,7 @@ namespace PL
             Loaded += ToolWindowLoaded; //The x button
             updateOrAddWindow = false;
             blObjectD = blObject;
-            customer = customerInCtor;
+            //customer = customerInCtor;
             currentCustomer = new PO.Customer(customerInCtor);
             AddOrUpdateCustomer.DataContext = currentCustomer;
             visibleAddForm.Visibility = Visibility.Hidden;
@@ -93,7 +93,8 @@ namespace PL
             updateOrAddWindow = false;
             this.isClient = isClient;
             blObjectD = blObject;
-            customer = client;
+            currentCustomer = new PO.Customer(client);
+            //customer = client;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             currentCustomer = new PO.Customer(client);
@@ -116,9 +117,9 @@ namespace PL
         /// </summary>
         private void parcelsListViewContantAndDispaly()
         {
-            if (customer.CustomerAsSender.Count == 0)
+            if (currentCustomer.CustomerAsSender.Count == 0)
                 ExpenderSender.Visibility = Visibility.Hidden;
-            if (customer.CustomerAsTarget.Count == 0)
+            if (currentCustomer.CustomerAsTarget.Count == 0)
                 ExpenderTarget.Visibility = Visibility.Hidden;
         }
 
@@ -143,7 +144,7 @@ namespace PL
         {
             if (isClient) // go to page add parcel
             {
-                new ParcelWindow(blObjectD, customer).Show();
+                new ParcelWindow(blObjectD, currentCustomer.Id).Show();
                 this.Close();
             }
             else
@@ -239,7 +240,7 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            currentCustomer.Update(blObjectD.UpdateCustomerDetails(customer.Id, NameTextBox.Text, PhoneTextBox.Text));
+            currentCustomer.Update(blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text));
             if (!isClient)
             {
                 new CustomerListWindow(blObjectD).Show();
@@ -308,7 +309,7 @@ namespace PL
         private void changeBackGroundExpenderExpanded(object sender, RoutedEventArgs e)
         {
             CustomerAsSenderParcelsListView.Background = Brushes.White;
-            if (customer.CustomerAsTarget.Count > 0)
+            if (currentCustomer.CustomerAsTarget.Count > 0)
                 ExpenderTarget.Visibility = Visibility.Hidden;
         }
 
@@ -342,7 +343,7 @@ namespace PL
         {
             try
             {
-                blObjectD.RemoveCustomer(customer);
+                blObjectD.RemoveCustomer(currentCustomer.Id);
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
             }
