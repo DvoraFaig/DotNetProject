@@ -27,6 +27,7 @@ namespace PL
         //BO.Drone dr;
         PO.Drone currentDrone;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Deliver by Target" };
+        BO.Drone tempDrone;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -98,6 +99,9 @@ namespace PL
                 ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
             }
             removeDroneBtn();
+            AutomationBtn.Content = "Start Automation";
+            tempDrone = currentDrone.BO();/////////////////////////////////////////////////////////////////
+
         }
 
         private void findDroneStatusContentBtn()
@@ -137,6 +141,7 @@ namespace PL
             else
                 RemoveDrone.Visibility = Visibility.Hidden;
         }
+
         private void setDeliveryBtn()
         {
             int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.Id);
@@ -231,6 +236,10 @@ namespace PL
             //if (messageBoxClosing == MessageBoxResult.OK)
             //{
             ////new DroneListWindow(blObjectD).Show();
+            if (AutomationBtn.Content == "Manual")
+            {
+                worker.CancelAsync();
+            }
             this.Close();
             //}
         }
@@ -284,7 +293,7 @@ namespace PL
                 //    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nEnter time to charge");
                 //}
                 //else
-                //{
+                //{ 
                 try
                 {
                     currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
@@ -433,6 +442,68 @@ namespace PL
             {
                 PLFuncions.messageBoxResponseFromServer("Remove Drone", e1.Message);
             }
+        }
+
+
+
+
+
+        /// <summary>
+        /// worker to be used bt the simulator of drone
+        /// </summary>
+        BackgroundWorker worker = new BackgroundWorker();
+
+        private void changeVisibilityOfUpdateBtn(Visibility visibility)
+        {
+            UpdateButton.Visibility = visibility;
+            ChargeButton.Visibility = visibility;
+            RemoveDrone.Visibility = visibility;
+        }
+        /// <summary>
+        /// Initialize obj worker for the simolator of drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InitializeWorker(object sender, RoutedEventArgs e)
+        {
+            if(AutomationBtn.Content == "Manual")
+            {
+                AutomationBtn.Content = "Start Automation";
+                worker.CancelAsync();
+                changeVisibilityOfUpdateBtn(Visibility.Visible);
+                return;
+            }
+
+            AutomationBtn.Content = "Manual";
+            changeVisibilityOfUpdateBtn(Visibility.Hidden);
+
+            worker.DoWork += (object? sender, DoWorkEventArgs e) =>
+            {
+                blObject.StartSimulation(
+                    tempDrone,//currentDrone.BO(),
+                    (tempDrone, i) => {worker.ReportProgress(i);  },
+                    () => worker.CancellationPending);
+
+            };
+            worker.WorkerReportsProgress = true;
+            worker.ProgressChanged += (object? sender, ProgressChangedEventArgs e) =>
+            {
+                currentDrone.Update(tempDrone);
+                //currentDrone.Battery ++;
+                //Student.MyAge++;
+                //Student.Name = updateDrone.FirstName;
+                //progress.Content = e.ProgressPercentage;
+            };
+
+            worker.RunWorkerCompleted += (object? sender, RunWorkerCompletedEventArgs e) =>
+            {
+                AutomationBtn.Content = "Start Automation";
+                changeVisibilityOfUpdateBtn(Visibility.Visible);
+                worker.CancelAsync();                
+            };
+            worker.WorkerSupportsCancellation = true;
+            worker.RunWorkerAsync();
+
         }
     }
 }

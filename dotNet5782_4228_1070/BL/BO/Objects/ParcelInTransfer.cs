@@ -18,6 +18,7 @@ namespace BO
         public bool parcelStatus { get; set; }
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
+        public bool isWaiting { get; set; }     
         public CustomerInParcel SenderCustomer { get; set; }
         public CustomerInParcel TargetCustomer { get; set; }
         public Position SenderPosition { get; set; }

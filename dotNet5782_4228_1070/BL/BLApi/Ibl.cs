@@ -20,7 +20,8 @@ namespace BlApi
         //================
         //public void RemoveStation(Station station);
         public void RemoveStation(Station station);
-        public void RemoveCustomer(Customer customer);
+        //public void RemoveCustomer(Customer customer);
+        public void RemoveCustomer(int customerId);
         public void RemoveDrone(Drone drone);
         public void RemoveDroneCharge(int droneId);
 
@@ -60,24 +61,42 @@ namespace BlApi
         //public void ChangeDroneModel(Drone drone);
         public void ChangeDroneModel(int droneId, string newModel);
         public void changeInfoOfStation(int id, string name = null, int ChargeSlots = -1);
-        public void UpdateCustomerDetails(int id, string name = null, string phone = null);
+        //public void UpdateCustomerDetails(int id, string name = null, string phone = null);
+        public BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null);
         public Drone SendDroneToCharge(int droneId);
         //public Drone FreeDroneFromCharging(int droneId, double timeCharging);
         public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/);
         public Drone PairParcelWithDrone(int droneId);
         public Drone DronePicksUpParcel(int droneId);
         public Drone DeliveryParcelByDrone(int idDrone);
+
+        public void changeDroneInfo(Drone droneWithUpdateInfo);
+
         //public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
-       
+
         //========================
         //  Get Data About Object
         //========================
         //public int GetDroneStatusInDelivery(Drone drone);
         public int GetDroneStatusInDelivery(int droneId);
+        public DeliveryStatusAction GetEnumDroneStatusInDelivery(int droneId);
 
         //===================
         //  Remove
         //===================
         public void RemoveParcel(int parcelId);
+        public void removeDroneChargeByDroneId(int droneId);
+
+
+        //===================
+        //  StartSimulation
+        //===================
+        public void StartSimulation(Drone std, Action<Drone, int> updateStudent, Func<bool> needToStop);
+
+        //===========================
+        //  Drones electricity usage.
+        //===========================
+        public double requestElectricity(int choice);
+
     }
 }

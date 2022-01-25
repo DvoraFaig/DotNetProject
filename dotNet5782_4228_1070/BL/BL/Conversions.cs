@@ -284,7 +284,8 @@ namespace BL
                 Id = p.Id,
                 SenderCustomer = convertDalToBLCustomerInParcel(sender),
                 TargetCustomer = convertDalToBLCustomerInParcel(target),
-                parcelStatus = false,
+                //parcelStatus = false,
+                isWaiting = p.PickUp == null ? true : false,
                 Priority = p.Priority,
                 distance = distance(senderP, targetP),
                 Weight = p.Weight

@@ -23,6 +23,21 @@ namespace PO
             PickUp = p.PickUp;
             Delivered = p.Delivered;
         }
+         
+        public void Update(BO.Parcel p)
+        {
+            Id = p.Id;
+            Sender = p.Sender;
+            Target = p.Target;
+            Weight = (WeightCategories)p.Weight;
+            Priority = (Priorities)p.Priority;
+            Drone = p.Drone;
+            Requeasted = p.Requeasted;
+            Scheduled = p.Scheduled;
+            PickUp = p.PickUp;
+            Delivered = p.Delivered;
+        }
+
         public Parcel()
         {
                 
@@ -52,8 +67,6 @@ namespace PO
             get { return (Priorities)GetValue(PriorityProperty); }
             set { SetValue(PriorityProperty, value); }
         }
-        //public WeightCategories Weight { get; set; }
-        //public Priorities Priority { get; set; }
         public BO.DroneInParcel Drone
         {
             get { return (BO.DroneInParcel)GetValue(DroneProperty); }
@@ -131,6 +144,8 @@ namespace PO
         public bool parcelStatus { get; set; }
         //public WeightCategories Weight { get; set; }
         //public Priorities Priority { get; set; }
+        public bool isWaiting { get; set; }
+
         public CustomerInParcel SenderCustomer { get; set; }
         public CustomerInParcel TargetCustomer { get; set; }
         public Position SenderPosition { get; set; }

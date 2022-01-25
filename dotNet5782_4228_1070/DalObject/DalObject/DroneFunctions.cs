@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -15,6 +16,7 @@ namespace Dal
         /// Add the new drone to Drones.
         /// </summary>
         /// <param name="newDrone">drone to add.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone newDrone)
         {
             DataSource.Drones.Add(newDrone);
@@ -24,6 +26,7 @@ namespace Dal
         /// Get all drone.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones()
         {
             return from d in DataSource.Drones
@@ -36,6 +39,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a drone/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDroneWithSpecificCondition(Predicate<Drone> predicate)
         {
             return (from drone in DataSource.Drones
@@ -47,6 +51,7 @@ namespace Dal
         /// Change specific drone info
         /// </summary>
         /// <param name="droneWithUpdateInfo">Drone with the changed info</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void changeDroneInfo(Drone droneWithUpdateInfo)
         {
             int index = DataSource.Drones.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
@@ -57,6 +62,7 @@ namespace Dal
         /// if drone exist: IsActive = false + change its info (In DataSource)
         /// If doesn't exist throw NoMatchingData exception.</summary>
         /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDrone(Drone droneToRemove)
         {
             try
@@ -79,6 +85,7 @@ namespace Dal
         /// Returns electricity usage of drone.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] electricityUseByDrone()
         {
             double[] arr = {
@@ -95,6 +102,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for drone with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsDroneById(int requestedId)
         {
             return DataSource.Drones.Any(d => d.Id == requestedId);
@@ -105,6 +113,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for drone with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsDroneActive(int requestedId)
         {
             return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);

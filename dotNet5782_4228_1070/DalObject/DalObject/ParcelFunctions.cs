@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -15,6 +16,7 @@ namespace Dal
         /// Add the new parcel to parcels.
         /// </summary>
         /// <param name="newParcel">parcel to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
             DataSource.Parcels.Add(newParcel);
@@ -24,6 +26,7 @@ namespace Dal
         /// Get all stations.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels()
         {
             return from p in DataSource.Parcels select p;
@@ -34,6 +37,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a parcel/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> getParcelWithSpecificCondition(Predicate<Parcel> predicate)
         {
             return (from parcel in DataSource.Parcels
@@ -45,6 +49,7 @@ namespace Dal
         ///  Change specific parcel info
         /// </summary>
         /// <param name="parcelWithUpdateInfo">The parcel with the changed info</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void changeParcelInfo(Parcel parcelWithUpdateInfo)
         {
             int index = DataSource.Parcels.FindIndex(d => d.Id == parcelWithUpdateInfo.Id);
@@ -55,6 +60,7 @@ namespace Dal
         /// Remove specific parcel
         /// </summary>
         /// <param name="parcel">remove current parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeParcel(Parcel parcelToRemove)
         {
             try
@@ -79,6 +85,7 @@ namespace Dal
         /// Return how much parcels there is.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int amountParcels()
         {
             return DataSource.Parcels.Count();
@@ -89,6 +96,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for parcel with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsParcelById(int requestedId)
         {
             return DataSource.Parcels.Any(p => p.Id == requestedId);

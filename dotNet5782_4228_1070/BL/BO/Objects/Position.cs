@@ -16,7 +16,7 @@ namespace BO
         public double Longitude { get; set; }
         public override string ToString()
         {
-            return ($"({Latitude},{Longitude}).");
+            return ($"({Latitude},{Longitude})");
         }
     }
 }

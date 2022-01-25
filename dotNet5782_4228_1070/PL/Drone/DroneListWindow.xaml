@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="450" Width="800">
+        Title="DroneListWindow" Height="450" Width="1000">
     <Window.Resources>
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="FontSize" Value="14"/>
@@ -14,7 +14,14 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
     </Window.Resources>
-    <Grid>
+    
+    <Grid >
+        <!--<Grid.Background >
+            <ImageBrush ImageSource="/pic/service1.jpg" Opacity="80"></ImageBrush>
+        </Grid.Background>-->
+        <Image Source="/pic/service1.jpg" Margin="750,114,0,-114"/>
+
+        <Grid  Margin="0,0,200,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="200*"/>
             <RowDefinition Height="100*"/>
@@ -119,5 +126,6 @@
                 <TextBlock x:Name="ChosenWeightText" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="DemiBold" FontFamily="Tahoma" HorizontalAlignment="Center" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </Grid>
         </Grid>
+    </Grid>
     </Grid>
 </Window>

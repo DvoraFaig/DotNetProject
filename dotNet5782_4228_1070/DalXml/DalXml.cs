@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -36,6 +37,7 @@ namespace Dal
         /// <summary>
         /// return one and only one instance of DalXml 
         /// </summary>
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public static DalXml GetInstance
         {
             get
@@ -99,6 +101,7 @@ namespace Dal
         /// Return how much parcels there is.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int amountParcels()
         {
             return DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).Count();
@@ -108,6 +111,7 @@ namespace Dal
         /// Return how much stations there is.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int amountStations()
         {
             return DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath).Count();
@@ -137,6 +141,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for customer with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerById(int requestedId)
         {
             IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
@@ -150,6 +155,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for parcel with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsParcelById(int requestedId)
         {
             IEnumerable<DO.Parcel> parcelsLists = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
@@ -164,6 +170,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for drone with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsDroneById(int requestedId)
         {
             IEnumerable<DO.Drone> dronesLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
@@ -178,6 +185,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for droneCharge with this DroneId</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsDroneChargeById(int droneId)
         {
             IEnumerable<DO.DroneCharge> dronesChargeLits = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
@@ -192,6 +200,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for station with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsStationById(int requestedId)
         {
             IEnumerable<DO.Station> stationsLists = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
@@ -206,6 +215,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for station with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsStationActive(int requestedId)
         {
             IEnumerable<DO.Station> stationsLists = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
@@ -220,6 +230,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for customer with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerActive(int requestedId)
         {
             IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
@@ -234,6 +245,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for drone with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsDroneActive(int requestedId)
         {
             IEnumerable<DO.Drone> dronesLits = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
@@ -248,6 +260,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for parcel with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsParcelActive(int requestedId)
         {
             IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
@@ -262,6 +275,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a drone/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDroneWithSpecificCondition(Predicate<Drone> predicate)
         {
             try
@@ -282,6 +296,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a parcel/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> getParcelWithSpecificCondition(Predicate<Parcel> predicate)
         {
             try
@@ -302,6 +317,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a customer/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
         {
             XElement testRoot = DL.XMLTools.LoadData(dir + customerFilePath);
@@ -356,6 +372,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a station/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> getStationWithSpecificCondition(Predicate<Station> predicate)
         {
             try
@@ -376,6 +393,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a drone charge /s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Predicate<DroneCharge> predicate)
         {
             try
@@ -396,6 +414,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a worker/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate)
         {
             try
@@ -476,7 +495,7 @@ namespace Dal
         }
     }
 }
-#region ####
+#region garbage
 
 //public void DeleteParcel(int id)
 //{

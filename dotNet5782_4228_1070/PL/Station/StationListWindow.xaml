@@ -45,6 +45,8 @@
             <Button x:Name="AddStationBtn" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add station" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddStationBtnClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
+        <Image Source="/pic/shipping.jpg" Grid.ColumnSpan="2" Grid.Column="2" Margin="207,3,0,-17" Grid.RowSpan="4" Grid.Row="4" />
+
         <Button Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Content="Sort by available slots" VerticalAlignment="Bottom" Click="sortStationByAvailableSlotsClick"></Button>
         <ListView x:Name="StationListView" ItemsSource="{Binding}" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="StationSelection" >

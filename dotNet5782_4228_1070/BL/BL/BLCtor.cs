@@ -88,9 +88,13 @@ namespace BL
                     {
                         closestStationToSender = findAvailbleAndClosestStationForDrone(senderPosition); //תחנה קרובה לשלוח במצב הטענה? //אם אינו נכנס למצב הטענה PositionFromClosestStation () //אם כן updateDroneCharge
                         CurrentDrone.DronePosition = new Position() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude };
+                        CurrentDrone.ParcelInTransfer.isWaiting = false;
+                        //isWaiting = p.PickUp == null ? true : false,
+
                     }
                     else if (parcel.Delivered == null) //else position sender of parcel.
                     {
+                        CurrentDrone.ParcelInTransfer.isWaiting = true;
                         CurrentDrone.DronePosition = senderPosition;//new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
                     CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
@@ -326,7 +330,7 @@ namespace BL
         /// </summary>
         /// <param name="choice"></param>
         /// <returns></returns>
-        private double requestElectricity(int choice)
+        public double requestElectricity(int choice)
         {
             switch ((Electricity)choice)
             {
