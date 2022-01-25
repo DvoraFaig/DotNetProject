@@ -434,5 +434,41 @@ namespace PL
                 PLFuncions.messageBoxResponseFromServer("Remove Drone", e1.Message);
             }
         }
+
+
+
+
+
+
+        BackgroundWorker worker = new BackgroundWorker();
+        private void InitializeWorker(object sender, RoutedEventArgs e)
+        {
+            AutomationBtn.Content = "Stop Automation";
+            //Drone updateDrone = null;
+
+            worker.DoWork += (object? sender, DoWorkEventArgs e) =>
+            {
+                blObject.StartSimulation(
+                    currentDrone.BO(),
+                    (drone, i) => { currentDrone.Update(drone);  worker.ReportProgress(i);  },
+                    () => worker.CancellationPending);
+
+            };
+            worker.WorkerReportsProgress = true;
+            worker.ProgressChanged += (object? sender, ProgressChangedEventArgs e) =>
+            {
+                //Student.MyAge++;
+                //Student.Name = updateDrone.FirstName;
+                //progress.Content = e.ProgressPercentage;
+            };
+
+            worker.RunWorkerCompleted += (object? sender, RunWorkerCompletedEventArgs e) =>
+            {
+                AutomationBtn.Content = "Start Automation";
+            };
+            worker.WorkerSupportsCancellation = true;
+            worker.RunWorkerAsync();
+
+        }
     }
 }
