@@ -141,6 +141,7 @@ namespace PL
             else
                 RemoveDrone.Visibility = Visibility.Hidden;
         }
+
         private void setDeliveryBtn()
         {
             int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.Id);

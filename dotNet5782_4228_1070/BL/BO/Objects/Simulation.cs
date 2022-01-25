@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlApi;
-using DO;
+//using DO;
 using System.Threading;
-
+using BO;
+using static BL.BL;
+using static BO.Exceptions;
 
 namespace BO
 {
-    public class Simulation
+    class Simulation
     {
         Ibl BL;
         public Simulation(Ibl BL)
@@ -23,6 +25,7 @@ namespace BO
             
             while (!needToStop())
             {
+                Thread.Sleep(1000);
                 if (drone.Status == DroneStatus.Available)
                 {
                     try
@@ -31,12 +34,24 @@ namespace BO
                         Drone changeDrone = BL.GetDroneById(drone.Id);
                         changeDrone = drone;
                     }
+                    catch (ObjNotAvailableException)
+                    {
+                        try
+                        {
+                            BL.SendDroneToCharge(drone.Id);
+                        }
+                        catch (ObjNotAvailableException)
+                        {
+                            // Not implemented becuase need to do other actions
+                            // in the next interation on the while loop
+                        }
+                    }
+                    // Do: If drone not has enough buttery to go to the near station.... do something
                     catch (Exception e)
                     {
                         Thread.Sleep(1000);
                         ///to stop
                     }
-
                 }
 
                 if (drone.Status == DroneStatus.Maintenance)
@@ -56,7 +71,7 @@ namespace BO
                     //Drone changeDrone = BL.GetDroneById(drone.Id);
                     //changeDrone = drone;
                     bool succeedFreeDroneFromCharge = false;
-                    do 
+                    do
                     {
                         try
                         {
@@ -70,11 +85,21 @@ namespace BO
                         catch (Exception) { }
                     }
                     while (!succeedFreeDroneFromCharge);
-                    
+
                 }
+
                 if (drone.Status == DroneStatus.Delivery)
                 {
-
+                    DeliveryStatusAction droneStatus = BL.GetEnumDroneStatusInDelivery(drone.Id);
+                    switch ((int)droneStatus)
+                    {
+                        case (1)://PickedParcel
+                            BL.DronePicksUpParcel(drone.Id);
+                            break;
+                        case (2)://AsignedParcel
+                            BL.DeliveryParcelByDrone(drone.Id);
+                            break;
+                    }
                 }
             }
         }
