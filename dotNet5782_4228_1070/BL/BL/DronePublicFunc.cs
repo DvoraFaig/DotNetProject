@@ -227,11 +227,12 @@ namespace BL
                     lock (dal)
                     {
                         Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
-                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
+                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();/////////////////
                         DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                         //changeInfoOfStation(s.Id, null, s.ChargeSlots);
                         blDrone.Status = DroneStatus.Available;
-                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;///
+                        dal.removeDroneChargeByDroneId(droneId);
+                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;
                         double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                         baterryToAdd = Math.Round(baterryToAdd, 1);
                         blDrone.Battery += baterryToAdd;
@@ -248,6 +249,11 @@ namespace BL
                 throw new Exception("Can't free Drone from charge.\nPlease try later...", e);
             }
             #endregion
+        }
+
+        public void removeDroneChargeByDroneId(int droneId)
+        {
+            dal.removeDroneChargeByDroneId(droneId);
         }
 
         /// <summary>

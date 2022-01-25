@@ -20,7 +20,7 @@ namespace BO
 
         public void Start(Drone drone, Action<Drone, int> updateStudent, Func<bool> needToStop)
         {
-            int index = 0;
+            
             while (!needToStop())
             {
                 if (drone.Status == DroneStatus.Available)
@@ -34,6 +34,7 @@ namespace BO
                     catch (Exception e)
                     {
                         Thread.Sleep(1000);
+                        ///to stop
                     }
 
                 }
@@ -51,7 +52,6 @@ namespace BO
                         timeLeftToCharge--;
                     }
                     Thread.Sleep(100);
-                    //BL.changeDroneInfo(drone);
 
                     //Drone changeDrone = BL.GetDroneById(drone.Id);
                     //changeDrone = drone;
@@ -60,8 +60,10 @@ namespace BO
                     {
                         try
                         {
-                            BL.FreeDroneFromCharging(drone.Id);
+                            //BL.FreeDroneFromCharging(drone.Id);
+                            BL.removeDroneChargeByDroneId(drone.Id);
                             drone.Status = DroneStatus.Available;
+                            BL.changeDroneInfo(drone);
                             updateStudent(drone, (int)percentFillBatteryForCharging);
                             succeedFreeDroneFromCharge = true;
                         }

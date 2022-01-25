@@ -84,6 +84,8 @@ namespace BlApi
         //  Remove
         //===================
         public void RemoveParcel(int parcelId);
+        public void removeDroneChargeByDroneId(int droneId);
+
 
         //===================
         //  StartSimulation
