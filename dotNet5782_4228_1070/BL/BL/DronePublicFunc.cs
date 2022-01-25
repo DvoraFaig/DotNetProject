@@ -313,5 +313,11 @@ namespace BL
             }
             throw new Exception("No macthing status");
         }
+
+        public void changeDroneInfo(Drone droneWithUpdateInfo)
+        {
+            int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
+            dronesList[index] = droneWithUpdateInfo;
+        }
     }
 }
