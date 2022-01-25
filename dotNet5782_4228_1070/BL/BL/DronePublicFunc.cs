@@ -7,9 +7,10 @@ using BO;
 using static BO.Exceptions;
 using System.Runtime.CompilerServices;
 
+
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
     {
         /// <summary>
         /// Check if drone with the same id exist.
@@ -238,7 +239,7 @@ namespace BL
                         blDrone.Battery += baterryToAdd;
                         blDrone.Battery = Math.Round(blDrone.Battery, 1);
                         blDrone.Battery = Math.Min(blDrone.Battery, 100);
-                        // Do later: remove drone charge;
+                        dal.removeDroneChargeByDroneId(blDrone.Id);
                         return blDrone;
                     }
                 }
@@ -251,6 +252,11 @@ namespace BL
             #endregion
         }
 
+        /// <summary>
+        /// Send to remove a drone charge by Drone Id
+        /// </summary>
+        /// <param name="droneId"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDroneChargeByDroneId(int droneId)
         {
             dal.removeDroneChargeByDroneId(droneId);
@@ -291,10 +297,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(int droneId)
         {
-            return (int)GetEnumDroneStatusInDelivery(droneId);
+            return (int)GetfromEnumDroneStatusInDelivery(droneId);
         }
 
-        public DeliveryStatusAction GetEnumDroneStatusInDelivery(int droneId)
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId)
         {
             // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
             lock (dronesList)

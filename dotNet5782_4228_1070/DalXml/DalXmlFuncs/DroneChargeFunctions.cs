@@ -56,7 +56,7 @@ namespace Dal
             {
                 List<DO.DroneCharge> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath).ToList();
                 int index = dronesList.FindIndex(d => d.DroneId == droneId);
-                DataSource.DroneCharges.RemoveAt(index);
+                dronesList.RemoveAt(index);
                 DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(dronesList, dir + droneChargeFilePath);
             }
             catch (Exception e1)

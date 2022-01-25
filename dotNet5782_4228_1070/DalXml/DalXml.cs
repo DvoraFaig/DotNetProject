@@ -320,38 +320,38 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
         {
-            XElement testRoot = DL.XMLTools.LoadData(dir + customerFilePath);
-            DO.Customer t = new DO.Customer();
-            try
-            {
-                t = (from p in testRoot.Elements()
-                     where predicate(new DO.Customer()
-                     {
-                         //Id = Convert.ToInt32(p.Element("Id").Value),
-                         //Name = p.Element("Name").Value,
-                         //Phone = Convert.ToInt64(p.Element("Phone").Value),
-                         //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
-                         //Longitude = Convert.ToInt32(p.Element("Longitude").Value
-                     })
-                     select new DO.Customer()
-                     {
-                         //Id = Convert.ToInt32(p.Element("Id").Value),
-                         //Name = p.Element("Name").Value,
-                         //Phone = Convert.ToInt64(p.Element("Phone").Value),
-                         //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
-                         //Longitude = Convert.ToInt32(p.Element("Longitude").Value
-                     }).First();
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("no element");
-                throw new Exception("no test", e);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return t;
+            //XElement testRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            //DO.Customer t = new DO.Customer();
+            //try
+            //{
+            //    t = (from p in testRoot.Elements()
+            //         where predicate(new DO.Customer()
+            //         {
+            //             //Id = Convert.ToInt32(p.Element("Id").Value),
+            //             //Name = p.Element("Name").Value,
+            //             //Phone = Convert.ToInt64(p.Element("Phone").Value),
+            //             //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
+            //             //Longitude = Convert.ToInt32(p.Element("Longitude").Value
+            //         })
+            //         select new DO.Customer()
+            //         {
+            //             //Id = Convert.ToInt32(p.Element("Id").Value),
+            //             //Name = p.Element("Name").Value,
+            //             //Phone = Convert.ToInt64(p.Element("Phone").Value),
+            //             //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
+            //             //Longitude = Convert.ToInt32(p.Element("Longitude").Value
+            //         }).First();
+            //}
+            //catch (InvalidOperationException e)
+            //{
+            //    Console.WriteLine("no element");
+            //    throw new Exception("no test", e);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
+            //return t;
 
 
             try
