@@ -11,7 +11,7 @@ using DO;
 
 namespace Dal
 {
-    class DalXml : DalApi.Idal
+    public sealed partial class DalXml : DalApi.Idal
     {
         //dir need to be up from bin
         static string dir = @"DalXml\DataSource\";
@@ -85,184 +85,15 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Add the new drone to Drones.
-        /// </summary>
-        /// <param name="newDrone">drone to add.</param>
-        public void AddDrone(DO.Drone newDrone)
-        {
-            XElement DroneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
-            DroneRoot.Add(returnDroneXElement(newDrone));
-            DroneRoot.Save(dir + droneFilePath);
-            #region found better way
-            //IEnumerable<DO.Drone> droneList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            //if (droneList.Any(d => d.Id == newDrone.Id))
-            //{
-            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Drone), newDrone.Id);
-            //}
-            //droneList.ToList().Add(newDrone);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
-            #endregion
-        }
-        /// <summary>
-        /// Receive a DO drone and return a XElemnt drone - copy information.
-        /// </summary>
-        /// <param name="newDrone"></param>
-        /// <returns></returns>
-        private XElement returnDroneXElement(DO.Drone newDrone)
-        {
-            XElement Id = new XElement("Id", newDrone.Id);
-            XElement Model = new XElement("Model", newDrone.Model);
-            XElement MaxWeight = new XElement("MaxWeight", newDrone.MaxWeight);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Drone", Id, Model, MaxWeight, MaxWeight, IsActive);
-        }
 
-        /// <summary>
-        /// Add the new station to Stations.
-        /// </summary>
-        /// <param name="newStation">The station to add.</param>
-        public void AddStation(Station newStation)
-        { 
-            XElement stationRoot = DL.XMLTools.LoadData(dir + stationFilePath);
-            #region was checked
-            //XElement stationXElemnt;
 
-            //if(IsStationById(newStation.Id))
-            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
 
-            //stationXElemnt = (from s in stationRoot.Elements()
-            //                  where Convert.ToInt32(s.Element("Id").Value) == newStation.Id
-            //                  select s).FirstOrDefault();
-            //if (stationXElemnt != null)
-            //{
-            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
-            //}
-            #endregion
-            stationRoot.Add(returnStationXElement(newStation));
-            stationRoot.Save(dir + stationFilePath);
-        }
 
-        /// <summary>
-        /// Receive a DO station and return a XElemnt station - copy information.
-        /// </summary>
-        /// <param name="newStation"></param>
-        /// <returns></returns>
-        private XElement returnStationXElement(DO.Station newStation)
-        {
-            XElement Id = new XElement("Id", newStation.Id);
-            XElement Name = new XElement("Name", newStation.Name);
-            XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
-            XElement Latitude = new XElement("Latitude", newStation.Latitude);
-            XElement Longitude = new XElement("Longitude", newStation.Longitude);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
-        }
 
-        /// <summary>
-        /// Add the new customer to Customers.
-        /// </summary>
-        /// <param name="newCustomer">customer to add.</param>
-        public void AddCustomer(Customer newCustomer)
-        {
-            XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
-            customerRoot.Add(returnCustomerXElement(newCustomer));
-            customerRoot.Save(dir + customerFilePath);
-            #region found better way
-            //IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            //if (customersList.Any(c => c.Id == newCustomer.Id))
-            //{
-            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Customer), newCustomer.Id);
-            //}
-            //List<DO.Customer> newList = customersList.Cast<DO.Customer>().ToList();
-            //newList.Add(newCustomer);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(newList, dir + customerFilePath);
-            #endregion
-        }
 
-        /// <summary>
-        /// Receive a DO Customer and return a XElemnt Customer - copy information.
-        /// </summary>
-        /// <param name="newCustomer"></param>
-        /// <returns></returns>
-        private XElement returnCustomerXElement(DO.Customer newCustomer)
-        {
-            XElement Id = new XElement("Id", newCustomer.Id);
-            XElement Name = new XElement("Name", newCustomer.Name);
-            XElement Phone = new XElement("Phone", newCustomer.Phone);
-            XElement Latitude = new XElement("Latitude", newCustomer.Latitude);
-            XElement Longitude = new XElement("Longitude", newCustomer.Longitude);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Customer", Id, Name, Phone, Latitude, Longitude, IsActive);
-        }
 
-        /// <summary>
-        /// Add the new parcel to parcels.
-        /// </summary>
-        /// <param name="newParcel">parcel to add</param>
-        public void AddParcel(Parcel newParcel)
-        {
-            List<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).ToList();
-            parcelsList.Add(newParcel);
-            DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
-        }
-        /// <summary>
-        /// Receive a DO parcel and return a XElemnt parcel - copy information.
-        /// </summary>
-        /// <param name="newParcel"></param>
-        /// <returns></returns>
-        private XElement returnParcelXElement(DO.Parcel newParcel)
-        {
-            XElement Id = new XElement("Id", newParcel.Id);
-            XElement SenderId = new XElement("SenderId", newParcel.SenderId);
-            XElement TargetId = new XElement("TargetId", newParcel.TargetId);
-            XElement Weight = new XElement("Weight", newParcel.Weight);
-            XElement Priority = new XElement("Priority", newParcel.Priority);
-            XElement DroneId = new XElement("DroneId", newParcel.DroneId);
-            XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
-            XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
-            XElement PickUp = new XElement("PickUp", newParcel.PickUp);
-            XElement Delivered = new XElement("Delivered", newParcel.Delivered);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority,DroneId,Requeasted,Scheduled,PickUp,Delivered,IsActive);
-        }
 
-        /// <summary>
-        /// Add the new DroneCharge to DroneCharges.
-        /// </summary>
-        /// <param name="newDroneCharge">DroneCharge to add.</param>
-        public void AddDroneToCharge(DroneCharge newDroneCharge)
-        {
-             XElement droneChargeRoot = DL.XMLTools.LoadData(dir + droneChargeFilePath);
-            droneChargeRoot.Add(returnDroneChargeXElement(newDroneCharge));
-            droneChargeRoot.Save(dir + droneChargeFilePath);
-            #region found a better way
-            //IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
-            //List<DroneCharge> newList = new List<DroneCharge>();
-            //if (droneChargesList.Count() != 0)
-            //{
-            //    if (droneChargesList.Any(d => d.DroneId == newDroneCharge.DroneId))
-            //    {
-            //        throw new DO.Exceptions.ObjExistException(typeof(DO.DroneCharge), newDroneCharge.DroneId);
-            //    }
-            //    newList = droneChargesList.Cast<DO.DroneCharge>().ToList();
-            //}
-            //newList.Add(newDroneCharge);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(newList, dir + droneChargeFilePath);
-            #endregion
-        }
 
-        /// <summary>
-        /// Receive a DO DroneCharge and return a XElemnt DroneCharge - copy information.
-        /// </summary>
-        /// <param name="newDroneCharge"></param>
-        /// <returns></returns>
-        private XElement returnDroneChargeXElement(DO.DroneCharge newDroneCharge)
-        {
-            XElement DroneId = new XElement("DroneId", newDroneCharge.DroneId);
-            XElement StationId = new XElement("StationId", newDroneCharge.StationId);
-            return new XElement("DroneCharge", DroneId,StationId);
-        }
 
         /// <summary>
         /// Return how much parcels there is.
@@ -282,268 +113,24 @@ namespace Dal
             return DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath).Count();
         }
 
-        /// <summary>
-        /// Remove specific parcel
-        /// </summary>
-        /// <param name="parcelToRemove">remove current parcel</param>
-        public void removeParcel(Parcel parcelToRemove)
-        {
-            //IEnumerable<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            //try
-            //{
-            //    Parcel parcel = getParcelWithSpecificCondition(s => s.Id == parcelToRemove.Id).First();
-            //    if (parcel.IsActive)
-            //        parcel.IsActive = false;
-            //    changeParcelInfo(parcel);
-            //}
-            //catch (Exception e1)
-            //{
-            //    throw new Exceptions.NoMatchingData(typeof(Parcel), parcelToRemove.Id, e1);
-            //}
-            #region check
-            XElement parcelRoot = DL.XMLTools.LoadData(dir + parcelFilePath);
-            XElement parcelXElemnt;
-            parcelXElemnt = (from p in parcelRoot.Elements()
-                             where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
-                             select p).FirstOrDefault();
-            if (parcelXElemnt != null)
-            {
-                parcelXElemnt.Element("IsActive").Value = "false";
-            }
-            #endregion
-        }
 
-        /// <summary>
-        /// If station exist: IsActive = false + change its info (In DataSource)
-        /// If doesn't exist throw NoMatchingData exception.
-        /// </summary>
-        /// <param name="stationToRemove">The station to remove. stationToRemove.IsActive = false</param>
-        public void removeStation(Station stationToRemove)
-        {
-            IEnumerable<DO.Station> stationsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-            try
-            {
-                Station station = getStationWithSpecificCondition(s => s.Id == stationToRemove.Id).First();
-                if (station.IsActive)
-                    station.IsActive = false;
-                changeStationInfo(station);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Station), stationToRemove.Id, e1);
-            }
-            //XElement stationRoot = DL.XMLTools.LoadData(dir + stationFilePath);
-            //XElement stationXElemnt;
-            //stationXElemnt = (from s in stationRoot.Elements()
-            //                   where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
-            //                   select s).FirstOrDefault();
-            //if (stationXElemnt != null)
-            //{
-            //    stationXElemnt.Element("IsActive").Value = "false";
-            //}
-        }
-
-        /// <summary>
-        /// if customer exist: IsActive = false + change its info (In DataSource)
-        /// If doesn't exist throw NoMatchingData exception.
-        /// </summary>
-        /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
-        public void removeCustomer(Customer customerToRemove)
-        {
-            IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            try
-            {
-                Customer customer = getCustomerWithSpecificCondition(s => s.Id == customerToRemove.Id).First();
-                if (customer.IsActive)
-                    customer.IsActive = false;
-                changeCustomerInfo(customer);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
-            }
-            //XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
-            //XElement customerXElemnt;
-            //customerXElemnt = (from c in customerRoot.Elements()
-            //                where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
-            //                select c).FirstOrDefault();
-            //if (customerXElemnt != null)
-            //{
-            //    customerXElemnt.Element("IsActive").Value = "false";
-            //}
-        }
-
-        /// <summary>
-        /// if drone exist: IsActive = false + change its info (In DataSource)
-        /// If doesn't exist throw NoMatchingData exception.</summary>
-        /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
-        public void removeDrone(Drone droneToRemove)
-        {
-            IEnumerable<DO.Drone> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            try
-            {
-                Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
-                if (drone.IsActive)
-                    drone.IsActive = false;
-                changeDroneInfo(drone);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
-            }
-            //XElement droneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
-            //XElement droneXElemnt;
-            //droneXElemnt = (from d in droneRoot.Elements()
-            //                where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
-            //                select d).FirstOrDefault();
-            //if (droneXElemnt != null)
-            //{
-            //    droneXElemnt.Element("IsActive").Value = "false";
-            //}
-        }
-
-        /// <summary>
-        /// Remove charging drone by drone id.
-        /// <param name="droneId">The charging drone with droneId - to remove</param>
-        public void removeDroneChargeByDroneId(int droneId)
-        {
-            try
-            {
-                List<DO.DroneCharge> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath).ToList();
-                int index = dronesList.FindIndex(d => d.DroneId == droneId);
-                DataSource.DroneCharges.RemoveAt(index);
-                //DroneCharge droneCharge = getDroneChargeWithSpecificCondition(d => d.DroneId == droneId).First();
-                //dronesList.Remove(droneCharge);
-                DL.XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(dronesList, dir + droneChargeFilePath);
-
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Drone), droneId, e1);
-            }
+        
 
 
-        }
 
-        /// <summary>
-        /// Get all stations.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Station> GetStations()
-        {
-            IEnumerable<DO.Station> studentsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-            return from item in studentsList
-                   orderby item.Id
-                   select item;
-        }
+        
 
-        /// <summary>
-        /// Get all drone.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Drone> GetDrones()
-        {
-            IEnumerable<DO.Drone> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            return from item in dronesList
-                   orderby item.Id
-                   select item;
-        }
+        
 
-        /// <summary>
-        /// Get all stations.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Parcel> GetParcels()
-        {
-            IEnumerable<DO.Parcel> parceslList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            return from item in parceslList
-                   orderby item.Id
-                   select item;
-        }
+        
 
-        /// <summary>
-        /// Get all droneCharge.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<DroneCharge> GetDroneCharges()
-        {
-            IEnumerable<DO.DroneCharge> droneChargesList = DL.XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
-            return from item in droneChargesList
-                   orderby item.StationId // or orderby item.DroneId
-                   select item;
-        }
+        
 
-        /// <summary>
-        /// Get all customer.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Customer> GetCustomers()
-        {
-            IEnumerable<DO.Customer> parceslList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            return from item in parceslList
-                   orderby item.Id
-                   select item;
-        }
+        
 
-        /// <summary>
-        /// Change specific stations info
-        /// </summary>
-        /// <param name="stationWithUpdateInfo">Station with the changed info</param>
-        public void changeStationInfo(Station stationWithUpdateInfo)
-        {
-            List<DO.Station> studentsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath).ToList();
-            int index = studentsList.FindIndex(t => t.Id == stationWithUpdateInfo.Id);
-            if (index == -1)
-                throw new DO.Exceptions.ObjNotExistException(typeof(Station), stationWithUpdateInfo.Id);
+        
 
-            studentsList[index] = stationWithUpdateInfo;
-            DL.XMLTools.SaveListToXMLSerializer<DO.Station>(studentsList, dir + stationFilePath);
-        }
-
-        /// <summary>
-        ///  Change specific parcel info
-        /// </summary>
-        /// <param name="parcelWithUpdateInfo">The parcel with the changed info</param>
-        public void changeParcelInfo(Parcel parcelWithUpdateInfo)
-        {
-            List<DO.Parcel> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).ToList();
-            int index = parcelsList.FindIndex(t => t.Id == parcelWithUpdateInfo.Id);
-            if (index == -1)
-                throw new DO.Exceptions.ObjNotExistException(typeof(Parcel), parcelWithUpdateInfo.Id);
-
-            parcelsList[index] = parcelWithUpdateInfo;
-            DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
-        }
-
-        /// <summary>
-        /// Change specific drone info
-        /// </summary>
-        /// <param name="droneWithUpdateInfo">Drone with the changed info</param>
-        public void changeDroneInfo(Drone droneWithUpdateInfo)
-        {
-            List<DO.Drone> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath).ToList();
-            int index = parcelsList.FindIndex(t => t.Id == droneWithUpdateInfo.Id);
-            if (index == -1)
-                throw new DO.Exceptions.ObjNotExistException(typeof(Drone), droneWithUpdateInfo.Id);
-
-            parcelsList[index] = droneWithUpdateInfo;
-            DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(parcelsList, dir + droneFilePath);
-        }
-
-        /// <summary>
-        ///  Change specific customer info
-        /// </summary>
-        /// <param name="customerWithUpdateInfo">DrThe customer with the changed info</param>
-        public void changeCustomerInfo(Customer customerWithUpdateInfo)
-        {
-            List<DO.Customer> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath).ToList();
-            int index = parcelsList.FindIndex(t => t.Id == customerWithUpdateInfo.Id);
-            if (index == -1)
-                throw new DO.Exceptions.ObjNotExistException(typeof(Customer), customerWithUpdateInfo.Id);
-
-            parcelsList[index] = customerWithUpdateInfo;
-            DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(parcelsList, dir + customerFilePath);
-        }
+        
 
         /// <summary>
         /// If customer with the requested id exist
@@ -555,7 +142,6 @@ namespace Dal
             IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
             if (customersList.Any(c => c.Id == requestedId))
                 return true;
-
             return false;
         }
 
@@ -718,6 +304,40 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
         {
+            XElement testRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            DO.Customer t = new DO.Customer();
+            try
+            {
+                t = (from p in testRoot.Elements()
+                     where predicate(new DO.Customer()
+                     {
+                         //Id = Convert.ToInt32(p.Element("Id").Value),
+                         //Name = p.Element("Name").Value,
+                         //Phone = Convert.ToInt64(p.Element("Phone").Value),
+                         //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
+                         //Longitude = Convert.ToInt32(p.Element("Longitude").Value
+                     })
+                     select new DO.Customer()
+                     {
+                         //Id = Convert.ToInt32(p.Element("Id").Value),
+                         //Name = p.Element("Name").Value,
+                         //Phone = Convert.ToInt64(p.Element("Phone").Value),
+                         //Latitude = Convert.ToInt32(p.Element("Latitude").Value),
+                         //Longitude = Convert.ToInt32(p.Element("Longitude").Value
+                     }).First();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("no element");
+                throw new Exception("no test", e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return t;
+
+
             try
             {
                 IEnumerable<DO.Customer> customerList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
