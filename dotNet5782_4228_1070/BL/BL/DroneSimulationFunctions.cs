@@ -13,7 +13,7 @@ namespace BL
         public void StartSimulation(Drone drone, Action<Drone, int> updateDrone, Func<bool> needToStop)
         {
             var sim = new Simulation(this);
-            sim.start(drone, updateDrone, needToStop);
+            sim.Start(drone, updateDrone, needToStop);
         }
     }
 }

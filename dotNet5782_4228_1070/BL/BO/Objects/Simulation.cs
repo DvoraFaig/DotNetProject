@@ -18,7 +18,7 @@ namespace BO
             this.BL = BL;
         }
 
-        public void start(Drone drone, Action<Drone, int> updateStudent, Func<bool> needToStop)
+        public void Start(Drone drone, Action<Drone, int> updateStudent, Func<bool> needToStop)
         {
             int index = 0;
             while (!needToStop())
@@ -47,9 +47,9 @@ namespace BO
                         updateStudent(drone, (int)batteryFillForCharging);
                         Thread.Sleep(10);
                         timeLeftToCharge--;
-                        if(drone.Battery < 100 && timeLeftToCharge > 0)
+                        if(drone.Battery > 99 || timeLeftToCharge < 1)
                         {
-
+                            Thread.Sleep(10);
                         }
                     }
                     Thread.Sleep(100);
