@@ -81,5 +81,8 @@ namespace BlApi
         //  Remove
         //===================
         public void RemoveParcel(int parcelId);
+
+        public void StartSimulation(Drone std, Action<Drone, int> updateStudent, Func<bool> needToStop);
+
     }
 }
