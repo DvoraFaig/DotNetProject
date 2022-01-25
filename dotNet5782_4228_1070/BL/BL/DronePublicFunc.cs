@@ -285,23 +285,29 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(int droneId)
         {
+            return (int)GetEnumDroneStatusInDelivery(droneId);
+        }
+
+        public DeliveryStatusAction GetEnumDroneStatusInDelivery(int droneId)
+        {
+            // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
             lock (dronesList)
             {
                 Drone drone = GetDroneById(droneId);
                 if (drone.Status == DroneStatus.Available)
                 {
-                    return (int)DeliveryStatusAction.Available;
+                    return DeliveryStatusAction.Available;
                 }
                 else if (drone.Status == DroneStatus.Delivery)
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
                     {
-                        return (int)DeliveryStatusAction.PickedParcel;
+                        return DeliveryStatusAction.PickedParcel;
                     }
                     if (drone.ParcelInTransfer != null)
                     {
-                        return (int)DeliveryStatusAction.AsignedParcel;
+                        return DeliveryStatusAction.AsignedParcel;
                     }
                 }
             }

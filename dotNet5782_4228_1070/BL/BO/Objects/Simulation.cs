@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlApi;
-using DO;
+//using DO;
 using System.Threading;
-
+using BO;
+using static BL.BL;
+using static BO.Exceptions;
 
 namespace BO
 {
-    public class Simulation
+    class Simulation
     {
         Ibl BL;
         public Simulation(Ibl BL)
@@ -23,17 +25,30 @@ namespace BO
             int index = 0;
             while (!needToStop())
             {
+                Thread.Sleep(1000);
                 if (drone.Status == DroneStatus.Available)
                 {
                     try
                     {
                         BL.PairParcelWithDrone(drone.Id);
                     }
+                    catch (ObjNotAvailableException)
+                    {
+                        try
+                        {
+                            BL.SendDroneToCharge(drone.Id);
+                        }
+                        catch (ObjNotAvailableException)
+                        {
+                            // Not implemented becuase need to do other actions
+                            // in the next interation on the while loop
+                        }
+                    }
+                    // Do: If drone not has enough buttery to go to the near station.... do something
                     catch (Exception e)
                     {
                         Thread.Sleep(1000);
                     }
-
                 }
 
                 if (drone.Status == DroneStatus.Maintenance)
@@ -41,13 +56,13 @@ namespace BO
                     double BatteryLeftToFullCharge = 100 - drone.Battery;
                     double batteryFillForCharging = BL.requestElectricity(0);
                     double timeLeftToCharge = BatteryLeftToFullCharge / batteryFillForCharging;
-                    while (drone.Battery <100 && timeLeftToCharge>0)
+                    while (drone.Battery < 100 && timeLeftToCharge > 0)
                     {
-                        drone.Battery+=0.1;
+                        drone.Battery += 0.1;
                         updateStudent(drone, (int)batteryFillForCharging);
                         Thread.Sleep(10);
                         timeLeftToCharge--;
-                        if(drone.Battery > 99 || timeLeftToCharge < 1)
+                        if (drone.Battery > 99 || timeLeftToCharge < 1)
                         {
                             Thread.Sleep(10);
                         }
@@ -56,7 +71,7 @@ namespace BO
                     Drone changeDrone = BL.GetDroneById(drone.Id);
                     changeDrone = drone;
                     bool succeedFreeDroneFromCharge = false;
-                    do 
+                    do
                     {
                         try
                         {
@@ -68,11 +83,21 @@ namespace BO
                         catch (Exception) { }
                     }
                     while (!succeedFreeDroneFromCharge);
-                    
+
                 }
+
                 if (drone.Status == DroneStatus.Delivery)
                 {
-
+                    DeliveryStatusAction droneStatus = BL.GetEnumDroneStatusInDelivery(drone.Id);
+                    switch ((int)droneStatus)
+                    {
+                        case (1)://PickedParcel
+                            BL.DronePicksUpParcel(drone.Id);
+                            break;
+                        case (2)://AsignedParcel
+                            BL.DeliveryParcelByDrone(drone.Id);
+                            break;
+                    }
                 }
             }
         }
