@@ -10,11 +10,10 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
-        public void StartSimulation(Drone std, Action<Drone, int> updateStudent, Func<bool> needToStop)
+        public void StartSimulation(Drone drone, Action<Drone, int> updateDrone, Func<bool> needToStop)
         {
             var sim = new Simulation(this);
-            sim.start(std, updateStudent, needToStop);
-
+            sim.start(drone, updateDrone, needToStop);
         }
     }
 }

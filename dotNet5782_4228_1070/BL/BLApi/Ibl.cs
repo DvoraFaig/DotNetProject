@@ -82,7 +82,15 @@ namespace BlApi
         //===================
         public void RemoveParcel(int parcelId);
 
+        //===================
+        //  StartSimulation
+        //===================
         public void StartSimulation(Drone std, Action<Drone, int> updateStudent, Func<bool> needToStop);
+
+        //===========================
+        //  Drones electricity usage.
+        //===========================
+        public double requestElectricity(int choice);
 
     }
 }

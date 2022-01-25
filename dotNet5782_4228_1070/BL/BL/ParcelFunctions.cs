@@ -206,6 +206,7 @@ namespace BL
                 updateBLDrone(drone);
                 parcel.PickUp = DateTime.Now;
                 dal.changeParcelInfo(parcel);
+                drone.ParcelInTransfer.isWaiting = false; //////////////////////
                 return drone;
             }
 

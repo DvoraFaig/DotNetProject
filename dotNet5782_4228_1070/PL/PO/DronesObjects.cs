@@ -95,6 +95,10 @@ namespace PO
             return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: /* MaxWeight*/ drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
         }
 
+        /// <summary>
+        /// Update drones info.
+        /// </summary>
+        /// <param name="d"></param>
         public void Update(BO.Drone d)
         {
             Id = d.Id;

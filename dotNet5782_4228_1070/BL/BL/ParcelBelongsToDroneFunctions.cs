@@ -93,6 +93,8 @@ namespace BL
                 maxParcel.DroneId = droneToParcel.Id;
                 maxParcel.Scheduled = DateTime.Now;
                 dal.changeParcelInfo(maxParcel);
+                droneToParcel.ParcelInTransfer.isWaiting = false;
+
                 return droneToParcel;
             }
             #region Exceptions
