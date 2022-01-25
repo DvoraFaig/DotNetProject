@@ -210,8 +210,8 @@ namespace BL
                     catch (ArgumentNullException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
                     catch (InvalidOperationException e1) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e1); }
                 }
-            }
             else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
+            }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
