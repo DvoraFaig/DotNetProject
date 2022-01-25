@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -15,6 +16,7 @@ namespace Dal
         /// Add the new DroneCharge to DroneCharges.
         /// </summary>
         /// <param name="newDroneCharge">DroneCharge to add.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneToCharge(DroneCharge newDroneCharge)
         {
             DataSource.DroneCharges.Add(newDroneCharge);
@@ -24,6 +26,7 @@ namespace Dal
         /// Get all droneCharge.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDroneCharges()
         {
             return from d in DataSource.DroneCharges select d;
@@ -34,6 +37,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a drone charge /s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> getDroneChargeWithSpecificCondition(Predicate<DroneCharge> predicate)
         {
             return (from DroneCharge in DataSource.DroneCharges
@@ -44,6 +48,7 @@ namespace Dal
         /// <summary>
         /// Remove charging drone by drone id.
         /// <param name="droneId">The charging drone with droneId</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDroneChargeByDroneId(int droneId)
         {
             int index = DataSource.DroneCharges.FindIndex(d => d.DroneId == droneId);
@@ -67,6 +72,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for droneCharge with this DroneId</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsDroneChargeById(int droneId)
         {
             return DataSource.DroneCharges.Any(d => d.DroneId == droneId);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -16,6 +17,7 @@ namespace Dal
         /// Add the new customer to Customers.
         /// </summary>
         /// <param name="newCustomer">customer to add.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer newCustomer)
         {
             DataSource.Customers.Add(newCustomer);
@@ -25,6 +27,7 @@ namespace Dal
         /// Get all customer.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers()
         {
             return from c in DataSource.Customers
@@ -37,6 +40,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a customer/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
         {
             return (from Customer in DataSource.Customers
@@ -48,6 +52,7 @@ namespace Dal
         ///  Change specific customer info
         /// </summary>
         /// <param name="customerWithUpdateInfo">DrThe customer with the changed info</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void changeCustomerInfo(Customer customerWithUpdateInfo)
         {
             int index = DataSource.Customers.FindIndex(d => d.Id == customerWithUpdateInfo.Id);
@@ -59,6 +64,7 @@ namespace Dal
         /// If doesn't exist throw NoMatchingData exception.
         /// </summary>
         /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeCustomer(Customer customerToRemove)
         {
             try
@@ -84,6 +90,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for customer with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsCustomerById(int requestedId)
         {
             return DataSource.Customers.Any(c => c.Id == requestedId);
@@ -94,6 +101,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsCustomerActive(int requestedId)
         {
             return DataSource.Customers.Any(c => c.Id == requestedId && c.IsActive == true);

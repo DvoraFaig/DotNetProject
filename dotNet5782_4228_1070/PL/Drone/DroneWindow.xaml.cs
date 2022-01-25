@@ -284,7 +284,7 @@ namespace PL
                 //    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nEnter time to charge");
                 //}
                 //else
-                //{
+                //{ 
                 try
                 {
                     currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
