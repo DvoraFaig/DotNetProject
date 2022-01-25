@@ -75,7 +75,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDrones()
         {
-            return dronesList;
+            lock (dronesList)
+            {
+                return dronesList;
+            }
         }
 
         /// <summary>
@@ -85,7 +88,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> returnDronesToList()
         {
-            return convertDronesToDronesToList(dronesList);
+            lock (dronesList)
+            {
+                return convertDronesToDronesToList(dronesList);
+            }
         }
 
         /// <summary>
@@ -96,7 +102,7 @@ namespace BL
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status)
-        {
+        { 
             IEnumerable<Drone> IList = getDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
             if (weight >= 0 && status == -1)
                 IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (DO.WeightCategories)weight);
@@ -115,7 +121,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDroneById(int droneRequestedId)
         {
-            return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
+            lock (dronesList)
+            {
+                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
+            }
         }
 
         /// <summary>
@@ -127,10 +136,13 @@ namespace BL
         {
             try
             {
-                int index = dronesList.FindIndex(d => d.Id == droneId);
-                dronesList[index].Id = droneId;
-                dronesList[index].Model = newModel;
-                dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
+                lock (dronesList)
+                {
+                    int index = dronesList.FindIndex(d => d.Id == droneId);
+                    dronesList[index].Id = droneId;
+                    dronesList[index].Model = newModel;
+                    dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
+                }
             }
             #region Exceptions
             catch (Exception e)
@@ -150,38 +162,43 @@ namespace BL
         {
             try
             {
-                Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First(); //I have the drone already??????
-                if (drone.Status == DroneStatus.Available)
+                lock (dal)
                 {
-                    DO.Station availbleStationForCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
-                    if (availbleStationForCharging.Id == 0)
-                        throw new ObjNotExistException("Drone cann't charge.\nNo Available charging slots\nPlease try later");
-                    DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleStationForCharging.Id, DroneId = droneId };
-                    Position availbleStationforCharging = new Position() { Latitude = availbleStationForCharging.Latitude, Longitude = availbleStationForCharging.Longitude };
-                    double dis = (distance(drone.DronePosition, availbleStationforCharging));
-                    ////////if (dis != 0) // if the drone is supposed to fly to tha station to charge
-                    ////////    drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
-                    if (dis != 0)
-                    {// if the drone is supposed to fly to tha station to charge
-                        double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
-                        batteryForDis = Math.Round(batteryForDis, 1);
-                        if (drone.Battery - batteryForDis < 0) //to erase
-                            throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
-                        drone.Battery = batteryForDis;
+                    lock (dronesList) { 
+                    Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First(); //I have the drone already??????
+                    if (drone.Status == DroneStatus.Available)
+                    {
+                        DO.Station availbleStationForCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
+                        if (availbleStationForCharging.Id == 0)
+                            throw new ObjNotExistException("Drone cann't charge.\nNo Available charging slots\nPlease try later");
+                        DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleStationForCharging.Id, DroneId = droneId };
+                        Position availbleStationforCharging = new Position() { Latitude = availbleStationForCharging.Latitude, Longitude = availbleStationForCharging.Longitude };
+                        double dis = (distance(drone.DronePosition, availbleStationforCharging));
+                        ////////if (dis != 0) // if the drone is supposed to fly to tha station to charge
+                        ////////    drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
+                        if (dis != 0)
+                        {// if the drone is supposed to fly to tha station to charge
+                            double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
+                            batteryForDis = Math.Round(batteryForDis, 1);
+                            if (drone.Battery - batteryForDis < 0) //to erase
+                                throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
+                            drone.Battery = batteryForDis;
+                        }
+                        drone.Status = DroneStatus.Maintenance;
+                        drone.DronePosition = availbleStationforCharging;
+                        dal.AddDroneToCharge(droneCharge);
+                        dal.changeStationInfo(availbleStationForCharging);
+                        dal.changeDroneInfo(convertBLToDalDrone(drone));
+                        drone.SartToCharge = DateTime.Now;
+                        return drone;
                     }
-                    drone.Status = DroneStatus.Maintenance;
-                    drone.DronePosition = availbleStationforCharging;
-                    dal.AddDroneToCharge(droneCharge);
-                    dal.changeStationInfo(availbleStationForCharging);
-                    dal.changeDroneInfo(convertBLToDalDrone(drone));
-                    drone.SartToCharge = DateTime.Now;
-                    return drone;
+                    #region exceptions
+                    else
+                    {
+                        throw new ObjNotAvailableException("The Drone is not avalable for charging\nPlease try later.....");
+                    }
                 }
-                #region exceptions
-                else
-                {
-                    throw new ObjNotAvailableException("The Drone is not avalable for charging\nPlease try later.....");
-                }
+            }
             }
             catch (ObjNotExistException e)
             {
@@ -205,19 +222,25 @@ namespace BL
         {
             try
             {
-                Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
-                DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
-                DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
-                //changeInfoOfStation(s.Id, null, s.ChargeSlots);
-                blDrone.Status = DroneStatus.Available;
-                TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;///
-                double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
-                baterryToAdd = Math.Round(baterryToAdd, 1);
-                blDrone.Battery += baterryToAdd;
-                blDrone.Battery = Math.Round(blDrone.Battery, 1);
-                blDrone.Battery = Math.Min(blDrone.Battery , 100);
-                // Do later: remove drone charge;
-                return blDrone;
+                lock (dronesList)
+                {
+                    lock (dal)
+                    {
+                        Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
+                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
+                        DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
+                        //changeInfoOfStation(s.Id, null, s.ChargeSlots);
+                        blDrone.Status = DroneStatus.Available;
+                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;///
+                        double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
+                        baterryToAdd = Math.Round(baterryToAdd, 1);
+                        blDrone.Battery += baterryToAdd;
+                        blDrone.Battery = Math.Round(blDrone.Battery, 1);
+                        blDrone.Battery = Math.Min(blDrone.Battery, 100);
+                        // Do later: remove drone charge;
+                        return blDrone;
+                    }
+                }
             }
             #region Exceptions
             catch (Exception e)
@@ -237,7 +260,10 @@ namespace BL
             try
             {
                 if (dal.IsDroneById(drone.Id))
-                    dal.removeDrone(convertBLToDalDrone(drone));
+                    lock (dal)
+                    {
+                        dal.removeDrone(convertBLToDalDrone(drone));
+                    }
                 #region Exceptions
                 else
                     throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
@@ -259,21 +285,24 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(int droneId)
         {
-            Drone drone = GetDroneById(droneId);
-            if (drone.Status == DroneStatus.Available)
+            lock (dronesList)
             {
-                return (int)DeliveryStatusAction.Available;
-            }
-            else if (drone.Status == DroneStatus.Delivery)
-            {
-                if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
-                    drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
+                Drone drone = GetDroneById(droneId);
+                if (drone.Status == DroneStatus.Available)
                 {
-                    return (int)DeliveryStatusAction.PickedParcel;
+                    return (int)DeliveryStatusAction.Available;
                 }
-                if (drone.ParcelInTransfer != null)
+                else if (drone.Status == DroneStatus.Delivery)
                 {
-                    return (int)DeliveryStatusAction.AsignedParcel;
+                    if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
+                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
+                    {
+                        return (int)DeliveryStatusAction.PickedParcel;
+                    }
+                    if (drone.ParcelInTransfer != null)
+                    {
+                        return (int)DeliveryStatusAction.AsignedParcel;
+                    }
                 }
             }
             throw new Exception("No macthing status");

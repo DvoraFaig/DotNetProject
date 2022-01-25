@@ -22,7 +22,10 @@ namespace BL
             try
             {
                 if (dal.IsDroneChargeById(droneId))
-                    dal.removeDroneChargeByDroneId(droneId);
+                    lock (dal)
+                    {
+                        dal.removeDroneChargeByDroneId(droneId);
+                    }
                 #region Exceptions
                 else
                     throw new Exceptions.ObjNotExistException(typeof(ChargingDrone), droneId);

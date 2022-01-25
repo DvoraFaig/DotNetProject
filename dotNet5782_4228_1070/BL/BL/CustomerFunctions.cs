@@ -54,10 +54,13 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetCustomersToList()
         {
-            IEnumerable<DO.Customer> customers = dal.GetCustomers();
-            List<CustomerToList> customerToLists = new List<CustomerToList>();
-            return from customer in customers
-                   select converteCustomerToList(customer);
+            lock (dal)
+            {
+                IEnumerable<DO.Customer> customers = dal.GetCustomers();
+                List<CustomerToList> customerToLists = new List<CustomerToList>();
+                return from customer in customers
+                       select converteCustomerToList(customer);
+            }
         }
 
         /// <summary>
@@ -68,18 +71,21 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customerInParcel = null)
         {
-            IEnumerable<DO.Customer> customers = dal.GetCustomers();
-            List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
-            foreach (var customer in customers)
+            lock (dal)
             {
-                customerToLists.Add(convertDalToBLCustomerInParcel(customer));
+                IEnumerable<DO.Customer> customers = dal.GetCustomers();
+                List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
+                foreach (var customer in customers)
+                {
+                    customerToLists.Add(convertDalToBLCustomerInParcel(customer));
+                }
+                if (customerInParcel != null)
+                {
+                    customerInParcel = customerToLists.SingleOrDefault(c => c.Id == customerInParcel.Id);
+                    customerToLists.Remove(customerInParcel);
+                }
+                return customerToLists;
             }
-            if (customerInParcel != null)
-            {
-                customerInParcel = customerToLists.SingleOrDefault(c => c.Id == customerInParcel.Id);
-                customerToLists.Remove(customerInParcel);
-            }
-            return customerToLists;
         }
 
         /// <summary>
@@ -90,9 +96,12 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerById(int customerRequestedId)
         {
-            DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId).First();
-            Customer BLcustomer = convertDalToBLCustomer(c);
-            return BLcustomer;
+            lock (dal)
+            {
+                DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId).First();
+                Customer BLcustomer = convertDalToBLCustomer(c);
+                return BLcustomer;
+            }
         }
 
         /// <summary>
@@ -104,33 +113,39 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerByIdAndName(int customerRequestedId, string customerRequestedName)
         {
-            DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
-            if (c.IsActive == false)
+            lock (dal)
             {
-                c.IsActive = true;
-                dal.AddCustomer(c);
+                DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
+                if (c.IsActive == false)
+                {
+                    c.IsActive = true;
+                    dal.AddCustomer(c);
+                }
+                Customer BLcustomer = convertDalToBLCustomer(c);
+                return BLcustomer;
             }
-            Customer BLcustomer = convertDalToBLCustomer(c);
-            return BLcustomer;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null)
         {
-            DO.Customer c;
-            try
+            lock (dal)
             {
-                c = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
-                if (name != null)
-                    c.Name = name;
-                if (phone != null && phone.Length >= 9 && phone.Length <= 10)
-                    c.Phone = phone;
-                dal.changeCustomerInfo(c);
-                return (convertDalToBLCustomer(c));
-            }
-            catch (Exception e)
-            {
-                throw new ObjNotExistException(typeof(DO.Customer), id, e);
+                DO.Customer c;
+                try
+                {
+                    c = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
+                    if (name != null)
+                        c.Name = name;
+                    if (phone != null && phone.Length >= 9 && phone.Length <= 10)
+                        c.Phone = phone;
+                    dal.changeCustomerInfo(c);
+                    return (convertDalToBLCustomer(c));
+                }
+                catch (Exception e)
+                {
+                    throw new ObjNotExistException(typeof(DO.Customer), id, e);
+                }
             }
         }
 

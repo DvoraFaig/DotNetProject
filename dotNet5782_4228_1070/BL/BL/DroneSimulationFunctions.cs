@@ -16,7 +16,6 @@ namespace BL
         {
             var sim = new Simulation(this);
             sim.start(std, updateStudent, needToStop);
-
         }
     }
 }

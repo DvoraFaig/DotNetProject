@@ -52,16 +52,18 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public List<StationToList> GetStationsToList()
         {
-            IEnumerable<DO.Station> stations = dal.GetStations();
-            List<StationToList> stationToList = new List<StationToList>();
-            foreach (var station in stations)
+            lock (dal)
             {
-                int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
-                stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
-
+                IEnumerable<DO.Station> stations = dal.GetStations();
+                List<StationToList> stationToList = new List<StationToList>();
+                foreach (var station in stations)
+                {
+                    int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+                    int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
+                    stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
+                }
+                return stationToList;
             }
-            return stationToList;
         }
 
         /// <summary>
@@ -72,10 +74,13 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0)
         {
-            List<StationToList> stationToList = GetStationsToList();
-            return (from station in stationToList
-                    where station.DroneChargeAvailble >= amountAvilableSlots
-                    select station);
+            lock (dal)
+            {
+                List<StationToList> stationToList = GetStationsToList();
+                return (from station in stationToList
+                        where station.DroneChargeAvailble >= amountAvilableSlots
+                        select station);
+            }
         }
 
         /// <summary>
@@ -86,9 +91,12 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStationById(int stationrequestedId)
         {
-            DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == stationrequestedId).First();
-            Station BLstation = convertDalToBLStation(s);
-            return BLstation;
+            lock (dal)
+            {
+                DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == stationrequestedId).First();
+                Station BLstation = convertDalToBLStation(s);
+                return BLstation;
+            }
         }
 
         /// <summary>
@@ -100,20 +108,23 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void changeInfoOfStation(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
-            DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == id).First();
-            if (name != null)
-                s.Name = name;
-            if (s.ChargeSlots <= ChargeSlots)
-                s.ChargeSlots = ChargeSlots;
-            if (s.ChargeSlots > ChargeSlots)
+            lock (dal)
             {
-                int amountDroneChargesFull = dal.getDroneChargeWithSpecificCondition(station => station.StationId == s.Id).Count();
-                if (amountDroneChargesFull < ChargeSlots)
+                DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == id).First();
+                if (name != null)
+                    s.Name = name;
+                if (s.ChargeSlots <= ChargeSlots)
                     s.ChargeSlots = ChargeSlots;
-                else
-                    throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
+                if (s.ChargeSlots > ChargeSlots)
+                {
+                    int amountDroneChargesFull = dal.getDroneChargeWithSpecificCondition(station => station.StationId == s.Id).Count();
+                    if (amountDroneChargesFull < ChargeSlots)
+                        s.ChargeSlots = ChargeSlots;
+                    else
+                        throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
+                }
+                dal.changeStationInfo(s);
             }
-            dal.changeStationInfo(s);
         }
 
         /// <summary>

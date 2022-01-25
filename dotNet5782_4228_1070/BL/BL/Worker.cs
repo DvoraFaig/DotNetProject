@@ -21,8 +21,11 @@ namespace BL
         {
             try
             {
-                DO.Worker worker1 = dal.getWorkerWithSpecificCondition(w => w.Id == worker.Id && w.Password == worker.Password).First();
-                return true;
+                lock (dal)
+                {
+                    DO.Worker worker1 = dal.getWorkerWithSpecificCondition(w => w.Id == worker.Id && w.Password == worker.Password).First();
+                    return true;
+                }
             }
             catch (InvalidOperationException e)
             {
