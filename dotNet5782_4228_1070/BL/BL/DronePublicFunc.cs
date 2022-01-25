@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -20,6 +21,7 @@ namespace BL
         /// <param name="model">Drones' model name</param>
         /// <param name="maxWeight">Drones' maxweight he could carry</param>
         /// <param name="stationId">In witch station to charge the drone in.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneToAdd, int stationId)
         {
             if (dal.IsDroneById(droneToAdd.Id))
@@ -30,35 +32,38 @@ namespace BL
             }
             else
             {
-                if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
-                    throw new Exception("Weight of drone is out of range");
-                DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
-                int battery = r.Next(20, 40);
-                DO.Station s;
-                try
+                lock (dal)
                 {
-                    s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
-                }
-                #region Exceptions
-                catch (InvalidOperationException)
-                {
-                    throw new ObjNotExistException(typeof(DO.Station), stationId);
-                }
-                #endregion
-                Station sBL = convertDalToBLStation(s);
-                if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
-                {
-                    Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
-                    Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-                    dronesList.Add(dr);
-                    dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
-                    dal.AddDrone(convertBLToDalDrone(dr));
-                }
-                else
-                {
+                    if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
+                        throw new Exception("Weight of drone is out of range");
+                    DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
+                    int battery = r.Next(20, 40);
+                    DO.Station s;
+                    try
+                    {
+                        s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                    }
                     #region Exceptions
-                    throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
+                    catch (InvalidOperationException)
+                    {
+                        throw new ObjNotExistException(typeof(DO.Station), stationId);
+                    }
                     #endregion
+                    Station sBL = convertDalToBLStation(s);
+                    if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
+                    {
+                        Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
+                        Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                        dronesList.Add(dr);
+                        dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
+                        dal.AddDrone(convertBLToDalDrone(dr));
+                    }
+                    else
+                    {
+                        #region Exceptions
+                        throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
+                        #endregion
+                    }
                 }
             }
         }
@@ -67,6 +72,7 @@ namespace BL
         /// Return DronesList
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDrones()
         {
             return dronesList;
@@ -76,6 +82,7 @@ namespace BL
         /// Return DroneList converted to DronesToList
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> returnDronesToList()
         {
             return convertDronesToDronesToList(dronesList);
@@ -87,6 +94,7 @@ namespace BL
         /// <param name="weight">if 3>weight>-1 == values of DroneStatus. if weight==-1 weight is null</param>
         /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status)
         {
             IEnumerable<Drone> IList = getDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
@@ -104,6 +112,7 @@ namespace BL
         /// </summary>
         /// <param name="droneRequestedId">The id of the drone that's requested<</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDroneById(int droneRequestedId)
         {
             return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
@@ -113,6 +122,7 @@ namespace BL
         /// Change name of drones' model.
         /// </summary>
         /// <param name="droneWithUpdateInfo">Drone with the new Model name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ChangeDroneModel(int droneId, string newModel)
         {
             try
@@ -135,6 +145,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone SendDroneToCharge(int droneId)
         {
             try
@@ -189,6 +200,7 @@ namespace BL
         /// <param name="droneId"></param>
         /// <param name="timeCharging"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
         {
             try
@@ -219,6 +231,7 @@ namespace BL
         /// Remove specific drone
         /// </summary>
         /// <param name="droneId">remove current drone with droneId</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
             try
@@ -243,6 +256,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId">Drones' id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(int droneId)
         {
             Drone drone = GetDroneById(droneId);

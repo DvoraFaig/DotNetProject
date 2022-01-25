@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -15,6 +16,7 @@ namespace BL
         /// </summary>
         /// <param name="worker">The worker who loged in</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool ifWorkerExist(Worker worker)
         {
             try

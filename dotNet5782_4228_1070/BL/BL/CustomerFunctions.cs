@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -16,35 +17,41 @@ namespace BL
         /// If doesn't exist send if it to a func to add
         /// </summary>
         /// <param name="customerToAdd">The new customer to add.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(BO.Customer customerToAdd)
         {
-            try
+            lock (dal)
             {
-                DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
-                if (customer.IsActive)
-                    throw new ObjExistException(typeof(BO.Customer), customer.Id);
-                customer.IsActive = true;
-                dal.changeCustomerInfo(customer);
-                string message = "";
-                if (customerToAdd.CustomerPosition.Latitude != customer.Latitude || customerToAdd.CustomerPosition.Longitude != customer.Longitude)
-                    message = "Position";
-                if (customerToAdd.Name != customer.Name)
-                    message += ", Name";
-                if (customerToAdd.Phone != customer.Phone)
-                    message += "and Phone";
-                if (message != "")
-                    throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
-                return;
+                try
+                {
+                    DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
+                    if (customer.IsActive)
+                        throw new ObjExistException(typeof(BO.Customer), customer.Id);
+                    customer.IsActive = true;
+                    dal.changeCustomerInfo(customer);
+
+                    string message = "";
+                    if (customerToAdd.CustomerPosition.Latitude != customer.Latitude || customerToAdd.CustomerPosition.Longitude != customer.Longitude)
+                        message = "Position";
+                    if (customerToAdd.Name != customer.Name)
+                        message += ", Name";
+                    if (customerToAdd.Phone != customer.Phone)
+                        message += "and Phone";
+                    if (message != "")
+                        throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
+                    return;
+                }
+                catch (ArgumentNullException) { }
+                catch (InvalidOperationException) { }
+                dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
             }
-            catch (ArgumentNullException) { }
-            catch (InvalidOperationException) { }
-            dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
         }
 
         /// <summary>
         /// Returns a IEnumerable<CustomerToList> by recieving customers and converting them to CustomerToList
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetCustomersToList()
         {
             IEnumerable<DO.Customer> customers = dal.GetCustomers();
@@ -58,6 +65,7 @@ namespace BL
         /// </summary>
         /// <param name="customerInParcel"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customerInParcel = null)
         {
             IEnumerable<DO.Customer> customers = dal.GetCustomers();
@@ -79,6 +87,7 @@ namespace BL
         /// </summary>
         /// <param name="customerRequestedId">The id of the customer that's requested</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerById(int customerRequestedId)
         {
             DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId).First();
@@ -92,6 +101,7 @@ namespace BL
         /// <param name="customerRequestedId">The id of the customer that requested<</param>
         /// <param name="customerRequestedName">The name of the customer that requested<</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerByIdAndName(int customerRequestedId, string customerRequestedName)
         {
             DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
@@ -104,6 +114,7 @@ namespace BL
             return BLcustomer;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null)
         {
             DO.Customer c;
@@ -127,13 +138,17 @@ namespace BL
         /// Remove specific customer
         /// </summary>
         /// <param name="parcelToRemove">remove current customer</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(int customerId)
         {
             try
             {
                 Customer customer = GetCustomerById(customerId);
                 if (dal.IsCustomerActive(customer.Id))
-                    dal.removeCustomer(convertBLToDalCustomer(customer));
+                    lock (dal)
+                    {
+                        dal.removeCustomer(convertBLToDalCustomer(customer));
+                    }
                 else
                     throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
             }

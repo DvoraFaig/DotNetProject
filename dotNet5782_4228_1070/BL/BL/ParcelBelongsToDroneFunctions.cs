@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -15,6 +16,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId">The drones' id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone PairParcelWithDrone(int droneId) //ParcelStatuses.Scheduled
         {
             try

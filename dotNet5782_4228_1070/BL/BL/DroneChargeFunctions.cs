@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -15,6 +16,7 @@ namespace BL
         /// Remove specific drone
         /// </summary>
         /// <param name="droneId">remove current drone with droneId</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
             try

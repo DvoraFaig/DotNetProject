@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -20,20 +21,24 @@ namespace BL
         /// <param name="targetId">Parcels' target(customer) id</param>
         /// <param name="weight">Parcels' weight</param>
         /// <param name="priority">Parcels' priority</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
             if (dal.IsCustomerById(parcelToAdd.Sender.Id) && dal.IsCustomerById(parcelToAdd.Target.Id))
             {
-                DO.Parcel p = new DO.Parcel()
+                lock (dal)
                 {
-                    Id = dal.amountParcels() + 1,
-                    SenderId = parcelToAdd.Sender.Id,
-                    TargetId = parcelToAdd.Target.Id,
-                    Weight = parcelToAdd.Weight,
-                    Priority = parcelToAdd.Priority,
-                    Requeasted = DateTime.Now
-                };
-                dal.AddParcel(p);
+                    DO.Parcel p = new DO.Parcel()
+                    {
+                        Id = dal.amountParcels() + 1,
+                        SenderId = parcelToAdd.Sender.Id,
+                        TargetId = parcelToAdd.Target.Id,
+                        Weight = parcelToAdd.Weight,
+                        Priority = parcelToAdd.Priority,
+                        Requeasted = DateTime.Now
+                    };
+                    dal.AddParcel(p);
+                }
             }
             else
             {
@@ -45,6 +50,7 @@ namespace BL
         /// 
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcelToList()//////
         {
             IEnumerable<BO.Parcel> parcels = (from parcel in dal.GetParcels()
@@ -56,6 +62,7 @@ namespace BL
         /// Returns a IEnumerable<Parcels> by recieving parcels from dal and converting them to BO.Parcel.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> getParcels()
         {
             IEnumerable<DO.Parcel> parcels = dal.GetParcels();
@@ -70,6 +77,7 @@ namespace BL
         /// <param name="status"></param>
         /// <param name="priority"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
         {
             List<Parcel> list = new List<Parcel>();
@@ -104,6 +112,7 @@ namespace BL
                     select parcel);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel getParcelByDrone(int droneId)
         {
             try
@@ -125,6 +134,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool checkIfExistParcelByDrone(int droneId)
         {
             try
@@ -145,6 +155,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelRequestedId">The id of the parcel that's requested</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcelById(int parcelRequestedId)
         {
             DO.Parcel p = dal.getParcelWithSpecificCondition(p => p.Id == parcelRequestedId).First();
@@ -158,6 +169,7 @@ namespace BL
         /// else throw an error
         /// </summary>
         /// <param name="parcel">The parcel </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(int parcelId)
         {
             Parcel parcel = GetParcelById(parcelId);
@@ -173,6 +185,7 @@ namespace BL
             else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone DronePicksUpParcel(int droneId)// ParcelStatuses.PickedUp          
         {
             try
@@ -215,6 +228,7 @@ namespace BL
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.
         {
             try
