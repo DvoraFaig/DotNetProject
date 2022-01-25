@@ -28,6 +28,8 @@ namespace BO
                     try
                     {
                         BL.PairParcelWithDrone(drone.Id);
+                        Drone changeDrone = BL.GetDroneById(drone.Id);
+                        changeDrone = drone;
                     }
                     catch (Exception e)
                     {
@@ -39,22 +41,20 @@ namespace BO
                 if (drone.Status == DroneStatus.Maintenance)
                 {
                     double BatteryLeftToFullCharge = 100 - drone.Battery;
-                    double batteryFillForCharging = BL.requestElectricity(0);
-                    double timeLeftToCharge = BatteryLeftToFullCharge / batteryFillForCharging;
+                    double percentFillBatteryForCharging = BL.requestElectricity(0);
+                    double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
                     while (drone.Battery <100 && timeLeftToCharge>0)
                     {
-                        drone.Battery+=0.1;
-                        updateStudent(drone, (int)batteryFillForCharging);
-                        Thread.Sleep(10);
+                        drone.Battery += percentFillBatteryForCharging*10;
+                        updateStudent(drone, 1);
+                        Thread.Sleep(100);
                         timeLeftToCharge--;
-                        if(drone.Battery > 99 || timeLeftToCharge < 1)
-                        {
-                            Thread.Sleep(10);
-                        }
                     }
                     Thread.Sleep(100);
-                    Drone changeDrone = BL.GetDroneById(drone.Id);
-                    changeDrone = drone;
+                    //BL.changeDroneInfo(drone);
+
+                    //Drone changeDrone = BL.GetDroneById(drone.Id);
+                    //changeDrone = drone;
                     bool succeedFreeDroneFromCharge = false;
                     do 
                     {
@@ -62,7 +62,7 @@ namespace BO
                         {
                             BL.FreeDroneFromCharging(drone.Id);
                             drone.Status = DroneStatus.Available;
-                            updateStudent(drone, (int)batteryFillForCharging);
+                            updateStudent(drone, (int)percentFillBatteryForCharging);
                             succeedFreeDroneFromCharge = true;
                         }
                         catch (Exception) { }

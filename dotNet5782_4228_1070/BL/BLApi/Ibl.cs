@@ -69,8 +69,11 @@ namespace BlApi
         public Drone PairParcelWithDrone(int droneId);
         public Drone DronePicksUpParcel(int droneId);
         public Drone DeliveryParcelByDrone(int idDrone);
+
+        public void changeDroneInfo(Drone droneWithUpdateInfo);
+
         //public void GetParcelToDelivery(int senderId, int targetId, DO.WeightCategories weight, DO.Priorities priority);
-       
+
         //========================
         //  Get Data About Object
         //========================
