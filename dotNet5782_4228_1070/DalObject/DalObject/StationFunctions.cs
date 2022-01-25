@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 
 namespace Dal
@@ -15,6 +16,7 @@ namespace Dal
         /// Add the new station to Stations.
         /// </summary>
         /// <param name="newStation">The station to add.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station newStation)
         {
             DataSource.Stations.Add(newStation);
@@ -24,6 +26,7 @@ namespace Dal
         /// Get all stations.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
             return from s in DataSource.Stations
@@ -36,6 +39,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">return a station/s that meeets the condition</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> getStationWithSpecificCondition(Predicate<Station> predicate)
         {
             return (from station in DataSource.Stations
@@ -47,6 +51,7 @@ namespace Dal
         /// Change specific stations info
         /// </summary>
         /// <param name="stationWithUpdateInfo">Station with the changed info</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void changeStationInfo(Station stationWithUpdateInfo)
         {
             int index = DataSource.Stations.FindIndex(s => s.Id == stationWithUpdateInfo.Id);
@@ -58,6 +63,7 @@ namespace Dal
         /// If doesn't exist throw NoMatchingData exception.
         /// </summary>
         /// <param name="stationToRemove">The station to remove. stationToRemove.IsActive = false</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeStation(Station stationToRemove)
         {
             try
@@ -82,6 +88,7 @@ namespace Dal
         /// Return how much stations there is.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int amountStations()
         {
             return DataSource.Stations.Count();
@@ -92,6 +99,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for station with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsStationById(int requestedId)
         {
             return DataSource.Stations.Any(s => s.Id == requestedId);
@@ -102,6 +110,7 @@ namespace Dal
         /// </summary>
         /// <param name="requestedId">Looking for station with this id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Boolean IsStationActive(int requestedId)
         {
             return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
