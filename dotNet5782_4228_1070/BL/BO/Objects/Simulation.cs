@@ -50,7 +50,9 @@ namespace BO
                         }
                         catch (ObjNotAvailableException) //Not enough battery
                         {
-                            
+                            //Not supposed to happen:
+                            //If hapens Drone Will be like a parcel and another parcel will pick him
+                            //up and deliver it to the neerest station with an empty charge slots.
                             // Not implemented becuase need to do other actions
                             // in the next interation on the while loop
                         }
