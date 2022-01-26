@@ -54,7 +54,7 @@ namespace BO
                                 }
                             }
                             // Do: If drone not has enough buttery to go to the near station.... do something
-                            catch (Exception e)
+                            catch (Exception )
                             {
                                 Thread.Sleep(1000);
                                 ///to stop
@@ -131,8 +131,8 @@ namespace BO
                         }
 
                     default:
-                        break;
                         Thread.Sleep(10000);
+                        break;
 
                 }
             }

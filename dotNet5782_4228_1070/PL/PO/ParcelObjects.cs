@@ -10,7 +10,21 @@ namespace PO
 {
     public class Parcel : DependencyObject
     {
-        public Parcel(BO.Parcel p)
+        public Parcel(BlApi.Ibl blObject, BO.Parcel p)
+        {
+            Id = p.Id;
+            Sender = p.Sender;
+            Target = p.Target;
+            Weight = (WeightCategories)p.Weight;
+            Priority = (Priorities)p.Priority;
+            Drone = p.Drone;
+            Requeasted = p.Requeasted;
+            Scheduled = p.Scheduled;
+            PickUp = p.PickUp;
+            Delivered = p.Delivered;
+            blObject.ParcelChangeAction += Update;
+        }
+        public void Update(BO.Parcel p)
         {
             Id = p.Id;
             Sender = p.Sender;
@@ -23,8 +37,8 @@ namespace PO
             PickUp = p.PickUp;
             Delivered = p.Delivered;
         }
-         
-        public void Update(BO.Parcel p)
+
+        public void Update(BlApi.Ibl blObject, BO.Parcel p)
         {
             Id = p.Id;
             Sender = p.Sender;

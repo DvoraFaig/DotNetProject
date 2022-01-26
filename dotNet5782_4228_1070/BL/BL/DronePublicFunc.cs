@@ -12,7 +12,7 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
     {
-        public Action<Drone> DroneChange { get; set; }
+        public Action<Drone> DroneChangeAction { get; set; }
 
         /// <summary>
         /// Check if drone with the same id exist.
@@ -60,7 +60,7 @@ namespace BL
                         dronesList.Add(dr);
                         dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                         dal.AddDrone(convertBLToDalDrone(dr));
-                        DroneChange?.Invoke(dr);
+                        DroneChangeAction?.Invoke(dr);
                     }
                     else
                     {
@@ -146,7 +146,7 @@ namespace BL
                     dronesList[index].Id = droneId;
                     dronesList[index].Model = newModel;
                     dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
-                    DroneChange?.Invoke(dronesList[index]);
+                    DroneChangeAction?.Invoke(dronesList[index]);
                 }
             }
             #region Exceptions
@@ -198,7 +198,7 @@ namespace BL
                             dal.changeStationInfo(availbleStationForCharging);
                             dal.changeDroneInfo(convertBLToDalDrone(drone));
                             drone.SartToCharge = DateTime.Now;
-                            DroneChange?.Invoke(drone);
+                            DroneChangeAction?.Invoke(drone);
                             return drone;
                         }
                         #region exceptions
@@ -249,7 +249,7 @@ namespace BL
                         blDrone.Battery += baterryToAdd;
                         blDrone.Battery = Math.Round(blDrone.Battery, 1);
                         blDrone.Battery = Math.Min(blDrone.Battery, 100);
-                        DroneChange?.Invoke(blDrone);
+                        DroneChangeAction?.Invoke(blDrone);
                         // Do later: remove drone charge;
                         dal.removeDroneChargeByDroneId(blDrone.Id);
                         return blDrone;
@@ -342,7 +342,7 @@ namespace BL
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
             dronesList[index] = droneWithUpdateInfo;
-            DroneChange?.Invoke(dronesList[index]);
+            DroneChangeAction?.Invoke(dronesList[index]);
         }
     }
 }

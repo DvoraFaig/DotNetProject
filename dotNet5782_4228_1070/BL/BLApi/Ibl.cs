@@ -6,7 +6,9 @@ namespace BlApi
 {
     public interface Ibl
     {
-        public Action<Drone> DroneChange { get; set; }
+        public Action<Drone> DroneChangeAction { get; set; }
+        public Action<Customer> CustomerChangeAction { get; set; }
+        public Action<Parcel> ParcelChangeAction { get; set; }
         //================
         //  Add
         //================
