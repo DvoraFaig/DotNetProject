@@ -112,6 +112,12 @@ namespace BL
         }
 
 
+        public Parcel convertADroneToParcelWhenDroneIsTakenByDrone(Drone drone)
+        {
+            return new Parcel();
+
+        }
+
 
         /// <summary>
         /// return a DroneInParcel occurding to a parcel and drone id.

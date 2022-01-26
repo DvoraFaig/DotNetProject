@@ -8,7 +8,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
     {
         /// <summary>
         /// Receive a BO drone and return a converted DO drone - copy information.
@@ -114,7 +114,7 @@ namespace BL
         /// </summary>
         /// <param name="customer">Customer to convert</param>
         /// <returns></returns>
-        private Customer convertDalToBLCustomer(DO.Customer customer)
+        public Customer convertDalToBLCustomer(DO.Customer customer)
         {
             IEnumerable<DO.Parcel> sendingParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id);
             IEnumerable<DO.Parcel> targetParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id);
@@ -225,11 +225,22 @@ namespace BL
         }
 
         /// <summary>
+        /// Praivet Convert Dal To BL Parcel needed to be used by the simulation.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Parcel convertDalToBLParcelSimulation(DO.Parcel p)
+        {
+            return convertDalToBLParcel(p);
+        }
+
+
+        /// <summary>
         /// Convert DalToBL Parcel
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private Parcel convertDalToBLParcel(DO.Parcel p)
+        private Parcel convertDalToBLParcel(DO.Parcel p) ///////////////////////////////
         {
             DroneInParcel drone = null;
             Parcel parcel = new Parcel();

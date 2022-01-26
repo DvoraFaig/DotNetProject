@@ -26,6 +26,8 @@ namespace PO
             DronePosition = d.DronePosition;
             blObject.DroneChange += Update;
         }
+            SartToCharge = d.SartToCharge;
+    }
 
         public Drone(BlApi.Ibl blObject)
         {
@@ -56,7 +58,8 @@ namespace PO
                 Status = this.Status,
                 MaxWeight = (DO.WeightCategories)this.MaxWeight,
                 ParcelInTransfer = this.ParcelInTransfer,
-                DronePosition = this.DronePosition
+                DronePosition = this.DronePosition,
+                SartToCharge = this.SartToCharge
             };
         }
 

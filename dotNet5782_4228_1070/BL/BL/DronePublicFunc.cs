@@ -7,9 +7,10 @@ using BO;
 using static BO.Exceptions;
 using System.Runtime.CompilerServices;
 
+
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
     {
         public Action<Drone> DroneChange { get; set; }
 
@@ -237,11 +238,12 @@ namespace BL
                     lock (dal)
                     {
                         Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
-                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();
+                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();/////////////////
                         DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                         //changeInfoOfStation(s.Id, null, s.ChargeSlots);
                         blDrone.Status = DroneStatus.Available;
-                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;///
+                        dal.removeDroneChargeByDroneId(droneId);
+                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;
                         double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                         baterryToAdd = Math.Round(baterryToAdd, 1);
                         blDrone.Battery += baterryToAdd;
@@ -249,6 +251,7 @@ namespace BL
                         blDrone.Battery = Math.Min(blDrone.Battery, 100);
                         DroneChange?.Invoke(blDrone);
                         // Do later: remove drone charge;
+                        dal.removeDroneChargeByDroneId(blDrone.Id);
                         return blDrone;
                     }
                 }
@@ -259,6 +262,16 @@ namespace BL
                 throw new Exception("Can't free Drone from charge.\nPlease try later...", e);
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Send to remove a drone charge by Drone Id
+        /// </summary>
+        /// <param name="droneId"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void removeDroneChargeByDroneId(int droneId)
+        {
+            dal.removeDroneChargeByDroneId(droneId);
         }
 
         /// <summary>
@@ -296,10 +309,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(int droneId)
         {
-            return (int)GetEnumDroneStatusInDelivery(droneId);
+            return (int)GetfromEnumDroneStatusInDelivery(droneId);
         }
 
-        public DeliveryStatusAction GetEnumDroneStatusInDelivery(int droneId)
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId)
         {
             // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
             lock (dronesList)

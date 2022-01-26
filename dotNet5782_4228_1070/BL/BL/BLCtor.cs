@@ -116,7 +116,8 @@ namespace BL
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
                             double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
-                            CurrentDrone.Battery = r.Next(0, (int)distanceBetweenDroneAndStation);
+                            double batteryToGetToStation = distanceBetweenDroneAndStation * requestElectricity((int)drone.MaxWeight);
+                            CurrentDrone.Battery = r.Next((int)batteryToGetToStation, 100);
                         }
                         else //couldn't find a delivered parcel.
                         {

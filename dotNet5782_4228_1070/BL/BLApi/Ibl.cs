@@ -79,12 +79,14 @@ namespace BlApi
         //========================
         //public int GetDroneStatusInDelivery(Drone drone);
         public int GetDroneStatusInDelivery(int droneId);
-        public DeliveryStatusAction GetEnumDroneStatusInDelivery(int droneId);
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId);
 
         //===================
         //  Remove
         //===================
         public void RemoveParcel(int parcelId);
+        //public void removeDroneChargeByDroneId(int droneId);
+
 
         //===================
         //  StartSimulation
@@ -95,6 +97,16 @@ namespace BlApi
         //  Drones electricity usage.
         //===========================
         public double requestElectricity(int choice);
+
+
+
+
+        //=========================
+        //Simulation
+        //=========================
+        Parcel convertDalToBLParcelSimulation(DO.Parcel p);
+        void removeDroneChargeByDroneId(int droneId);
+        public Customer convertDalToBLCustomer(DO.Customer customer);
 
     }
 }
