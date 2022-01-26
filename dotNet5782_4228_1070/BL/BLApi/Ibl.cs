@@ -6,7 +6,7 @@ namespace BlApi
 {
     public interface Ibl
     {
-
+        public Action<Drone> DroneChange { get; set; }
         //================
         //  Add
         //================

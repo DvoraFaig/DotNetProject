@@ -13,7 +13,9 @@ namespace PO
     //[Serializable]
     public class Drone : DependencyObject //, ICloneable
     {
-        public Drone(BO.Drone d)
+
+
+        public Drone(BlApi.Ibl blObject, BO.Drone d)
         {
             Id = d.Id;
             Model = d.Model;
@@ -22,12 +24,26 @@ namespace PO
             MaxWeight = (WeightCategories)d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
+            blObject.DroneChange += Update;
         }
 
-        public Drone()
+        public Drone(BlApi.Ibl blObject)
         {
             //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
+            //blObject.DroneChange 
+            blObject.DroneChange += Update;
+        }
+        public void Update(BO.Drone d)
+        {
+            Id = d.Id;
+            Model = d.Model;
+            Battery = d.Battery;
+            Status = d.Status;
+            ParcelInTransfer = d.ParcelInTransfer;
+            DronePosition = d.DronePosition;
+            MaxWeight = (WeightCategories)d.MaxWeight;
+            //Update(senderDrone);
         }
 
         public BO.Drone BO()
@@ -99,7 +115,7 @@ namespace PO
         /// Update drones info.
         /// </summary>
         /// <param name="d"></param>
-        public void Update(BO.Drone d)
+        /*public void Update(BO.Drone d)
         {
             Id = d.Id;
             Model = d.Model;
@@ -108,7 +124,7 @@ namespace PO
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
             MaxWeight = (WeightCategories)d.MaxWeight;
-        }
+        }*/
 
         public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model", typeof(object), typeof(Drone), new UIPropertyMetadata(0));
