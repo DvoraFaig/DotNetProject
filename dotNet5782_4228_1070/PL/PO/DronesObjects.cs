@@ -36,18 +36,11 @@ namespace PO
             //blObject.DroneChange 
             blObject.DroneChange += Update;
         }
-        public void Update(BO.Drone d)
-        {
-            Id = d.Id;
-            Model = d.Model;
-            Battery = d.Battery;
-            Status = d.Status;
-            ParcelInTransfer = d.ParcelInTransfer;
-            DronePosition = d.DronePosition;
-            MaxWeight = (WeightCategories)d.MaxWeight;
-            //Update(senderDrone);
-        }
 
+        /// <summary>
+        /// Ctor - copy info to PO.Drone
+        /// </summary>
+        /// <returns></returns>
         public BO.Drone BO()
         {
             return new BO.Drone()
@@ -62,6 +55,25 @@ namespace PO
                 SartToCharge = this.SartToCharge
             };
         }
+
+        /// <summary>
+        /// Update PO.Drone - copy info to PO.Drone
+        /// </summary>
+        /// <param name="d"></param>
+        public void Update(BO.Drone d)
+        {
+            Id = d.Id;
+            Model = d.Model;
+            Battery = d.Battery;
+            Status = d.Status;
+            ParcelInTransfer = d.ParcelInTransfer;
+            DronePosition = d.DronePosition;
+            DronePosition.Latitude = d.DronePosition.Latitude;
+            DronePosition.Longitude = d.DronePosition.Longitude;
+            MaxWeight = (WeightCategories)d.MaxWeight;
+            //Update(senderDrone);
+        }
+
 
         //public event PropertyChangedEventHandler PropertyChanged;
         /*private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

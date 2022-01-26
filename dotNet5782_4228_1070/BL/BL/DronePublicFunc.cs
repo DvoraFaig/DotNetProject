@@ -324,6 +324,7 @@ namespace BL
                 }
                 else if (drone.Status == DroneStatus.Delivery)
                 {
+
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
                     {
@@ -333,6 +334,7 @@ namespace BL
                     {
                         return DeliveryStatusAction.AsignedParcel;
                     }
+
                 }
             }
             throw new Exception("No macthing status");
@@ -342,7 +344,7 @@ namespace BL
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
             dronesList[index] = droneWithUpdateInfo;
-            DroneChange?.Invoke(dronesList[index]);
+            //DroneChange?.Invoke(dronesList[index]);
         }
     }
 }

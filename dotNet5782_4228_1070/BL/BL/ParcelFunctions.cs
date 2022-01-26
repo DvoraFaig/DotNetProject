@@ -225,11 +225,11 @@ namespace BL
                     {
                         Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
                         DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-                        if (!parcel.PickUp.Equals(default(DO.Parcel).PickUp))
+                        if (parcel.PickUp != null /*!parcel.PickUp.Equals(default(DO.Parcel).PickUp)*/) 
                         {
                             throw new Exception("The parcel is collected already");
                         }
-                        if (parcel.Scheduled.Equals(default(DO.Parcel).Scheduled))
+                        if (parcel.Scheduled == null /*parcel.Scheduled.Equals(default(DO.Parcel).Scheduled)*/)
                         {
                             throw new Exception("The parcel is not schedueld.");
                         }
@@ -263,6 +263,12 @@ namespace BL
                 throw new ObjNotExistException(e.Message);
             }
         }
+
+        public void changeParcelInfo(Parcel parcel)
+        {
+            dal.changeParcelInfo(convertBLToDalParcel(parcel));
+        }
+
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.

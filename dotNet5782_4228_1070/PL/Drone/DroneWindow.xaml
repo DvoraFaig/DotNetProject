@@ -99,6 +99,7 @@
                 </StackPanel>
             </Viewbox>
             <Label x:Name="StatusTextBoxLabel"        Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}">Status:</Label>
+            <Label x:Name="StatusTextBoxLabelSimulation"    Visibility="Hidden" Grid.Column="1" Grid.Row="5" Style="{StaticResource styleLabelForms}" VerticalAlignment="Bottom" Padding="0,8,0,0" HorizontalContentAlignment="Right" FontSize="10" FontFamily="Tahoma" FontWeight="DemiBold" />
             <TextBox x:Name="StatusTextBox"             Text="{Binding Status, Mode=TwoWay}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="5" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True"  />
             <Label x:Name="PositionDroneTLabel"       Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="1" Grid.Row="6" Style="{StaticResource styleLabelForms}" >Postion:</Label>
             <TextBox x:Name="PositionDroneTextBox"     Text="{Binding DronePosition, Mode=TwoWay}" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}"  Grid.Column="2" Grid.Row="6" Style="{StaticResource styleTextBoxForms}"  IsReadOnly="True" />

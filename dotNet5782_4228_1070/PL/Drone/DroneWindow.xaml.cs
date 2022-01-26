@@ -29,6 +29,11 @@ namespace PL
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Deliver by Target" };
         BO.Drone tempDrone;
 
+        //simulation
+        BO.Parcel parcel;
+        BO.Customer senedrOfParcel;
+        BO.Customer targetOfParcel;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -74,6 +79,12 @@ namespace PL
             {
                 ParcelTextBoxLabel.Visibility = Visibility.Hidden;
                 ParcelIdIdTextBox.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                parcel = blObject.getParcelByDrone(currentDrone.Id);
+                senedrOfParcel = blObject.GetCustomerById(parcel.Sender.Id);
+                targetOfParcel = blObject.GetCustomerById(parcel.Target.Id);
             }
             //ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
             //ParcelIdIdTextBox.Text = $"{drone.ParcelInTransfer.Id}";
@@ -136,7 +147,7 @@ namespace PL
 
         private void removeDroneBtn()
         {
-            if (currentDrone.Status == DroneStatus.Available )
+            if (currentDrone.Status == DroneStatus.Available)
                 RemoveDrone.Visibility = Visibility.Visible;
             else
                 RemoveDrone.Visibility = Visibility.Hidden;
@@ -415,6 +426,19 @@ namespace PL
             }
             //setDeliveryBtn
             removeDroneBtn();
+            try
+            {
+                blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
+                //status = maintenace
+            }
+            catch (Exceptions.ObjNotExistException e1)
+            {
+                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}\nDrone Will be needed to be send to charge");
+                //status = maintenace?????????????????????
+            }
+
+
+
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
@@ -460,6 +484,9 @@ namespace PL
             ChargeButton.Visibility = visibility;
             RemoveDrone.Visibility = visibility;
         }
+
+        BackgroundWorker worker = new BackgroundWorker();
+
         /// <summary>
         /// Initialize obj worker for the simolator of drone
         /// </summary>
@@ -467,14 +494,13 @@ namespace PL
         /// <param name="e"></param>
         private void InitializeWorker(object sender, RoutedEventArgs e)
         {
-            BackgroundWorker worker = new BackgroundWorker();
 
             if (AutomationBtn.Content == "Manual")
             {
-                AutomationBtn.Content = "Start Automation";
-                worker.CancelAsync();
-                changeVisibilityOfUpdateBtn(Visibility.Visible);
-                return;
+                //AutomationBtn.Content = "Start Automation";
+                //worker.CancelAsync();
+                //changeVisibilityOfUpdateBtn(Visibility.Visible);
+                //return;
             }
 
             AutomationBtn.Content = "Manual";
@@ -484,7 +510,7 @@ namespace PL
             {
                 blObject.StartSimulation(
                     tempDrone,//currentDrone.BO(),
-                    (tempDrone, i) => {worker.ReportProgress(i);  },
+                    (tempDrone, i) => { worker.ReportProgress(i); },
                     () => worker.CancellationPending);
 
             };
@@ -492,6 +518,44 @@ namespace PL
             worker.ProgressChanged += (object? sender, ProgressChangedEventArgs e) =>
             {
                 currentDrone.Update(tempDrone);
+                if (currentDrone.ParcelInTransfer != null)
+                {
+                    if ((currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
+                            && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
+                            || (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
+                            && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude))
+                    {
+                        if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden)
+                        {
+                            int a;
+                            a = 10;
+                        }
+                        if (currentDrone.Status == DroneStatus.Delivery)
+                        {
+                            if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden && parcel.PickUp == null && parcel.Delivered == null)
+                            {
+                                if (currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
+                                && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
+                                {
+                                    StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
+                                    StatusTextBoxLabelSimulation.Content = "Parcel is picked up";
+                                }
+                            }
+                            else if (parcel.Delivered == null && StatusTextBoxLabelSimulation.Content == "Parcel is picked up")
+                            {
+                                if (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
+                                && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude)
+                                {
+                                    StatusTextBoxLabelSimulation.Content = "Parcel is delivered";
+                                }
+                            }
+
+                        }
+                    }
+                }
+                if (currentDrone.Status != DroneStatus.Delivery && StatusTextBoxLabelSimulation.Visibility == Visibility.Visible)
+                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+
                 //currentDrone.Battery ++;
                 //Student.MyAge++;
                 //Student.Name = updateDrone.FirstName;
@@ -502,7 +566,8 @@ namespace PL
             {
                 AutomationBtn.Content = "Start Automation";
                 changeVisibilityOfUpdateBtn(Visibility.Visible);
-                worker.CancelAsync();                
+                worker.CancelAsync();
+
             };
             worker.WorkerSupportsCancellation = true;
             worker.RunWorkerAsync();

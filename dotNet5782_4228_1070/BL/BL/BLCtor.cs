@@ -33,7 +33,7 @@ namespace BL
             dronesList = new List<Drone>();
             dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
 
-            #region props implemntation
+            #region props implementation
             double[] electricityUsageDrone = dal.electricityUseByDrone();
             electricityUsageWhenDroneIsEmpty = electricityUsageDrone[0];
             electricityUsageWhenDroneILightWeight = electricityUsageDrone[1];
@@ -220,7 +220,7 @@ namespace BL
             double sumBattery = sumDisForDrone * requestDroneElectricityUsage()[(int)parcel.Weight];
             return r.Next((int)sumBattery, 100);
         }
-       
+
         /// <summary>
         /// Find availble and closest station for drone;
         /// </summary>
@@ -262,7 +262,7 @@ namespace BL
         /// <param name="dronePosition">To find the distance to a station </param>
         /// <param name="droneBattery">Drone.Batter: To check if could hover to station</param>
         /// <returns></returns>
-        private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition , double droneBattery)
+        public DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition , double droneBattery)
         {
             IEnumerable<DO.Station> stations = dal.GetStations();
             DO.Station availbleClosestStation = new DO.Station();
@@ -292,6 +292,8 @@ namespace BL
                     }
                 }
             }
+            if (availbleClosestStation.Equals(typeof(Station)))
+                throw new Exceptions.ObjNotExistException("No station with empty charging slots");
             return availbleClosestStation;
         }
 
