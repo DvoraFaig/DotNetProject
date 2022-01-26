@@ -48,7 +48,7 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            currentDrone = new PO.Drone();
+            currentDrone = new PO.Drone(blObject);
             AddDroneDisplay.DataContext = currentDrone;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
@@ -66,7 +66,7 @@ namespace PL
             this.blObject = blObject;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            currentDrone = new PO.Drone(drone);
+            currentDrone = new PO.Drone(blObject, drone);
             //BatteryFill.Width =(int)drone.Battery*2;////////////////////////////////
             AddDroneDisplay.DataContext = currentDrone;
             IdTextBox.IsReadOnly = true;
@@ -319,7 +319,7 @@ namespace PL
 
 
 
-
+                #region need to delete
                 //////////////
                 /// if (TimeTocharge.Text == "")
                 //{
@@ -347,6 +347,7 @@ namespace PL
                 //    }
                 //}
                 /////
+                #endregion
             }
         }
 
