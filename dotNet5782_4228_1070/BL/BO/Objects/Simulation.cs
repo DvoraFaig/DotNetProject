@@ -22,7 +22,7 @@ namespace BO
 
         public void Start(Drone drone, Action<Drone, int> updateStudent, Func<bool> needToStop)
         {
-            
+
             while (!needToStop())
             {
                 Thread.Sleep(1000);
@@ -31,17 +31,26 @@ namespace BO
                     try
                     {
                         BL.PairParcelWithDrone(drone.Id);
-                        Drone changeDrone = BL.GetDroneById(drone.Id);
-                        changeDrone = drone;
+                        drone.Status = DroneStatus.Delivery;
+                        updateStudent(drone, 1);
+                        BL.changeDroneInfo(drone);
                     }
                     catch (ObjNotAvailableException)
                     {
                         try
                         {
                             BL.SendDroneToCharge(drone.Id);
+                            drone.Status = DroneStatus.Maintenance;
+                            updateStudent(drone, 1);
+                            BL.changeDroneInfo(drone);
                         }
-                        catch (ObjNotAvailableException)
+                        catch (ObjNotExistException) //No charging slots available
                         {
+                            Thread.Sleep(5000);
+                        }
+                        catch (ObjNotAvailableException) //Not enough battery
+                        {
+                            
                             // Not implemented becuase need to do other actions
                             // in the next interation on the while loop
                         }
@@ -56,20 +65,39 @@ namespace BO
 
                 if (drone.Status == DroneStatus.Maintenance)
                 {
-                    double BatteryLeftToFullCharge = 100 - drone.Battery;
-                    double percentFillBatteryForCharging = BL.requestElectricity(0);
-                    double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
-                    while (drone.Battery <100 && timeLeftToCharge>0)
+
+                    DateTime now = DateTime.Now;
+                    TimeSpan second;
+                    //TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
+                    //double baterryToAdd = second.TotalMinutes * BL.requestElectricity(0);
+                    while (drone.Battery < 100)
                     {
-                        drone.Battery += percentFillBatteryForCharging*10;
+                        second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 1000;
+                        drone.SartToCharge = DateTime.Now;
+                        double baterryToAdd = second.TotalMinutes * BL.requestElectricity(0);
+                        drone.Battery += baterryToAdd;
+                        drone.Battery = Math.Round(drone.Battery, 1);
+                        drone.Battery = Math.Min(100, drone.Battery);
                         updateStudent(drone, 1);
-                        Thread.Sleep(100);
-                        timeLeftToCharge--;
+                        Thread.Sleep(500);
                     }
-                    Thread.Sleep(100);
+
+                    #region a differance way to impelement;
+                    ////double BatteryLeftToFullCharge = 100 - drone.Battery;
+                    ////double percentFillBatteryForCharging = BL.requestElectricity(0);
+                    ////double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
+                    ////while (drone.Battery < 100 && timeLeftToCharge > 0)
+                    ////{
+                    ////    drone.Battery += percentFillBatteryForCharging * 10;
+                    ////    updateStudent(drone, 1);
+                    ////    Thread.Sleep(100);
+                    ////    timeLeftToCharge--;
+                    ////}
+                    ////Thread.Sleep(100);
 
                     //Drone changeDrone = BL.GetDroneById(drone.Id);
                     //changeDrone = drone;
+                    #endregion
                     bool succeedFreeDroneFromCharge = false;
                     do
                     {
@@ -79,7 +107,7 @@ namespace BO
                             BL.removeDroneChargeByDroneId(drone.Id);
                             drone.Status = DroneStatus.Available;
                             BL.changeDroneInfo(drone);
-                            updateStudent(drone, (int)percentFillBatteryForCharging);
+                            updateStudent(drone, 1);//(int)percentFillBatteryForCharging
                             succeedFreeDroneFromCharge = true;
                         }
                         catch (Exception) { }

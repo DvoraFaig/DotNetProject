@@ -177,7 +177,7 @@ namespace BL
                         ////////if (dis != 0) // if the drone is supposed to fly to tha station to charge
                         ////////    drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
                         if (dis != 0)
-                        {// if the drone is supposed to fly to tha station to charge
+                        {// if the drone is supposed to fly to the station to charge
                             double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
                             batteryForDis = Math.Round(batteryForDis, 1);
                             if (drone.Battery - batteryForDis < 0) //to erase

@@ -22,6 +22,7 @@ namespace PO
             MaxWeight = (WeightCategories)d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
+            SartToCharge = d.SartToCharge;
         }
 
         public Drone()
@@ -40,7 +41,8 @@ namespace PO
                 Status = this.Status,
                 MaxWeight = (DO.WeightCategories)this.MaxWeight,
                 ParcelInTransfer = this.ParcelInTransfer,
-                DronePosition = this.DronePosition
+                DronePosition = this.DronePosition,
+                SartToCharge = this.SartToCharge
             };
         }
 
