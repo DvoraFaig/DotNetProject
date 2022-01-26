@@ -25,9 +25,9 @@ namespace PO
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
             blObject.DroneChange += Update;
-        }
             SartToCharge = d.SartToCharge;
-    }
+        }
+    
 
         public Drone(BlApi.Ibl blObject)
         {
