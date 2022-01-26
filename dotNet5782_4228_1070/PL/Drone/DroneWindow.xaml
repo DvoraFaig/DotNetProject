@@ -86,14 +86,14 @@
             <Viewbox Width="120" Height="30" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Right" Margin="0,2,5,0" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" >
                 <StackPanel Orientation="Horizontal">
                     <Border Background="#00c000" CornerRadius="2,0,0,2" Padding="2" Width="6" Height="15" RenderTransformOrigin="-0.198,-3.348"/>
-                    <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2,2,2,2" Width="120" Height="30">
+                    <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2,2,2,2" Width="113" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="300*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="BatteryFill" Width="{Binding Battery}" Background="#00c000" CornerRadius="2" Padding="0,2,2,2" HorizontalAlignment="Right" Grid.Column="1" Margin="0,0,2,0"  />
+                            <Border x:Name="BatteryFill" Width="{Binding Battery}" Background="#00c000" CornerRadius="2" Padding="0,2,3,2" HorizontalAlignment="Right" Grid.Column="1" Margin="0,0,2,0"  />
                         </Grid>
                     </Border>
                 </StackPanel>

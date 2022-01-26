@@ -23,9 +23,9 @@ namespace PO
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
             SartToCharge = d.SartToCharge;
-        }
+    }
 
-        public Drone()
+    public Drone()
         {
             //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
