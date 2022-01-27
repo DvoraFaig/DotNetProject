@@ -11,6 +11,8 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        public Action<Parcel> ParcelChangeAction { get; set; }
+
         /// <summary>
         /// Add a new parcel. checks if this parcel exist already.
         /// If exist throw an error
