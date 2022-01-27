@@ -14,7 +14,7 @@ namespace BO
         public int Id { get; set; }
         public WeightCategories Weight { get; set; }
         public DO.Priorities Priority { get; set; }
-        public ParcelStatuses ParcelStatus { get; set; }
+        public DO.ParcelStatuses ParcelStatus { get; set; }
         public CustomerInParcel SenderOrTargetCustomer { get; set; }
         public override string ToString()
         {

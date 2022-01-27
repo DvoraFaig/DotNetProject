@@ -37,7 +37,7 @@ namespace PL
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(ParcelStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             PrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
             IEnumerable<ParcelToList> parcels = blObject.GetParcelToList();

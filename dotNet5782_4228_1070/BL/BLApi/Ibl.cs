@@ -101,6 +101,7 @@ namespace BlApi
 
 
 
+        DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition, double droneBattery);
 
         //=========================
         //Simulation
@@ -108,6 +109,8 @@ namespace BlApi
         Parcel convertDalToBLParcelSimulation(DO.Parcel p);
         void removeDroneChargeByDroneId(int droneId);
         public Customer convertDalToBLCustomer(DO.Customer customer);
+        public void changeParcelInfo(Parcel parcel);
+
 
     }
 }

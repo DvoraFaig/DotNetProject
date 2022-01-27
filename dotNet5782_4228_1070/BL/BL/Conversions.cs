@@ -148,7 +148,7 @@ namespace BL
         {
             List<ParcelAtCustomer> parcelCustomers = new List<ParcelAtCustomer>();
             CustomerInParcel bLCustomerInParcel = new CustomerInParcel();
-            ParcelStatuses parcelStatusesTemp;
+            DO.ParcelStatuses parcelStatusesTemp;
             foreach (DO.Parcel parcel in parcelsOfSpecificCustomer)
             {
                 if (senderOrTaget) //sender
@@ -161,7 +161,7 @@ namespace BL
                     bLCustomerInParcel.Id = parcel.TargetId;
                     bLCustomerInParcel.Name = dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First().Name;
                 }
-                parcelStatusesTemp = findParcelStatus(parcel);
+                parcelStatusesTemp = dal.findParcelStatus(parcel);
                 parcelCustomers.Add(new ParcelAtCustomer() { Id = parcel.Id, Priority = parcel.Priority, Weight = parcel.Weight, SenderOrTargetCustomer = bLCustomerInParcel, ParcelStatus = parcelStatusesTemp });
             }
             return parcelCustomers;

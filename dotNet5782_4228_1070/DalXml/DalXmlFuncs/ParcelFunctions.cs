@@ -102,5 +102,17 @@ namespace Dal
             DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
         }
 
+        public ParcelStatuses findParcelStatus(DO.Parcel p)
+        {
+            if (p.Delivered != null)
+                return ParcelStatuses.Delivered;
+            else if (p.PickUp != null)
+                return ParcelStatuses.PickedUp;
+
+            else if (p.Scheduled != null)
+                return ParcelStatuses.Scheduled;
+            else //if (p.Requeasted != null)
+                return ParcelStatuses.Requeasted;
+        }
     }
 }
