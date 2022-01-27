@@ -486,6 +486,8 @@ namespace PL
         }
 
         BackgroundWorker worker = new BackgroundWorker();
+        public enum droneStatusInDelivery { ToPickUp=1, PickUp, ToDelivery, Delivery, ToCharge ,NoAvailbleChargingSlots ,HideTextBlock };
+
 
         /// <summary>
         /// Initialize obj worker for the simolator of drone
@@ -503,6 +505,8 @@ namespace PL
                 //return;
             }
 
+            int i = 10;
+            int droneCase=-1;
             AutomationBtn.Content = "Manual";
             changeVisibilityOfUpdateBtn(Visibility.Hidden);
 
@@ -510,7 +514,7 @@ namespace PL
             {
                 blObject.StartSimulation(
                     tempDrone,//currentDrone.BO(),
-                    (tempDrone, i) => { worker.ReportProgress(i); },
+                    (tempDrone, i) => { worker.ReportProgress(i); droneCase = i; },
                     () => worker.CancellationPending);
 
             };
@@ -518,43 +522,71 @@ namespace PL
             worker.ProgressChanged += (object? sender, ProgressChangedEventArgs e) =>
             {
                 currentDrone.Update(tempDrone);
-                if (currentDrone.ParcelInTransfer != null)
-                {
-                    if ((currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
-                            && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
-                            || (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
-                            && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude))
+                if (droneCase != -1 && droneCase!=0) { //if droneCase == -1 it already used the switch and their in no point using it and wasting time; 0 = not in delivery status
+                    StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
+                    switch ((droneStatusInDelivery)droneCase)
                     {
-                        if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden)
-                        {
-                            int a;
-                            a = 10;
-                        }
-                        if (currentDrone.Status == DroneStatus.Delivery)
-                        {
-                            if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden && parcel.PickUp == null && parcel.Delivered == null)
-                            {
-                                if (currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
-                                && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
-                                {
-                                    StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
-                                    StatusTextBoxLabelSimulation.Content = "Parcel is picked up";
-                                }
-                            }
-                            else if (parcel.Delivered == null && StatusTextBoxLabelSimulation.Content == "Parcel is picked up")
-                            {
-                                if (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
-                                && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude)
-                                {
-                                    StatusTextBoxLabelSimulation.Content = "Parcel is delivered";
-                                }
-                            }
-
-                        }
+                        case droneStatusInDelivery.ToPickUp:
+                            StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
+                        break;
+                        case droneStatusInDelivery.PickUp:
+                            StatusTextBoxLabelSimulation.Content = "Picking up the parcel";
+                            break;
+                        case droneStatusInDelivery.ToDelivery:
+                            StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";//"Drone on the way to deliver the parcel";
+                            break;
+                        case droneStatusInDelivery.Delivery:
+                            StatusTextBoxLabelSimulation.Content = "Delivering the parcel";
+                            break;
+                        case droneStatusInDelivery.ToCharge:
+                            StatusTextBoxLabelSimulation.Content = "Destination\nStation";
+                            break;
+                        case droneStatusInDelivery.NoAvailbleChargingSlots:
+                            StatusTextBoxLabelSimulation.Content = "No charging slots";
+                            break;
+                        default:
+                            StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+                            break;
                     }
                 }
-                if (currentDrone.Status != DroneStatus.Delivery && StatusTextBoxLabelSimulation.Visibility == Visibility.Visible)
-                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+
+                //if (currentDrone.ParcelInTransfer != null)
+                //{
+                //    if ((currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
+                //            && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
+                //            || (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
+                //            && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude))
+                //    {
+                //        if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden)
+                //        {
+                //            int a;
+                //            a = 10;
+                //        }
+                //        if (currentDrone.Status == DroneStatus.Delivery)
+                //        {
+                //            if (StatusTextBoxLabelSimulation.Visibility == Visibility.Hidden && parcel.PickUp == null && parcel.Delivered == null)
+                //            {
+                //                if (currentDrone.DronePosition.Latitude == senedrOfParcel.CustomerPosition.Latitude
+                //                && currentDrone.DronePosition.Longitude == senedrOfParcel.CustomerPosition.Longitude)
+                //                {
+                //                    StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
+                //                    StatusTextBoxLabelSimulation.Content = "Parcel is picked up";
+                //                }
+                //            }
+                //            else if (parcel.Delivered == null && StatusTextBoxLabelSimulation.Content == "Parcel is picked up")
+                //            {
+                //                if (currentDrone.DronePosition.Latitude == targetOfParcel.CustomerPosition.Latitude
+                //                && currentDrone.DronePosition.Longitude == targetOfParcel.CustomerPosition.Longitude)
+                //                {
+                //                    StatusTextBoxLabelSimulation.Content = "Parcel is delivered";
+                //                }
+                //            }
+
+                //        }
+                //    }
+                //}
+                //if (currentDrone.Status != DroneStatus.Delivery && StatusTextBoxLabelSimulation.Visibility == Visibility.Visible)
+                //    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
 
                 //currentDrone.Battery ++;
                 //Student.MyAge++;

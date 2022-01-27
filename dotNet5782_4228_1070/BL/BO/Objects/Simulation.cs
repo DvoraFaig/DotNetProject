@@ -36,7 +36,7 @@ namespace BO
                                 BO.Drone droneWithParcel = BL.PairParcelWithDrone(drone.Id);
                                 drone.Status = DroneStatus.Delivery;
                                 drone.ParcelInTransfer = droneWithParcel.ParcelInTransfer;
-                                updateDrone(drone, 1);
+                                updateDrone(drone, -2); //if in the begining their were no available chrging slots. hode the text block
                                 BL.changeDroneInfo(drone);
                             }
                             catch (ObjNotAvailableException)
@@ -45,7 +45,7 @@ namespace BO
                                 {
                                     BL.SendDroneToCharge(drone.Id);
                                     drone.Status = DroneStatus.Maintenance;
-                                    updateDrone(drone, 1);
+                                    updateDrone(drone, 6);
                                     BL.changeDroneInfo(drone);
                                 }
                                 catch (ObjNotExistException) //No charging slots available
@@ -101,7 +101,7 @@ namespace BO
                                 drone.Battery = Math.Min(100, drone.Battery);
                                 drone.Battery = Math.Max(0, drone.Battery);
                                 drone.Battery = Math.Round(drone.Battery, 1);
-                                updateDrone(drone, 1);
+                                updateDrone(drone, 0);
                                 Thread.Sleep(100);
                             }
 
@@ -114,7 +114,7 @@ namespace BO
                                     BL.removeDroneChargeByDroneId(drone.Id); //BL.FreeDroneFromCharging(drone.Id);
                                     drone.Status = DroneStatus.Available;
                                     BL.changeDroneInfo(drone);
-                                    updateDrone(drone, 1);
+                                    updateDrone(drone, 0);
                                     succeedFreeDroneFromCharge = true;
                                 }
                                 catch (Exception)
@@ -138,6 +138,9 @@ namespace BO
                             {
                                 case (1)://PickedParcel
                                     {
+                                        updateDrone(drone, 1);
+                                        Thread.Sleep(1000);
+
                                         drone = calcDisAndSimulateDlivery(updateDrone ,drone , sender.CustomerPosition, BL.requestElectricity(0));
                                         #region export this
                                         ////////////////////////////////==========================================================
@@ -299,7 +302,7 @@ namespace BO
                                         //}
                                         #endregion
 
-                                        updateDrone(drone, 1);
+                                        updateDrone(drone, 2);
                                         parcel.PickUp = DateTime.Now;
                                         BL.changeParcelInfo(parcel);
                                         //updateParcelInfo
@@ -308,11 +311,15 @@ namespace BO
                                     }
                                 case (2)://AsignedParcel //parcel was pickup already
 
+                                    updateDrone(drone, 3);
+                                    Thread.Sleep(1000);
+
                                     drone = calcDisAndSimulateDlivery(updateDrone, drone, target.CustomerPosition, BL.requestElectricity((int)parcel.Weight));
+                                    updateDrone(drone, 4);
                                     parcel.Delivered = DateTime.Now;
                                     drone.ParcelInTransfer = null;
                                     BL.changeParcelInfo(parcel);
-                                    updateDrone(drone, 1);
+                                    //updateDrone(drone, -1);
                                     Thread.Sleep(1000);
 
                                     //drone.DronePosition
@@ -330,11 +337,13 @@ namespace BO
                                 {
                                     DO.Station s = BL.findAvailbleAndClosestStationForDrone(drone.DronePosition , drone.Battery);
                                     Position stationPos = new Position() { Latitude = s.Latitude, Longitude = s.Longitude };
+                                    updateDrone(drone, 5);
+                                    Thread.Sleep(1000);
                                     drone = calcDisAndSimulateDlivery(updateDrone, drone, stationPos, BL.requestElectricity(0));
                                     drone.Status = DroneStatus.Maintenance;
                                     drone.SartToCharge = DateTime.Now;
                                     BL.changeDroneInfo(drone);
-                                    updateDrone(drone, 1);
+                                    updateDrone(drone, -2);
                                 }
                                 catch (ObjNotExistException e)//no available station
                                 {
@@ -429,10 +438,10 @@ namespace BO
                 droneA.Battery = Math.Round(droneA.Battery, 1);
                 droneA.Battery = Math.Min(100, droneA.Battery);//to erase
                 droneA.Battery = Math.Max(0, droneA.Battery);//to erase
-                updateDrone(droneA, 1);
+                updateDrone(droneA, -1);
                 BL.changeDroneInfo(droneA);
                 #endregion
-                Thread.Sleep(500);
+                Thread.Sleep(100);//500
             }
             #endregion
 
