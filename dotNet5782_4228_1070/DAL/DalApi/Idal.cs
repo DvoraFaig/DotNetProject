@@ -77,6 +77,9 @@ namespace DalApi
         public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate);
 
         double[] electricityUseByDrone();
+
+        ParcelStatuses findParcelStatus(DO.Parcel p);
+
     }
 }
 

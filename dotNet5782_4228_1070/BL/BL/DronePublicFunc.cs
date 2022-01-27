@@ -326,14 +326,23 @@ namespace BL
                 {
 
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
-                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
+                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude
+                        && drone.ParcelInTransfer != null ) // i erased else if
                     {
                         return DeliveryStatusAction.PickedParcel;
+                    }
+
+                    if(drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
+                                && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude
+                                && drone.ParcelInTransfer != null)
+                    {
+                        return DeliveryStatusAction.DeliveredParcel;
                     }
                     if (drone.ParcelInTransfer != null)
                     {
                         return DeliveryStatusAction.AsignedParcel;
                     }
+
 
                 }
             }
