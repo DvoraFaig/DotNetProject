@@ -11,6 +11,8 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        public Action<Parcel> ParcelChangeAction { get; set; }
+
         /// <summary>
         /// Add a new parcel. checks if this parcel exist already.
         /// If exist throw an error
@@ -38,6 +40,7 @@ namespace BL
                         Requeasted = DateTime.Now
                     };
                     dal.AddParcel(p);
+                    ParcelChangeAction(convertDalToBLParcel(p));
                 }
             }
             else
@@ -125,7 +128,7 @@ namespace BL
                 return from parcel in parcelsList 
                        select convertParcelToParcelToList(convertDalToBLParcel(parcel));
 
-               
+                #region to delete
                 ///////////////the good????
                 //List<BO.Parcel> list = new List<Parcel>();
                 //IEnumerable<Parcel> IList;
@@ -155,6 +158,7 @@ namespace BL
                 //return from parcel in IList
                 //       select convertParcelToParcelToList(parcel);
                 ////////////////////////////
+                #endregion
             }
         }
 
@@ -251,6 +255,7 @@ namespace BL
                     try
                     {
                         dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+                        ParcelChangeAction(parcel);
                     }
                     catch (ArgumentNullException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
                     catch (InvalidOperationException e1) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e1); }
@@ -298,6 +303,8 @@ namespace BL
                         parcel.PickUp = DateTime.Now;
                         dal.changeParcelInfo(parcel);
                         drone.ParcelInTransfer.isWaiting = false; //////////////////////
+                        //ParcelChangeAction(convertDalToBLParcel(parcel));
+                        DroneChange(drone);
                         return drone;
                     }
                 }
@@ -312,6 +319,7 @@ namespace BL
         public void changeParcelInfo(Parcel parcel)
         {
             dal.changeParcelInfo(convertBLToDalParcel(parcel));
+            //ParcelChangeAction(parcel);
         }
 
 
@@ -344,6 +352,8 @@ namespace BL
                         updateBLDrone(bLDroneToSuplly);
                         parcelToDelivery.Delivered = DateTime.Now;
                         dal.changeParcelInfo(parcelToDelivery);
+                        //ParcelChangeAction(convertDalToBLParcel(parcelToDelivery));
+                        DroneChange(bLDroneToSuplly);
                         return bLDroneToSuplly;
                     }
                 }
@@ -385,6 +395,5 @@ namespace BL
             else //if (p.Requeasted != null)
                 return ParcelStatuses.Requeasted;
         }
-
     }
 }

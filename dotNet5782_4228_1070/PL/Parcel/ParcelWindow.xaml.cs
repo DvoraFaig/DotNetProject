@@ -56,7 +56,7 @@ namespace PL
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
             initializeDetailsAddForm();
-            currentParcel = new PO.Parcel();
+            currentParcel = new PO.Parcel(blObject);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
@@ -95,7 +95,7 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             //this.parcel = parcel;
-            currentParcel = new PO.Parcel(parcel);
+            currentParcel = new PO.Parcel(blObject,parcel);
             AddParcelDisplay.DataContext = currentParcel;
             returnToParcelListWindow = cameFromPageParcelList;
             visibleAddForm.Visibility = Visibility.Hidden;
@@ -121,7 +121,7 @@ namespace PL
             Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
             //this.parcel = parcel;
-            currentParcel = new PO.Parcel(parcel);
+            currentParcel = new PO.Parcel(blObject,parcel);
             AddParcelDisplay.DataContext = currentParcel;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;

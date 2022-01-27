@@ -24,8 +24,8 @@ namespace PO
             MaxWeight = (WeightCategories)d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
-            blObject.DroneChange += Update;
             SartToCharge = d.SartToCharge;
+            blObject.DroneChange += Update;
         }
     
 
