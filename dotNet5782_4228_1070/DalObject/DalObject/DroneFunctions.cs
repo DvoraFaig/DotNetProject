@@ -82,7 +82,13 @@ namespace Dal
         }
 
         /// <summary>
-        /// Returns electricity usage of drone.
+        /// returns an array of drones' electricity usage. 
+        /// arr[] =
+        /// empty,
+        /// lightWeight,
+        /// mediumWeight,
+        /// heavyWeight,
+        /// chargingRate
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]

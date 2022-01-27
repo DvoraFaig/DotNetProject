@@ -150,6 +150,10 @@ namespace BL
                 }
             }
             #region Exceptions
+            //catch(DO.Exceptions.ObjNotExistException e1)
+            //{
+            //    throw new Exceptions.ObjNotExistException(e1.Message);
+            //}
             catch (Exception e)
             {
                 throw new InvalidOperationException($"Couldn't change Model of drone with id {droneId} ", e);
