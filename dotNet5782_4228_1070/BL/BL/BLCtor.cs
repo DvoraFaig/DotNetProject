@@ -121,9 +121,17 @@ namespace BL
                         }
                         else //couldn't find a delivered parcel.
                         {
-                            List<DO.Station> stationsToFindPlaceToCharge = dal.GetStations().Cast<DO.Station>().ToList();
+                            DO.Station stationForAvaiableDrone;
                             int randomStation = r.Next(0, amountStations);
-                            CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                            try
+                            {
+                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id >= randomStation).First();
+                            }
+                            catch (Exception)
+                            {
+                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id > 0).First(); //everyone
+                            }
+                            CurrentDrone.DronePosition = new Position() { Latitude = stationForAvaiableDrone.Latitude, Longitude = stationForAvaiableDrone.Longitude };
                             CurrentDrone.Battery = r.Next(20, 100);
                         }
 
@@ -164,6 +172,12 @@ namespace BL
                                     CurrentDrone.SartToCharge = DateTime.Now;
                                     break;
                                 }
+                            }
+                            if(updatedDroneWithStationInfoAndBattery == null)//stand in a station position
+                            {
+                                int rand = r.Next(0, amountStations);
+                                CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
+                                CurrentDrone.Battery = r.Next(20, 100);
                             }
                         }
                         #endregion
