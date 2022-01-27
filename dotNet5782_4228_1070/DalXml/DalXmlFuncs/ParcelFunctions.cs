@@ -102,7 +102,7 @@ namespace Dal
             DL.XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
         }
 
-        private ParcelStatuses findParcelStatus(DO.Parcel p)
+        public ParcelStatuses findParcelStatus(DO.Parcel p)
         {
             if (p.Delivered != null)
                 return ParcelStatuses.Delivered;
