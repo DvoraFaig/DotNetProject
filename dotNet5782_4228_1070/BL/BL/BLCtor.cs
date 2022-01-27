@@ -106,38 +106,6 @@ namespace BL
                 {
                     CurrentDrone.Status = (DroneStatus)r.Next(0, 2); // Available / Maintenance
 
-                    #region Drone is with available status.
-                    if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
-                    {
-                        if (cWithDeliveredP.Count > 0)
-                        {
-                            int index = r.Next(0, cWithDeliveredP.Count);
-                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[index].Id).First();
-                            CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
-                            station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
-                            double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
-                            double batteryToGetToStation = distanceBetweenDroneAndStation * requestElectricity((int)drone.MaxWeight);
-                            CurrentDrone.Battery = r.Next((int)batteryToGetToStation, 100);
-                        }
-                        else //couldn't find a delivered parcel.
-                        {
-                            DO.Station stationForAvaiableDrone;
-                            int randomStation = r.Next(0, amountStations);
-                            try
-                            {
-                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id >= randomStation).First();
-                            }
-                            catch (Exception)
-                            {
-                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id > 0).First(); //everyone
-                            }
-                            CurrentDrone.DronePosition = new Position() { Latitude = stationForAvaiableDrone.Latitude, Longitude = stationForAvaiableDrone.Longitude };
-                            CurrentDrone.Battery = r.Next(20, 100);
-                        }
-
-                    }
-                    #endregion
-
                     #region Drone is with maintenance status.
                     if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance ////or if couldn't find a position for an availble drone
                     {
@@ -175,12 +143,45 @@ namespace BL
                             }
                             if(updatedDroneWithStationInfoAndBattery == null)//stand in a station position
                             {
-                                int rand = r.Next(0, amountStations);
+                                /*int rand = r.Next(0, amountStations);
                                 CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
-                                CurrentDrone.Battery = r.Next(20, 100);
+                                CurrentDrone.Battery = r.Next(20, 100);*/
+                                CurrentDrone.Status = DroneStatus.Available;
                             }
                         }
                         #endregion
+                    }
+                    #endregion
+
+                    #region Drone is with available status.
+                    if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
+                    {
+                        if (cWithDeliveredP.Count > 0)
+                        {
+                            int index = r.Next(0, cWithDeliveredP.Count);
+                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[index].Id).First();
+                            CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
+                            station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
+                            double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
+                            double batteryToGetToStation = distanceBetweenDroneAndStation * requestElectricity((int)drone.MaxWeight);
+                            CurrentDrone.Battery = r.Next((int)batteryToGetToStation, 100);
+                        }
+                        else //couldn't find a delivered parcel.
+                        {
+                            DO.Station stationForAvaiableDrone;
+                            int randomStation = r.Next(0, amountStations);
+                            try
+                            {
+                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id >= randomStation).First();
+                            }
+                            catch (Exception)
+                            {
+                                stationForAvaiableDrone = dal.getStationWithSpecificCondition(p => p.Id > 0).First(); //everyone
+                            }
+                            CurrentDrone.DronePosition = new Position() { Latitude = stationForAvaiableDrone.Latitude, Longitude = stationForAvaiableDrone.Longitude };
+                            CurrentDrone.Battery = r.Next(20, 100);
+                        }
+
                     }
                     #endregion
                 }
