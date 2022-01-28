@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
@@ -96,7 +97,7 @@ namespace PL
             {
                 try
                 {
-                    int contentIndex = this.blObject.GetDroneStatusInDelivery(currentDrone.Id);
+                    int contentIndex = this.blObject.GetDroneStatusInDelivery(currentDrone.BO());
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                 }
@@ -201,7 +202,11 @@ namespace PL
             ////new DroneListWindow(blObjectD).Show();
             if (AutomationBtn.Content == "Manual")
             {
+                isProgressBarFromReturnBtn = true;
+                simIsAskedToStopButOperationNotCompleted = true;
                 worker.CancelAsync();
+                ProgressBarForSimulation.Visibility = Visibility.Visible;
+                return;
             }
             this.Close();
             //}
@@ -438,8 +443,6 @@ namespace PL
             RemoveDrone.Visibility = visibility;
             DeliveryStatusButton.Visibility = visibility;
         }
-
-        
     }
 }
 

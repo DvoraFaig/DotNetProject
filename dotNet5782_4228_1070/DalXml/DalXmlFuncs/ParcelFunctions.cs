@@ -232,6 +232,10 @@ namespace Dal
         public int amountParcels()
         {
             return XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).Count();
+
+            //XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
+            //return (from p in parcelRoot.Elements()
+            //        select p).Count();
         }
 
         /// <summary>

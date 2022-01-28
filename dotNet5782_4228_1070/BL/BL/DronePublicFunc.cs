@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
+    public sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
     {
         public Action<Drone> DroneChange { get; set; }
 
@@ -125,10 +125,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDroneById(int droneRequestedId)
         {
-            lock (dronesList)
-            {
-                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
-            }
+            return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
         }
 
         /// <summary>
@@ -311,41 +308,42 @@ namespace BL
         /// <param name="droneId">Drones' id</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public int GetDroneStatusInDelivery(int droneId)
+        public int GetDroneStatusInDelivery(Drone droneInt)
         {
-            return (int)GetfromEnumDroneStatusInDelivery(droneId);
+            return (int)GetfromEnumDroneStatusInDelivery(droneInt);
         }
 
-        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId)
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(Drone droneId)
         {
             // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
-            lock (dronesList)
-            {
-                Drone drone = GetDroneById(droneId);
-                if (drone.Status == DroneStatus.Available)
-                {
-                    return DeliveryStatusAction.Available;
-                }
-                else if (drone.Status == DroneStatus.Delivery)
-                {
-                    if (drone.ParcelInTransfer != null)
-                    {
-                        if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
-                            drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
-                        {
-                            return DeliveryStatusAction.PickedParcel;
-                        }
 
-                        if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
-                                    && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
-                        {
-                            return DeliveryStatusAction.DeliveredParcel;
-                        }
-                        return DeliveryStatusAction.AsignedParcel;                       
+            Drone drone = droneId;
+            if (drone.Status == DroneStatus.Available)
+            {
+                return DeliveryStatusAction.Available;
+            }
+            else if (drone.Status == DroneStatus.Delivery)
+            {
+                if (drone.ParcelInTransfer != null)
+                {
+                    if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
+                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
+                    {
+                        return DeliveryStatusAction.PickedParcel;
                     }
 
+                    if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
+                                && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
+                    {
+                        return DeliveryStatusAction.DeliveredParcel;
+                    }
+                    return DeliveryStatusAction.AsignedParcel;
                 }
+                else
+                    return DeliveryStatusAction.DeliveredParcel;
+
             }
+
             throw new Exception("No macthing status");
         }
 

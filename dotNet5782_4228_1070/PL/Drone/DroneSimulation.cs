@@ -14,15 +14,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
+using System.Threading.Tasks;
+
 
 
 namespace PL
 {
     public partial class DroneWindow : Window
     {
+        /// <summary>
+        /// BackgroundWorker for simulation
+        /// </summary>
         BackgroundWorker worker = new BackgroundWorker();
+
+        /// <summary>
+        /// Drone status in delivery: for changing text occurding to status
+        /// </summary>
         public enum droneStatusInDelivery { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, HideTextBlock };
 
+        /// <summary>
+        /// If Simulator is asked to stop but operation is not Completed yet = true/false.
+        /// For the progress bar.
+        /// </summary>
+        bool simIsAskedToStopButOperationNotCompleted = false;
+
+        /// <summary>
+        /// Is ProgressBar from click Return btn = true;
+        /// 
+        /// </summary>
+        bool isProgressBarFromReturnBtn = false;
 
         /// <summary>
         /// Initialize obj worker for the simolator of drone
@@ -31,23 +51,40 @@ namespace PL
         /// <param name="e"></param>
         private void InitializeWorker(object sender, RoutedEventArgs e)
         {
+            if (simIsAskedToStopButOperationNotCompleted)
+            {
+                if(currentDrone.Battery == 100)
+                {
+                    AutomationBtn.Content = "Start Automation";
+                    ProgressBarForSimulation.Visibility = Visibility.Hidden;
+                    setChargeBtn();
+                    removeDroneBtn();
+                    setDeliveryBtn();
+                    simIsAskedToStopButOperationNotCompleted = false;
+                }
+                return;///////////////////////////??????????????????
+            }
 
             if (AutomationBtn.Content == "Manual")
             {
-                AutomationBtn.Content = "Start Automation";
+                simIsAskedToStopButOperationNotCompleted = true;
                 worker.CancelAsync();
-                //changeVisibilityOfUpdateBtn(Visibility.Visible);
-                setVisibilityAndContentBtn();
+                ProgressBarForSimulation.Visibility = Visibility.Visible;
                 return;
             }
 
-            int i = 10;
+            if (AutomationBtn.Content == "Start Automation")
+            {
+                worker = new BackgroundWorker();
+            }
             int droneCase = -1;
+
             AutomationBtn.Content = "Manual";
             changeVisibilityOfUpdateBtn(Visibility.Hidden);
 
             worker.DoWork += (object? sender, DoWorkEventArgs e) =>
             {
+                
                 blObject.StartSimulation(
                     tempDrone,//currentDrone.BO(),
                     (tempDrone, i) => { worker.ReportProgress(i); droneCase = i; },
@@ -90,9 +127,15 @@ namespace PL
 
             worker.RunWorkerCompleted += (object? sender, RunWorkerCompletedEventArgs e) =>
             {
+                if (isProgressBarFromReturnBtn)
+                    this.Close();
+
                 AutomationBtn.Content = "Start Automation";
-                changeVisibilityOfUpdateBtn(Visibility.Visible);
-                worker.CancelAsync();
+                ProgressBarForSimulation.Visibility = Visibility.Hidden;
+                setChargeBtn();
+                removeDroneBtn();
+                setDeliveryBtn();
+                simIsAskedToStopButOperationNotCompleted = false;
 
             };
             worker.WorkerSupportsCancellation = true;

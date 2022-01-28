@@ -84,8 +84,8 @@ namespace Dal
         {
             XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
             XElement stationXElemnt = (from s in stationRoot.Elements()
-                              where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
-                              select s).FirstOrDefault();
+                                       where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
+                                       select s).FirstOrDefault();
             if (stationXElemnt != null)
                 stationXElemnt.Element("IsActive").Value = "false";
 
@@ -185,8 +185,8 @@ namespace Dal
         {
             XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
             XElement stationXElemnt = (from s in stationRoot.Elements()
-                              where Convert.ToInt32(s.Element("Id").Value) == requestedId
-                              select s).FirstOrDefault();
+                                       where Convert.ToInt32(s.Element("Id").Value) == requestedId
+                                       select s).FirstOrDefault();
             if (stationXElemnt != null)
                 return true;
             return false;
@@ -209,9 +209,9 @@ namespace Dal
         {
             XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
             XElement stationXElemnt = (from s in stationRoot.Elements()
-                              where Convert.ToInt32(s.Element("Id").Value) == requestedId
-                              && Convert.ToBoolean(s.Element("IsActive").Value)
-                              select s).FirstOrDefault();
+                                       where Convert.ToInt32(s.Element("Id").Value) == requestedId
+                                       && Convert.ToBoolean(s.Element("IsActive").Value)
+                                       select s).FirstOrDefault();
             if (stationXElemnt != null)
                 return true;
             return false;
@@ -232,7 +232,10 @@ namespace Dal
         public int amountStations()
         {
             return XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath).Count();
-        }
 
+            //XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
+            //return (from p in stationRoot.Elements()
+            //        select p).Count();
+        }
     }
 }

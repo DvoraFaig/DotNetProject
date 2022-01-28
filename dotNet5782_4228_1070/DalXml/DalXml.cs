@@ -86,9 +86,7 @@ namespace Dal
                 XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
             }
         }
-    }
-
-    
+    }   
 }
 #region garbage
 

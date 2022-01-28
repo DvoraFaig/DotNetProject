@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="GridMain" Opacity="0.98">
+    <Grid x:Name="GridMain" Opacity="0.98" Height="434" VerticalAlignment="Top" Margin="54,14,-54,0" >
         <Grid.Background >
-            <ImageBrush ImageSource="/pic/drone.jpg" Opacity="80"></ImageBrush>
+            <ImageBrush ImageSource="/pic/worldParcels.jpg" Stretch="None" ></ImageBrush>
         </Grid.Background>
         <Grid x:Name="MainGrid" Opacity="0.98">
             <Grid.RowDefinitions>
@@ -35,22 +35,32 @@
             <Image Source="/pic/sender and target 1.jpg" />
             <Image Source="/pic/target2.jpg" />
             <Image Source="/pic/target1.jpg" />-->
-
-
-
-            <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.RowSpan="2" Margin="1,0,-1,0">
+            <Grid Width="200" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250*"/>
+                    <RowDefinition Height="120*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="120*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="120*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="120*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="120*"/>
+                    <RowDefinition Height="40*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="30*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button  x:Name="GoToDroneListWindow" Content="Drone List"       Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="1" Grid.Column="1"  Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround" />
+                <Button  x:Name="GoToStationListWindow" Content="Station List"   Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="3" Grid.Column="1"  Click="ButtonClickStation" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+                <Button  x:Name="GoToParcelListWindow" Content="Parcel List"     Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="5" Grid.Column="1"  Click="ButtonClickParcel" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+                <Button  x:Name="GoToCustomerListWindow" Content="Customer List" Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="7" Grid.Column="1"  Click="ButtonClickCustomer" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+                <Button  x:Name="GoToSignInWindow" Content="Log Out"             Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="9" Grid.Column="1" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
             </Grid>
-            <Button  x:Name="GoToDroneListWindow" Content="Drone List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="38,35,0,0" VerticalAlignment="Top" Width="116" Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-            <Button  x:Name="GoToStationListWindow" Content="Station List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="179,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickStation" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-            <Button  x:Name="GoToParcelListWindow" Content="Parcel List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="321,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickParcel" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-            <Button  x:Name="GoToCustomerListWindow" Content="Customer List" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="464,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickCustomer" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-            <Button  x:Name="GoToSignInWindow" Content="Log Out" Background="#00000000" Padding="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Left" Height="41" Margin="620,35,0,0" VerticalAlignment="Top" Width="116" Click="ButtonClickSignIn" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
         </Grid>
     </Grid>
 </Window>

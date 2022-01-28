@@ -79,8 +79,8 @@ namespace BlApi
         //  Get Data About Object
         //========================
         //public int GetDroneStatusInDelivery(Drone drone);
-        public int GetDroneStatusInDelivery(int droneId);
-        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId);
+        public int GetDroneStatusInDelivery(Drone droneId);
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(Drone droneId);
 
         //===================
         //  Remove

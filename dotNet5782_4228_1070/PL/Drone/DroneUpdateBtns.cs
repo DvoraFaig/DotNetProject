@@ -25,8 +25,10 @@ namespace PL
         /// </summary>
         private void setVisibilityAndContentBtn()
         {
-            findDroneStatusContentBtn();
-            setChargeBtn();
+            if(currentDrone.Status == DroneStatus.Delivery)
+                findDroneStatusContentBtn();
+            if(currentDrone.Status != DroneStatus.Maintenance)
+                setChargeBtn();
             removeDroneBtn();
         }
 
@@ -37,7 +39,7 @@ namespace PL
         {
             try
             {
-                int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.Id);
+                int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
                 DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                 DeliveryStatusButton.Visibility = Visibility.Visible;
             }
@@ -49,7 +51,12 @@ namespace PL
 
         private void setDeliveryBtn()
         {
-            int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.Id);
+            if (currentDrone.Status == DroneStatus.Maintenance)
+                return;
+            int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
+            if(contentIndex > deliveryButtonOptionalContent.Count())
+                ChargeButton.Visibility = Visibility.Visible;
+
             DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
             DeliveryStatusButton.Visibility = Visibility.Visible;
             if (contentIndex != 0)
