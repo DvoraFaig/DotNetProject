@@ -27,7 +27,9 @@ namespace PL
         private BlApi.Ibl blObject;
         //BO.Drone dr;
         PO.Drone currentDrone;
-        string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Deliver by Target" };
+        public enum DeliveryStatusAction { Available, AsignedParcel, PickedParcel, DeliveredParcel };
+
+        string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Deliver by Target"};
         BO.Drone tempDrone;
 
         //simulation
@@ -98,6 +100,11 @@ namespace PL
                 try
                 {
                     int contentIndex = this.blObject.GetDroneStatusInDelivery(currentDrone.BO());
+                    if(contentIndex == 3)
+                    {
+                        setChargeBtn();
+                        return;
+                    }
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                 }
@@ -243,7 +250,7 @@ namespace PL
                 try
                 {
                     //currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone.Id));
+                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone));
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
@@ -265,7 +272,7 @@ namespace PL
                 //{ 
                 try
                 {
-                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.BO())); /*, int.Parse(TimeTocharge.Text)*/
                     //AddDroneDisplay.DataContext = currentDrone;
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;

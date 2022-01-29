@@ -51,11 +51,14 @@ namespace PL
 
         private void setDeliveryBtn()
         {
-            if (currentDrone.Status == DroneStatus.Maintenance)
+            if (currentDrone.Status == DroneStatus.Maintenance || currentDrone.Status == DroneStatus.Available)
+                //|| (currentDrone.Status == DroneStatus.Delivery && currentDrone.ParcelInTransfer == null )) //parcel is delivered
                 return;
             int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
-            if(contentIndex > deliveryButtonOptionalContent.Count())
-                ChargeButton.Visibility = Visibility.Visible;
+            //if(contentIndex >= deliveryButtonOptionalContent.Count())
+            //    ChargeButton.Visibility = Visibility.Visible;
+            //if (contentIndex == 3)
+            //    return;
 
             DeliveryStatusButton.Content = deliveryButtonOptionalContent[contentIndex];
             DeliveryStatusButton.Visibility = Visibility.Visible;

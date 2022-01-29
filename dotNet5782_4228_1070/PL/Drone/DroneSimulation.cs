@@ -44,9 +44,12 @@ namespace PL
             {
                 AutomationBtn.Content = "Start Automation";
                 ProgressBarForSimulation.Visibility = Visibility.Hidden;
-                setChargeBtn();
                 removeDroneBtn();
-                setDeliveryBtn();
+                int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
+                if(contentIndex != 3)
+                    setDeliveryBtn();
+                else
+                    setChargeBtn();
                 simIsAskedToStopButOperationNotCompleted = false; 
             }
         }
@@ -122,7 +125,7 @@ namespace PL
         public void RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             if (isProgressBarFromReturnBtn)
-                this.Close();
+                //  this.Close();
 
             AutomationBtn.Content = "Start Automation";
             ProgressBarForSimulation.Visibility = Visibility.Hidden;
