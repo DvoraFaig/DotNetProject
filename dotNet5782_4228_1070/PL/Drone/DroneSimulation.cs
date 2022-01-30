@@ -18,7 +18,7 @@ namespace PL
         /// <summary>
         /// Drone status in delivery: for changing text occurding to status
         /// </summary>
-        public enum droneStatusInDelivery { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
+        //public enum droneStatusInDelivery { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
 
         /// <summary>
         /// If Simulator is asked to stop but operation is not Completed yet = true/false.
@@ -33,7 +33,7 @@ namespace PL
         bool isProgressBarFromReturnBtn = false;
 
 
-        public int droneCase { get; set; }
+        public droneStatusInDelivery droneCase { get; set; }
         public double droneDisFromDes { get; set; }
 
 
@@ -83,7 +83,7 @@ namespace PL
                 worker = new BackgroundWorker();
             }
 
-            droneCase = -1;
+            droneCase = 0;
             droneDisFromDes = 0;
 
             AutomationBtn.Content = "Manual";
@@ -104,13 +104,14 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DoWork(object? sender, DoWorkEventArgs e)
+        public void DoWork(object
+            ? sender, DoWorkEventArgs e)
         {
             blObject.StartSimulation(
-                tempDrone,//currentDrone.BO(),
+                tempDrone,  //currentDrone.BO(),
                 (tempDrone, i, des) =>
                 {
-                    worker.ReportProgress(i);
+                    worker.ReportProgress((int)i);
                     droneCase = i;
                     droneDisFromDes = des;
                 },
@@ -148,7 +149,7 @@ namespace PL
             //{ //if droneCase == -1 it already used the switch and their in no point using it and wasting time; 0 = not in delivery status
             StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
             DisDroneFromDes.Visibility = Visibility.Hidden;
-            switch ((droneStatusInDelivery)droneCase)
+            switch (droneCase)
             {
                 case droneStatusInDelivery.ToPickUp:
                     StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
@@ -187,8 +188,7 @@ namespace PL
                 default:
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     DisDroneFromDes.Visibility = Visibility.Visible;
-                    break;
-                    //}
+                    break;    
             }
         }
     }

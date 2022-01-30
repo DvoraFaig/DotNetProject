@@ -12,7 +12,7 @@ namespace BL
     public sealed partial class BL : BlApi.Ibl
     {
         //[MethodImpl(MethodImplOptions.Synchronized)]
-        public void StartSimulation(Drone drone, Action<Drone, int ,double> updateDrone, Func<bool> needToStop)
+        public void StartSimulation(Drone drone, Action<Drone, droneStatusInDelivery, double> updateDrone, Func<bool> needToStop)
         {
             var sim = new Simulation(this);
             sim.StartSimulation(drone, updateDrone, needToStop);

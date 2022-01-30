@@ -92,7 +92,7 @@ namespace BlApi
         //===================
         //  StartSimulation
         //===================
-        public void StartSimulation(Drone std, Action<Drone, int , double> updateStudent, Func<bool> needToStop);
+        public void StartSimulation(Drone std, Action<Drone, droneStatusInDelivery, double> updateStudent, Func<bool> needToStop);
 
         //===========================
         //  Drones electricity usage.
