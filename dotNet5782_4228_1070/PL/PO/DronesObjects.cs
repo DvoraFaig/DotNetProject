@@ -25,7 +25,7 @@ namespace PO
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
             SartToCharge = d.SartToCharge;
-            blObject.DroneChange += Update;
+            blObject.DroneChangeAction += Update;
         }
     
 
@@ -34,7 +34,23 @@ namespace PO
             //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
             //blObject.DroneChange 
-            blObject.DroneChange += Update;
+            blObject.DroneChangeAction += Update;
+        }
+
+        /// <summary>
+        /// Update drones info.
+        /// </summary>
+        /// <param name="updatedDrone"></param>
+        public void Update(BO.Drone updatedDrone)
+        {
+            Id = updatedDrone.Id;
+            Model = updatedDrone.Model;
+            Battery = updatedDrone.Battery;
+            Status = updatedDrone.Status;
+            ParcelInTransfer = updatedDrone.ParcelInTransfer;
+            DronePosition = updatedDrone.DronePosition;
+            MaxWeight = (WeightCategories)updatedDrone.MaxWeight;
+            //Update(senderDrone);
         }
 
         /// <summary>
@@ -60,7 +76,7 @@ namespace PO
         /// Update PO.Drone - copy info to PO.Drone
         /// </summary>
         /// <param name="d"></param>
-        public void Update(BO.Drone d)
+        /*public void Update(BO.Drone d)
         {
             Id = d.Id;
             Model = d.Model;
@@ -72,7 +88,7 @@ namespace PO
             DronePosition.Longitude = d.DronePosition.Longitude;
             MaxWeight = (WeightCategories)d.MaxWeight;
             //Update(senderDrone);
-        }
+        }*/
 
 
         //public event PropertyChangedEventHandler PropertyChanged;

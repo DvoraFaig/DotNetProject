@@ -9,24 +9,26 @@ namespace PO
 {
     public class Customer : DependencyObject
     {
-        public Customer()
+        public Customer(BlApi.Ibl blObject)
         {
+            blObject.CustomerChangeAction += Update;
         }
 
-        public Customer(BO.Customer c)
+        public Customer(BlApi.Ibl blObject, BO.Customer c)
         {
             this.Update(c);
+            blObject.CustomerChangeAction += Update;
         }
-        
+
         public void Update(BO.Customer c)
         {
             Id = c.Id;
             Name = c.Name;
             Phone = c.Phone;
             CustomerPosition = c.CustomerPosition;
-            if (c.CustomerAsSender.Count > 0)
+            if (c.CustomerAsSender?.Count > 0)
                 CustomerAsSender = c.CustomerAsSender;
-            if (c.CustomerAsTarget.Count > 0)
+            if (c.CustomerAsTarget?.Count > 0)
                 CustomerAsTarget = c.CustomerAsTarget;
         }
 
@@ -35,24 +37,39 @@ namespace PO
             get { return (int)GetValue(IdProperty); }
             set { SetValue(IdProperty, value); }
         }
-        public string Name {
+        public string Name
+        {
             get { return (string)GetValue(NameProperty); }
             set { SetValue(NameProperty, value); }
         }
-        public string Phone {
+        public string Phone
+        {
             get { return (string)GetValue(PhoneProperty); }
             set { SetValue(PhoneProperty, value); }
         }
-        public BO.Position CustomerPosition {
+        public BO.Position CustomerPosition
+        {
             get { return (BO.Position)GetValue(CustomerPositionProperty); }
             set { SetValue(CustomerPositionProperty, value); }
         }
-        public List<BO.ParcelAtCustomer> CustomerAsSender {
-            get { return (List<BO.ParcelAtCustomer>)GetValue(CustomerAsSenderProperty); }
+        public List<BO.ParcelAtCustomer> CustomerAsSender
+        {
+            get
+            {
+                if (GetValue(CustomerAsSenderProperty) != null)
+                    return (List<BO.ParcelAtCustomer>)GetValue(CustomerAsSenderProperty);
+                else return null;
+            }
             set { SetValue(CustomerAsSenderProperty, value); }
         }
-        public List<BO.ParcelAtCustomer> CustomerAsTarget {
-            get { return (List<BO.ParcelAtCustomer>)GetValue(CustomerAsTargetProperty); }
+        public List<BO.ParcelAtCustomer> CustomerAsTarget
+        {
+            get
+            {
+                if (GetValue(CustomerAsTargetProperty) != null)
+                    return (List<BO.ParcelAtCustomer>)GetValue(CustomerAsTargetProperty);
+                else return null;
+            }
             set { SetValue(CustomerAsTargetProperty, value); }
         }
 

@@ -46,7 +46,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             blObjectD = blObject;
-            currentCustomer = new PO.Customer();
+            currentCustomer = new PO.Customer(blObject);
             updateOrAddWindow = true;
             PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
@@ -66,7 +66,7 @@ namespace PL
             updateOrAddWindow = false;
             blObjectD = blObject;
             //customer = customerInCtor;
-            currentCustomer = new PO.Customer(customerInCtor);
+            currentCustomer = new PO.Customer(blObject, customerInCtor);
             AddOrUpdateCustomer.DataContext = currentCustomer;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
@@ -93,11 +93,11 @@ namespace PL
             updateOrAddWindow = false;
             this.isClient = isClient;
             blObjectD = blObject;
-            currentCustomer = new PO.Customer(client);
+            //currentCustomer = new PO.Customer(blObject, client);
             //customer = client;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            currentCustomer = new PO.Customer(client);
+            currentCustomer = new PO.Customer(blObject, client);
             AddOrUpdateCustomer.DataContext = currentCustomer;
             //IdTextBox.Text = $"{client.Id}";
             //NameTextBox.Text = $"{client.Name}";
@@ -240,7 +240,8 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            currentCustomer.Update(blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text));
+            blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text);
+            //currentCustomer.Update(blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text));
             if (!isClient)
             {
                 new CustomerListWindow(blObjectD).Show();

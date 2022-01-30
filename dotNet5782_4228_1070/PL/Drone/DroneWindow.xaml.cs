@@ -255,8 +255,10 @@ namespace PL
             {
                 try
                 {
+                    blObject.SendDroneToCharge(currentDrone.Id);
+                    //currentDrone.Update(blObject.SendDroneToCharge(currentDrone.Id));
+
                     //currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone.BO()));
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
@@ -278,7 +280,9 @@ namespace PL
                 //{ 
                 try
                 {
-                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.BO())); /*, int.Parse(TimeTocharge.Text)*/
+                    blObject.FreeDroneFromCharging(currentDrone.Id);
+                    //currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    
                     //AddDroneDisplay.DataContext = currentDrone;
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
@@ -355,7 +359,9 @@ namespace PL
                 {
                     //currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
+
+                    blObject.PairParcelWithDrone(currentDrone.Id);
+                    //currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
@@ -373,7 +379,10 @@ namespace PL
                     //currentDrone = new PO.Drone(blObjectD.GetDroneById(currentDrone.Id));
                     //currentDrone = new PO.Drone(blObjectD.DronePicksUpParcel(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.DronePicksUpParcel(currentDrone.Id));
+
+                    blObject.DronePicksUpParcel(currentDrone.Id);
+                    //currentDrone.Update(blObject.DronePicksUpParcel(currentDrone.Id));
+
                     findDroneStatusContentBtn();
 
                 }
@@ -388,7 +397,8 @@ namespace PL
                 {
                     //currentDrone = new PO.Drone(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    //currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    blObject.DeliveryParcelByDrone(currentDrone.Id);
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
