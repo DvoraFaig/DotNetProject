@@ -620,7 +620,7 @@ namespace BO
                 fullDis -= dis;
                 updateDrone(droneA, droneStatusInDelivery.DisFromDestination, fullDis);
                 #endregion
-                Thread.Sleep((int)distanceDroneToSender*10);//*10   500
+                Thread.Sleep((int)distanceDroneToSender);//*10   500
             }
             #endregion
 

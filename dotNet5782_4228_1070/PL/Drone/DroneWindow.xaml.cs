@@ -409,17 +409,16 @@ namespace PL
             visibilityDroneBtns();
             try
             {
-                blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
+                currentDrone.DronePosition = blObject.convertDalToBLStation(blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery)).StationPosition;
+                //currentDrone.DronePosition = blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
                 //status = maintenace
             }
             catch (Exceptions.ObjNotExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}\nDrone Will be needed to be send to charge");
+                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}");
                 //status = maintenace?????????????????????
             }
-
-
-
+            //catch(BO.Exceptions.ObjNotExistException )
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function

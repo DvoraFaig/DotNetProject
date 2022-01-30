@@ -308,7 +308,7 @@ namespace BL
                 }
             }
             if (availbleClosestStation.Equals(typeof(Station)))
-                throw new Exceptions.ObjNotExistException("No station with empty charging slots");
+                throw new Exceptions.ObjNotExistException($"No station with empty charging slots, please free drone from {availbleClosestStation.Id} station.\n later the free try to send this drone again.", availbleClosestStation);
             return availbleClosestStation;
         }
 

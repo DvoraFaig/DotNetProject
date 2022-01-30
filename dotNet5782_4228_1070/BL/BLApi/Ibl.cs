@@ -110,6 +110,7 @@ namespace BlApi
         Parcel convertDalToBLParcelSimulation(DO.Parcel p);
         void removeDroneChargeByDroneId(int droneId);
         public Customer convertDalToBLCustomer(DO.Customer customer);
+        public Station convertDalToBLStation(DO.Station station);
         public void changeParcelInfo(Parcel parcel);
 
 
