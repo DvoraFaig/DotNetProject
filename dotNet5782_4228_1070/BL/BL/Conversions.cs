@@ -97,7 +97,7 @@ namespace BL
         /// </summary>
         /// <param name="station">Station to convert</param>
         /// <returns></returns>
-        private Station convertDalToBLStation(DO.Station station)
+        public Station convertDalToBLStation(DO.Station station)
         {
             List<ChargingDrone> blDroneChargingByStation = new List<ChargingDrone>();
             IEnumerable<DO.DroneCharge> droneChargesByStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id);
