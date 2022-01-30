@@ -59,7 +59,8 @@ namespace BL
                 {
                     Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
                     Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-                    AddDroneByIndex(dr);
+                    //AddDroneByIndex(dr);
+                    dronesList.Add(dr);
                     dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                     dal.AddDrone(convertBLToDalDrone(dr));
                     DroneChange?.Invoke(dr);
@@ -85,7 +86,10 @@ namespace BL
         {
             lock (dronesList) //not changing info???
             {
-                return dronesList;
+                return (from d in dronesList
+                        orderby d.Id
+                        select d);
+                //return dronesList;
             }
         }
 
@@ -290,22 +294,25 @@ namespace BL
         {
             try
             {
-                int index = dronesList.FindIndex(d => d.Id == drone.Id);
-                if (index != -1)
-                {
-                    dronesList.RemoveAt(index);
-                    lock (dal)
-                    {
-                        dal.removeDrone(index);
-                    }
-                }
-                //if (dal.IsDroneById(drone.Id))
+                //int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                //if (index != -1)
                 //{
+                //    dronesList.RemoveAt(index);
                 //    lock (dal)
                 //    {
-                //        dal.removeDrone(convertBLToDalDrone(drone));
+                //        dal.removeDrone(index);
                 //    }
                 //}
+                if (dal.IsDroneById(drone.Id))
+                {
+                    lock (dal)
+                    {
+                        dal.removeDrone(convertBLToDalDrone(drone));
+                    }
+                    //dronesList.Remove((Drone)drone);????
+                    int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                    dronesList.RemoveAt(index);
+                }
                 #region Exceptions
                 else
                     throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
