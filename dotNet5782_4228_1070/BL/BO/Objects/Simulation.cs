@@ -34,21 +34,28 @@ namespace BO
                             try
                             {
                                 BL.PairParcelWithDrone(drone.Id);
+                                drone.Status = DroneStatus.Delivery;
+                                updateDrone(drone, 1);
                                 BL.changeDroneInfo(drone);
                             }
                             catch (ObjNotAvailableException)
                             {
-                                //The Drone is ready to delivery but no matching parcels.
-                                if (drone.Battery == 100)
-                                {
-                                    //cancle
-                                }
                                 try
                                 {
                                     BL.SendDroneToCharge(drone.Id);
+                                    drone.Status = DroneStatus.Maintenance;
+                                    updateDrone(drone, 1);
+                                    BL.changeDroneInfo(drone);
                                 }
-                                catch (ObjNotAvailableException)
+                                catch (ObjNotExistException) //No charging slots available
                                 {
+                                    Thread.Sleep(5000);
+                                }
+                                catch (ObjNotAvailableException) //Not enough battery
+                                {
+                                    //Not supposed to happen:
+                                    //If hapens Drone Will be like a parcel and another parcel will pick him
+                                    //up and deliver it to the neerest station with an empty charge slots.
                                     // Not implemented becuase need to do other actions
                                     // in the next interation on the while loop
                                 }
@@ -56,30 +63,46 @@ namespace BO
                             // Do: If drone not has enough buttery to go to the near station.... do something
                             catch (Exception )
                             {
-                                Thread.Sleep(1000);
+                                Thread.Sleep(5000);
                                 ///to stop
                             }
                             break;
                         }
                     case DroneStatus.Maintenance:
                         {
+                            #region a differance way
+                            //double BatteryLeftToFullCharge = 100 - drone.Battery;
+                            //double percentFillBatteryForCharging = BL.requestElectricity(0);
+                            ////double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
+                            ////baterryToAdd/chargingRateOfDrone = second.TotalMinutes;
+                            //double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
+                            //double a = Math.Ceiling(timeLeftToCharge);//int
+                            //while (a > 0 && drone.Battery < 100)
+                            //{
+                            //    drone.Battery += percentFillBatteryForCharging * 10;
+                            //    updateDrone(drone, 1);
+                            //    Thread.Sleep(100);
+                            //    a -= 100*percentFillBatteryForCharging; //-10
+                            //}
+                            #endregion
 
-                            double BatteryLeftToFullCharge = 100 - drone.Battery;
-                            double percentFillBatteryForCharging = BL.requestElectricity(0);
-                            //double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
-                            //baterryToAdd/chargingRateOfDrone = second.TotalMinutes;
-                            double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
-                            double a = Math.Ceiling(timeLeftToCharge);//int
-                            while (a > 0 && drone.Battery < 100)
+                            DateTime now = DateTime.Now;
+                            TimeSpan second;
+                            //TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
+                            //double baterryToAdd = second.TotalMinutes * BL.requestElectricity(0);
+                            while (drone.Battery < 100)
                             {
-                                drone.Battery += percentFillBatteryForCharging * 10;
+                                second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 1000;
+                                drone.SartToCharge = DateTime.Now;
+                                double baterryToAdd = second.TotalMinutes * BL.requestElectricity(0);
+                                drone.Battery += baterryToAdd;
+                                drone.Battery = Math.Round(drone.Battery, 1);
+                                drone.Battery = Math.Min(100, drone.Battery);
                                 updateDrone(drone, 1);
-                                Thread.Sleep(100);
-                                a -= 100*percentFillBatteryForCharging; //-10
+                                Thread.Sleep(500);
                             }
 
-                            Thread.Sleep(100);
-
+                            #region Free Drone From Charge.
                             bool succeedFreeDroneFromCharge = false;
                             do
                             {
@@ -88,7 +111,7 @@ namespace BO
                                     BL.removeDroneChargeByDroneId(drone.Id); //BL.FreeDroneFromCharging(drone.Id);
                                     drone.Status = DroneStatus.Available;
                                     BL.changeDroneInfo(drone);
-                                    updateDrone(drone, (int)percentFillBatteryForCharging);
+                                    updateDrone(drone, 1);
                                     succeedFreeDroneFromCharge = true;
                                 }
                                 catch (Exception)
@@ -97,6 +120,7 @@ namespace BO
                                 }
                             }
                             while (!succeedFreeDroneFromCharge);
+                            #endregion
                             break;
                         }
                     case DroneStatus.Delivery:
@@ -113,12 +137,31 @@ namespace BO
                                         double batteryUsageByWeight = BL.requestElectricity((int)parcel.Weight);
                                         //double batteryToRemove = distanceDroneToSender * batteryUsageByWeight(per meters per minute...)
                                         double batteryToRemove = distanceDroneToSender * batteryUsageByWeight;
-                                        while (batteryToRemove > 0 && drone.Battery < 100)
+                                        //x = Latitude, y = Longitude.
+                                        double Incline = (Math.Abs(drone.DronePosition.Longitude - sender.CustomerPosition.Longitude)
+                                            / Math.Abs(drone.DronePosition.Latitude - sender.CustomerPosition.Latitude));
+                                        double x=drone.DronePosition.Latitude;
+                                        double y=drone.DronePosition.Longitude;
+                                        #region calc
+                                        //y = Incline * x + b
+                                        //-b = Incline * x - y
+                                        #endregion
+                                        double b = Incline * x - y;
+                                        b = -b;
+                                        double Equation = Incline * x + b;
+
+
+                                        while (batteryToRemove > 0 && drone.Battery < 100 && !(x == sender.CustomerPosition.Latitude))
                                         {
-                                            drone.Battery -= batteryUsageByWeight *10;
+                                            x++;
+                                            y = Incline * x + b;
+                                            drone.DronePosition.Latitude = x;
+                                            drone.DronePosition.Longitude = y;
+                                            drone.Battery -= batteryUsageByWeight * 10;
                                             updateDrone(drone, 1);
                                             Thread.Sleep(100);
-                                            batteryToRemove -= batteryUsageByWeight*10;
+                                            batteryToRemove -= batteryUsageByWeight * 10;
+                                            BL.changeDroneInfo(drone);
                                         }
                                         BL.DronePicksUpParcel(drone.Id);
                                         break;

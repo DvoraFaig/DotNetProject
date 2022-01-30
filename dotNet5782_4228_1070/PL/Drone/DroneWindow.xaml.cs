@@ -238,7 +238,7 @@ namespace PL
             ////new DroneListWindow(blObjectD).Show();
             if (AutomationBtn.Content == "Manual")
             {
-                worker.CancelAsync();
+                //worker.CancelAsync();
             }
             this.Close();
             //}
@@ -461,7 +461,7 @@ namespace PL
         /// <summary>
         /// worker to be used bt the simulator of drone
         /// </summary>
-        BackgroundWorker worker = new BackgroundWorker();
+        //= new BackgroundWorker();
 
         private void changeVisibilityOfUpdateBtn(Visibility visibility)
         {
@@ -476,7 +476,9 @@ namespace PL
         /// <param name="e"></param>
         private void InitializeWorker(object sender, RoutedEventArgs e)
         {
-            if(AutomationBtn.Content == "Manual")
+            BackgroundWorker worker = new BackgroundWorker();
+
+            if (AutomationBtn.Content == "Manual")
             {
                 AutomationBtn.Content = "Start Automation";
                 worker.CancelAsync();
