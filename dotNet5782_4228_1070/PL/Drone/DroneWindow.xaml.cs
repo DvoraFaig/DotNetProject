@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -211,7 +212,10 @@ namespace PL
             //if (messageBoxClosing == MessageBoxResult.OK)
             //{
             ////new DroneListWindow(blObjectD).Show();
-            if (isSimulationWorking /*AutomationBtn.Content == "Manual"*/)
+            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
+                this.Close();
+
+            if (isSimulationWorking) 
             {
                 isReturnBtnClick = true;
                 isProgressBarFromReturnBtn = true;
@@ -221,8 +225,6 @@ namespace PL
                 //return;
             }
 
-            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
-                this.Close();
         }
 
         /// <summary>

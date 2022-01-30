@@ -28,17 +28,24 @@ namespace PL
 
         /// <summary>
         /// Is ProgressBar from click Return btn = true;
-        /// 
         /// </summary>
         bool isProgressBarFromReturnBtn = false;
 
+        /// <summary>
+        /// Enum of drone status in simulation.
+        /// </summary>
+        public DroneStatusInSim droneCase { get; set; }
 
-        public droneStatusInDelivery droneCase { get; set; }
+        /// <summary>
+        /// Saves the distence of drone from it's destination when drone.Status == DroneStatus.Delivery;
+        /// </summary>
         public double droneDisFromDes { get; set; }
 
 
-
-        private void checkIfSimIsWorking()
+        /// <summary>
+        /// Checks if simulation is working.
+        /// </summary>
+        private void checkIfEnableToCloseSim()
         {
             if (currentDrone.Battery == 100)
             {
@@ -56,17 +63,15 @@ namespace PL
 
         /// <summary>
         /// Initialize obj worker for the simolator of drone
+        /// And when manual btn is clicked.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void InitializeWorker(object sender, RoutedEventArgs e)
         {
-
-            //worker = new BackgroundWorker();
-
             if (simIsAskedToStopButOperationNotCompleted)
             {
-                checkIfSimIsWorking();
+                //checkIfEnableToCloseSim();
                 return;///////////////////////////??????????????????
             }
 
@@ -85,7 +90,6 @@ namespace PL
 
             droneCase = 0;
             droneDisFromDes = 0;
-
             AutomationBtn.Content = "Manual";
             changeVisibilityOfUpdateBtn(Visibility.Hidden);
             isSimulationWorking = true;
@@ -134,7 +138,6 @@ namespace PL
             visibilityDroneBtns();
             setDeliveryBtn();
             simIsAskedToStopButOperationNotCompleted = false;
-
         }
 
         /// <summary>
@@ -151,37 +154,37 @@ namespace PL
             DisDroneFromDes.Visibility = Visibility.Hidden;
             switch (droneCase)
             {
-                case droneStatusInDelivery.ToPickUp:
+                case DroneStatusInSim.ToPickUp:
                     StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
                     break;
-                case droneStatusInDelivery.PickUp:
+                case DroneStatusInSim.PickUp:
                     StatusTextBoxLabelSimulation.Content = "Picking up parcel";
                     break;
-                case droneStatusInDelivery.ToDelivery:
+                case DroneStatusInSim.ToDelivery:
                     StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";//"Drone on the way to deliver the parcel";
                     break;
-                case droneStatusInDelivery.Delivery:
+                case DroneStatusInSim.Delivery:
                     StatusTextBoxLabelSimulation.Content = "Delivering parcel";
                     break;
-                case droneStatusInDelivery.ToCharge:
+                case DroneStatusInSim.ToCharge:
                     StatusTextBoxLabelSimulation.Content = "Destination\nStation";
                     break;
-                case droneStatusInDelivery.NoAvailbleChargingSlots:
+                case DroneStatusInSim.NoAvailbleChargingSlots:
                     StatusTextBoxLabelSimulation.Content = "No charging slots";
                     DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;
-                case droneStatusInDelivery.NotEnoughBatteryForDelivery:
+                case DroneStatusInSim.NotEnoughBatteryForDelivery:
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;
-                case droneStatusInDelivery.DisFromDestination:
+                case DroneStatusInSim.DisFromDestination:
                     DisDroneFromDes.Visibility = Visibility.Visible;
                     if (droneDisFromDes >= 0)
                         DisDroneFromDes.Content = $"Distance from\ndestination: {Math.Round(droneDisFromDes, 1)}";
                     else
                         DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;
-                case droneStatusInDelivery.HideTextBlock:
+                case DroneStatusInSim.HideTextBlock:
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;

@@ -12,7 +12,7 @@ namespace BL
         static public DalApi.Idal dal;
 
         /// <summary>
-        /// Electicity usage of drone
+        /// Electicity usage of drone by weight
         /// and chargingRateOfDrone.
         /// </summary>
         private double electricityUsageWhenDroneIsEmpty { get; set; }
