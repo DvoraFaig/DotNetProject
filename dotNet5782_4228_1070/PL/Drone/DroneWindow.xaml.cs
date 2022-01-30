@@ -37,6 +37,10 @@ namespace PL
         BO.Customer senedrOfParcel;
         BO.Customer targetOfParcel;
 
+        bool isReturnBtnClick = false;
+
+        bool isSimulationWorking = false;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -207,16 +211,18 @@ namespace PL
             //if (messageBoxClosing == MessageBoxResult.OK)
             //{
             ////new DroneListWindow(blObjectD).Show();
-            if (AutomationBtn.Content == "Manual")
+            if (isSimulationWorking /*AutomationBtn.Content == "Manual"*/)
             {
+                isReturnBtnClick = true;
                 isProgressBarFromReturnBtn = true;
                 simIsAskedToStopButOperationNotCompleted = true;
                 worker.CancelAsync();
                 ProgressBarForSimulation.Visibility = Visibility.Visible;
-                return;
+                //return;
             }
-            this.Close();
-            //}
+
+            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
+                this.Close();
         }
 
         /// <summary>
@@ -250,7 +256,7 @@ namespace PL
                 try
                 {
                     //currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone));
+                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone.BO()));
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;

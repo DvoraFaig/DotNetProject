@@ -46,11 +46,11 @@ namespace PL
                 ProgressBarForSimulation.Visibility = Visibility.Hidden;
                 removeDroneBtn();
                 int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
-                if(contentIndex != 3)
+                if (contentIndex != 3)
                     setDeliveryBtn();
                 else
                     setChargeBtn();
-                simIsAskedToStopButOperationNotCompleted = false; 
+                simIsAskedToStopButOperationNotCompleted = false;
             }
         }
 
@@ -63,7 +63,7 @@ namespace PL
         {
 
             //worker = new BackgroundWorker();
-            
+
             if (simIsAskedToStopButOperationNotCompleted)
             {
                 checkIfSimIsWorking();
@@ -88,7 +88,7 @@ namespace PL
 
             AutomationBtn.Content = "Manual";
             changeVisibilityOfUpdateBtn(Visibility.Hidden);
-
+            isSimulationWorking = true;
             //worker = new BackgroundWorker();
             worker.DoWork += new DoWorkEventHandler(DoWork); //worker.DoWork += (DoWork);
             worker.WorkerReportsProgress = true;
@@ -124,8 +124,8 @@ namespace PL
         /// <param name="e"></param>
         public void RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            if (isProgressBarFromReturnBtn)
-                //  this.Close();
+            if (isReturnBtnClick)
+                this.Close();
 
             AutomationBtn.Content = "Start Automation";
             ProgressBarForSimulation.Visibility = Visibility.Hidden;
@@ -144,49 +144,51 @@ namespace PL
         public void ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             currentDrone.Update(tempDrone);
-            if (droneCase != -1 && droneCase != 0)
-            { //if droneCase == -1 it already used the switch and their in no point using it and wasting time; 0 = not in delivery status
-                StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
-                DisDroneFromDes.Visibility = Visibility.Hidden;
-                switch ((droneStatusInDelivery)droneCase)
-                {
-                    case droneStatusInDelivery.ToPickUp:
-                        StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
-                        break;
-                    case droneStatusInDelivery.PickUp:
-                        StatusTextBoxLabelSimulation.Content = "Picking up parcel";
-                        break;
-                    case droneStatusInDelivery.ToDelivery:
-                        StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";//"Drone on the way to deliver the parcel";
-                        break;
-                    case droneStatusInDelivery.Delivery:
-                        StatusTextBoxLabelSimulation.Content = "Delivering parcel";
-                        break;
-                    case droneStatusInDelivery.ToCharge:
-                        StatusTextBoxLabelSimulation.Content = "Destination\nStation";
-                        break;
-                    case droneStatusInDelivery.NoAvailbleChargingSlots:
-                        StatusTextBoxLabelSimulation.Content = "No charging slots";
+            //if (droneCase != -1 && droneCase != 0)
+            //{ //if droneCase == -1 it already used the switch and their in no point using it and wasting time; 0 = not in delivery status
+            StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
+            DisDroneFromDes.Visibility = Visibility.Hidden;
+            switch ((droneStatusInDelivery)droneCase)
+            {
+                case droneStatusInDelivery.ToPickUp:
+                    StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
+                    break;
+                case droneStatusInDelivery.PickUp:
+                    StatusTextBoxLabelSimulation.Content = "Picking up parcel";
+                    break;
+                case droneStatusInDelivery.ToDelivery:
+                    StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";//"Drone on the way to deliver the parcel";
+                    break;
+                case droneStatusInDelivery.Delivery:
+                    StatusTextBoxLabelSimulation.Content = "Delivering parcel";
+                    break;
+                case droneStatusInDelivery.ToCharge:
+                    StatusTextBoxLabelSimulation.Content = "Destination\nStation";
+                    break;
+                case droneStatusInDelivery.NoAvailbleChargingSlots:
+                    StatusTextBoxLabelSimulation.Content = "No charging slots";
+                    DisDroneFromDes.Visibility = Visibility.Hidden;
+                    break;
+                case droneStatusInDelivery.NotEnoughBatteryForDelivery:
+                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+                    DisDroneFromDes.Visibility = Visibility.Hidden;
+                    break;
+                case droneStatusInDelivery.DisFromDestination:
+                    DisDroneFromDes.Visibility = Visibility.Visible;
+                    if (droneDisFromDes >= 0)
+                        DisDroneFromDes.Content = $"Distance from\ndestination: {Math.Round(droneDisFromDes, 1)}";
+                    else
                         DisDroneFromDes.Visibility = Visibility.Hidden;
-                        break;
-                    case droneStatusInDelivery.NotEnoughBatteryForDelivery:
-                        StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
-                        DisDroneFromDes.Visibility = Visibility.Hidden;
-                        break;
-                    case droneStatusInDelivery.DisFromDestination:
-                        DisDroneFromDes.Visibility = Visibility.Visible;
-                        if (droneDisFromDes >= 0)
-                            DisDroneFromDes.Content = $"Distance from\ndestination: {Math.Round(droneDisFromDes, 1)}";
-                        else
-                            DisDroneFromDes.Visibility = Visibility.Hidden;
-                        break;
-                    case droneStatusInDelivery.HideTextBlock:
-                        StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
-                        DisDroneFromDes.Visibility = Visibility.Hidden;
-                        break;
-                    default:
-                        break;
-                }
+                    break;
+                case droneStatusInDelivery.HideTextBlock:
+                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+                    DisDroneFromDes.Visibility = Visibility.Hidden;
+                    break;
+                default:
+                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+                    DisDroneFromDes.Visibility = Visibility.Visible;
+                    break;
+                    //}
             }
         }
     }
