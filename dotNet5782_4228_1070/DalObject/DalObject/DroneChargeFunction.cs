@@ -48,7 +48,7 @@ namespace Dal
         /// <summary>
         /// Remove charging drone by drone id.
         /// <param name="droneId">The charging drone with droneId</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDroneChargeByDroneId(int droneId)
         {
             int index = DataSource.DroneCharges.FindIndex(d => d.DroneId == droneId);

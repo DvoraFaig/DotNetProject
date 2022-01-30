@@ -27,52 +27,54 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneToAdd, int stationId)
         {
-            if (dal.IsDroneById(droneToAdd.Id))
+            //if (dal.IsDroneById(droneToAdd.Id))
+            //{
+            //    #region Exceptions
+            //    throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
+            //    #endregion
+            //}
+            //else
+            //{
+            lock (dal)
             {
-                #region Exceptions
-                throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
-                #endregion
-            }
-            else
-            {
-                lock (dal)
+                //???????????????????????? why should it happen???
+                if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
+                    throw new Exceptions.ObjNotExistException("Weight of drone is out of range");
+                //??????????????????????????
+                DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
+                int battery = r.Next(20, 40);
+                DO.Station s;
+                try
                 {
-                    //???????????????????????? why should it happen???
-                    if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
-                        throw new Exceptions.ObjNotExistException("Weight of drone is out of range");
-                    //??????????????????????????
-                    DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
-                    int battery = r.Next(20, 40);
-                    DO.Station s;
-                    try
-                    {
-                        s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
-                    }
+                    s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                }
+                #region Exceptions
+                catch (InvalidOperationException)
+                {
+                    throw new ObjNotExistException(typeof(DO.Station), stationId);
+                }
+                #endregion
+                Station station = convertDalToBLStation(s);
+                if (s.ChargeSlots - station.DronesCharging.Count > 0)
+                {
+                    Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
+                    Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                    AddDroneByIndex(dr);
+                    dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
+                    dal.AddDrone(convertBLToDalDrone(dr));
+                    DroneChange?.Invoke(dr);
+                }
+                else
+                {
                     #region Exceptions
-                    catch (InvalidOperationException)
-                    {
-                        throw new ObjNotExistException(typeof(DO.Station), stationId);
-                    }
+                    throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
                     #endregion
-                    Station station = convertDalToBLStation(s);
-                    if (s.ChargeSlots - station.DronesCharging.Count > 0)
-                    {
-                        Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
-                        Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-                        dronesList.Add(dr);
-                        dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
-                        dal.AddDrone(convertBLToDalDrone(dr));
-                        DroneChange?.Invoke(dr);
-                    }
-                    else
-                    {
-                        #region Exceptions
-                        throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
-                        #endregion
-                    }
                 }
             }
+            //}
         }
+
+       
 
         /// <summary>
         /// Return DronesList
@@ -252,7 +254,7 @@ namespace BL
                     TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
                     double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                     //baterryToAdd = Math.Round(baterryToAdd, 1);
-                    drone.Battery += Math.Round(baterryToAdd,1);
+                    drone.Battery += Math.Round(baterryToAdd, 1);
                     drone.Battery = Math.Round(drone.Battery, 1);
                     drone.Battery = Math.Min(drone.Battery, 100);
                     DroneChange?.Invoke(drone);
@@ -288,11 +290,22 @@ namespace BL
         {
             try
             {
-                if (dal.IsDroneById(drone.Id))
+                int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                if (index != -1)
+                {
+                    dronesList.RemoveAt(index);
                     lock (dal)
                     {
-                        dal.removeDrone(convertBLToDalDrone(drone));
+                        dal.removeDrone(index);
                     }
+                }
+                //if (dal.IsDroneById(drone.Id))
+                //{
+                //    lock (dal)
+                //    {
+                //        dal.removeDrone(convertBLToDalDrone(drone));
+                //    }
+                //}
                 #region Exceptions
                 else
                     throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");

@@ -59,5 +59,19 @@ namespace BL
             }
             #endregion
         }
+
+        /// <summary>
+        /// Add a drone to dronesList by Index
+        /// </summary>
+        /// <param name="dr"></param>
+        private void AddDroneByIndex(Drone dr)
+        {
+            if (dr.Id < dronesList.Count)
+            {
+                dronesList.Insert(dr.Id - 1, dr);
+                return;
+            }
+            dronesList.Add(dr);
+        }
     }
 }

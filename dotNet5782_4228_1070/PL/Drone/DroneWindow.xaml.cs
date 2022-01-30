@@ -121,7 +121,7 @@ namespace PL
             {
                 ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
             }
-            removeDroneBtn();
+            visibilityDroneBtns();
             AutomationBtn.Content = "Start Automation";
             tempDrone = currentDrone.BO();/////////////////////////////////////////////////////////////////
 
@@ -261,7 +261,7 @@ namespace PL
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
                     setChargeBtn();
-                    removeDroneBtn();
+                    visibilityDroneBtns();
                     //ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
@@ -286,11 +286,11 @@ namespace PL
                     //BatteryTextBox.Text = $"{dr.Battery}";
                     //ChargeDroneTimeGrid.Visibility = Visibility.Hidden;
                     //StatusTextBox.Text = $"{DroneStatus.Available}";
-                    blObject.RemoveDroneCharge(currentDrone.Id);
+                    //blObject.RemoveDroneCharge(currentDrone.Id);
                     setChargeBtn();
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
-                    removeDroneBtn();
+                    visibilityDroneBtns();
                 }
                 catch (Exception)
                 {
@@ -396,7 +396,7 @@ namespace PL
                 #endregion
             }
             //setDeliveryBtn
-            removeDroneBtn();
+            visibilityDroneBtns();
             try
             {
                 blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
@@ -426,12 +426,11 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RemoveBtnClick(object sender, RoutedEventArgs e)
+        private void RemoveDroneBtnClick(object sender, RoutedEventArgs e)
         {
             try
             {
                 blObject.RemoveDrone(currentDrone.BO());
-                new DroneListWindow(blObject).Show();
                 this.Close();
             }
             catch (BO.Exceptions.ObjExistException e1)

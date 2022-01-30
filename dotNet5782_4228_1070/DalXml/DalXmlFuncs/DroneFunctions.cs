@@ -97,6 +97,33 @@ namespace Dal
             #endregion
         }
 
+        public void removeDrone(int index)
+        {
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            int i = 0;
+            XElement droneXElemnt = (from d in droneRoot.Elements()
+                                     where i++ == index
+                                     select d).FirstOrDefault();
+
+            if (droneXElemnt != null)
+                droneXElemnt.Element("IsActive").Value = "false";
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //try
+            //{
+            //    Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
+            //    if (drone.IsActive)
+            //        drone.IsActive = false;
+            //    changeDroneInfo(drone);
+            //}
+            //catch (Exception e1)
+            //{
+            //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+            //}
+            #endregion
+        }
+
 
         /// <summary>
         /// Get all drone.

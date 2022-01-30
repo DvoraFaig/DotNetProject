@@ -29,7 +29,7 @@ namespace PL
                 findDroneStatusContentBtn();
             if(currentDrone.Status != DroneStatus.Maintenance)
                 setChargeBtn();
-            removeDroneBtn();
+            visibilityDroneBtns();
         }
 
         /// <summary>
@@ -87,7 +87,10 @@ namespace PL
             }
         }
 
-        private void removeDroneBtn()
+        /// <summary>
+        /// Manege Drone update form Visibility of btns.
+        /// </summary>
+        private void visibilityDroneBtns()
         {
             if (currentDrone.Status == DroneStatus.Available)
                 RemoveDrone.Visibility = Visibility.Visible;
