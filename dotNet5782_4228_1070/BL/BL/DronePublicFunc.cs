@@ -371,7 +371,7 @@ namespace BL
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
             dronesList[index] = droneWithUpdateInfo;
-            DroneChangeAction?.Invoke(dronesList[index]);
+            //DroneChangeAction?.Invoke(dronesList[index]);
         }
     }
 }

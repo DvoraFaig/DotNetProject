@@ -95,7 +95,7 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
             //this.parcel = parcel;
-            currentParcel = new PO.Parcel(blObject,parcel);
+            currentParcel = new PO.Parcel(blObject, parcel);
             AddParcelDisplay.DataContext = currentParcel;
             returnToParcelListWindow = cameFromPageParcelList;
             visibleAddForm.Visibility = Visibility.Hidden;
@@ -121,7 +121,7 @@ namespace PL
             Loaded += ToolWindowLoaded; //The x button
             this.blObject = blObject;
             //this.parcel = parcel;
-            currentParcel = new PO.Parcel(blObject,parcel);
+            currentParcel = new PO.Parcel(blObject, parcel);
             AddParcelDisplay.DataContext = currentParcel;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
@@ -313,8 +313,19 @@ namespace PL
                 try
                 {
                     blObject.AddParcel(new Parcel() { Sender = senderCustomer, Target = targetCustomer, Weight = weight, Priority = priority });
+                    if (isClientAndNotAdmin)
+                        new CustomerWindow(blObject, clientCustomer, true).Show();
+                    else
+                    {
+                        new ParcelListWindow_(blObject).Show();
+                        this.Close();
+                    }
                 }
                 #region Exceptions
+                catch (BO.Exceptions.ObjNotAvailableException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 catch (BO.Exceptions.ObjNotExistException ex)
                 {
                     MessageBox.Show(ex.Message);
@@ -344,11 +355,6 @@ namespace PL
                     PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
                 }
                 #endregion
-                if (isClientAndNotAdmin)
-                    new CustomerWindow(blObject, clientCustomer, true).Show();
-                else
-                    new ParcelListWindow_(blObject).Show();
-                this.Close();
             }
             else PLFuncions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
         }
