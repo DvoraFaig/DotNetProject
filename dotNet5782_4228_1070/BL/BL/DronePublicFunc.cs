@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl , BlApi.ISimulation
+    public sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
     {
         public Action<Drone> DroneChangeAction { get; set; }
 
@@ -60,7 +60,7 @@ namespace BL
                         dronesList.Add(dr);
                         dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                         dal.AddDrone(convertBLToDalDrone(dr));
-                        DroneChangeAction?.Invoke(dr);
+                        DroneChange?.Invoke(dr);
                     }
                     else
                     {
@@ -72,6 +72,8 @@ namespace BL
             }
         }
 
+       
+
         /// <summary>
         /// Return DronesList
         /// </summary>
@@ -79,9 +81,12 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDrones()
         {
-            lock (dronesList)
+            lock (dronesList) //not changing info???
             {
-                return dronesList;
+                return (from d in dronesList
+                        orderby d.Id
+                        select d);
+                //return dronesList;
             }
         }
 
@@ -92,7 +97,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> returnDronesToList()
         {
-            lock (dronesList)
+            lock (dronesList)  //not changing info???
             {
                 return convertDronesToDronesToList(dronesList);
             }
@@ -107,7 +112,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status)
         {
-            IEnumerable<Drone> IList = getDrones(); //if Both null took it out of th eif becuase Ienumerable needed a statment...
+            IEnumerable<Drone> IList = getDrones(); //if Both null took it out of there becuase Ienumerable needed a statment...
             if (weight >= 0 && status == -1)
                 IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (DO.WeightCategories)weight);
             else if (weight == -1 && status >= 0)
@@ -125,10 +130,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDroneById(int droneRequestedId)
         {
-            lock (dronesList)
-            {
-                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
-            }
+            return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace BL
         {
             try
             {
-                lock (dronesList)
+                lock (dronesList) //not changing info??? //locjk dal
                 {
                     int index = dronesList.FindIndex(d => d.Id == droneId);
                     dronesList[index].Id = droneId;
@@ -150,6 +152,10 @@ namespace BL
                 }
             }
             #region Exceptions
+            //catch(DO.Exceptions.ObjNotExistException e1)
+            //{
+            //    throw new Exceptions.ObjNotExistException(e1.Message);
+            //}
             catch (Exception e)
             {
                 throw new InvalidOperationException($"Couldn't change Model of drone with id {droneId} ", e);
@@ -163,11 +169,13 @@ namespace BL
         /// <param name="droneId"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone SendDroneToCharge(int droneId)
+        public Drone SendDroneToCharge(Drone drone)
         {
+            if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
+                throw new ObjNotExistException("Drones' battery is full.");
             try
             {
-                lock (dal)
+                lock (dal)  //lock (dronesList) //{
                 {
                     lock (dronesList)
                     {
@@ -229,37 +237,38 @@ namespace BL
         /// <param name="timeCharging"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
+        public Drone FreeDroneFromCharging(Drone drone/*, double timeCharging*/)
         {
             try
             {
-                lock (dronesList)
+                //lock (dronesList)
+                //{
+                lock (dal)
                 {
-                    lock (dal)
-                    {
-                        Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
-                        DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == blDrone.Id).First();/////////////////
-                        DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
-                        //changeInfoOfStation(s.Id, null, s.ChargeSlots);
-                        blDrone.Status = DroneStatus.Available;
-                        dal.removeDroneChargeByDroneId(droneId);
-                        TimeSpan second = (TimeSpan)(DateTime.Now - blDrone.SartToCharge) * 100;
-                        double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
-                        baterryToAdd = Math.Round(baterryToAdd, 1);
-                        blDrone.Battery += baterryToAdd;
-                        blDrone.Battery = Math.Round(blDrone.Battery, 1);
-                        blDrone.Battery = Math.Min(blDrone.Battery, 100);
-                        DroneChangeAction?.Invoke(blDrone);
-                        // Do later: remove drone charge;
-                        dal.removeDroneChargeByDroneId(blDrone.Id);
-                        return blDrone;
-                    }
+                    //Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
+                    //DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
+                    //changeInfoOfStation(s.Id, null, s.ChargeSlots);
+                    //DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == drone.Id).First();/////////////////
+
+                    dal.removeDroneChargeByDroneId(drone.Id);
+
+                    drone.Status = DroneStatus.Available;
+                    TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
+                    double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
+                    //baterryToAdd = Math.Round(baterryToAdd, 1);
+                    drone.Battery += Math.Round(baterryToAdd, 1);
+                    drone.Battery = Math.Round(drone.Battery, 1);
+                    drone.Battery = Math.Min(drone.Battery, 100);
+                    DroneChange?.Invoke(drone);
+
+                    return drone;
                 }
             }
+            //}
             #region Exceptions
             catch (Exception e)
             {
-                throw new Exception("Can't free Drone from charge.\nPlease try later...", e);
+                throw new Exceptions.ObjNotAvailableException("Can't free Drone from charge.\nPlease try later...", e);
             }
             #endregion
         }
@@ -283,11 +292,25 @@ namespace BL
         {
             try
             {
+                //int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                //if (index != -1)
+                //{
+                //    dronesList.RemoveAt(index);
+                //    lock (dal)
+                //    {
+                //        dal.removeDrone(index);
+                //    }
+                //}
                 if (dal.IsDroneById(drone.Id))
+                {
                     lock (dal)
                     {
                         dal.removeDrone(convertBLToDalDrone(drone));
                     }
+                    //dronesList.Remove((Drone)drone);????
+                    int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                    dronesList.RemoveAt(index);
+                }
                 #region Exceptions
                 else
                     throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
@@ -307,34 +330,40 @@ namespace BL
         /// <param name="droneId">Drones' id</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public int GetDroneStatusInDelivery(int droneId)
+        public int GetDroneStatusInDelivery(Drone droneInt)
         {
-            return (int)GetfromEnumDroneStatusInDelivery(droneId);
+            return (int)GetfromEnumDroneStatusInDelivery(droneInt);
         }
 
-        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(int droneId)
+        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(Drone drone)
         {
             // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
-            lock (dronesList)
+            if (drone.Status == DroneStatus.Available)
             {
-                Drone drone = GetDroneById(droneId);
-                if (drone.Status == DroneStatus.Available)
-                {
-                    return DeliveryStatusAction.Available;
-                }
-                else if (drone.Status == DroneStatus.Delivery)
+                return DeliveryStatusAction.Available;
+            }
+            else if (drone.Status == DroneStatus.Delivery)
+            {
+                if (drone.ParcelInTransfer != null)
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
                     {
                         return DeliveryStatusAction.PickedParcel;
                     }
-                    if (drone.ParcelInTransfer != null)
+
+                    if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
+                                && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
                     {
-                        return DeliveryStatusAction.AsignedParcel;
+                        return DeliveryStatusAction.DeliveredParcel;
                     }
+                    return DeliveryStatusAction.AsignedParcel;
                 }
+                else
+                    return DeliveryStatusAction.DeliveredParcel;
+
             }
+
             throw new Exception("No macthing status");
         }
 

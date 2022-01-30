@@ -11,6 +11,7 @@
             <TabControl>
                 <TabItem Header="Log In">
                     <Grid x:Name="SignInOrLogIn">
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100*"/>
                             <RowDefinition Height="100*"/>
@@ -23,18 +24,18 @@
                             <RowDefinition Height="100*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="20*"/>
                             <ColumnDefinition Width="200*"/>
                             <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="200*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Response" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3"></TextBlock>
-                        <Image Source="/pic/target2.jpg" Grid.Row="1" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="2" />
-
-                        <Grid x:Name="SignInForm" Grid.Row="3" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3">
+                        <!--<TextBlock x:Name="Response" Grid.Row="2" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3"></TextBlock>-->
+                        <!--<Image Source="/pic/target2.jpg" Grid.Row="1" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="2" />-->
+                        <Image Source="/pic/SendAparcel.jpg" Grid.ColumnSpan="6" Grid.Column="1" Grid.RowSpan="9" Margin="102,-40,-20,-9"></Image>
+                        <Grid x:Name="SignInForm" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="100*"/>
@@ -47,7 +48,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40*"/>
                                 <ColumnDefinition Width="100*"/>
-                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="10*"/>
                                 <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="40*"/>
                             </Grid.ColumnDefinitions>
@@ -176,7 +177,7 @@
                             <Label x:Name="WorkerPasswordLabel" Grid.Row="3" Grid.Column="1" Style="{StaticResource styleLabelForms}" FontWeight="Bold" >Password:</Label>
                             <Image Source="/pic/password.png" x:Name="GetPassword" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" MouseDown="hidePassword" Visibility="Hidden"/>
                             <Image Source="/pic/passwordView.png"  x:Name="HidePassword" Grid.Row="3" Grid.Column="0" Margin="0,0,1,18" Grid.RowSpan="2" MouseDown="getPassword"/>
-                            
+
                             <StackPanel x:Name="WorkerPasswordTextBox"  Grid.Row="3" Grid.ColumnSpan="1" Grid.Column="3" >
                                 <PasswordBox x:Name="passwordBox" Width="130" Height="50" />
                             </StackPanel>

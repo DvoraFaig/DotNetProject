@@ -24,6 +24,7 @@ namespace DalApi
         public void removeStation(Station stationToRemove);
         public void removeCustomer(Customer customerToRemove);
         public void removeDrone(Drone droneToRemove);
+        //public void removeDrone(int index);
         public void removeParcel(Parcel parcel);
         public void removeDroneChargeByDroneId(int droneId);
 
@@ -77,6 +78,9 @@ namespace DalApi
         public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate);
 
         double[] electricityUseByDrone();
+
+        ParcelStatuses findParcelStatus(DO.Parcel p);
+
     }
 }
 

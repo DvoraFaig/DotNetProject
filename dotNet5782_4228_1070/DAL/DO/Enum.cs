@@ -13,6 +13,10 @@ namespace DO
     /// Priorities of a parcel.
     /// </summary>
     public enum Priorities { Regular = 1, Fast, Emergency }
+
+
+    public enum ParcelStatuses { Requeasted, Scheduled, PickedUp, Delivered };
+
 }
 
 

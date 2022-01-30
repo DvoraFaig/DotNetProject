@@ -40,8 +40,8 @@ namespace Dal
                     Id = i,
                     Name = $"station{i}",
                     ChargeSlots = r.Next(5, 10),
-                    Latitude = r.Next(1, 50),
-                    Longitude = r.Next(1, 50),
+                    Latitude = r.Next(1, 90),
+                    Longitude = r.Next(1, 90),
                     IsActive = true
                 };
                 Stations.Add(s);
@@ -69,21 +69,21 @@ namespace Dal
                     Id = i,
                     Name = $"Customer{i}",
                     Phone = $"{r.Next(100000000, 1000000000)}",
-                    Latitude = r.Next(1, 50),
-                    Longitude = r.Next(1, 50),
+                    Latitude = r.Next(1, 90),
+                    Longitude = r.Next(1, 90),
                     IsActive = true
                 };
 
                 Customers.Add(c);
             }
 
-            int amountParcels = r.Next(1, 5);
+            int amountParcels = r.Next(6, 8);
             for (int i = 1; i <= amountParcels; i++)
             {
                 Parcel p = new Parcel()
                 {
                     Id = i,
-                    Weight = (WeightCategories)r.Next(1, 4),
+                    Weight = (WeightCategories)r.Next(1, 3), /////////////// (1,4)
                     Priority = (Priorities)r.Next(1, 4),
                     Requeasted = DateTime.Now,
                     IsActive = true

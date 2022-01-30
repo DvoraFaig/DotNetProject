@@ -81,8 +81,23 @@ namespace Dal
             }
         }
 
+        //public void removeDrone(int index)
+        //{
+        //    Drone drone = DataSource.Drones[index];
+        //    drone.IsActive = false;
+        //    changeDroneInfo(drone);
+
+        //    //.IsActive = false;
+        //}
+
         /// <summary>
-        /// Returns electricity usage of drone.
+        /// returns an array of drones' electricity usage. 
+        /// arr[] =
+        /// empty,
+        /// lightWeight,
+        /// mediumWeight,
+        /// heavyWeight,
+        /// chargingRate
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]

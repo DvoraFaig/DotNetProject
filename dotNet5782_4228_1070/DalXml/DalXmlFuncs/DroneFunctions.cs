@@ -7,6 +7,8 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DO;
+using System.Runtime.CompilerServices;
+
 
 
 namespace Dal
@@ -19,11 +21,13 @@ namespace Dal
         /// <param name="newDrone">drone to add.</param>
         public void AddDrone(DO.Drone newDrone)
         {
-            XElement DroneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
+            XElement DroneRoot = XMLTools.LoadData(dir + droneFilePath);
+            newDrone.IsActive = true;
             DroneRoot.Add(returnDroneXElement(newDrone));
             DroneRoot.Save(dir + droneFilePath);
-            #region found better way
-            //IEnumerable<DO.Drone> droneList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
             //if (droneList.Any(d => d.Id == newDrone.Id))
             //{
             //    throw new DO.Exceptions.ObjExistException(typeof(DO.Drone), newDrone.Id);
@@ -32,6 +36,7 @@ namespace Dal
             //DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
             #endregion
         }
+
         /// <summary>
         /// Receive a DO drone and return a XElemnt drone - copy information.
         /// </summary>
@@ -47,35 +52,78 @@ namespace Dal
         }
 
         /// <summary>
+        /// Receive a XElement drone and return a DO drone - copy information.
+        /// </summary>
+        /// <param name="newDrone"></param>
+        /// <returns></returns>
+        private Drone returnDrone(XElement drone)
+        {
+            return new DO.Drone()
+            {
+                Id = Convert.ToInt32(drone.Element("Id").Value),
+                Model = drone.Element("Model").Value,
+                MaxWeight = (WeightCategories)Convert.ToInt32(drone.Element("MaxWeight").Value),
+                IsActive = Convert.ToBoolean((drone.Element("IsActive").Value))
+            };
+        }
+
+        /// <summary>
         /// if drone exist: IsActive = false + change its info (In DataSource)
         /// If doesn't exist throw NoMatchingData exception.</summary>
         /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
         public void removeDrone(Drone droneToRemove)
         {
-            IEnumerable<DO.Drone> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            try
-            {
-                Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
-                if (drone.IsActive)
-                    drone.IsActive = false;
-                changeDroneInfo(drone);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
-            }
-            #region found better way
-            //XElement droneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
-            //XElement droneXElemnt;
-            //droneXElemnt = (from d in droneRoot.Elements()
-            //                where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
-            //                select d).FirstOrDefault();
-            //if (droneXElemnt != null)
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            XElement droneXElemnt = (from d in droneRoot.Elements()
+                                     where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
+                                     select d).FirstOrDefault();
+
+            if (droneXElemnt != null)
+                droneXElemnt.Element("IsActive").Value = "false";
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //try
             //{
-            //    droneXElemnt.Element("IsActive").Value = "false";
+            //    Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
+            //    if (drone.IsActive)
+            //        drone.IsActive = false;
+            //    changeDroneInfo(drone);
+            //}
+            //catch (Exception e1)
+            //{
+            //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
             //}
             #endregion
         }
+
+        //public void removeDrone(int index)
+        //{
+        //    XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+        //    int i = 0;
+        //    XElement droneXElemnt = (from d in droneRoot.Elements()
+        //                             where i++ == index
+        //                             select d).FirstOrDefault();
+
+        //    if (droneXElemnt != null)
+        //        droneXElemnt.Element("IsActive").Value = "false";
+
+        //    #region LoadListFromXMLSerializer
+        //    //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+        //    //try
+        //    //{
+        //    //    Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
+        //    //    if (drone.IsActive)
+        //    //        drone.IsActive = false;
+        //    //    changeDroneInfo(drone);
+        //    //}
+        //    //catch (Exception e1)
+        //    //{
+        //    //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+        //    //}
+        //    #endregion
+        //}
+
 
         /// <summary>
         /// Get all drone.
@@ -83,10 +131,18 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Drone> GetDrones()
         {
-            IEnumerable<DO.Drone> dronesList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            return from item in dronesList
-                   orderby item.Id
-                   select item;
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+
+            return (from d in droneRoot.Elements()
+                    orderby Convert.ToInt32(d.Element("Id").Value)
+                    select returnDrone(d));
+
+            #region found a better way
+            //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //return from item in dronesList
+            //       orderby item.Id
+            //       select item;
+            #endregion
         }
 
         /// <summary>
@@ -95,25 +151,115 @@ namespace Dal
         /// <param name="droneWithUpdateInfo">Drone with the changed info</param>
         public void changeDroneInfo(Drone droneWithUpdateInfo)
         {
-            XElement droneRoot = DL.XMLTools.LoadData(dir + droneFilePath);
-            XElement droneElemnt = (from p in droneRoot.Elements()
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            XElement droneElement = (from p in droneRoot.Elements()
                                     where Convert.ToInt32(p.Element("Id").Value) == droneWithUpdateInfo.Id
                                     select p).FirstOrDefault();
+
+            //if (droneElement == (default(XElement)))
+            //    throw new Exceptions.ObjNotExistException(typeof(Parcel), droneWithUpdateInfo.Id);
+
             XElement xElementUpdateDrone = returnDroneXElement(droneWithUpdateInfo);
-            droneElemnt = xElementUpdateDrone;
+            droneElement = xElementUpdateDrone;
             droneRoot.Save(dir + droneFilePath);
 
             #region LoadListFromXMLSerializer
-            //List<DO.Drone> droneList = DL.XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath).ToList();
+            //List<DO.Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath).ToList();
             //int index = droneList.FindIndex(t => t.Id == droneWithUpdateInfo.Id);
             //if (index == -1)
             //    throw new DO.Exceptions.ObjNotExistException(typeof(Drone), droneWithUpdateInfo.Id);
 
             //droneList[index] = droneWithUpdateInfo;
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
+            //XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
             #endregion
         }
 
+        /// <summary>
+        /// Get a Drone/s with a specific condition = predicate
+        /// </summary>
+        /// <param name="predicate">return a drone/s that meeets the condition</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> getDroneWithSpecificCondition(Predicate<Drone> predicate)
+        {
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            return (from d in droneRoot.Elements()
+                    where predicate(returnDrone(d))
+                    select returnDrone(d));
 
+            #region LoadListFromXMLSerializer
+            //    IEnumerable<DO.Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //    return (from drone in droneList
+            //            where predicate(drone)
+            //            select drone);
+            #endregion
+        }
+
+        /// <summary>
+        /// If drone with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for drone with this id</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsDroneActive(int requestedId)
+        {
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            XElement droneXElemnt = (from d in droneRoot.Elements()
+                                     where Convert.ToInt32(d.Element("Id").Value) == requestedId
+                                     && Convert.ToBoolean(d.Element("IsActive").Value)
+                                     select d).FirstOrDefault();
+
+            if (droneXElemnt != null)
+                return true;
+            return false;
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Drone> dronesLits = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //if (dronesLits.Any(d => d.Id == requestedId && d.IsActive))
+            //    return true;
+            //return false;
+            #endregion
+        }
+
+        /// <summary>
+        /// If drone with the requested id exist
+        /// </summary>
+        /// <param name="requestedId">Looking for drone with this id</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsDroneById(int requestedId)
+        {
+            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            XElement droneXElemnt;
+            droneXElemnt = (from d in droneRoot.Elements()
+                            where Convert.ToInt32(d.Element("Id").Value) == requestedId
+                            select d).FirstOrDefault();
+
+            if (droneXElemnt != null)
+                return true;
+            return false;
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Drone> dronesLits = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //if (dronesLits.Any(d => d.Id == requestedId))
+            //    return true;
+            //return false;
+            #endregion
+        }
+
+        /// <summary>
+        /// returns an array of drones' electricity usage. 
+        /// arr[] =
+        /// empty,
+        /// lightWeight,
+        /// mediumWeight,
+        /// heavyWeight,
+        /// chargingRate
+        /// </summary>
+        /// <returns></returns>
+        public double[] electricityUseByDrone()
+        {
+            return XMLTools.LoadListFromXMLSerializer<double>(dir + configFilePath).ToArray();
+        }
     }
 }

@@ -7,6 +7,8 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DO;
+using System.Runtime.CompilerServices;
+
 
 
 namespace Dal
@@ -20,18 +22,20 @@ namespace Dal
         /// <param name="newCustomer">customer to add.</param>
         public void AddCustomer(Customer newCustomer)
         {
-            XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            newCustomer.IsActive = true;
             customerRoot.Add(returnCustomerXElement(newCustomer));
             customerRoot.Save(dir + customerFilePath);
-            #region found better way
-            //IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
             //if (customersList.Any(c => c.Id == newCustomer.Id))
             //{
             //    throw new DO.Exceptions.ObjExistException(typeof(DO.Customer), newCustomer.Id);
             //}
             //List<DO.Customer> newList = customersList.Cast<DO.Customer>().ToList();
             //newList.Add(newCustomer);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(newList, dir + customerFilePath);
+            //XMLTools.SaveListToXMLSerializer<DO.Customer>(newList, dir + customerFilePath);
             #endregion
         }
 
@@ -52,33 +56,49 @@ namespace Dal
         }
 
         /// <summary>
+        /// Receive a XElement Customer and return a XElemnt DO.Customer - copy information.
+        /// </summary>
+        /// <param name="newCustomer"></param>
+        /// <returns></returns>
+        private Customer returnCustomer(XElement customer)
+        {
+            return new DO.Customer()
+            {
+                Id = Convert.ToInt32(customer.Element("Id").Value),
+                Name = customer.Element("Name").Value,
+                Phone = customer.Element("Phone").Value,
+                Latitude = Convert.ToInt32(customer.Element("Latitude").Value),
+                Longitude = Convert.ToInt32(customer.Element("Longitude").Value),
+                IsActive = Convert.ToBoolean((customer.Element("IsActive").Value))
+            };
+        }
+
+        /// <summary>
         /// if customer exist: IsActive = false + change its info (In DataSource)
         /// If doesn't exist throw NoMatchingData exception.
         /// </summary>
         /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
         public void removeCustomer(Customer customerToRemove)
         {
-            IEnumerable<DO.Customer> customersList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            try
-            {
-                Customer customer = getCustomerWithSpecificCondition(s => s.Id == customerToRemove.Id).First();
-                if (customer.IsActive)
-                    customer.IsActive = false;
-                changeCustomerInfo(customer);
-            }
-            catch (Exception e1)
-            {
-                throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
-            }
-            #region found better way
-            //XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
-            //XElement customerXElemnt;
-            //customerXElemnt = (from c in customerRoot.Elements()
-            //                where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
-            //                select c).FirstOrDefault();
-            //if (customerXElemnt != null)
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            XElement customerXElemnt = (from c in customerRoot.Elements()
+                                        where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
+                                        select c).FirstOrDefault();
+            if (customerXElemnt != null)
+                customerXElemnt.Element("IsActive").Value = "false";
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //try
             //{
-            //    customerXElemnt.Element("IsActive").Value = "false";
+            //    Customer customer = getCustomerWithSpecificCondition(s => s.Id == customerToRemove.Id).First();
+            //    if (customer.IsActive)
+            //        customer.IsActive = false;
+            //    changeCustomerInfo(customer);
+            //}
+            //catch (Exception e1)
+            //{
+            //    throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
             //}
             #endregion
         }
@@ -89,10 +109,18 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            IEnumerable<DO.Customer> parceslList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-            return from item in parceslList
-                   orderby item.Id
-                   select item;
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            return (from c in customerRoot.Elements()
+                    orderby Convert.ToInt32(c.Element("Id").Value)
+                    select returnCustomer(c));
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> parceslList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //return from item in parceslList
+            //       orderby item.Id
+            //       select item;
+            #endregion
+
         }
 
         /// <summary>
@@ -101,22 +129,97 @@ namespace Dal
         /// <param name="customerWithUpdateInfo">DrThe customer with the changed info</param>
         public void changeCustomerInfo(Customer customerWithUpdateInfo)
         {
-            XElement customerRoot = DL.XMLTools.LoadData(dir + customerFilePath);
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
             XElement customerElemnt = (from c in customerRoot.Elements()
                                        where Convert.ToInt32(c.Element("Id").Value) == customerWithUpdateInfo.Id
                                        select c).FirstOrDefault();
+
+            //if (customerElemnt == (default(XElement)))
+            //    throw new Exceptions.ObjNotExistException(typeof(Parcel), customerWithUpdateInfo.Id);
+
             XElement xElementUpdateDrone = returnCustomerXElement(customerWithUpdateInfo);
             customerElemnt = xElementUpdateDrone;
             customerRoot.Save(dir + customerFilePath);
 
             #region LoadListFromXMLSerializer
-            //List<DO.Customer> parcelsList = DL.XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath).ToList();
+            //List<DO.Customer> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath).ToList();
             //int index = parcelsList.FindIndex(t => t.Id == customerWithUpdateInfo.Id);
             //if (index == -1)
             //    throw new DO.Exceptions.ObjNotExistException(typeof(Customer), customerWithUpdateInfo.Id);
 
             //parcelsList[index] = customerWithUpdateInfo;
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Customer>(parcelsList, dir + customerFilePath);
+            //XMLTools.SaveListToXMLSerializer<DO.Customer>(parcelsList, dir + customerFilePath);
+            #endregion
+        }
+
+        /// <summary>
+        /// Get a Customer/s with a specific condition = predicate
+        /// </summary>
+        /// <param name="predicate">return a customer/s that meeets the condition</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
+        {
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            return (from c in customerRoot.Elements()
+                    where predicate(returnCustomer(c))
+                    select returnCustomer(c));
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> customerList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //return (from customer in customerList
+            //        where predicate(customer)
+            //        select customer);
+            #endregion
+        }
+
+        /// <summary>
+        /// If customer with the requested id exist & active
+        /// </summary>
+        /// <param name="requestedId">Looking for customer with this id</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsCustomerActive(int requestedId)
+        {
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            XElement customerXElemnt = (from c in customerRoot.Elements()
+                                        where Convert.ToInt32(c.Element("Id").Value) == requestedId
+                                        && Convert.ToBoolean(c.Element("IsActive").Value)
+                                        select c).FirstOrDefault();
+
+            if (customerXElemnt != null)
+                return true;
+            return false;
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //if (customersList.Any(c => c.Id == requestedId))
+            //    return true;
+            //return false;
+            #endregion
+        }
+
+        /// <summary>
+        /// If customer with the requested id exist
+        /// </summary>
+        /// <param name="requestedId">Looking for customer with this id</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsCustomerById(int requestedId)
+        {
+            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+            XElement customerXElemnt = (from c in customerRoot.Elements()
+                                        where Convert.ToInt32(c.Element("Id").Value) == requestedId
+                                        select c).FirstOrDefault();
+            if (customerXElemnt != null)
+                return true;
+            return false;
+
+            #region LoadListFromXMLSerializer
+            //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
+            //if (customersList.Any(c => c.Id == requestedId))
+            //    return true;
+            //return false;
             #endregion
         }
     }

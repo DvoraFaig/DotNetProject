@@ -36,6 +36,7 @@ namespace PO
             Scheduled = p.Scheduled;
             PickUp = p.PickUp;
             Delivered = p.Delivered;
+            blObject.ParcelChangeAction += Update;
         }
 
         public void Update(BlApi.Ibl blObject, BO.Parcel p)
@@ -52,10 +53,6 @@ namespace PO
             Delivered = p.Delivered;
         }
 
-        public Parcel()
-        {
-                
-        }
         public int Id
         {
             get { return (int)GetValue(IdParcelProperty); }

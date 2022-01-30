@@ -23,7 +23,7 @@ namespace BO
         {
             if (DronePosition == null)
                 return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {Status}");
-            return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {Status}\n\tDronePosition : {DronePosition}");
+            return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight} ,drone battery: {Battery} , drone status: {Status} \n\tDronePosition : {DronePosition}");
         }
     }
 }

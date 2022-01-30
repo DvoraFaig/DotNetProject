@@ -76,7 +76,7 @@ namespace Dal
                 Customers.Add(c);
             }
 
-            int amountParcels = r.Next(1, 5);
+            int amountParcels = r.Next(6, 10);
             for (int i = 1; i <= amountParcels; i++)
             {
                 Parcel p = new Parcel()
