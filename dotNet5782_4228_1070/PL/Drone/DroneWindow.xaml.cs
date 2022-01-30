@@ -213,7 +213,10 @@ namespace PL
             //{
             ////new DroneListWindow(blObjectD).Show();
             if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
+            {
                 this.Close();
+                return;
+            }
 
             if (isSimulationWorking) 
             {
