@@ -65,7 +65,7 @@ namespace BlApi
         public void changeInfoOfStation(int id, string name = null, int ChargeSlots = -1);
         //public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         public BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null);
-        public Drone SendDroneToCharge(Drone drone);
+        public Drone SendDroneToCharge(int droneId);
         //public Drone FreeDroneFromCharging(int droneId, double timeCharging);
         public Drone FreeDroneFromCharging(Drone drone/*, double timeCharging*/);
         public Drone PairParcelWithDrone(int droneId);

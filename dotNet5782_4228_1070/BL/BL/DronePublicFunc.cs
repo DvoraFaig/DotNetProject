@@ -169,10 +169,10 @@ namespace BL
         /// <param name="droneId"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone SendDroneToCharge(Drone drone)
+        public Drone SendDroneToCharge(int droneId)
         {
-            if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
-                throw new ObjNotExistException("Drones' battery is full.");
+            /*if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
+                throw new ObjNotExistException("Drones' battery is full.");*/
             try
             {
                 lock (dal)  //lock (dronesList) //{
