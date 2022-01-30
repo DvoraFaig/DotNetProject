@@ -60,7 +60,7 @@ namespace BL
                         dronesList.Add(dr);
                         dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
                         dal.AddDrone(convertBLToDalDrone(dr));
-                        DroneChange?.Invoke(dr);
+                        DroneChangeAction?.Invoke(dr);
                     }
                     else
                     {
@@ -237,7 +237,7 @@ namespace BL
         /// <param name="timeCharging"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone FreeDroneFromCharging(Drone drone/*, double timeCharging*/)
+        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
         {
             try
             {
@@ -245,7 +245,7 @@ namespace BL
                 //{
                 lock (dal)
                 {
-                    //Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
+                    Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
                     //DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                     //changeInfoOfStation(s.Id, null, s.ChargeSlots);
                     //DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == drone.Id).First();/////////////////
@@ -259,7 +259,7 @@ namespace BL
                     drone.Battery += Math.Round(baterryToAdd, 1);
                     drone.Battery = Math.Round(drone.Battery, 1);
                     drone.Battery = Math.Min(drone.Battery, 100);
-                    DroneChange?.Invoke(drone);
+                    DroneChangeAction?.Invoke(drone);
 
                     return drone;
                 }

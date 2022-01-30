@@ -141,7 +141,7 @@ namespace BO
                 try //not enough battery
                 {
                     sendDroneToCharge(updateDrone, drone);
-                    DroneStatusMaintenance(updateDrone ,drone );
+                    DroneStatusMaintenance(updateDrone, drone);
                     //BL.SendDroneToCharge(drone);
                     //drone.Status = BO.DroneStatus.Maintenance;
                     //updateDrone(drone, (int)DroneStatus.NotEnoughBatteryForDelivery, distace);
@@ -164,7 +164,7 @@ namespace BO
 
             }
             // Do: If drone not has enough buttery to go to the near station.... do something
-            catch (Exception e)
+            catch (Exception)
             {
                 Thread.Sleep(2000);
                 ///to stop
@@ -429,7 +429,7 @@ namespace BO
                         Thread.Sleep(500);
                         drone.ParcelInTransfer = null;
                         parcel.Delivered = DateTime.Now;
-                        updateDrone(drone,(int)Simulation.DroneStatus.HideTextBlock, distace);
+                        updateDrone(drone, (int)Simulation.DroneStatus.HideTextBlock, distace);
                         drone.Status = BO.DroneStatus.Available;
                         BL.changeDroneInfo(drone);
                         BL.changeParcelInfo(parcel);
@@ -456,7 +456,7 @@ namespace BO
                         //BL.changeDroneInfo(drone);
                         //updateDrone(drone, (int)DroneStatus.HideTextBlock, distace);
                     }
-                    catch (ObjNotExistException e)//no available station
+                    catch (ObjNotExistException)//no available station
                     {
                         Thread.Sleep(2000);
                     }

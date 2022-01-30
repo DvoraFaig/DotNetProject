@@ -76,7 +76,7 @@ namespace PO
         /// Update PO.Drone - copy info to PO.Drone
         /// </summary>
         /// <param name="d"></param>
-        public void Update(BO.Drone d)
+        /*public void Update(BO.Drone d)
         {
             Id = d.Id;
             Model = d.Model;
@@ -88,7 +88,7 @@ namespace PO
             DronePosition.Longitude = d.DronePosition.Longitude;
             MaxWeight = (WeightCategories)d.MaxWeight;
             //Update(senderDrone);
-        }
+        }*/
 
 
         //public event PropertyChangedEventHandler PropertyChanged;

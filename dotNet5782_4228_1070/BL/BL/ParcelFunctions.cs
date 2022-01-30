@@ -304,7 +304,7 @@ namespace BL
                         dal.changeParcelInfo(parcel);
                         drone.ParcelInTransfer.isWaiting = false; //////////////////////
                         //ParcelChangeAction(convertDalToBLParcel(parcel));
-                        DroneChange(drone);
+                        DroneChangeAction(drone);
                         return drone;
                     }
                 }
@@ -353,7 +353,7 @@ namespace BL
                         parcelToDelivery.Delivered = DateTime.Now;
                         dal.changeParcelInfo(parcelToDelivery);
                         //ParcelChangeAction(convertDalToBLParcel(parcelToDelivery));
-                        DroneChange(bLDroneToSuplly);
+                        DroneChangeAction(bLDroneToSuplly);
                         return bLDroneToSuplly;
                     }
                 }

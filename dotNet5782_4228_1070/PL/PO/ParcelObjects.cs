@@ -10,6 +10,11 @@ namespace PO
 {
     public class Parcel : DependencyObject
     {
+        public Parcel(BlApi.Ibl blObject)
+        {
+            blObject.ParcelChangeAction += Update;
+        }
+
         public Parcel(BlApi.Ibl blObject, BO.Parcel p)
         {
             Id = p.Id;
@@ -24,6 +29,7 @@ namespace PO
             Delivered = p.Delivered;
             blObject.ParcelChangeAction += Update;
         }
+
         public void Update(BO.Parcel p)
         {
             Id = p.Id;
@@ -36,9 +42,10 @@ namespace PO
             Scheduled = p.Scheduled;
             PickUp = p.PickUp;
             Delivered = p.Delivered;
-            blObject.ParcelChangeAction += Update;
+            //blObject.ParcelChangeAction += Update;
         }
 
+        /*
         public void Update(BlApi.Ibl blObject, BO.Parcel p)
         {
             Id = p.Id;
@@ -51,7 +58,7 @@ namespace PO
             Scheduled = p.Scheduled;
             PickUp = p.PickUp;
             Delivered = p.Delivered;
-        }
+        }*/
 
         public int Id
         {

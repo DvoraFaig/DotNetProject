@@ -397,7 +397,8 @@ namespace PL
                 {
                     //currentDrone = new PO.Drone(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    //currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    blObject.DeliveryParcelByDrone(currentDrone.Id);
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
