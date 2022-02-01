@@ -14,8 +14,8 @@ namespace BO
         public int Id { get; set; }
         public string SenderName { get; set; }
         public string TargetName { get; set; }
-        public DO.WeightCategories Weight { get; set; }
-        public DO.Priorities Priority { get; set; }
+        public WeightCategories Weight { get; set; }
+        public Priorities Priority { get; set; }
         public ParcelStatuses ParcelStatus { get; set; }
     }
 }

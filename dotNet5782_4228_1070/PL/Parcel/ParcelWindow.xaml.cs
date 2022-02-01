@@ -237,8 +237,8 @@ namespace PL
         private void initializeDetailsAddForm()
         {
             ParcelTitle.Content = "Add a Parcel";
-            ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
+            ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(Priorities));
             ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList();
             ParcelSenderSelector.ItemsSource = blObject.GetLimitedCustomersList();
         }
@@ -308,8 +308,8 @@ namespace PL
                 else
                     senderCustomer = ((CustomerInParcel)ParcelSenderSelector.SelectedItem);
                 CustomerInParcel targetCustomer = ((CustomerInParcel)ParcelTargetSelector.SelectedItem);
-                DO.WeightCategories weight = (DO.WeightCategories)ParcelWeightSelector.SelectedItem;
-                DO.Priorities priority = (DO.Priorities)ParcelPrioritySelector.SelectedItem;
+                WeightCategories weight = (WeightCategories)ParcelWeightSelector.SelectedItem;
+                Priorities priority = (Priorities)ParcelPrioritySelector.SelectedItem;
                 try
                 {
                     blObject.AddParcel(new Parcel() { Sender = senderCustomer, Target = targetCustomer, Weight = weight, Priority = priority });

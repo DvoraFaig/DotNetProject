@@ -35,8 +35,8 @@ namespace BL
                         Id = dal.amountParcels() + 1,
                         SenderId = parcelToAdd.Sender.Id,
                         TargetId = parcelToAdd.Target.Id,
-                        Weight = parcelToAdd.Weight,
-                        Priority = parcelToAdd.Priority,
+                        Weight = (DO.WeightCategories)parcelToAdd.Weight,
+                        Priority = (DO.Priorities)parcelToAdd.Priority,
                         Requeasted = DateTime.Now
                     };
                     dal.AddParcel(p);

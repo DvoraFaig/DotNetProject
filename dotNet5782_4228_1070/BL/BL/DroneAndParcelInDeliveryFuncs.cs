@@ -51,7 +51,7 @@ namespace BL
                                 #region find the most matching parcel
                                 if (droneToParcel.Battery - totalBatteryForDeliveryUsage > 0) //[4]
                                 {
-                                    if (p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
+                                    if ((BO.WeightCategories)p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
                                     {
                                         if (maxParcel.Equals(default(DO.Parcel)))
                                         {
@@ -131,9 +131,9 @@ namespace BL
                 TargetCustomer = convertDalToBLCustomerInParcel(target),
                 //parcelStatus = false,
                 isWaiting = p.PickUp == null ? true : false,
-                Priority = p.Priority,
+                Priority = (Priorities)p.Priority,
                 distance = distance(senderP, targetP),
-                Weight = p.Weight
+                Weight = (WeightCategories)p.Weight
             };
         }
 

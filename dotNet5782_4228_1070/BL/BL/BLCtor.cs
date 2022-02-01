@@ -12,7 +12,7 @@ namespace BL
         /// <summary>
         /// Instance of Idal interface.
         /// </summary>
-        private DalApi.Idal dal;
+        private readonly DalApi.Idal dal;
 
         /// <summary>
         /// Electicity usage of drone by weight
@@ -74,7 +74,7 @@ namespace BL
                 CurrentDrone = new Drone();
                 CurrentDrone.Id = drone.Id; /*copyDalToBLDroneInfo(d);*/
                 CurrentDrone.Model = drone.Model;
-                CurrentDrone.MaxWeight = drone.MaxWeight;
+                CurrentDrone.MaxWeight = (BO.WeightCategories)drone.MaxWeight;
                 #endregion
 
                 #region A parcel was paired with Drone but not yet delivered. => parcel.status = to PickUp parcel / to Delivered parcel.

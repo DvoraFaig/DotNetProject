@@ -29,8 +29,11 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
+            //return getStationWithSpecificCondition(s => s.IsActive == true);
+            
             return from s in DataSource.Stations
                    where s.IsActive == true
+                   orderby s.Id
                    select s;
         }
 
@@ -44,6 +47,7 @@ namespace Dal
         {
             return (from station in DataSource.Stations
                     where predicate(station)
+                    orderby station.Id
                     select station);
         }
 

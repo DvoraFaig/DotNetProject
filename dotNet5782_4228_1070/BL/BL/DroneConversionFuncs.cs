@@ -22,7 +22,7 @@ namespace BL
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                MaxWeight = drone.MaxWeight
+                MaxWeight = (DO.WeightCategories)drone.MaxWeight
             };
         }
 

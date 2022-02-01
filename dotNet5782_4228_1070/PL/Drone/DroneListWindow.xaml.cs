@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BL;
 using BO;
 using BlApi;
 
@@ -42,7 +41,7 @@ namespace PL
             //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
             DataContext = dronesToList;
@@ -129,7 +128,7 @@ namespace PL
         {
             WeightSelector.SelectedItem = null;
             ChosenWeight.Visibility = Visibility.Hidden;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
         private void sortDronesByStatus(object sender, RoutedEventArgs e)

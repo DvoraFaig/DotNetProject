@@ -94,6 +94,11 @@ namespace BO
                 : base(string.Format($"ERROR: {message}"))
             {
             }
+            public ObjNotAvailableException(Type objType, int id , string message)
+                : base(string.Format($"ERROR: The {objType} with id: {id} \n{message}"))
+            {
+            }
+            
         }
     }
 }

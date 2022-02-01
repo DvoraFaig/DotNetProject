@@ -44,7 +44,7 @@ namespace BL
                 {
                     Id = parcel.Id,
                     Priority = parcel.Priority,
-                    Weight = parcel.Weight,
+                    Weight = (BO.WeightCategories)parcel.Weight,
                     SenderOrTargetCustomer = customerInParcel,
                     ParcelStatus = parcelStatus
                 });
@@ -66,8 +66,8 @@ namespace BL
                 Id = parcel.Id,
                 SenderName = senderName,
                 TargetName = targetName,
-                Weight = parcel.Weight,
-                Priority = parcel.Priority,
+                Weight = (WeightCategories)parcel.Weight,
+                Priority = (Priorities)parcel.Priority,
                 ParcelStatus = findParcelStatus(convertDalToBLParcel(parcel))
             };
         }
@@ -85,7 +85,7 @@ namespace BL
                 SenderName = parcel.Sender.Name,
                 TargetName = parcel.Target.Name,
                 Weight = parcel.Weight,
-                Priority = parcel.Priority,
+                Priority = (Priorities)parcel.Priority,
                 ParcelStatus = findParcelStatus(parcel)
             };
         }
@@ -112,8 +112,8 @@ namespace BL
                 Id = parcel.Id,
                 SenderId = parcel.Sender.Id,
                 TargetId = parcel.Target.Id,
-                Weight = parcel.Weight,
-                Priority = parcel.Priority,
+                Weight = (DO.WeightCategories)parcel.Weight,
+                Priority = (DO.Priorities)parcel.Priority,
                 Requeasted = parcel.Requeasted,
                 Scheduled = parcel.Scheduled,
                 PickUp = parcel.PickUp,
@@ -143,13 +143,13 @@ namespace BL
                 Id = p.Id,
                 Sender = new CustomerInParcel() { Id = p.SenderId, Name = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First().Name },
                 Target = new CustomerInParcel() { Id = p.TargetId, Name = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First().Name },
-                Weight = p.Weight,
+                Weight = (BO.WeightCategories)p.Weight,
                 Drone = drone,
                 Requeasted = p.Requeasted,
                 Scheduled = p.Scheduled,
                 PickUp = p.PickUp,
                 Delivered = p.Delivered,
-                Priority = p.Priority
+                Priority = (Priorities)p.Priority
             };
         }
     }

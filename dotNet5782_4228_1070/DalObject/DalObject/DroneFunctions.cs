@@ -19,7 +19,23 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone newDrone)
         {
-            DataSource.Drones.Add(newDrone);
+            Drone drone;
+            try
+            {
+                drone = getDroneWithSpecificCondition(d => d.Id == newDrone.Id).First();
+                if (drone.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Drone), newDrone.Id);
+                
+                changeDroneInfo(newDrone);
+                throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
+                
+            }
+
+            catch (Exception)
+            {
+                DataSource.Drones.Add(newDrone);
+                throw new Exceptions.ObjNotExistException(typeof(Drone), newDrone.Id);
+            }
         }
 
         /// <summary>

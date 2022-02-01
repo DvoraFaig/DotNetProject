@@ -30,8 +30,8 @@ namespace Dal
         public IEnumerable<Parcel> GetParcels()
         {
             return from p in DataSource.Parcels
-                   orderby p.Id
                    where p.IsActive == true
+                   orderby p.Id
                    select p;
         }
 
@@ -45,6 +45,7 @@ namespace Dal
         {
             return (from parcel in DataSource.Parcels
                     where predicate(parcel)
+                    orderby parcel.Id
                     select parcel);
         }
 

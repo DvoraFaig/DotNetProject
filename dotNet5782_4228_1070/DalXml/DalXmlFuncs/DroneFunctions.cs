@@ -21,19 +21,42 @@ namespace Dal
         /// <param name="newDrone">drone to add.</param>
         public void AddDrone(DO.Drone newDrone)
         {
-            XElement DroneRoot = XMLTools.LoadData(dir + droneFilePath);
-            newDrone.IsActive = true;
-            DroneRoot.Add(returnDroneXElement(newDrone));
-            DroneRoot.Save(dir + droneFilePath);
+            Drone drone;
+            try
+            {
+                drone = getDroneWithSpecificCondition(d => d.Id == newDrone.Id).First();
+                if (drone.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Drone), newDrone.Id);
+
+                changeDroneInfo(newDrone);
+                throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
+
+            }
+            catch (Exception)
+            {
+                XElement DroneRoot = XMLTools.LoadData(dir + droneFilePath);
+                DroneRoot.Add(returnDroneXElement(newDrone));
+                DroneRoot.Save(dir + droneFilePath);
+                throw new Exceptions.ObjNotExistException(typeof(Drone), newDrone.Id);
+            }
 
             #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-            //if (droneList.Any(d => d.Id == newDrone.Id))
+            //Drone drone;
+            //try
             //{
-            //    throw new DO.Exceptions.ObjExistException(typeof(DO.Drone), newDrone.Id);
+            //    drone = getDroneWithSpecificCondition(d => d.Id == newDrone.Id).First();
+            //    if (drone.IsActive)
+            //        throw new Exceptions.ObjExistException(typeof(Drone), newDrone.Id);
+
+            //    changeDroneInfo(newDrone);
+            //    throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
             //}
-            //droneList.ToList().Add(newDrone);
-            //DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);
+            //catch (Exception)
+            //{
+            //  IEnumerable<DO.Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //  droneList.ToList().Add(newDrone);
+            //  DL.XMLTools.SaveListToXMLSerializer<DO.Drone>(droneList, dir + droneFilePath);            //    throw new Exceptions.ObjNotExistException(typeof(Drone), newDrone.Id);
+            //}
             #endregion
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -152,38 +151,43 @@ namespace PL
             int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
-                // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
+                blObject.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (WeightCategories)(DroneWeightSelector.SelectedIndex/* + 1*/) }, Convert.ToInt32(StationIdTextBox.Text));
+                this.Close();
 
+                // didn't sent an object Drone becuase most of the props values are filled in BL automatic.
                 //blObjectD.AddDrone(int.Parse(IdTextBox.Text), ModelTextBox.Text, DroneWeightSelector.SelectedIndex + 1, Convert.ToInt32(StationIdTextBox.Text));
-                blObject.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (DO.WeightCategories)(DroneWeightSelector.SelectedIndex + 1) }, Convert.ToInt32(StationIdTextBox.Text));
                 //blObjectD.AddDrone(currentDrone.BO(),Convert.ToInt32(StationIdTextBox.Text));
                 ////////new DroneListWindow(blObjectD).Show();
-                this.Close();
             }
+
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
                 PLFuncions.messageBoxResponseFromServer("Add Drone", e1.Message);
             }
-            catch (ArgumentNullException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (FormatException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (OverflowException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
-            }
-            catch (NullReferenceException)
-            {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
-            }
+            //catch (BO.Exceptions.ObjNotAvailableException ee)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Drone", ee.Message);
+            //}
+            //catch (ArgumentNullException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (FormatException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (OverflowException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
+            //}
             catch (Exception)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "Cann't add a drone");
+                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion
         }

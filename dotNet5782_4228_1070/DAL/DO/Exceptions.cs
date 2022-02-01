@@ -19,10 +19,10 @@ namespace DO
                 : base(String.Format($"The {t.Name} with id {id} doesn't exist."))
             {
             }
-            public ObjNotExistException(string message ,Exception exception)
-                : base(String.Format($"The {message}"))
-            {
-            }
+            //public ObjNotExistException(string message ,Exception exception)
+            //    : base(String.Format($"The {message}"))
+            //{
+            //}
 
         }
         public class ObjExistException : Exception
@@ -35,10 +35,10 @@ namespace DO
                 : base(String.Format($"The {t.Name} with id {id} exist."))
             {
             }
-            public ObjExistException(string message, Exception exception)
-                : base(String.Format($"The {message}", exception))
-            {
-            }
+            //public ObjExistException(string message, Exception exception)
+            //    : base(String.Format($"The {message}", exception))
+            //{
+            //}
         }   
         public class NoMatchingData: Exception
         {
@@ -49,6 +49,22 @@ namespace DO
             }
 
         }
+
+        public class DataChanged : Exception
+        {
+            public DataChanged(Type t, int id, Exception exception)
+                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
+            { 
+            }
+
+            public DataChanged(Type t, int id)
+                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"))
+            {
+            }
+
+        }
+
+
         //public class DalConfigException : Exception
         //{
         //    public DalConfigException(string s)
