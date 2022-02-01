@@ -87,7 +87,7 @@ namespace BL
             lock (dronesList) //not changing info???
             {
                 return (from d in dronesList
-                        orderby d.Id
+                        orderby d.Id  //??????
                         select d);
                 //return dronesList;
             }
