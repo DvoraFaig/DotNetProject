@@ -59,7 +59,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
-            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+            DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             currentDrone = new PO.Drone(blObject);
             AddDroneDisplay.DataContext = currentDrone;
             visibleAddForm.Visibility = Visibility.Visible;
@@ -148,7 +148,7 @@ namespace PL
         /// <param name="e"></param>
         private void AddDroneClickBtn(object sender, RoutedEventArgs e)
         {
-            int weightCategory = Convert.ToInt32((DO.WeightCategories)DroneWeightSelector.SelectedIndex + 1);
+            int weightCategory = Convert.ToInt32((WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
                 blObject.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (WeightCategories)(DroneWeightSelector.SelectedIndex/* + 1*/) }, Convert.ToInt32(StationIdTextBox.Text));
@@ -201,7 +201,7 @@ namespace PL
         private void RestartTextBoxesAndSelectorBtnClick(object sender, RoutedEventArgs e)
         {
             PLFuncions.clearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
-            DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(DO.WeightCategories));
+            DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(WeightCategories));
         }
 
         /// <summary>
