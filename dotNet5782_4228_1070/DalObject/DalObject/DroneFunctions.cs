@@ -27,14 +27,14 @@ namespace Dal
                     throw new Exceptions.ObjExistException(typeof(Drone), newDrone.Id);
                 
                 changeDroneInfo(newDrone);
-                throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
+                //throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
                 
             }
 
             catch (Exception)
             {
                 DataSource.Drones.Add(newDrone);
-                throw new Exceptions.ObjNotExistException(typeof(Drone), newDrone.Id);
+                throw new Exceptions.DataChanged(typeof(Drone), newDrone.Id);
             }
         }
 

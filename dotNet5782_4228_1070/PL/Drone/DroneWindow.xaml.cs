@@ -151,7 +151,7 @@ namespace PL
             int weightCategory = Convert.ToInt32((WeightCategories)DroneWeightSelector.SelectedIndex + 1);
             try
             {
-                blObject.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (WeightCategories)(DroneWeightSelector.SelectedIndex/* + 1*/) }, Convert.ToInt32(StationIdTextBox.Text));
+                blObject.AddDrone(new Drone() { Id = int.Parse(IdTextBox.Text), Model = ModelTextBox.Text, MaxWeight = (BO.WeightCategories)(DroneWeightSelector.SelectedIndex+ 1) }, Convert.ToInt32(StationIdTextBox.Text));
                 this.Close();
 
                 // didn't sent an object Drone becuase most of the props values are filled in BL automatic.

@@ -64,6 +64,20 @@ namespace DO
 
         }
 
+        public class DataAdded : Exception
+        {
+            public DataAdded(Type t, int id, Exception exception)
+                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
+            {
+            }
+
+            public DataAdded(Type t, int id)
+                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"))
+            {
+            }
+
+        }
+
 
         //public class DalConfigException : Exception
         //{

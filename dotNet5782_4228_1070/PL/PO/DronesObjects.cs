@@ -65,7 +65,7 @@ namespace PO
                 Model = this.Model,
                 Battery = this.Battery,
                 Status = this.Status,
-                MaxWeight = (DO.WeightCategories)this.MaxWeight,
+                MaxWeight = (BO.WeightCategories)this.MaxWeight,
                 ParcelInTransfer = this.ParcelInTransfer,
                 DronePosition = this.DronePosition,
                 SartToCharge = this.SartToCharge

@@ -30,7 +30,7 @@ namespace BL
             DO.Drone drone;
             Station s = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
 
-            if (s.DronesCharging.Count - s.DroneChargeAvailble <= 0)
+            if (s.DroneChargeAvailble - s.DronesCharging.Count <= 0)
                 throw new Exceptions.ObjNotAvailableException(typeof(Station), stationId, "doesn't have available charging slots.");
 
             dal.AddDroneToCharge(new DO.DroneCharge() { StationId = stationId, DroneId = droneToAdd.Id });
@@ -46,15 +46,17 @@ namespace BL
             catch (DO.Exceptions.DataChanged)
             {
                 dronesList.Add(droneWithMoreInfo);
+                return;
                 //DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
             }
-            catch (DO.Exceptions.ObjExistException)
+            catch (DO.Exceptions.ObjNotExistException)
             {
                 throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
             }
 
             //drone.IsActive == false : exist
             changeDroneInfoInDroneList(droneWithMoreInfo);
+            return;
 
             #region erase
             //////Station station = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
