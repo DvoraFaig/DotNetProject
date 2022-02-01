@@ -12,7 +12,7 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
     {
-        public Action<Drone> DroneChange { get; set; }
+        public Action<Drone> DroneChangeAction { get; set; }
 
         /// <summary>
         /// Check if drone with the same id exist.
@@ -27,52 +27,49 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneToAdd, int stationId)
         {
-            //if (dal.IsDroneById(droneToAdd.Id))
-            //{
-            //    #region Exceptions
-            //    throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
-            //    #endregion
-            //}
-            //else
-            //{
-            lock (dal)
+            if (dal.IsDroneById(droneToAdd.Id))
             {
-                //???????????????????????? why should it happen???
-                if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
-                    throw new Exceptions.ObjNotExistException("Weight of drone is out of range");
-                //??????????????????????????
-                DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
-                int battery = r.Next(20, 40);
-                DO.Station s;
-                try
-                {
-                    s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
-                }
                 #region Exceptions
-                catch (InvalidOperationException)
-                {
-                    throw new ObjNotExistException(typeof(DO.Station), stationId);
-                }
+                throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
                 #endregion
-                Station station = convertDalToBLStation(s);
-                if (s.ChargeSlots - station.DronesCharging.Count > 0)
+            }
+            else
+            {
+                lock (dal)
                 {
-                    Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
-                    Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-                    //AddDroneByIndex(dr);
-                    dronesList.Add(dr);
-                    dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
-                    dal.AddDrone(convertBLToDalDrone(dr));
-                    DroneChange?.Invoke(dr);
-                }
-                else
-                {
+                    if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
+                        throw new Exception("Weight of drone is out of range");
+                    DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
+                    int battery = r.Next(20, 40);
+                    DO.Station s;
+                    try
+                    {
+                        s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
+                    }
                     #region Exceptions
-                    throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
+                    catch (InvalidOperationException)
+                    {
+                        throw new ObjNotExistException(typeof(DO.Station), stationId);
+                    }
                     #endregion
+                    Station sBL = convertDalToBLStation(s);
+                    if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
+                    {
+                        Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
+                        Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
+                        dronesList.Add(dr);
+                        dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
+                        dal.AddDrone(convertBLToDalDrone(dr));
+                        DroneChangeAction?.Invoke(dr);
+                    }
+                    else
+                    {
+                        #region Exceptions
+                        throw new Exception($"The charging slots of station: {stationId} is full.\nPlease enter a differant station.");
+                        #endregion
+                    }
                 }
             }
-            //}
         }
 
        
@@ -151,7 +148,7 @@ namespace BL
                     dronesList[index].Id = droneId;
                     dronesList[index].Model = newModel;
                     dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
-                    DroneChange?.Invoke(dronesList[index]);
+                    DroneChangeAction?.Invoke(dronesList[index]);
                 }
             }
             #region Exceptions
@@ -172,52 +169,53 @@ namespace BL
         /// <param name="droneId"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone SendDroneToCharge(Drone drone)
+        public Drone SendDroneToCharge(int droneId)
         {
-            if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
-                throw new ObjNotExistException("Drones' battery is full.");
+            /*if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
+                throw new ObjNotExistException("Drones' battery is full.");*/
             try
             {
                 lock (dal)  //lock (dronesList) //{
                 {
-                    if (drone.Status == DroneStatus.Available)
+                    lock (dronesList)
                     {
-                        DO.Station availbleStationForCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
-                        if (availbleStationForCharging.Id == 0)
-                            throw new ObjNotExistException("Drone cann't charge.\nNo Available charging slots\nPlease try later");
-
-                        DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleStationForCharging.Id, DroneId = drone.Id };
-                        Position availbleStationforCharging = new Position() { Latitude = availbleStationForCharging.Latitude, Longitude = availbleStationForCharging.Longitude };
-                        double dis = (distance(drone.DronePosition, availbleStationforCharging));
-
-                        if (dis != 0) // if the drone is supposed to fly to tha station to charge
+                        //EventsChanging.DroneChanged +=
+                        //DroneChanged += PO.Drone.Change;
+                        Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First(); //I have the drone already??????
+                        if (drone.Status == DroneStatus.Available)
                         {
-                            double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
-                            batteryForDis = Math.Round(batteryForDis, 1); //ceiling? max(0,battery?)
-
-                            if (drone.Battery - batteryForDis < 0) //to erase
-                                throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
-
-                            drone.Battery -= batteryForDis;
+                            DO.Station availbleStationForCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
+                            if (availbleStationForCharging.Id == 0)
+                                throw new ObjNotExistException("Drone cann't charge.\nNo Available charging slots\nPlease try later");
+                            DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleStationForCharging.Id, DroneId = droneId };
+                            Position availbleStationforCharging = new Position() { Latitude = availbleStationForCharging.Latitude, Longitude = availbleStationForCharging.Longitude };
+                            double dis = (distance(drone.DronePosition, availbleStationforCharging));
+                            ////////if (dis != 0) // if the drone is supposed to fly to tha station to charge
+                            ////////    drone.Battery = (int)dis * (int)electricityUsageWhenDroneIsEmpty;
+                            if (dis != 0)
+                            {// if the drone is supposed to fly to tha station to charge
+                                double batteryForDis = (double)dis * (double)electricityUsageWhenDroneIsEmpty; //to erase
+                                batteryForDis = Math.Round(batteryForDis, 1);
+                                if (drone.Battery - batteryForDis < 0) //to erase
+                                    throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
+                                drone.Battery = batteryForDis;
+                            }
+                            drone.Status = DroneStatus.Maintenance;
+                            drone.DronePosition = availbleStationforCharging;
+                            dal.AddDroneToCharge(droneCharge);
+                            dal.changeStationInfo(availbleStationForCharging);
+                            dal.changeDroneInfo(convertBLToDalDrone(drone));
+                            drone.SartToCharge = DateTime.Now;
+                            DroneChangeAction?.Invoke(drone);
+                            return drone;
                         }
-
-                        drone.Status = DroneStatus.Maintenance;
-                        drone.DronePosition = availbleStationforCharging;
-                        dal.AddDroneToCharge(droneCharge);
-                        dal.changeStationInfo(availbleStationForCharging);
-                        dal.changeDroneInfo(convertBLToDalDrone(drone));
-                        drone.SartToCharge = DateTime.Now;
-                        DroneChange?.Invoke(drone);
-                        return drone;
+                        #region exceptions
+                        else
+                        {
+                            throw new ObjNotAvailableException("The Drone is not avalable for charging\nPlease try later.....");
+                        }
+                        #endregion
                     }
-
-                    #region exceptions
-                    else
-                    {
-                        throw new ObjNotAvailableException("The Drone is not avalable for charging\nPlease try later.....");
-                    }
-                    #endregion
-                    //}
                 }
             }
             #region exceptions
@@ -239,7 +237,7 @@ namespace BL
         /// <param name="timeCharging"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone FreeDroneFromCharging(Drone drone/*, double timeCharging*/)
+        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
         {
             try
             {
@@ -247,7 +245,7 @@ namespace BL
                 //{
                 lock (dal)
                 {
-                    //Drone blDrone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
+                    Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
                     //DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
                     //changeInfoOfStation(s.Id, null, s.ChargeSlots);
                     //DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == drone.Id).First();/////////////////
@@ -261,7 +259,7 @@ namespace BL
                     drone.Battery += Math.Round(baterryToAdd, 1);
                     drone.Battery = Math.Round(drone.Battery, 1);
                     drone.Battery = Math.Min(drone.Battery, 100);
-                    DroneChange?.Invoke(drone);
+                    DroneChangeAction?.Invoke(drone);
 
                     return drone;
                 }
@@ -373,7 +371,7 @@ namespace BL
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
             dronesList[index] = droneWithUpdateInfo;
-            //DroneChange?.Invoke(dronesList[index]);
+            //DroneChangeAction?.Invoke(dronesList[index]);
         }
     }
 }

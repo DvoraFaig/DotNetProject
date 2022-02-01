@@ -12,5 +12,7 @@ namespace BO
     public enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }
     public enum Electricity { Empty, LightWeight, MediumWeight, HeavyWeight, ChargingRate }
     public enum DeliveryStatusAction { Available, AsignedParcel, PickedParcel , DeliveredParcel};
+    public enum DroneStatusInSim { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
+
 }
 

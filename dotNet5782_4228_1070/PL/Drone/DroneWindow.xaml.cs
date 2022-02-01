@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -211,7 +212,13 @@ namespace PL
             //if (messageBoxClosing == MessageBoxResult.OK)
             //{
             ////new DroneListWindow(blObjectD).Show();
-            if (isSimulationWorking /*AutomationBtn.Content == "Manual"*/)
+            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
+            {
+                this.Close();
+                return;
+            }
+
+            if (isSimulationWorking) 
             {
                 isReturnBtnClick = true;
                 isProgressBarFromReturnBtn = true;
@@ -221,8 +228,6 @@ namespace PL
                 //return;
             }
 
-            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
-                this.Close();
         }
 
         /// <summary>
@@ -255,8 +260,10 @@ namespace PL
             {
                 try
                 {
+                    blObject.SendDroneToCharge(currentDrone.Id);
+                    //currentDrone.Update(blObject.SendDroneToCharge(currentDrone.Id));
+
                     //currentDrone = new PO.Drone(blObjectD.SendDroneToCharge(currentDrone.Id));
-                    currentDrone.Update(blObject.SendDroneToCharge(currentDrone.BO()));
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
                     //AddDroneDisplay.DataContext = currentDrone;
@@ -278,7 +285,9 @@ namespace PL
                 //{ 
                 try
                 {
-                    currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.BO())); /*, int.Parse(TimeTocharge.Text)*/
+                    blObject.FreeDroneFromCharging(currentDrone.Id);
+                    //currentDrone.Update(blObject.FreeDroneFromCharging(currentDrone.Id/*, int.Parse(TimeTocharge.Text)*/));
+                    
                     //AddDroneDisplay.DataContext = currentDrone;
                     //currentDrone.Status = d.Status;
                     //currentDrone.Battery = d.Battery;
@@ -355,7 +364,9 @@ namespace PL
                 {
                     //currentDrone = new PO.Drone(blObjectD.PairParcelWithDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
+
+                    blObject.PairParcelWithDrone(currentDrone.Id);
+                    //currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
@@ -373,7 +384,10 @@ namespace PL
                     //currentDrone = new PO.Drone(blObjectD.GetDroneById(currentDrone.Id));
                     //currentDrone = new PO.Drone(blObjectD.DronePicksUpParcel(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.DronePicksUpParcel(currentDrone.Id));
+
+                    blObject.DronePicksUpParcel(currentDrone.Id);
+                    //currentDrone.Update(blObject.DronePicksUpParcel(currentDrone.Id));
+
                     findDroneStatusContentBtn();
 
                 }
@@ -388,7 +402,8 @@ namespace PL
                 {
                     //currentDrone = new PO.Drone(blObjectD.DeliveryParcelByDrone(currentDrone.Id));
                     //AddDroneDisplay.DataContext = currentDrone;
-                    currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    //currentDrone.Update(blObject.DeliveryParcelByDrone(currentDrone.Id));
+                    blObject.DeliveryParcelByDrone(currentDrone.Id);
                 }
                 #region Exceptions
                 catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
@@ -399,17 +414,16 @@ namespace PL
             visibilityDroneBtns();
             try
             {
-                blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
+                currentDrone.DronePosition = blObject.convertDalToBLStation(blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery)).StationPosition;
+                //currentDrone.DronePosition = blObject.findAvailbleAndClosestStationForDrone(currentDrone.DronePosition, currentDrone.Battery);
                 //status = maintenace
             }
             catch (Exceptions.ObjNotExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}\nDrone Will be needed to be send to charge");
+                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}");
                 //status = maintenace?????????????????????
             }
-
-
-
+            //catch(BO.Exceptions.ObjNotExistException )
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function

@@ -11,6 +11,8 @@ namespace BL
 {
     public sealed partial class BL : BlApi.Ibl
     {
+        public Action<Customer> CustomerChangeAction { get; set; }
+
         /// <summary>
         /// Add a new customer. checks if this customer exist already.
         /// If exist throw an error
@@ -44,6 +46,7 @@ namespace BL
                 catch (ArgumentNullException) { }
                 catch (InvalidOperationException) { }
                 dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
+                CustomerChangeAction?.Invoke(customerToAdd);
             }
         }
 
@@ -140,7 +143,9 @@ namespace BL
                     if (phone != null && phone.Length >= 9 && phone.Length <= 10)
                         c.Phone = phone;
                     dal.changeCustomerInfo(c);
-                    return (convertDalToBLCustomer(c));
+                    Customer customer = convertDalToBLCustomer(c);
+                    CustomerChangeAction?.Invoke(customer);
+                    return (customer);
                 }
                 catch (Exception e)
                 {
@@ -158,14 +163,14 @@ namespace BL
         {
             try
             {
-                Customer customer = GetCustomerById(customerId);
-                if (dal.IsCustomerActive(customer.Id))
-                    lock (dal)
-                    {
+                lock (dal)
+                {
+                    Customer customer = GetCustomerById(customerId);
+                    if (dal.IsCustomerActive(customer.Id))
                         dal.removeCustomer(convertBLToDalCustomer(customer));
-                    }
-                else
-                    throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
+                    else
+                        throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
+                }
             }
             catch (ArgumentNullException) { }
             catch (InvalidOperationException) { }

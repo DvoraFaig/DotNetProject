@@ -26,7 +26,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
-            if (dal.IsCustomerById(parcelToAdd.Sender.Id) && dal.IsCustomerById(parcelToAdd.Target.Id))
+            if (parcelToAdd.Sender.Id != parcelToAdd.Target.Id)
             {
                 lock (dal)
                 {
@@ -45,7 +45,8 @@ namespace BL
             }
             else
             {
-                throw new ObjNotExistException($"sender customer {parcelToAdd.Sender.Id} or terget customer {parcelToAdd.Target.Id} not exsist");
+                throw new Exceptions.ObjNotAvailableException("Sender and targe customer are equal.\nplease change target or sender customer.");
+                //throw new ObjNotExistException($"sender customer {parcelToAdd.Sender.Id} or terget customer {parcelToAdd.Target.Id} not exsist");
             }
         }
 
@@ -304,7 +305,7 @@ namespace BL
                         dal.changeParcelInfo(parcel);
                         drone.ParcelInTransfer.isWaiting = false; //////////////////////
                         //ParcelChangeAction(convertDalToBLParcel(parcel));
-                        DroneChange(drone);
+                        DroneChangeAction(drone);
                         return drone;
                     }
                 }
@@ -353,7 +354,7 @@ namespace BL
                         parcelToDelivery.Delivered = DateTime.Now;
                         dal.changeParcelInfo(parcelToDelivery);
                         //ParcelChangeAction(convertDalToBLParcel(parcelToDelivery));
-                        DroneChange(bLDroneToSuplly);
+                        DroneChangeAction(bLDroneToSuplly);
                         return bLDroneToSuplly;
                     }
                 }

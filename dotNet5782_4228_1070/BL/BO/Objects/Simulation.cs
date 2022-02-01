@@ -11,6 +11,7 @@ using static BL.BL;
 using static BO.Exceptions;
 using BlApi.IBL;
 
+
 namespace BO
 {
     class Simulation
@@ -47,7 +48,7 @@ namespace BO
         /// <summary>
         /// Func to update info in PL
         /// </summary>
-        Action<Drone, int, double> updateDrone;
+        Action<Drone, DroneStatusInSim, double> updateDrone;
 
         /// <summary>
         /// Ctor Simulation
@@ -76,7 +77,7 @@ namespace BO
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
         /// <param name="needToStop">Func to use to stop simulation</param>
-        public void StartSimulation(Drone drone, Action<Drone, int, double> updateDrone, Func<bool> needToStop)
+        public void StartSimulation(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
             this.drone = drone;
             this.updateDrone = updateDrone;
@@ -126,14 +127,14 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void DroneStatusAvailable(Action<Drone, int, double> updateDrone, Drone drone, Func<bool> needToStop)
+        private void DroneStatusAvailable(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone, Func<bool> needToStop)
         {
             try
             {
                 BO.Drone droneWithParcel = BL.PairParcelWithDrone(drone.Id);
                 drone.Status = BO.DroneStatus.Delivery;
                 drone.ParcelInTransfer = droneWithParcel.ParcelInTransfer;
-                updateDrone(drone, (int)DroneStatus.HideTextBlock, distace); //if in the begining their were no available charging slots. hide the text block
+                updateDrone(drone, DroneStatusInSim.HideTextBlock, distace); //if in the begining their were no available charging slots. hide the text block
                 BL.changeDroneInfo(drone);
             }
             catch (ObjNotAvailableException)
@@ -141,7 +142,7 @@ namespace BO
                 try //not enough battery
                 {
                     sendDroneToCharge(updateDrone, drone);
-                    DroneStatusMaintenance(updateDrone ,drone );
+                    DroneStatusMaintenance(updateDrone, drone);
                     //BL.SendDroneToCharge(drone);
                     //drone.Status = BO.DroneStatus.Maintenance;
                     //updateDrone(drone, (int)DroneStatus.NotEnoughBatteryForDelivery, distace);
@@ -164,7 +165,7 @@ namespace BO
 
             }
             // Do: If drone not has enough buttery to go to the near station.... do something
-            catch (Exception e)
+            catch (Exception)
             {
                 Thread.Sleep(2000);
                 ///to stop
@@ -178,7 +179,7 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void DroneStatusMaintenance(Action<Drone, int, double> updateDrone, Drone drone)
+        private void DroneStatusMaintenance(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
             DateTime now = DateTime.Now;
             TimeSpan second;
@@ -208,7 +209,7 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void freeDroneFromCharge(Action<Drone, int, double> updateDrone, Drone drone)
+        private void freeDroneFromCharge(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
             bool succeedFreeDroneFromCharge = false;
             do
@@ -239,7 +240,7 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void DroneStatusDelivery(Action<Drone, int, double> updateDrone, Drone drone)
+        private void DroneStatusDelivery(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
 
             DeliveryStatusAction droneStatus = BL.GetfromEnumDroneStatusInDelivery(drone);
@@ -249,7 +250,7 @@ namespace BO
                 case (1)://AsignedParcel
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
-                        updateDrone(drone, (int)Simulation.DroneStatus.ToPickUp, distace);
+                        updateDrone(drone, DroneStatusInSim.ToPickUp, distace);
                         Thread.Sleep(1000);
                         drone = calcDisAndSimulateDlivery(updateDrone, drone, sender.CustomerPosition, BL.requestElectricity(0));
                         #region export this
@@ -411,7 +412,7 @@ namespace BO
 
                         //}
                         #endregion
-                        updateDrone(drone, (int)Simulation.DroneStatus.PickUp, distace);
+                        updateDrone(drone, DroneStatusInSim.PickUp, distace);
                         parcel.PickUp = DateTime.Now;
                         BL.changeParcelInfo(parcel);
                         break;
@@ -422,14 +423,14 @@ namespace BO
                 case (2): //parcel was pickup already Destination: recieving customer & a station to charge.
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
-                        updateDrone(drone, (int)Simulation.DroneStatus.ToDelivery, distace);
+                        updateDrone(drone, DroneStatusInSim.ToDelivery, distace);
                         Thread.Sleep(1000);
                         drone = calcDisAndSimulateDlivery(updateDrone, drone, target.CustomerPosition, BL.requestElectricity((int)parcel.Weight));
-                        updateDrone(drone, (int)Simulation.DroneStatus.Delivery, distace);
+                        updateDrone(drone, DroneStatusInSim.Delivery, distace);
                         Thread.Sleep(500);
                         drone.ParcelInTransfer = null;
                         parcel.Delivered = DateTime.Now;
-                        updateDrone(drone,(int)Simulation.DroneStatus.HideTextBlock, distace);
+                        updateDrone(drone, DroneStatusInSim.HideTextBlock, distace);
                         drone.Status = BO.DroneStatus.Available;
                         BL.changeDroneInfo(drone);
                         BL.changeParcelInfo(parcel);
@@ -456,7 +457,7 @@ namespace BO
                         //BL.changeDroneInfo(drone);
                         //updateDrone(drone, (int)DroneStatus.HideTextBlock, distace);
                     }
-                    catch (ObjNotExistException e)//no available station
+                    catch (ObjNotExistException)//no available station
                     {
                         Thread.Sleep(2000);
                     }
@@ -490,7 +491,7 @@ namespace BO
             //}
             #endregion
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
         }
 
@@ -499,21 +500,20 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void sendDroneToCharge(Action<Drone, int, double> updateDrone, Drone drone)
+        private void sendDroneToCharge(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
-            /* From recieving costumer to station*/
             DO.Station s = BL.findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
             dal.AddDroneToCharge(new DO.DroneCharge() { DroneId = drone.Id, StationId = s.Id });
             drone.Status = BO.DroneStatus.Maintenance;
             BL.changeDroneInfo(drone);
-            updateDrone(drone, (int)Simulation.DroneStatus.ToCharge, distace);
-            Thread.Sleep(1000);
+            updateDrone(drone, DroneStatusInSim.ToCharge, distace);
+            //Thread.Sleep(1000);
             Position stationPos = new Position() { Latitude = s.Latitude, Longitude = s.Longitude };
             drone = calcDisAndSimulateDlivery(updateDrone, drone, stationPos, BL.requestElectricity(0));
             drone.SartToCharge = DateTime.Now;
             BL.changeDroneInfo(drone);
-            updateDrone(drone, (int)DroneStatus.HideTextBlock, distace);
-            Thread.Sleep(1000);
+            updateDrone(drone, DroneStatusInSim.HideTextBlock, distace);
+            //Thread.Sleep(1000);
             DroneStatusMaintenance(updateDrone, drone);
             freeDroneFromCharge(updateDrone, drone);
         }
@@ -528,7 +528,7 @@ namespace BO
             target = BL.convertDalToBLCustomer(dal.getCustomerWithSpecificCondition(c => parcel.Target.Id == c.Id).First());
         }
 
-        private Drone calcDisAndSimulateDlivery(Action<Drone, int, double> updateDrone, Drone droneA, Position destination, double batteryUsage)
+        private Drone calcDisAndSimulateDlivery(Action<Drone, DroneStatusInSim, double> updateDrone, Drone droneA, Position destination, double batteryUsage)
         {
             #region declare and implement variables
             double distanceDroneToSender = distance(droneA.DronePosition, destination);
@@ -548,7 +548,6 @@ namespace BO
 
             double fullDis = distance(droneA.DronePosition, destination);
             double sumBattery = fullDis * batteryUsage;
-            //implement variables that are different in cases.
 
             #region Latitude is equal between drone and currentTarget
             if (droneA.DronePosition.Latitude == destination.Latitude)
@@ -619,16 +618,15 @@ namespace BO
                 BL.changeDroneInfo(droneA);
                 sumBattery -= batteryUsageByWeightForM;
                 fullDis -= dis;
-                updateDrone(droneA, (int)DroneStatus.DisFromDestination, fullDis);
+                updateDrone(droneA, DroneStatusInSim.DisFromDestination, fullDis);
                 #endregion
                 Thread.Sleep((int)distanceDroneToSender);//*10   500
             }
             #endregion
 
             droneA.DronePosition = destination;
-            updateDrone(droneA, -1, distace);
+            updateDrone(droneA, 0 , distace);
             return droneA;
         }
-
     }
 }

@@ -35,6 +35,10 @@ namespace BO
                 : base(String.Format($"{messageFromDal}"))
             {
             }
+            public ObjNotExistException(string messageFromDal, object obj)
+                : base(String.Format($"{messageFromDal}"))
+            {
+            }
         }
         public class DataOfOjectChanged : Exception
         {

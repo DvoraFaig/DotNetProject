@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ArrayOfWorker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Worker>
+    <Id>1</Id>
+    <Password>Worker1</Password>
+  </Worker>
+  <Worker>
+    <Id>2</Id>
+    <Password>Worker2</Password>
+  </Worker>
+</ArrayOfWorker>
