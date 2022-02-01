@@ -32,6 +32,7 @@ namespace Dal
         {
             return from c in DataSource.Customers
                    where c.IsActive == true
+                   orderby c.Id
                    select c;
         }
 
@@ -43,9 +44,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> getCustomerWithSpecificCondition(Predicate<Customer> predicate)
         {
-            return (from Customer in DataSource.Customers
-                    where predicate(Customer)
-                    select Customer);
+            return (from customer in DataSource.Customers
+                    where predicate(customer)
+                    orderby customer.Id
+                    select customer);
         }
 
         /// <summary>

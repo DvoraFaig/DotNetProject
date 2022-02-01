@@ -7,9 +7,12 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
-        static public DalApi.Idal dal;
+        /// <summary>
+        /// Instance of Idal interface.
+        /// </summary>
+        private DalApi.Idal dal;
 
         /// <summary>
         /// Electicity usage of drone by weight
@@ -21,8 +24,6 @@ namespace BL
         private double electricityUsageWhenDroneIsHeavyWeight { get; set; }
         private double chargingRateOfDrone { get; set; }
 
-        Random r = new Random();
-
 
         /// <summary>
         /// BL ctor.
@@ -30,6 +31,8 @@ namespace BL
         /// </summary>
         private BL()
         {
+            Random r = new Random();
+
             dronesList = new List<Drone>();
             dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
 
@@ -63,19 +66,19 @@ namespace BL
             #endregion
 
             #region implement Drone.DroneStatus: Available, Maintenance, Delivery.
-            foreach (DO.Drone drone in drones )
+            foreach (DO.Drone drone in drones)
             {
                 #region Objects and variables implemntation
-                parcel = dal.getParcelWithSpecificCondition(parcel=> parcel.DroneId == drone.Id).FirstOrDefault();
+                parcel = dal.getParcelWithSpecificCondition(parcel => parcel.DroneId == drone.Id).FirstOrDefault();
                 station = new DO.Station();
                 CurrentDrone = new Drone();
                 CurrentDrone.Id = drone.Id; /*copyDalToBLDroneInfo(d);*/
                 CurrentDrone.Model = drone.Model;
-                CurrentDrone.MaxWeight =  drone.MaxWeight;
+                CurrentDrone.MaxWeight = drone.MaxWeight;
                 #endregion
 
                 #region A parcel was paired with Drone but not yet delivered. => parcel.status = to PickUp parcel / to Delivered parcel.
-                if (!(parcel.Scheduled == (null)) && parcel.Delivered == (null) && !parcel.Equals(default(DO.Parcel)) )
+                if (!(parcel.Scheduled == (null)) && parcel.Delivered == (null) && !parcel.Equals(default(DO.Parcel)))
                 {
                     CurrentDrone.Status = DroneStatus.Delivery;
                     DO.Station closestStationToSender = new DO.Station();
@@ -99,7 +102,7 @@ namespace BL
                     }
                     CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
                 }
-                #endregion 
+                #endregion
 
                 #region Drone is not with a delivery status
                 else
@@ -109,7 +112,7 @@ namespace BL
                     #region Drone is with maintenance status.
                     if (CurrentDrone.Status == DroneStatus.Maintenance)//Maintenance ////or if couldn't find a position for an availble drone
                     {
-                        List<DO.Station> stationsToFindPlaceToCharge  = dal.GetStations().Cast< DO.Station>().ToList();
+                        List<DO.Station> stationsToFindPlaceToCharge = dal.GetStations().Cast<DO.Station>().ToList();
                         #region instructions
                         //If drone is supposed to be in charging find an avilable station with empty charging slots.
                         //for not having all the drones in the same place:
@@ -141,7 +144,7 @@ namespace BL
                                     break;
                                 }
                             }
-                            if(updatedDroneWithStationInfoAndBattery == null)//stand in a station position
+                            if (updatedDroneWithStationInfoAndBattery == null)//stand in a station position
                             {
                                 /*int rand = r.Next(0, amountStations);
                                 CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
@@ -198,8 +201,9 @@ namespace BL
         /// <param name="drone"></param>
         /// <param name="station"></param>
         /// <returns></returns>
-        private Drone findStationForDrone(Drone drone , DO.Station station)
+        private Drone findStationForDrone(Drone drone, DO.Station station)
         {
+            Random r = new Random();
             int amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
             if (station.ChargeSlots > amountChargingDronesInStation)
             {
@@ -213,27 +217,28 @@ namespace BL
 
         /// <summary>
         /// Calculate Drones' battery accurding to the distance of the delivery;
-        /// Distance = From station to sender + from sender to customer + dis from target to closest avialble station.
+        /// Distance = From cstation to sender + from sender to customer + dis from target to closest avialble station.
         /// </summary>
-        /// <param name="parcel"></param>
-        /// <param name="closestStationToSender"></param>
-        /// <param name="senderPosition"></param>
-        /// <param name="targetPosition"></param>
+        /// <param name="parcel">parcel in delivery</param>
+        /// <param name="stationOfDrone">Station where drone is. Closest station to the sender of the parcel</param>
+        /// <param name="senderPosition">sender position</param>
+        /// <param name="targetPosition">target position</param>
         /// <returns></returns>
-        private int calcDroneBatteryForDroneDelivery(DO.Parcel parcel, DO.Station closestStationToSender, Position senderPosition, Position targetPosition)
+        private int calcDroneBatteryForDroneDelivery(DO.Parcel parcel, DO.Station stationOfDrone, Position senderPosition, Position targetPosition)
         {
             double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
             double disFromSenderToCustomer = distance(senderPosition, targetPosition);
+
             //from target to closest station;
             DO.Station closestAvailbleStationFromTarget = findAvailbleAndClosestStationForDrone(targetPosition);
             double disFromTargetTostation = distance(targetPosition, new Position() { Latitude = closestAvailbleStationFromTarget.Latitude, Longitude = closestAvailbleStationFromTarget.Longitude });
             if (parcel.PickUp == new DateTime())
             {
-                disFromStationToSender = distance(new Position() { Latitude = closestStationToSender.Latitude, Longitude = closestStationToSender.Longitude }, senderPosition);
+                disFromStationToSender = distance(new Position() { Latitude = stationOfDrone.Latitude, Longitude = stationOfDrone.Longitude }, senderPosition);
             }
             double sumDisForDrone = disFromStationToSender + disFromSenderToCustomer + disFromTargetTostation;
             double sumBattery = sumDisForDrone * requestDroneElectricityUsage()[(int)parcel.Weight];
-            return r.Next((int)sumBattery, 100);
+            return new Random().Next((int)sumBattery, 100);
         }
 
         /// <summary>
@@ -248,13 +253,13 @@ namespace BL
             double dis = -1;
             double minDis = -1;
             int fullChargingSlots;
-            foreach(DO.Station station in stations)
+            foreach (DO.Station station in stations)
             {
                 fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
                 if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
                 {
                     dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
-                    if (minDis == -1)
+                    if (minDis == -1) //Wasn't implemted by a specific drone.
                     {
                         minDis = dis;
                         availbleClosestStation = station;
@@ -277,7 +282,7 @@ namespace BL
         /// <param name="dronePosition">To find the distance to a station </param>
         /// <param name="droneBattery">Drone.Batter: To check if could hover to station</param>
         /// <returns></returns>
-        public DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition , double droneBattery)
+        public DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition, double droneBattery)
         {
             IEnumerable<DO.Station> stations = dal.GetStations();
             DO.Station availbleClosestStation = new DO.Station();
@@ -318,9 +323,9 @@ namespace BL
         /// <returns></returns>
         private List<DO.Customer> findCustomersWithDeliveredParcel()
         {
-            IEnumerable<DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null ));
+            IEnumerable<DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null));
             List<DO.Customer> customersWithDeliveredParcels = new List<DO.Customer>();
-            foreach(DO.Parcel parcel in parcels)
+            foreach (DO.Parcel parcel in parcels)
             {
                 customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First());
             }

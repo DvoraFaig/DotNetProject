@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlApi;
-//using DO;
+using DO;
 using System.Threading;
 using BO;
 using static BL.BL;
 using static BO.Exceptions;
 using BlApi.IBL;
+using DalApi;
 
 
 namespace BO
@@ -17,10 +18,16 @@ namespace BO
     class Simulation
     {
         /// <summary>
-        /// Instance of Ibl interface
+        /// Instance of Ibl interface.
         /// </summary>
         Ibl BL;
 
+        /// <summary>
+        /// Instance of IDal interface.
+        /// </summary>
+        Idal dal;
+        
+       
 
         ISimulation Isimulation;
 
@@ -54,9 +61,10 @@ namespace BO
         /// Ctor Simulation
         /// </summary>
         /// <param name="BL">Interface Ibl</param>
-        public Simulation(Ibl BL)
+        public Simulation(Ibl BL , Idal idal)
         {
             this.BL = BL;
+            this.dal = idal;
             distace = 0;
         }
 
@@ -77,7 +85,7 @@ namespace BO
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
         /// <param name="needToStop">Func to use to stop simulation</param>
-        public void StartSimulation(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
+        public void StartSim(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
             this.drone = drone;
             this.updateDrone = updateDrone;

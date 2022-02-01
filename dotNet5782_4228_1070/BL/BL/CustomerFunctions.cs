@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
         public Action<Customer> CustomerChangeAction { get; set; }
 
@@ -102,8 +102,8 @@ namespace BL
             lock (dal)
             {
                 DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId).First();
-                Customer BLcustomer = convertDalToBLCustomer(c);
-                return BLcustomer;
+                Customer customer = convertDalToBLCustomer(c);
+                return customer;
             }
         }
 
@@ -124,8 +124,8 @@ namespace BL
                     c.IsActive = true;
                     dal.AddCustomer(c);
                 }
-                Customer BLcustomer = convertDalToBLCustomer(c);
-                return BLcustomer;
+                
+                return convertDalToBLCustomer(c);
             }
         }
 

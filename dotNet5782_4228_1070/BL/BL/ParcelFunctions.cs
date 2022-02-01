@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
         public Action<Parcel> ParcelChangeAction { get; set; }
 
@@ -59,9 +59,13 @@ namespace BL
         {
             lock (dal)
             {
-                IEnumerable<BO.Parcel> parcels = (from parcel in dal.GetParcels()
-                                                  select convertDalToBLParcel(parcel));
-                return convertBLParcelToBLParcelsToList(parcels);
+                IEnumerable<DO.Parcel> parcelsList = dal.GetParcels();
+                return (from parcel in parcelsList
+                        select convertParcelToParcelToList(parcel));
+
+                //IEnumerable<BO.Parcel> parcels = (from parcel in parcelsList
+                //                                  select convertDalToBLParcel(parcel));
+                //return convertBLParcelToBLParcelsToList(parcels);
             }
         }
 
@@ -103,9 +107,12 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
         {
+            #region Objects and variables declaration & implementation
             DO.ParcelStatuses parcelStatuses = (DO.ParcelStatuses)status;
             DO.WeightCategories weightCategories = (DO.WeightCategories)weight;
             DO.Priorities parcelPriority = (DO.Priorities)priority;
+            #endregion
+
             lock (dal)
             {
                 IEnumerable<DO.Parcel> parcelsList = new List<DO.Parcel>();
@@ -121,12 +128,12 @@ namespace BL
                 else if (weight == -1 && status >= 0 && priority >= 0)
                     parcelsList = dal.getParcelWithSpecificCondition(p => dal.findParcelStatus(p) == parcelStatuses && p.Priority == parcelPriority);
                 else if (weight == -1 && status >= 0 && priority == -1)
-                    parcelsList = dal.getParcelWithSpecificCondition(p => dal.findParcelStatus(p) == parcelStatuses );
+                    parcelsList = dal.getParcelWithSpecificCondition(p => dal.findParcelStatus(p) == parcelStatuses);
                 else if (weight == -1 && status == -1 && priority >= 0)
                     parcelsList = dal.getParcelWithSpecificCondition(p => p.Priority == parcelPriority);
                 else parcelsList = dal.GetParcels();
 
-                return from parcel in parcelsList 
+                return from parcel in parcelsList
                        select convertParcelToParcelToList(convertDalToBLParcel(parcel));
 
                 #region to delete
@@ -185,7 +192,8 @@ namespace BL
                 lock (dal)
                 {
                     DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-                    if (parcel.Equals(null))//
+
+                    if (parcel.Equals(null))//????????????????
                         throw new Exceptions.ObjNotExistException(typeof(ParcelInTransfer), -1);//
 
                     return convertDalToBLParcel(parcel);
@@ -197,31 +205,31 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Check a predicate to dal and check if drone is schedualed to Parcel.
-        /// </summary>
-        /// <param name="droneId"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool checkIfExistParcelByDrone(int droneId)
-        {
-            try
-            {
-                lock (dal)
-                {
-                    {
-                        DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-                        if (parcel.Equals(null))
-                            return false;
-                        return true;
-                    }
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                return false;
-            }
-        }
+        ///// <summary>
+        ///// Check a predicate to dal and check if drone is schedualed to Parcel.
+        ///// </summary>
+        ///// <param name="droneId"></param>
+        ///// <returns></returns>
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        //public bool checkIfExistParcelByDrone(int droneId)
+        //{
+        //    try
+        //    {
+        //        lock (dal)
+        //        {
+        //            {
+        //                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
+        //                if (parcel.Equals(null))
+        //                    return false;
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// Return a BO.Parcel(converted) that the func receives it by an id from dal.getParcelWithSpecificCondition
@@ -383,16 +391,22 @@ namespace BL
         //}
 
 
-
+        /// <summary>
+        /// Find parcels' status: { Available, AsignedParcel, PickedParcel , DeliveredParcel}
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         private static ParcelStatuses findParcelStatus(Parcel p)
         {
             if (p.Delivered != null)
                 return ParcelStatuses.Delivered;
+
             else if (p.PickUp != null)
                 return ParcelStatuses.PickedUp;
 
             else if (p.Scheduled != null)
                 return ParcelStatuses.Scheduled;
+
             else //if (p.Requeasted != null)
                 return ParcelStatuses.Requeasted;
         }

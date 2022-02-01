@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
         /// <summary>
         /// Add a new station. checks if this station exist already.

@@ -29,7 +29,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels()
         {
-            return from p in DataSource.Parcels select p;
+            return from p in DataSource.Parcels
+                   orderby p.Id
+                   where p.IsActive == true
+                   select p;
         }
 
         /// <summary>

@@ -31,6 +31,7 @@ namespace Dal
         {
             return from d in DataSource.Drones
                    where d.IsActive == true
+                   orderby d.Id
                    select d;
         }
 
@@ -44,6 +45,7 @@ namespace Dal
         {
             return (from drone in DataSource.Drones
                     where predicate(drone)
+                    orderby drone.Id
                     select drone);
         }
 

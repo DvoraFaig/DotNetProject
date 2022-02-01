@@ -6,8 +6,13 @@ using BO;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
+
+        /// <summary>
+        /// Drones List. Implemented by BL ctor.
+        /// </summary>
         private List<Drone> dronesList { get; set; }
+
     }
 }

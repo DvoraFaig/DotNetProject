@@ -9,13 +9,18 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+        /// <summary>
+        /// Statrt the sumulation.
+        /// </summary>
+        /// <param name="drone">The Drone</param>
+        /// <param name="updateDrone">Func to update info in PL</param>
+        /// <param name="needToStop">Func to use to stop simulation</param>
         public void StartSimulation(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
-            var sim = new Simulation(this);
-            sim.StartSimulation(drone, updateDrone, needToStop);
+            var sim = new Simulation(this , dal);
+            sim.StartSim(drone, updateDrone, needToStop);
         }
     }
 }

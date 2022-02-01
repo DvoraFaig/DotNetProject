@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl
     {
         /// <summary>
         /// Find a parcel to delivery for drone.
@@ -111,12 +111,37 @@ namespace BL
             #endregion
         }
 
-
-        public Parcel convertADroneToParcelWhenDroneIsTakenByDrone(Drone drone)
+        /// <summary>
+        /// get sender and target of a parcel and create ParcelInTransfer
+        /// </summary>
+        /// <param name="p">DO.parcel</param>
+        /// <param name="sender">sender of parcel</param>
+        /// <param name="target">target of parcel</param>
+        /// <returns></returns>
+        private ParcelInTransfer returnAParcelInTransfer(DO.Parcel p, DO.Customer sender, DO.Customer target)
         {
-            return new Parcel();
-
+            Position senderP = new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
+            Position targetP = new Position() { Latitude = target.Latitude, Longitude = target.Longitude };
+            return new ParcelInTransfer()
+            {
+                TargetPosition = targetP,
+                SenderPosition = senderP,
+                Id = p.Id,
+                SenderCustomer = convertDalToBLCustomerInParcel(sender),
+                TargetCustomer = convertDalToBLCustomerInParcel(target),
+                //parcelStatus = false,
+                isWaiting = p.PickUp == null ? true : false,
+                Priority = p.Priority,
+                distance = distance(senderP, targetP),
+                Weight = p.Weight
+            };
         }
+
+        //public Parcel convertADroneToParcelWhenDroneIsTakenByDrone(Drone drone)
+        //{
+        //    return new Parcel();
+
+        //}
 
 
         /// <summary>

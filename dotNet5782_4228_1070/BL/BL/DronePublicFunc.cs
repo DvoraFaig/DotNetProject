@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    public sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
+    sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
     {
         public Action<Drone> DroneChangeAction { get; set; }
 
@@ -40,7 +40,7 @@ namespace BL
                     if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
                         throw new Exception("Weight of drone is out of range");
                     DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
-                    int battery = r.Next(20, 40);
+                    int battery = new Random().Next(20, 40);
                     DO.Station s;
                     try
                     {
@@ -72,7 +72,7 @@ namespace BL
             }
         }
 
-       
+
 
         /// <summary>
         /// Return DronesList
@@ -81,12 +81,11 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> getDrones()
         {
-            lock (dronesList) //not changing info???
+            lock (dronesList)
             {
                 return (from d in dronesList
-                        orderby d.Id  //??????
+                        orderby d.Id
                         select d);
-                //return dronesList;
             }
         }
 
