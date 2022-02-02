@@ -19,7 +19,21 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station newStation)
         {
-            DataSource.Stations.Add(newStation);
+            Station drone;
+            try
+            {
+                drone = getStationWithSpecificCondition(d => d.Id == newStation.Id).First();
+                if (drone.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Station), newStation.Id);
+
+                changeStationInfo(newStation);
+                throw new Exceptions.DataChanged(typeof(Station), newStation.Id);
+
+            }
+            catch (Exception)
+            {
+                DataSource.Stations.Add(newStation);
+            }
         }
 
         /// <summary>

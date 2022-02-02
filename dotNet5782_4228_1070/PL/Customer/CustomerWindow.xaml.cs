@@ -166,31 +166,32 @@ namespace PL
                     {
                         blObjectD.AddCustomer(newCustomer);
                     }
-                    catch (Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
+                    catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
                     new CustomerListWindow(blObjectD).Show();
                     this.Close();
                 }
+
                 #region catch exeptions
                 catch (BO.Exceptions.ObjExistException e1)
                 {
                     PLFuncions.messageBoxResponseFromServer("Add Customer", e1.Message);
                 }
-                catch (ArgumentNullException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (FormatException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (OverflowException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (NullReferenceException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                }
+                //catch (ArgumentNullException)
+                //{
+                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+                //}
+                //catch (FormatException)
+                //{
+                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+                //}
+                //catch (OverflowException)
+                //{
+                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+                //}
+                //catch (NullReferenceException)
+                //{
+                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+                //}
                 catch (Exception)
                 {
                     PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");

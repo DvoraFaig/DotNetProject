@@ -22,10 +22,23 @@ namespace Dal
         /// <param name="newStation">The station to add.</param>
         public void AddStation(Station newStation)
         {
-            XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-            newStation.IsActive = true;
-            stationRoot.Add(returnStationXElement(newStation));
-            stationRoot.Save(dir + stationFilePath);
+            Station drone;
+            try
+            {
+                drone = getStationWithSpecificCondition(d => d.Id == newStation.Id).First();
+                if (drone.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Station), newStation.Id);
+
+                changeStationInfo(newStation);
+                throw new Exceptions.DataChanged(typeof(Station), newStation.Id);
+
+            }
+            catch (Exception)
+            {
+                XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
+                stationRoot.Add(returnStationXElement(newStation));
+                stationRoot.Save(dir + stationFilePath);
+            }
 
             #region with a check if station exist checked
             //XElement stationXElemnt;

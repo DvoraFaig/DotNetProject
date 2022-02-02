@@ -39,6 +39,7 @@ namespace BL
                         Priority = (DO.Priorities)parcelToAdd.Priority,
                         Requeasted = DateTime.Now
                     };
+
                     dal.AddParcel(p);
                     ParcelChangeAction(convertDalToBLParcel(p));
                 }

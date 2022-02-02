@@ -26,7 +26,25 @@ namespace Dal
             ParcelRoot.Add(returnParcelXElement(newParcel));
             ParcelRoot.Save(dir + parcelFilePath);
 
+            //Parcel parcel;
+            //try
+            //{
+            //    parcel = getParcelWithSpecificCondition(c => c.Id == newParcel.Id).First();
+            //    if (parcel.IsActive)
+            //        throw new Exceptions.ObjExistException(typeof(Parcel), newParcel.Id);
+
+            //    changeParcelInfo(newParcel);
+            //    throw new Exceptions.DataChanged(typeof(Parcel), newParcel.Id);
+            //}
+            //catch (Exception)
+            //{
+            //    XElement ParcelRoot = XMLTools.LoadData(dir + parcelFilePath);
+            //    ParcelRoot.Add(returnParcelXElement(newParcel));
+            //    ParcelRoot.Save(dir + parcelFilePath);
+            //}
+
             #region LoadListFromXMLSerializer 
+            //Without the new chaeck if exist
             //List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath).ToList();
             //newParcel.IsActive = true;
             //parcelsList.Add(newParcel);

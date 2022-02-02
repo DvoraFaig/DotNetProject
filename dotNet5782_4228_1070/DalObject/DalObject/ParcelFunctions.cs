@@ -20,6 +20,21 @@ namespace Dal
         public void AddParcel(Parcel newParcel)
         {
             DataSource.Parcels.Add(newParcel);
+
+            //Parcel parcel;
+            //try
+            //{
+            //    parcel = getParcelWithSpecificCondition(c => c.Id == newParcel.Id).First();
+            //    if (parcel.IsActive)
+            //        throw new Exceptions.ObjExistException(typeof(Parcel), newParcel.Id);
+
+            //    changeParcelInfo(newParcel);
+            //    throw new Exceptions.DataChanged(typeof(Parcel), newParcel.Id);
+            //}
+            //catch (Exception)
+            //{
+            //    DataSource.Parcels.Add(newParcel);
+            //}
         }
 
         /// <summary>
