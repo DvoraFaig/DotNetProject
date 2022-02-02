@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
 using BlApi;
+//using PO;
 
 namespace PL
 {
@@ -24,6 +25,7 @@ namespace PL
     {
         private Ibl blObjectH;
         CollectionView view;
+        private PO.Drones currentDroneList;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -39,12 +41,16 @@ namespace PL
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
             //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
-            IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
+            currentDroneList = new PO.Drones(blObjectH);
+            currentDroneList.getNewList(blObjectH.returnDronesToList());
+            DroneListView.DataContext = (IEnumerable<PO.DroneToList>)currentDroneList.DroneList;
+            //DroneListView.DataContext = (IEnumerable<PO.DroneToList>)currentDroneList.DroneList;
+            //IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-            DataContext = dronesToList;
+            //DataContext = dronesToList;
             view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
         }
 
@@ -89,7 +95,8 @@ namespace PL
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
             IEnumerable<DroneToList> b = blObjectH.DisplayDroneToListByFilters((int)weight ,(int)status);
-            DroneListView.ItemsSource = b;
+            //DroneListView.ItemsSource = b;
+            currentDroneList.getNewList(b);
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
@@ -106,7 +113,7 @@ namespace PL
 
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
-            DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
+            PO.DroneToList droneToList = (PO.DroneToList)DroneListView.SelectedItem;
             Drone drone = blObjectH.GetDroneById(droneToList.Id);////changed frrom get with specific...
             new DroneWindow(blObjectH, drone).Show();
             //this.Close();
