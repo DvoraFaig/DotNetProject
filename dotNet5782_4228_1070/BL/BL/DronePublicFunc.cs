@@ -13,6 +13,7 @@ namespace BL
     sealed partial class BL 
     {
         public Action<Drone> DroneChangeAction { get; set; }
+        public Action<DroneToList, bool> DroneListChangeAction { get; set; }
 
         /// <summary>
         /// Check if drone with the same id exist.

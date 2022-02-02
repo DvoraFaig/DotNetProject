@@ -10,6 +10,56 @@ using System.ComponentModel;
 
 namespace PO
 {
+    public class Drones :DependencyObject
+    {
+        public Drones(BlApi.Ibl blObject)
+        {
+            DroneList = new List<DroneToList>();
+            blObject.DroneListChangeAction += Update;
+        }
+
+           
+        public List<DroneToList> DroneList
+        {
+            get { return (List<DroneToList>)GetValue(DroneListProperty); }
+            set { SetValue(DroneListProperty, value); }
+        }
+        public static readonly DependencyProperty DroneListProperty = DependencyProperty.Register("DroneList", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+
+        /// <summary>
+        /// Update DroneList, add new drone to list or update exist drone - according to isNew boolean param.
+        /// </summary>
+        /// <param name="updatedDrone"></param>
+        /// <param name="isNew">To add new drone to list send 'True', to update send 'False'.</param>
+        public void Update(BO.DroneToList updatedDrone, bool isNew)
+        {
+            if (!updatedDrone.Equals(null))
+            {
+                if (isNew)
+                {
+                    DroneList.Add(new DroneToList(updatedDrone));
+                }
+                else
+                {
+                    int index = DroneList.FindIndex(d => d.Id == updatedDrone.Id);
+                    DroneList[index].Update(updatedDrone);
+                }
+            }
+        }
+
+        internal void getNewList(IEnumerable<BO.DroneToList> drones)
+        {
+            if (!drones.Equals(null))
+            {
+                DroneList.Clear();
+                foreach (BO.DroneToList drone in drones)
+                {
+                    DroneList.Add(new DroneToList(drone));
+                }
+            }
+        }
+    }
+
     //[Serializable]
     public class Drone : DependencyObject //, ICloneable
     {
@@ -21,13 +71,13 @@ namespace PO
             Model = d.Model;
             Battery = d.Battery;
             Status = d.Status;
-            MaxWeight = (WeightCategories)d.MaxWeight;
+            MaxWeight = d.MaxWeight;
             ParcelInTransfer = d.ParcelInTransfer;
             DronePosition = d.DronePosition;
             SartToCharge = d.SartToCharge;
             blObject.DroneChangeAction += Update;
         }
-    
+
 
         public Drone(BlApi.Ibl blObject)
         {
@@ -49,7 +99,7 @@ namespace PO
             Status = updatedDrone.Status;
             ParcelInTransfer = updatedDrone.ParcelInTransfer;
             DronePosition = updatedDrone.DronePosition;
-            MaxWeight = (WeightCategories)updatedDrone.MaxWeight;
+            MaxWeight = updatedDrone.MaxWeight;
             //Update(senderDrone);
         }
 
@@ -128,9 +178,9 @@ namespace PO
             get { return (BO.Position)GetValue(DronePositionProperty); }
             set { SetValue(DronePositionProperty, value); }
         }
-        public WeightCategories MaxWeight
+        public BO.WeightCategories MaxWeight
         {
-            get { return (WeightCategories)GetValue(MaxWeightProperty); }
+            get { return (BO.WeightCategories)GetValue(MaxWeightProperty); }
             set { SetValue(MaxWeightProperty, value); }
         }
         public DateTime? SartToCharge { set; get; }
@@ -169,21 +219,75 @@ namespace PO
 
     public class DroneToList : DependencyObject
     {
-        public int Id { get; set; }
-        public string Model { get; set; }
-        public DO.WeightCategories MaxWeight { get; set; }
-        public double Battery { get; set; }
-        public DroneStatus droneStatus { get; set; }
-        public Position DronePosition { get; set; }
+        public DroneToList(BO.DroneToList drone)
+        {
+            Id = drone.Id;
+            Model = drone.Model;
+            MaxWeight = drone.MaxWeight;
+            Battery = drone.Battery;
+            droneStatus = drone.droneStatus;
+            DronePosition = drone.DronePosition;
+            IdParcel = drone.IdParcel;
+        }
+        public void Update(BO.DroneToList drone)
+        {
+            Id = drone.Id;
+            Model = drone.Model;
+            MaxWeight = drone.MaxWeight;
+            Battery = drone.Battery;
+            droneStatus = drone.droneStatus;
+            DronePosition = drone.DronePosition;
+            IdParcel = drone.IdParcel;
+        }
+        
+        public int Id
+        {
+            get { return (int)GetValue(IdProperty); }
+            set { SetValue(IdProperty, value); }
+        }
+        public string Model
+        {
+            get { return (string)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
+        public BO.WeightCategories MaxWeight
+        {
+            get { return (BO.WeightCategories)GetValue(MaxWeightProperty); }
+            set { SetValue(MaxWeightProperty, value); }
+        }
+        public double Battery
+        {
+            get { return (double)GetValue(BatteryProperty); }
+            set { SetValue(BatteryProperty, value); }
+        }
+        public DroneStatus droneStatus
+        {
+            get { return (DroneStatus)GetValue(droneStatusProperty); }
+            set { SetValue(droneStatusProperty, value); }
+        }
+        public Position DronePosition
+        {
+            get { return (Position)GetValue(DronePositionProperty); }
+            set { SetValue(droneStatusProperty, value); }
+        }
         public int IdParcel { get; set; } //if there is
-                                          //public override string ToString()
-                                          //{
-                                          //if (DronePosition == null)
-                                          //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {droneStatus}");
-                                          //if (IdParcel == 0)
-                                          //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition} , Parcel Id: -- no parcel -- ");
-                                          //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition}");
-                                          //}
+
+        public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty MaxWeightProperty = DependencyProperty.Register("MaxWeight", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty BatteryProperty = DependencyProperty.Register("Battery", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty droneStatusProperty = DependencyProperty.Register("droneStatus", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty DronePositionProperty = DependencyProperty.Register("DronePosition", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty IdParcelProperty = DependencyProperty.Register("IdParcel", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+
+        //public override string ToString()
+        //{
+        //if (DronePosition == null)
+        //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight}, drone battery: {Battery} , drone status: {droneStatus}");
+        //if (IdParcel == 0)
+        //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition} , Parcel Id: -- no parcel -- ");
+        //return ($"drone id: {Id}, drone model: {Model}, drone MaxWeight: {MaxWeight},drone battery: {Battery} , drone status: {droneStatus}\n\tDronePosition : {DronePosition}");
+        //}
     }
 
     public class DroneInParcel : DependencyObject //drone in pacel
