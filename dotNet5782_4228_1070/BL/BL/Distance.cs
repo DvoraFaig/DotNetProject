@@ -7,7 +7,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
         public static double distance(Position p1, Position p2) //not private becuase of simulation
         {

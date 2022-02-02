@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BO;
+
 namespace BlApi
 {
     public interface Ibl
@@ -9,6 +10,7 @@ namespace BlApi
         Action<Drone> DroneChangeAction { get; set; }
         Action<Customer> CustomerChangeAction { get; set; }
         Action<Parcel> ParcelChangeAction { get; set; }
+
         //================
         //  Add
         //================
@@ -37,11 +39,9 @@ namespace BlApi
         IEnumerable<Drone> getDrones();/// change from List - chrck
         IEnumerable<DroneToList> returnDronesToList();
         IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status);
-
         IEnumerable<ParcelToList> GetParcelToList();
         IEnumerable<Parcel> getParcels();
         Parcel getParcelByDrone(int droneId);
-        //bool checkIfExistParcelByDrone(int droneId);
         IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
 
         IEnumerable<CustomerToList> GetCustomersToList();
@@ -99,19 +99,16 @@ namespace BlApi
         //  Drones electricity usage.
         //===========================
         public double requestElectricity(int choice);
-
-
-
         DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition, double droneBattery);
+        Station convertDalToBLStation(DO.Station station);
 
         //=========================
         //Simulation
         //=========================
-        Parcel convertDalToBLParcelSimulation(DO.Parcel p);
-        void removeDroneChargeByDroneId(int droneId);
-        Customer convertDalToBLCustomer(DO.Customer customer);
-        Station convertDalToBLStation(DO.Station station);
-        void changeParcelInfo(Parcel parcel);
+        //Parcel convertDalToBLParcelSimulation(DO.Parcel p);
+        //void removeDroneChargeByDroneId(int droneId);
+        //Customer convertDalToBLCustomer(DO.Customer customer);
+        //void changeParcelInfo(Parcel parcel);
 
 
     }

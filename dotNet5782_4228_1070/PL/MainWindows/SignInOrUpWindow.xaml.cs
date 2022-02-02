@@ -26,7 +26,7 @@ namespace PL
         public SignInOrUpWindow()
         {
             InitializeComponent();
-            this.blObject = BlApi.IBL.BLFactory.Factory();
+            this.blObject = BlApi.IBL.IBLFactory.Factory();
             //Response.Visibility = Visibility.Hidden;
         }
 

@@ -7,7 +7,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
     {
         /// <summary>
         /// Instance of Idal interface.
@@ -31,6 +31,7 @@ namespace BL
         /// </summary>
         private BL()
         {
+            
             Random r = new Random();
 
             dronesList = new List<Drone>();

@@ -8,7 +8,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
         /// <summary>
         /// Send a predicate to receive a BO.Drone from BL.DroneList. 
