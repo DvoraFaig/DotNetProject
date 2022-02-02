@@ -40,9 +40,9 @@ namespace BO
             {
             }
         }
-        public class DataOfOjectChanged : Exception
+        public class DataChanged : Exception
         {
-            public DataOfOjectChanged(Type objType, int id,string message)
+            public DataChanged(Type objType, int id,string message)
                 : base(String.Format($"The {objType.Name} with id: {id} : Data Changed\n{message}."))
             {
             }

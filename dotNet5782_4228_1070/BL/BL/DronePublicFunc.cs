@@ -45,18 +45,20 @@ namespace BL
             }
             catch (DO.Exceptions.DataChanged)
             {
-                dronesList.Add(droneWithMoreInfo);
+                changeDroneInfoInDroneList(droneWithMoreInfo);
+                DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
                 return;
-                //DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
             }
-            catch (DO.Exceptions.ObjNotExistException)
+            catch (DO.Exceptions.ObjExistException)
             {
-                throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
+                throw new ObjExistException(typeof(Drone), droneToAdd.Id);
             }
+            dronesList.Add(droneWithMoreInfo);
+            DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
+            return;
 
             //drone.IsActive == false : exist
-            changeDroneInfoInDroneList(droneWithMoreInfo);
-            return;
+
 
             #region erase
             //////Station station = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());

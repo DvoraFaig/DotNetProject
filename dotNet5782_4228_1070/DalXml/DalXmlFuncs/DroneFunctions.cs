@@ -37,7 +37,6 @@ namespace Dal
                 XElement DroneRoot = XMLTools.LoadData(dir + droneFilePath);
                 DroneRoot.Add(returnDroneXElement(newDrone));
                 DroneRoot.Save(dir + droneFilePath);
-                throw new Exceptions.ObjNotExistException(typeof(Drone), newDrone.Id);
             }
 
             #region LoadListFromXMLSerializer

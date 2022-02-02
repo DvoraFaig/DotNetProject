@@ -22,12 +22,27 @@ namespace Dal
         /// <param name="newCustomer">customer to add.</param>
         public void AddCustomer(Customer newCustomer)
         {
-            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
-            newCustomer.IsActive = true;
-            customerRoot.Add(returnCustomerXElement(newCustomer));
-            customerRoot.Save(dir + customerFilePath);
+
+            Customer customer;
+            try
+            {
+                customer = getCustomerWithSpecificCondition(d => d.Id == newCustomer.Id).First();
+                if (customer.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Customer), newCustomer.Id);
+
+                changeCustomerInfo(newCustomer);
+                throw new Exceptions.DataChanged(typeof(Customer), newCustomer.Id);
+
+            }
+            catch (Exception)
+            {
+                XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+                customerRoot.Add(returnCustomerXElement(newCustomer));
+                customerRoot.Save(dir + customerFilePath);
+            }
 
             #region LoadListFromXMLSerializer
+            //wasn't change to check if exist
             //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
             //if (customersList.Any(c => c.Id == newCustomer.Id))
             //{

@@ -24,30 +24,63 @@ namespace BL
         {
             lock (dal)
             {
+                DO.Customer cToChange = new DO.Customer();
                 try
                 {
-                    DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
-                    if (customer.IsActive)
-                        throw new ObjExistException(typeof(BO.Customer), customer.Id);
-                    customer.IsActive = true;
-                    dal.changeCustomerInfo(customer);
+                    #region If Customer.IsActive == false. What was changed when drone was added-> Customer.IsActive == true;
+                    try
+                    {
+                        cToChange = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
+                    }
+                    catch (Exception) { }
+                    #endregion
 
+                    dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
+                }
+                catch (DO.Exceptions.DataChanged)
+                {
                     string message = "";
-                    if (customerToAdd.CustomerPosition.Latitude != customer.Latitude || customerToAdd.CustomerPosition.Longitude != customer.Longitude)
+                    if (customerToAdd.CustomerPosition.Latitude != cToChange.Latitude || customerToAdd.CustomerPosition.Longitude != cToChange.Longitude)
                         message = "Position";
-                    if (customerToAdd.Name != customer.Name)
+                    if (customerToAdd.Name != cToChange.Name)
                         message += ", Name";
-                    if (customerToAdd.Phone != customer.Phone)
+                    if (customerToAdd.Phone != cToChange.Phone)
                         message += "and Phone";
                     if (message != "")
-                        throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
-                    return;
+                        throw new Exceptions.DataChanged(typeof(Customer), cToChange.Id, $"Data changed: {message} was changed");
                 }
-                catch (ArgumentNullException) { }
-                catch (InvalidOperationException) { }
-                dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
-                CustomerChangeAction?.Invoke(customerToAdd);
+                catch (DO.Exceptions.ObjExistException)
+                {
+                    throw new ObjExistException(typeof(Customer), customerToAdd.Id);
+                }
             }
+
+            #region erase
+            //try
+            //{
+
+            //    DO.Customer customer = dal.getCustomerWithSpecificCondition(c => c.Id == customerToAdd.Id).First();
+            //    if (customer.IsActive)
+            //        throw new ObjExistException(typeof(BO.Customer), customer.Id);
+            //    customer.IsActive = true;
+            //    dal.changeCustomerInfo(customer);
+
+            //    string message = "";
+            //    if (customerToAdd.CustomerPosition.Latitude != customer.Latitude || customerToAdd.CustomerPosition.Longitude != customer.Longitude)
+            //        message = "Position";
+            //    if (customerToAdd.Name != customer.Name)
+            //        message += ", Name";
+            //    if (customerToAdd.Phone != customer.Phone)
+            //        message += "and Phone";
+            //    if (message != "")
+            //        throw new Exceptions.DataOfOjectChanged(typeof(Customer), customer.Id, $"Data changed: {message} was changed");
+            //    return;
+            //}
+            //catch (ArgumentNullException) { }
+            //catch (InvalidOperationException) { }
+            //dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
+            //CustomerChangeAction?.Invoke(customerToAdd);
+            #endregion
         }
 
         /// <summary>
@@ -124,7 +157,7 @@ namespace BL
                     c.IsActive = true;
                     dal.AddCustomer(c);
                 }
-                
+
                 return convertDalToBLCustomer(c);
             }
         }

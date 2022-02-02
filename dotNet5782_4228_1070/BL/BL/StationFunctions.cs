@@ -22,26 +22,57 @@ namespace BL
         {
             lock (dal)
             {
-                DO.Station station;
+
+                DO.Station sToChange = new DO.Station();
                 try
                 {
-                    station = dal.getStationWithSpecificCondition(s => s.Id == stationToAdd.Id).First();
-                    if (station.IsActive)
-                        throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
-                    station.IsActive = true;
-                    dal.changeStationInfo(station); //convertBLToDalStation(stationToAdd)
+                    #region If drone.IsActive == false. What was changed when drone was added-> drone.IsActive == true;
+                    try
+                    {
+                        sToChange = dal.getStationWithSpecificCondition(c => c.Id == stationToAdd.Id).First();
+                    }
+                    catch (Exception) { }
+                    #endregion
+
+                    dal.AddStation(convertBLToDalStation(stationToAdd));
+                }
+                catch (DO.Exceptions.DataChanged)
+                {
                     string message = "";
-                    if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
+                    if (stationToAdd.StationPosition.Latitude != sToChange.Latitude || stationToAdd.StationPosition.Longitude != sToChange.Longitude)
                         message += "Position";
-                    if (stationToAdd.DroneChargeAvailble != station.ChargeSlots)
+                    if (stationToAdd.DroneChargeAvailble != sToChange.ChargeSlots)
                         message += ", Amount charge slots";
                     if (message != "")
-                        throw new Exceptions.DataOfOjectChanged(typeof(Station), station.Id, $"Data changed: {message} was changed");
-                    return;
+                        throw new Exceptions.DataChanged(typeof(Station), sToChange.Id, $"Data changed: {message} was changed");
                 }
-                catch (ArgumentNullException) { }
-                catch (InvalidOperationException) { }
-                dal.AddStation(convertBLToDalStation(stationToAdd));
+                catch (DO.Exceptions.ObjExistException)
+                {
+                    throw new ObjExistException(typeof(Customer), stationToAdd.Id);
+                }
+
+                #region erase
+                //DO.Station station;
+                //try
+                //{
+                //    station = dal.getStationWithSpecificCondition(s => s.Id == stationToAdd.Id).First();
+                //    if (station.IsActive)
+                //        throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
+                //    station.IsActive = true;
+                //    dal.changeStationInfo(station); //convertBLToDalStation(stationToAdd)
+                //    string message = "";
+                //    if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
+                //        message += "Position";
+                //    if (stationToAdd.DroneChargeAvailble != station.ChargeSlots)
+                //        message += ", Amount charge slots";
+                //    if (message != "")
+                //        throw new Exceptions.DataChanged(typeof(Station), station.Id, $"Data changed: {message} was changed");
+                //    return;
+                //}
+                //catch (ArgumentNullException) { }
+                //catch (InvalidOperationException) { }
+                //dal.AddStation(convertBLToDalStation(stationToAdd));
+                #endregion
             }
         }
 

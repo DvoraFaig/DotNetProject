@@ -20,7 +20,22 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer newCustomer)
         {
-            DataSource.Customers.Add(newCustomer);
+            Customer customer;
+            try
+            {
+                customer = getCustomerWithSpecificCondition(c => c.Id == newCustomer.Id).First();
+                if (customer.IsActive)
+                    throw new Exceptions.ObjExistException(typeof(Customer), newCustomer.Id);
+
+                changeCustomerInfo(newCustomer);
+                throw new Exceptions.DataChanged(typeof(Customer), newCustomer.Id);
+
+            }
+
+            catch (Exception)
+            {
+                DataSource.Customers.Add(newCustomer);
+            }
         }
 
         /// <summary>

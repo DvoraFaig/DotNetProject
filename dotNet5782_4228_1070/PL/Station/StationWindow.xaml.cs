@@ -108,34 +108,36 @@ namespace PL
                 {
                     blObject.AddStation(newStation);
                 }
-                catch (Exceptions.DataOfOjectChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
+                catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
+
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
+
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
                 PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message);
             }
-            catch (ArgumentNullException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (OverflowException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("== ERROR receiving data ==\nPlease try again");
-            }
+            //catch (ArgumentNullException)
+            //{
+            //    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (FormatException)
+            //{
+            //    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (OverflowException)
+            //{
+            //    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    MessageBox.Show("== ERROR receiving data ==\nPlease try again");
+            //}
             catch (Exception)
             {
-                MessageBox.Show("Cann't add a station", "Station Error");
+                PLFuncions.messageBoxResponseFromServer("Cann't add a station", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion 
         }

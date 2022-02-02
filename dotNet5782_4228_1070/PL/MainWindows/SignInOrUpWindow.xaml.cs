@@ -96,18 +96,24 @@ namespace PL
                 };
                 customer.CustomerAsSender = new List<BO.ParcelAtCustomer>();
                 customer.CustomerAsTarget = new List<BO.ParcelAtCustomer>();
-                blObject.AddCustomer(customer);
+                try
+                {
+                    blObject.AddCustomer(customer);
+                }
+                catch (BO.Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
+
                 bool isClient = true;
                 new CustomerWindow(blObject, customer, isClient).Show();
                 this.Close();
             }
-            catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); clearFormTextBox(); }
-            catch (FormatException) { messageBoxResponseFromServer("FormatException"); clearFormTextBox(); }
-            catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
+            #region catch Exceptions
+            //catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); clearFormTextBox(); }
+            //catch (FormatException) { messageBoxResponseFromServer("FormatException"); clearFormTextBox(); }
+            //catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
             //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
             catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
             catch (Exception exception) { messageBoxResponseFromServer(exception.Message); clearFormTextBox(); }
-
+            #endregion
         }
 
         /// <summary>
