@@ -21,16 +21,16 @@ namespace PL
     /// </summary>
     public partial class SignInOrUpWindow : Window
     {
-        private BlApi.Ibl blObject;
+        private BlApi.IBl blObject;
         BO.Customer customer = new BO.Customer();
         public SignInOrUpWindow()
         {
             InitializeComponent();
-            this.blObject = BlApi.IBL.IBLFactory.Factory();
+            this.blObject = BlApi.Ibl.IBLFactory.Factory();
             //Response.Visibility = Visibility.Hidden;
         }
 
-        public SignInOrUpWindow(BlApi.Ibl blObject)
+        public SignInOrUpWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             this.blObject = blObject;

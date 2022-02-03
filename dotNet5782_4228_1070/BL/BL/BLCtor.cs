@@ -7,7 +7,7 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl, BlApi.ISimulation
+    sealed partial class BL : BlApi.IBl, BlApi.ISimulation
     {
         /// <summary>
         /// Instance of Idal interface.

@@ -9,12 +9,12 @@ namespace PO
 {
     public class Customer : DependencyObject
     {
-        public Customer(BlApi.Ibl blObject)
+        public Customer(BlApi.IBl blObject)
         {
             blObject.CustomerChangeAction += Update;
         }
 
-        public Customer(BlApi.Ibl blObject, BO.Customer c)
+        public Customer(BlApi.IBl blObject, BO.Customer c)
         {
             this.Update(c);
             blObject.CustomerChangeAction += Update;

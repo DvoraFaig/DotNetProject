@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class CustomerWindow : Window
     {
-        private BlApi.Ibl blObjectD;
+        private BlApi.IBl blObjectD;
         //BO.Customer customer;// = new Customer();
         PO.Customer currentCustomer;
         private bool updateOrAddWindow { get; set; }//true = add drone
@@ -41,7 +41,7 @@ namespace PL
         /// Ctor display the add a customer Form
         /// </summary>
         /// <param name="blObject">Instance of the interface Ibl</param>
-        public CustomerWindow(BlApi.Ibl blObject)
+        public CustomerWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -59,7 +59,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="customerInCtor">The customer to update/see info</param>
-        public CustomerWindow(BlApi.Ibl blObject, BO.Customer customerInCtor)
+        public CustomerWindow(BlApi.IBl blObject, BO.Customer customerInCtor)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -86,7 +86,7 @@ namespace PL
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="client">The customer to update/see info</param>
         /// <param name="isClient">if the user is a client or a worker</param>
-        public CustomerWindow(BlApi.Ibl blObject, BO.Customer client, bool isClient)
+        public CustomerWindow(BlApi.IBl blObject, BO.Customer client, bool isClient)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button

@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class ParcelWindow : Window
     {
-        private BlApi.Ibl blObject;
+        private BlApi.IBl blObject;
         //private BO.Parcel parcel;
         private PO.Parcel currentParcel;
         private BO.Customer clientCustomer;
@@ -50,7 +50,7 @@ namespace PL
         #endregion
 
 
-        public ParcelWindow(BlApi.Ibl blObject)
+        public ParcelWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             this.blObject = blObject;
@@ -61,7 +61,7 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
         }
-        public ParcelWindow(BlApi.Ibl blObject, int senderCustomerId)
+        public ParcelWindow(BlApi.IBl blObject, int senderCustomerId)
         {
             InitializeComponent();
             this.blObject = blObject;
@@ -89,7 +89,7 @@ namespace PL
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="parcel">The parcel to update / see info</param>
         /// <param name="cameFromPageParcelList">To know were to return back. if ture = parcelList, if false = return to a specific customer </param>
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool cameFromPageParcelList = true)
+        public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool cameFromPageParcelList = true)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -112,7 +112,7 @@ namespace PL
         /// <param name="parcel">The parcel to update / see info </param>
         /// <param name="isSender">to know to witch specific customer to return back. sender / target</param>
         /// <param name="window"></param>
-        public ParcelWindow(BlApi.Ibl blObject, Parcel parcel, bool isSender, Window window)
+        public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool isSender, Window window)
         {
             InitializeComponent();
             isClientAndNotAdmin = true;

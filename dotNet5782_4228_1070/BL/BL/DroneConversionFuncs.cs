@@ -38,9 +38,9 @@ namespace BL
             foreach (Drone drone in drones)
             {
                 if (drone.ParcelInTransfer == (null))
-                    toAdd = new DroneToList() { Id = drone.Id, Model = drone.Model, MaxWeight = drone.MaxWeight, droneStatus = drone.Status, Battery = drone.Battery, DronePosition = drone.DronePosition };
+                    toAdd = new DroneToList() { Id = drone.Id, Model = drone.Model, MaxWeight = drone.MaxWeight, Status = drone.Status, Battery = drone.Battery, DronePosition = drone.DronePosition };
                 else
-                    toAdd = new DroneToList() { Id = drone.Id, Model = drone.Model, MaxWeight = drone.MaxWeight, droneStatus = drone.Status, Battery = drone.Battery, DronePosition = drone.DronePosition, IdParcel = drone.ParcelInTransfer.Id };
+                    toAdd = new DroneToList() { Id = drone.Id, Model = drone.Model, MaxWeight = drone.MaxWeight, Status = drone.Status, Battery = drone.Battery, DronePosition = drone.DronePosition, IdParcel = drone.ParcelInTransfer.Id };
                 dronesToList.Add(toAdd);
             }
             return dronesToList;

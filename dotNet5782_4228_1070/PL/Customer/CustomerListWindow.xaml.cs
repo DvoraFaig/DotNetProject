@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class CustomerListWindow : Window
     {
-        private Ibl blObjectH;
+        private IBl blObjectH;
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -31,7 +31,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public CustomerListWindow(Ibl blObject)
+        public CustomerListWindow(IBl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;

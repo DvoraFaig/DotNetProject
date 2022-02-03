@@ -22,18 +22,18 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Ibl blObject;
+        private IBl blObject;
         public enum ShowObjects { Drone, Station };
 
         public MainWindow()
         {
             InitializeComponent();
-            blObject = BlApi.IBL.IBLFactory.Factory();
+            blObject = BlApi.Ibl.IBLFactory.Factory();
             Image img = new Image();
             img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
         }
         
-        public MainWindow(Ibl bl)
+        public MainWindow(IBl bl)
         {
             InitializeComponent();
             blObject = bl;

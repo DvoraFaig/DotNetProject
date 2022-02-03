@@ -81,20 +81,38 @@ namespace BL
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public List<StationToList> GetStationsToList()
+        public IEnumerable<StationToList> GetStationsToList()
         {
             lock (dal)
             {
                 IEnumerable<DO.Station> stations = dal.GetStations();
-                List<StationToList> stationToList = new List<StationToList>();
-                foreach (var station in stations)
-                {
-                    int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                    int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
-                    stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
-                }
-                return stationToList;
+
+                return (from s in stations
+                        select convertStationToStationToList(s));
+
+                //List<StationToList> stationToList = new List<StationToList>();
+                //foreach (var station in stations)
+                //{
+                //    int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+                //    int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
+                //    stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
+                //}
+                //return stationToList;
             }
+        }
+
+
+        private StationToList convertStationToStationToList(DO.Station station)
+        {
+            int amountDroneChargeOccupied = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
+            int amountDroneChargeAvailble = station.ChargeSlots - amountDroneChargeOccupied;
+            return new StationToList()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                DroneChargeAvailble = amountDroneChargeAvailble,
+                DroneChargeOccupied = amountDroneChargeOccupied
+            };
         }
 
         /// <summary>
@@ -107,7 +125,7 @@ namespace BL
         {
             lock (dal)
             {
-                List<StationToList> stationToList = GetStationsToList();
+                IEnumerable<StationToList> stationToList = GetStationsToList();
                 return (from station in stationToList
                         where station.DroneChargeAvailble >= amountAvilableSlots
                         select station);

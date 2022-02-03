@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class StationWindow : Window
     {
-        private BlApi.Ibl blObject;
+        private BlApi.IBl blObject;
         //BO.Station station;
         PO.Station currentStation;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
@@ -40,7 +40,7 @@ namespace PL
         /// Ctor display the add a station Form
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
-        public StationWindow(BlApi.Ibl blObject)
+        public StationWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -55,7 +55,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="station">The station to update/see info</param>
-        public StationWindow(BlApi.Ibl blObject, BO.Station station)
+        public StationWindow(BlApi.IBl blObject, BO.Station station)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button

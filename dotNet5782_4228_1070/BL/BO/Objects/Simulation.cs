@@ -9,7 +9,7 @@ using System.Threading;
 using BO;
 using static BL.BL;
 using static BO.Exceptions;
-using BlApi.IBL;
+using BlApi.Ibl;
 using DalApi;
 
 
@@ -20,7 +20,7 @@ namespace BO
         /// <summary>
         /// Instance of Ibl interface.
         /// </summary>
-        Ibl Ibl;
+        IBl Ibl;
 
         /// <summary>
         /// Instance of Idal interface.
@@ -63,11 +63,11 @@ namespace BO
         /// Ctor Simulation
         /// </summary>
         /// <param name="BL">Interface Ibl</param>
-        public Simulation(Ibl BL, Idal idal)
+        public Simulation(IBl BL, Idal idal)
         {
             this.Ibl = BL;
             this.Idal = idal;
-            this.Isimulation = BlApi.Isimulation.SimFactory.GetSimulation();
+            this.Isimulation = BlApi.Isimulation.ISimFactory.GetSimulation();
             distace = 0;
         }
 
