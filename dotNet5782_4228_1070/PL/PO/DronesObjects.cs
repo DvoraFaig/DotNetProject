@@ -222,7 +222,7 @@ namespace PO
             Model = drone.Model;
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
-            Status = drone.Status;
+            Status = drone.droneStatus;
             DronePosition = drone.DronePosition;
             IdParcel = drone.IdParcel;
         }
@@ -232,7 +232,7 @@ namespace PO
             Model = drone.Model;
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
-            Status = drone.Status;
+            Status = drone.droneStatus;
             DronePosition = drone.DronePosition;
             IdParcel = drone.IdParcel;
         }

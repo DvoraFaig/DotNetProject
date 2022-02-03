@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
+using BlApi;
 
 
 namespace PL
@@ -24,7 +25,7 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
-        private BlApi.Ibl blObject;
+        private IBl blObject;
         //BO.Drone dr;
         PO.Drone currentDrone;
         public enum DeliveryStatusAction { Available, AsignedParcel, PickedParcel, DeliveredParcel };
@@ -54,7 +55,7 @@ namespace PL
         /// Ctor display the add a drone Form.
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
-        public DroneWindow(BlApi.Ibl blObject)
+        public DroneWindow(IBl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -71,7 +72,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="drone">The drone to update/see info</param>
-        public DroneWindow(BlApi.Ibl blObject, BO.Drone drone)
+        public DroneWindow(IBl blObject, BO.Drone drone)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
