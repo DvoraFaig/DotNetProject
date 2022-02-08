@@ -22,7 +22,7 @@ namespace Dal
         /// <param name="newCustomer">customer to add.</param>
         public void AddCustomer(Customer newCustomer)
         {
-
+            newCustomer.IsActive = true;
             Customer customer;
             try
             {

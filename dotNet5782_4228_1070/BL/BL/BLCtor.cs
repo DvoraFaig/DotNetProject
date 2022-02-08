@@ -12,7 +12,7 @@ namespace BL
         /// <summary>
         /// Instance of Idal interface.
         /// </summary>
-        private readonly DalApi.Idal dal;
+        private readonly DalApi.Idal dal; //internal???
 
         /// <summary>
         /// Electicity usage of drone by weight
@@ -101,7 +101,7 @@ namespace BL
                         CurrentDrone.ParcelInTransfer.isWaiting = true;
                         CurrentDrone.DronePosition = senderPosition;//new Position() { Latitude = sender.Latitude, Longitude = sender.Longitude };
                     }
-                    CurrentDrone.Battery = calcDroneBatteryForDroneDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
+                    CurrentDrone.Battery = calcDroneBatteryDelivery(parcel, closestStationToSender, senderPosition, targetPosition);
                 }
                 #endregion
 
@@ -225,7 +225,7 @@ namespace BL
         /// <param name="senderPosition">sender position</param>
         /// <param name="targetPosition">target position</param>
         /// <returns></returns>
-        private int calcDroneBatteryForDroneDelivery(DO.Parcel parcel, DO.Station stationOfDrone, Position senderPosition, Position targetPosition)
+        private int calcDroneBatteryDelivery(DO.Parcel parcel, DO.Station stationOfDrone, Position senderPosition, Position targetPosition)
         {
             double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
             double disFromSenderToCustomer = distance(senderPosition, targetPosition);
@@ -242,40 +242,40 @@ namespace BL
             return new Random().Next((int)sumBattery, 100);
         }
 
-        /// <summary>
-        /// Find availble and closest station for drone;
-        /// </summary>
-        /// <param name="dronePosition">Current Drone position</param>
-        /// <returns></returns>
-        private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
-        {
-            IEnumerable<DO.Station> stations = dal.GetStations();
-            DO.Station availbleClosestStation = new DO.Station();
-            double dis = -1;
-            double minDis = -1;
-            int fullChargingSlots;
-            foreach (DO.Station station in stations)
-            {
-                fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
-                if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
-                {
-                    dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
-                    if (minDis == -1) //Wasn't implemted by a specific drone.
-                    {
-                        minDis = dis;
-                        availbleClosestStation = station;
-                    }
-                    else if (minDis > dis)
-                    {
-                        minDis = dis;
-                        availbleClosestStation = station;
-                    }
-                    if (minDis == 0)
-                        return availbleClosestStation;
-                }
-            }
-            return availbleClosestStation;
-        }
+        ///// <summary>
+        ///// Find availble and closest station for drone;
+        ///// </summary>
+        ///// <param name="dronePosition">Current Drone position</param>
+        ///// <returns></returns>
+        //private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
+        //{
+        //    IEnumerable<DO.Station> stations = dal.GetStations();
+        //    DO.Station availbleClosestStation = new DO.Station();
+        //    double dis = -1;
+        //    double minDis = -1;
+        //    int fullChargingSlots;
+        //    foreach (DO.Station station in stations)
+        //    {
+        //        fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
+        //        if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
+        //        {
+        //            dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
+        //            if (minDis == -1) //Wasn't implemted by a specific drone.
+        //            {
+        //                minDis = dis;
+        //                availbleClosestStation = station;
+        //            }
+        //            else if (minDis > dis)
+        //            {
+        //                minDis = dis;
+        //                availbleClosestStation = station;
+        //            }
+        //            if (minDis == 0)
+        //                return availbleClosestStation;
+        //        }
+        //    }
+        //    return availbleClosestStation;
+        //}
 
         /// <summary>
         /// find availble & closest station for drone. (occurding to distance* weight < Drone.Battery
@@ -283,17 +283,17 @@ namespace BL
         /// <param name="dronePosition">To find the distance to a station </param>
         /// <param name="droneBattery">Drone.Batter: To check if could hover to station</param>
         /// <returns></returns>
-        public DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition, double droneBattery)
+        public DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition, double droneBattery = 100)
         {
             IEnumerable<DO.Station> stations = dal.GetStations();
             DO.Station availbleClosestStation = new DO.Station();
             double dis = -1;
             double minDis = -1;
-            int fullChargingSlots;
+            int amountfullChargingSlots;
             foreach (DO.Station station in stations)
             {
-                fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
-                if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
+                amountfullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
+                if (station.ChargeSlots - amountfullChargingSlots > 0) //has empty charging slots
                 {
                     dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
                     if (droneBattery - dis * electricityUsageWhenDroneIsEmpty > 0)
@@ -375,19 +375,3 @@ namespace BL
     }
 }
 
-//using System;
-//using BlApi;
-//using DalApi;
-
-//namespace BL
-//{
-//    sealed class BL : IBL
-//    {
-//        static readonly IBL instance = new BL();
-//        public static IBL Instance { get => instance; }
-
-//        internal IDal dal = DalFactory.GetDal();
-//        BL() { }
-
-//    }
-//}

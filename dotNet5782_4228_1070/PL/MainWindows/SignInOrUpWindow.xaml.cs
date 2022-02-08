@@ -63,19 +63,18 @@ namespace PL
                 BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text), passwordBoxCustomer.Password.ToString());
                 if (client != null)
                 {
-                    messageBoxResponseFromServer("Sign in Succesfully");
+                    PLFuncions.messageBoxResponseFromServer("","Sign in Succesfully");
                     new CustomerWindow(blObject, client, true).Show();
                     this.Close();
-
                 }
                 else
                     messageBoxResponseFromServer("Please Sign in");
             }
-            catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); }
-            catch (FormatException) { messageBoxResponseFromServer("FormatException"); }
-            catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); }
-            catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
-            catch (Exception exception) { messageBoxResponseFromServer(exception.Message); }
+            catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("LogIn", "ArgumentNullException"); }
+            catch (FormatException) { PLFuncions.messageBoxResponseFromServer("LogIn", "FormatException"); }
+            catch (OverflowException) { PLFuncions.messageBoxResponseFromServer("LogIn" ,"OverflowException"); }
+            catch (BO.Exceptions.ObjNotExistException serverException) { PLFuncions.messageBoxResponseFromServer("LogIn",serverException.Message); }
+            catch (Exception exception) { PLFuncions.messageBoxResponseFromServer("LogIn", exception.Message); }
         }
 
         /// <summary>
@@ -139,14 +138,13 @@ namespace PL
                     this.Close();
                 }
                 else
-                    messageBoxResponseFromServer("Sorry...\nYou don't exist");
+                    PLFuncions.messageBoxResponseFromServer("Sign Up", "Sorry...\nYou don't exist");
             }
-            catch (ArgumentNullException) { messageBoxResponseFromServer("ArgumentNullException"); clearFormTextBox(); }
-            catch (FormatException) { messageBoxResponseFromServer("FormatException"); clearFormTextBox(); }
-            catch (OverflowException) { messageBoxResponseFromServer("OverflowException"); clearFormTextBox(); }
-            //catch (BO.Exceptions.ObjNotExistException serverException) { messageBoxResponseFromServer(serverException.Message); }
-            catch (BO.Exceptions.ObjExistException serverException) { messageBoxResponseFromServer(serverException.Message); clearFormTextBox(); }
-            catch (Exception exception) { messageBoxResponseFromServer($"{exception.Message}\nOr {passwordBox.Password.ToString()} doesn't match id: {WorkerIdTextBox.Text}." ); clearFormTextBox(); }
+            catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Sign Up", "ArgumentNullException"); clearFormTextBox(); }
+            catch (FormatException) { PLFuncions.messageBoxResponseFromServer("Sign Up", "FormatException"); clearFormTextBox(); }
+            catch (OverflowException) { PLFuncions.messageBoxResponseFromServer("Sign Up", "OverflowException"); clearFormTextBox(); }
+            catch (BO.Exceptions.ObjExistException serverException) { PLFuncions.messageBoxResponseFromServer("Sign Up", serverException.Message); clearFormTextBox(); }
+            catch (Exception exception) { PLFuncions.messageBoxResponseFromServer("Sign Up" ,$"{exception.Message}\nOr {passwordBox.Password.ToString()} doesn't match id: {WorkerIdTextBox.Text}." ); clearFormTextBox(); }
         }
 
         private void getPassword(object sender, MouseButtonEventArgs e)

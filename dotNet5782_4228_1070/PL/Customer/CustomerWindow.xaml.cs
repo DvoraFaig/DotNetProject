@@ -109,6 +109,7 @@ namespace PL
                 AddlButton.Visibility = Visibility.Visible;
                 ReturnToPageDroneListWindow.Content = "Log Out";
                 RemoveBtn.Visibility = Visibility.Hidden;
+                AddParcelButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -142,62 +143,62 @@ namespace PL
         /// <param name="e"></param>
         private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
-            if (isClient) // go to page add parcel
+            //if (isClient) // go to page add parcel
+            //{
+            //    new ParcelWindow(blObjectD, currentCustomer.Id).Show();
+            //    this.Close();
+            //}
+            //else
+            //{ // try to add a customer
+            try
             {
-                new ParcelWindow(blObjectD, currentCustomer.Id).Show();
-                this.Close();
-            }
-            else
-            { // try to add a customer
+                BO.Customer newCustomer = new BO.Customer()
+                {
+                    Id = int.Parse(IdTextBox.Text),
+                    Name = NameTextBox.Text,
+                    Phone = PhoneTextBox.Text,
+                    CustomerPosition = new BO.Position()
+                    {
+                        Latitude = int.Parse(LatitudeTextBox.Text),
+                        Longitude = int.Parse(LongitudeTextBox.Text)
+                    }
+                };
                 try
                 {
-                    BO.Customer newCustomer = new BO.Customer()
-                    {
-                        Id = int.Parse(IdTextBox.Text),
-                        Name = NameTextBox.Text,
-                        Phone = PhoneTextBox.Text,
-                        CustomerPosition = new BO.Position()
-                        {
-                            Latitude = int.Parse(LatitudeTextBox.Text),
-                            Longitude = int.Parse(LongitudeTextBox.Text)
-                        }
-                    };
-                    try
-                    {
-                        blObjectD.AddCustomer(newCustomer);
-                    }
-                    catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
-                    new CustomerListWindow(blObjectD).Show();
-                    this.Close();
+                    blObjectD.AddCustomer(newCustomer);
                 }
-
-                #region catch exeptions
-                catch (BO.Exceptions.ObjExistException e1)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", e1.Message);
-                }
-                //catch (ArgumentNullException)
-                //{
-                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                //}
-                //catch (FormatException)
-                //{
-                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                //}
-                //catch (OverflowException)
-                //{
-                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                //}
-                //catch (NullReferenceException)
-                //{
-                //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                //}
-                catch (Exception)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-                }
-                #endregion
+                catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
+                new CustomerListWindow(blObjectD).Show();
+                this.Close();
             }
+
+            #region catch exeptions
+            catch (BO.Exceptions.ObjExistException e1)
+            {
+                PLFuncions.messageBoxResponseFromServer("Add Customer", e1.Message);
+            }
+            //catch (ArgumentNullException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (FormatException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (OverflowException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+            //}
+            catch (Exception)
+            {
+                PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+            }
+            #endregion
+            ////}
         }
 
         /// <summary>
@@ -262,7 +263,7 @@ namespace PL
             if (isClient)
                 new ParcelWindow(blObjectD, parcel, true, this).Show();
             else
-                new ParcelWindow(blObjectD, parcel, false).Show();
+                new ParcelWindow(blObjectD, parcel, false , true).Show();
             this.Close();
         }
 
@@ -278,7 +279,7 @@ namespace PL
             if (isClient)
                 new ParcelWindow(blObjectD, parcel, false, this).Show();
             else
-                new ParcelWindow(blObjectD, parcel, false).Show();
+                new ParcelWindow(blObjectD, parcel, false , false).Show();
             this.Close();
         }
 
@@ -353,6 +354,17 @@ namespace PL
             {
                 PLFuncions.messageBoxResponseFromServer("Remove Customer", e1.Message);
             }
+        }
+
+        /// <summary>
+        /// Add a parcel if client.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addParcelBtnClick(object sender, RoutedEventArgs e)
+        {
+            new ParcelWindow(blObjectD, currentCustomer.Id).Show();
+            this.Close();
         }
     }
 }

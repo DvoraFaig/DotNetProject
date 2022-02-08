@@ -16,7 +16,7 @@ namespace Dal
         /// <summary>
         /// instance of DalObject and will be equal to DalApi
         /// </summary>
-        static DalObject Instance;
+        private static DalObject Instance;
         //private static DalObject Instance = null;
 
         /// <summary>
@@ -24,10 +24,11 @@ namespace Dal
         /// DalXml is supposed to be a Singelton
         /// </summary>
         private static readonly object padlock = new object();
+
         /// <summary>
         /// Ctor - calls Initialize  = Initialize info of the program
         /// </summary>
-        public DalObject()
+        private DalObject()
         {
             DataSource.Initialize();
         }

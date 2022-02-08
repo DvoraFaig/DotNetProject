@@ -50,7 +50,7 @@ namespace PL
         #endregion
 
 
-        public ParcelWindow(BlApi.IBl blObject)
+        public ParcelWindow(BlApi.IBl blObject )
         {
             InitializeComponent();
             this.blObject = blObject;
@@ -61,28 +61,27 @@ namespace PL
             visibleUpdateForm.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
         }
+
         public ParcelWindow(BlApi.IBl blObject, int senderCustomerId)
         {
             InitializeComponent();
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
             initializeDetailsAddForm();
+            currentParcel = new PO.Parcel(blObject);
             isClientAndNotAdmin = true;
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            Customer senderCustomer = blObject.GetCustomerById(senderCustomerId);
-            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(new CustomerInParcel() { Id = senderCustomer.Id, Name = senderCustomer.Name });
+            clientCustomer = blObject.GetCustomerById(senderCustomerId);
             ParcelSenderSelector.Visibility = Visibility.Hidden;
+            UpdateButton.Visibility = Visibility.Hidden;
+            senderName.Visibility = Visibility.Visible;
+            senderName.Text = $" {clientCustomer.Name}" ;
+            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(senderCustomerId);
             SenderText.Visibility = Visibility.Visible;
-            SenderText.Content = senderCustomer.Name;
+            SenderText.Content = clientCustomer.Name;
             clientIsSender = true;
             returnToParcelListWindow = false;
-            clientCustomer = senderCustomer;
-            initializeObj();
-            setBtns();
-            //initializeObjAndSetConfirm();
-            //initializeDrone();
-
         }
 
         /// <summary>
@@ -91,22 +90,24 @@ namespace PL
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="parcel">The parcel to update / see info</param>
         /// <param name="cameFromPageParcelList">To know were to return back. if ture = parcelList, if false = return to a specific customer </param>
-        public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool cameFromPageParcelList = true)
+        public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool cameFromPageParcelList, bool isSender)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
             this.blObject = blObject;
-            //this.parcel = parcel;
             currentParcel = new PO.Parcel(blObject, parcel);
             AddParcelDisplay.DataContext = currentParcel;
             returnToParcelListWindow = cameFromPageParcelList;
+            isClientAndNotAdmin = false;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             initializeObj();
-            //initializeDetailsUpdateForm();
             setBtns();
-            //initializeObjAndSetConfirm();
-            //initializeDrone();
+            clientIsSender = isSender;
+            if (isSender)
+                this.clientCustomer = blObject.GetCustomerById(currentParcel.Sender.Id);
+            else
+                this.clientCustomer = blObject.GetCustomerById(currentParcel.Target.Id);
         }
 
         /// <summary>
@@ -119,14 +120,15 @@ namespace PL
         public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool isSender, Window window)
         {
             InitializeComponent();
+            Loaded += ToolWindowLoaded; //The x button
+            this.blObject = blObject;
+            currentParcel = new PO.Parcel(blObject, parcel);
+            AddParcelDisplay.DataContext = currentParcel;
+            returnToParcelListWindow = false;
             isClientAndNotAdmin = true;
             clientIsSender = isSender;
             returnBackToUnupdateWindow = window;
-            Loaded += ToolWindowLoaded; //The x button
-            this.blObject = blObject;
             //this.parcel = parcel;
-            currentParcel = new PO.Parcel(blObject, parcel);
-            AddParcelDisplay.DataContext = currentParcel;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             if (clientIsSender)
@@ -422,17 +424,18 @@ namespace PL
             //returnBackTo.Show();
             if (isClientAndNotAdmin)
             {
-                BO.Customer customer;
+                //BO.Customer customer;
 
-                if (clientIsSender)
-                {
-                    customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
-                }
-                else
-                {
-                    customer = blObject.GetCustomerById(currentParcel.Target.Id);
-                }
-                new CustomerWindow(blObject, customer, true).Show();
+                //if (clientIsSender)
+                //{
+                //    customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
+                //}
+                //else
+                //{
+                //    customer = blObject.GetCustomerById(currentParcel.Target.Id);
+                //}
+
+                new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
             else
@@ -441,11 +444,13 @@ namespace PL
                     new ParcelListWindow_(blObject).Show();
                 else
                 {
-                    if (clientIsSender)
-                        new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
-                    else
-                        new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
+                    new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), false).Show();
+                    //if (clientIsSender)
+                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
+                    //else
+                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
                 }
+
                 this.Close();
             }
         }
@@ -531,6 +536,11 @@ namespace PL
         private void changeBackGroundExpenderExpandedDroneExpender(object sender, RoutedEventArgs e)
         {
             DroneListView.Background = Brushes.White;
+        }
+
+        private void IdText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

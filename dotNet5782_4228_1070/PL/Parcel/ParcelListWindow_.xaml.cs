@@ -123,7 +123,7 @@ namespace PL
             ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItem;
             //DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             Parcel parcel = blObject.GetParcelById(selectedParcel.Id);
-            new ParcelWindow(blObject, parcel).Show();
+            new ParcelWindow(blObject, parcel , true , false).Show();
             this.Close();
         }
 

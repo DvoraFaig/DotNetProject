@@ -55,11 +55,11 @@
                     <ColumnDefinition Width="30*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button  x:Name="GoToDroneListWindow" Content="Drone List"       Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="1" Grid.Column="1"  Click="Button_Click" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround" />
+                <Button  x:Name="GoToDroneListWindow" Content="Drone List"       Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="1" Grid.Column="1"  Click="ButtonClickDrone" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround" />
                 <Button  x:Name="GoToStationListWindow" Content="Station List"   Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="3" Grid.Column="1"  Click="ButtonClickStation" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
                 <Button  x:Name="GoToParcelListWindow" Content="Parcel List"     Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="5" Grid.Column="1"  Click="ButtonClickParcel" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
                 <Button  x:Name="GoToCustomerListWindow" Content="Customer List" Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="7" Grid.Column="1"  Click="ButtonClickCustomer" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
-                <Button  x:Name="GoToSignInWindow" Content="Log Out"             Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="9" Grid.Column="1" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
+                <Button  x:Name="GoToSignInWindow" Content="Log Out"             Background="#00000000" BorderBrush="Black" BorderThickness="3" Grid.Row="9" Grid.Column="1" Click="ButtonClickLogOut" Opacity="0.7" RenderTransformOrigin="0.459,2.418" MouseLeave="ChangeBackTheBackGround" MouseMove="ChangeBackGround"/>
             </Grid>
         </Grid>
     </Grid>

@@ -43,7 +43,9 @@ namespace BlApi
         Parcel getParcelByDrone(int droneId);
         IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority);
         IEnumerable<CustomerToList> GetCustomersToList();
-        List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
+
+        //List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
+        IEnumerable<CustomerInParcel> GetLimitedCustomersList(int customerId = 0);
         IEnumerable<Parcel> getParcels();
 
         //================

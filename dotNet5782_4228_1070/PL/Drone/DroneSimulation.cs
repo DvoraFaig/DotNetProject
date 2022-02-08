@@ -111,6 +111,7 @@ namespace PL
         public void DoWork(object
             ? sender, DoWorkEventArgs e)
         {
+            bool a = false;
             blObject.StartSimulation(
                 tempDrone,  //currentDrone.BO(),
                 (tempDrone, i, des) =>
@@ -119,7 +120,7 @@ namespace PL
                     droneCase = i;
                     droneDisFromDes = des;
                 },
-                () => worker.CancellationPending);
+                () => a = worker.CancellationPending);
         }
 
         /// <summary>
@@ -129,6 +130,8 @@ namespace PL
         /// <param name="e"></param>
         public void RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
+            worker.CancelAsync();
+
             if (isReturnBtnClick)
                 this.Close();
 

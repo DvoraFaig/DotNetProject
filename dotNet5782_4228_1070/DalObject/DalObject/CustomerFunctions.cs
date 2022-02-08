@@ -20,6 +20,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer newCustomer)
         {
+            newCustomer.IsActive = true;
             Customer customer;
             try
             {
