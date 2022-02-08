@@ -92,13 +92,14 @@ namespace Dal
                                    && s.ChargeSlots == stationToRemove.ChargeSlots
                                    && s.Latitude == stationToRemove.Latitude
                                    && s.Longitude == stationToRemove.Longitude
+                                   //&&s.IsActive 
                                    select s).First();
                 station.IsActive = false;
                 changeStationInfo(station);
             }
             catch (Exception e1)
             {
-                throw new Exceptions.NoMatchingData(typeof(Station), stationToRemove.Id, e1);
+                throw new Exceptions.ObjNotExistException(typeof(Station), stationToRemove.Id, e1);
             }
         }
 

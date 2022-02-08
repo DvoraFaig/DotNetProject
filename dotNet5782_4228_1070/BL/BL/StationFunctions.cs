@@ -38,11 +38,7 @@ namespace BL
                 }
                 catch (DO.Exceptions.DataChanged)
                 {
-                    string message = "";
-                    if (stationToAdd.StationPosition.Latitude != sToChange.Latitude || stationToAdd.StationPosition.Longitude != sToChange.Longitude)
-                        message += "Position";
-                    if (stationToAdd.DroneChargeAvailble != sToChange.ChargeSlots)
-                        message += ", Amount charge slots";
+                    string message = messageDataChanged(sToChange, stationToAdd);
                     if (message != "")
                         throw new Exceptions.DataChanged(typeof(Station), sToChange.Id, $"Data changed: {message} was changed");
                 }
@@ -50,30 +46,24 @@ namespace BL
                 {
                     throw new ObjExistException(typeof(Customer), stationToAdd.Id);
                 }
-
-                #region erase
-                //DO.Station station;
-                //try
-                //{
-                //    station = dal.getStationWithSpecificCondition(s => s.Id == stationToAdd.Id).First();
-                //    if (station.IsActive)
-                //        throw new ObjExistException(typeof(BO.Station), stationToAdd.Id);
-                //    station.IsActive = true;
-                //    dal.changeStationInfo(station); //convertBLToDalStation(stationToAdd)
-                //    string message = "";
-                //    if (stationToAdd.StationPosition.Latitude != station.Latitude || stationToAdd.StationPosition.Longitude != station.Longitude)
-                //        message += "Position";
-                //    if (stationToAdd.DroneChargeAvailble != station.ChargeSlots)
-                //        message += ", Amount charge slots";
-                //    if (message != "")
-                //        throw new Exceptions.DataChanged(typeof(Station), station.Id, $"Data changed: {message} was changed");
-                //    return;
-                //}
-                //catch (ArgumentNullException) { }
-                //catch (InvalidOperationException) { }
-                //dal.AddStation(convertBLToDalStation(stationToAdd));
-                #endregion
             }
+        }
+
+        /// <summary>
+        /// Return dif between the changed and unchanges customer
+        /// </summary>
+        /// <param name="cToChange"></param>
+        /// <param name="cWithChange"></param>
+        /// <returns></returns>
+        private string messageDataChanged(DO.Station sToChange, Station stationToAdd)
+        {
+            string message = "";
+            if (stationToAdd.StationPosition.Latitude != sToChange.Latitude || stationToAdd.StationPosition.Longitude != sToChange.Longitude)
+                message += "Position";
+            if (stationToAdd.DroneChargeAvailble != sToChange.ChargeSlots)
+                message += ", Amount charge slots";
+
+            return message;
         }
 
         /// <summary>
@@ -86,10 +76,9 @@ namespace BL
             lock (dal)
             {
                 IEnumerable<DO.Station> stations = dal.GetStations();
-
                 return (from s in stations
                         select convertStationToStationToList(s));
-
+                #region to erase
                 //List<StationToList> stationToList = new List<StationToList>();
                 //foreach (var station in stations)
                 //{
@@ -98,10 +87,15 @@ namespace BL
                 //    stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
                 //}
                 //return stationToList;
+                #endregion
             }
         }
 
-
+        /// <summary>
+        /// Convert station to stationToList
+        /// </summary>
+        /// <param name="station"></param>
+        /// <returns></returns>
         private StationToList convertStationToStationToList(DO.Station station)
         {
             int amountDroneChargeOccupied = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
@@ -155,24 +149,30 @@ namespace BL
         /// <param name="name"></param>
         /// <param name="ChargeSlots"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void changeInfoOfStation(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
+        public void changeStationInfo(int id, string name = null, int ChargeSlots = -1)//-1 is defualt value
         {
             lock (dal)
             {
                 DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == id).First();
                 if (name != null)
                     s.Name = name;
+
                 if (s.ChargeSlots <= ChargeSlots)
                     s.ChargeSlots = ChargeSlots;
+
                 if (s.ChargeSlots > ChargeSlots)
                 {
                     int amountDroneChargesFull = dal.getDroneChargeWithSpecificCondition(station => station.StationId == s.Id).Count();
                     if (amountDroneChargesFull < ChargeSlots)
                         s.ChargeSlots = ChargeSlots;
                     else
-                        throw new Exception($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
+                        throw new Exceptions.ObjNotAvailableException($"The amount Charging slots you want to change is smaller than the amount of drones that are charging now in station number {id}");
                 }
-                dal.changeStationInfo(s);
+                try
+                {
+                    dal.changeStationInfo(s);
+                }
+                catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Station), s.Id); }
             }
         }
 
@@ -182,23 +182,19 @@ namespace BL
         /// <param name="stationId">remove current station with stationId</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveStation(Station station)
-        {
+        { 
+            if (dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count() > 0)
+                throw new Exceptions.ObjNotAvailableException(typeof(Station), station.Id, "Could not be remove\nHas drones charging.");
+
             try
             {
-                if (dal.IsStationActive(station.Id))
-                    lock (dal)
-                    {
-                        dal.removeStation(convertBLToDalStation(station));
-                    }
-                else
-                    throw new Exceptions.ObjExistException(typeof(Station), station.Id, "is active");
+                //if active?
+                lock (dal)
+                    dal.removeStation(convertBLToDalStation(station));
             }
-            catch (ArgumentNullException) { }
-            catch (InvalidOperationException) { }
-            catch (DO.Exceptions.NoMatchingData e1)
-            {
-                throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
-            }
+            catch (DO.Exceptions.ObjNotExistException e1) { throw new Exceptions.ObjNotExistException(typeof(Station), station.Id, e1); }
+            catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Station), station.Id); }
+
         }
     }
 }

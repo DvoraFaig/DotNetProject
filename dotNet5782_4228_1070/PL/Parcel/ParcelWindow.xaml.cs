@@ -317,6 +317,7 @@ namespace PL
                 PLFunctions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
             }
             catch (Exceptions.ObjNotExistException) { PLFunctions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+            catch (Exceptions.ObjNotAvailableException e1) { PLFunctions.messageBoxResponseFromServer("Remove Parcel", $"{e1.Message}"); }
             catch (Exception) { PLFunctions.messageBoxResponseFromServer("Remove Parcel", $"Error\nPlease try again"); }
         }
 

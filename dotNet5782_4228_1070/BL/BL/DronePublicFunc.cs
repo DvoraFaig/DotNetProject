@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL 
+    sealed partial class BL
     {
         public Action<Drone> DroneChangeAction { get; set; }
         public Action<DroneToList, bool> DroneListChangeAction { get; set; }
@@ -36,7 +36,7 @@ namespace BL
 
             dal.AddDroneToCharge(new DO.DroneCharge() { StationId = stationId, DroneId = droneToAdd.Id });
 
-            Drone droneWithMoreInfo = createMaintenaceDroneByInfo(droneToAdd, s.Id , s.StationPosition);
+            Drone droneWithMoreInfo = createMaintenaceDroneByInfo(droneToAdd, s.Id, s.StationPosition);
 
             try
             {
@@ -47,7 +47,7 @@ namespace BL
             catch (DO.Exceptions.DataChanged)
             {
                 changeDroneInfoInDroneList(droneWithMoreInfo);
-                DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
+                DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
                 return;
             }
             catch (DO.Exceptions.ObjExistException)
@@ -55,11 +55,10 @@ namespace BL
                 throw new ObjExistException(typeof(Drone), droneToAdd.Id);
             }
             dronesList.Add(droneWithMoreInfo);
-            DroneChangeAction?.Invoke(dronesList[dronesList.Count]); 
+            DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
             return;
 
             //drone.IsActive == false : exist
-
 
             #region erase
             //////Station station = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
@@ -153,10 +152,10 @@ namespace BL
             #endregion
         }
 
+
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="stationId"></param>
-
         /// <summary>
         /// Auxiliary function for function AddDrone
         /// </summary>
@@ -164,7 +163,7 @@ namespace BL
         /// <param name="stationId">The station id for drone to charge</param>
         /// <param name="stationPos">The station position == DronePosition</param>
         /// <returns></returns>
-        private Drone createMaintenaceDroneByInfo(Drone drone , int stationId , Position stationPos)
+        private Drone createMaintenaceDroneByInfo(Drone drone, int stationId, Position stationPos)
         {
             int battery = new Random().Next(20, 40);
 
@@ -395,38 +394,27 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
+            //if (drone.Status == DroneStatus.Delivery)
+            //    throw new Exceptions.ObjNotAvailableException(typeof(Drone), drone.Id, "Drone is in delivery\nCould not be removed.");
             try
             {
-                //int index = dronesList.FindIndex(d => d.Id == drone.Id);
-                //if (index != -1)
-                //{
-                //    dronesList.RemoveAt(index);
-                //    lock (dal)
-                //    {
-                //        dal.removeDrone(index);
-                //    }
-                //}
-                if (dal.IsDroneById(drone.Id))
+                lock (dal)
                 {
-                    lock (dal)
-                    {
-                        dal.removeDrone(convertBLToDalDrone(drone));
-                    }
-                    //dronesList.Remove((Drone)drone);????
-                    int index = dronesList.FindIndex(d => d.Id == drone.Id);
-                    dronesList.RemoveAt(index);
+                    dal.removeDrone(convertBLToDalDrone(drone));
                 }
-                #region Exceptions
-                else
-                    throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
+
+                //dronesList.Remove((Drone)drone);????
+                int index = dronesList.FindIndex(d => d.Id == drone.Id);
+                dronesList.RemoveAt(index);
+                //}
+                //#region Exceptions
+                //else
+                //    throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
             }
-            catch (ArgumentNullException) { }
-            catch (InvalidOperationException) { }
-            catch (DO.Exceptions.NoMatchingData e1)
+            catch (DO.Exceptions.ObjNotExistException e1)
             {
-                throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
+                throw new Exceptions.ObjNotExistException(e1.Message);
             }
-            #endregion
         }
 
         /// <summary>

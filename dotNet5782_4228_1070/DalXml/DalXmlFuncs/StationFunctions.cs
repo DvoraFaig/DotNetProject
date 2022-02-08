@@ -95,12 +95,19 @@ namespace Dal
         /// <param name="stationToRemove">The station to remove. stationToRemove.IsActive = false</param>
         public void removeStation(Station stationToRemove)
         {
-            XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-            XElement stationXElemnt = (from s in stationRoot.Elements()
-                                       where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
-                                       select s).FirstOrDefault();
-            if (stationXElemnt != null)
-                stationXElemnt.Element("IsActive").Value = "false";
+            try
+            {
+                XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
+                XElement stationXElemnt = (from s in stationRoot.Elements()
+                                           where Convert.ToInt32(s.Element("Id").Value) == stationToRemove.Id
+                                           select s).First();
+                if (stationXElemnt != null)
+                    stationXElemnt.Element("IsActive").Value = "false";
+            }
+            catch (Exception e1)
+            {
+                throw new Exceptions.ObjNotExistException(typeof(Station), stationToRemove.Id, e1);
+            }
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);

@@ -72,7 +72,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="drone">The drone to update/see info</param>
-        public DroneWindow(IBl blObject, BO.Drone drone)
+        public DroneWindow(IBl blObject, BO.Drone drone )
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -125,7 +125,6 @@ namespace PL
             visibilityDroneBtns();
             AutomationBtn.Content = "Start Automation";
             tempDrone = currentDrone.BO();/////////////////////////////////////////////////////////////////
-
         }
 
         
@@ -452,15 +451,15 @@ namespace PL
                 blObject.RemoveDrone(currentDrone.BO());
                 this.Close();
             }
-            catch (BO.Exceptions.ObjExistException e1)
+            catch(BO.Exceptions.ObjNotExistException ee)
             {
-                PLFunctions.messageBoxResponseFromServer("Remove Drone", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Remove Drone", ee.Message);
             }
+            //catch(BO.Exceptions.ObjNotAvailableException ee1)
+            //{
+            //    PLFunctions.messageBoxResponseFromServer("Remove Drone", ee1.Message);
+            //}
         }
-
-
-
-
 
         /// <summary>
         /// worker to be used bt the simulator of drone

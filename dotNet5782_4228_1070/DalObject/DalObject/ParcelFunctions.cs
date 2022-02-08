@@ -97,7 +97,6 @@ namespace Dal
             {
                 throw new Exceptions.ObjNotExistException(typeof(Parcel), parcelToRemove.Id, e1);
             }
-            //DataSource.Parcels.Remove(parcel);
         }
 
         /// <summary>

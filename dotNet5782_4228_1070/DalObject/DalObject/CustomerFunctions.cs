@@ -99,7 +99,7 @@ namespace Dal
             }
             catch (Exception e1)
             {
-                throw new Exceptions.NoMatchingData(typeof(Customer), customerToRemove.Id, e1);
+                throw new Exceptions.ObjNotExistException(typeof(Customer), customerToRemove.Id, e1);
             }
         }
 

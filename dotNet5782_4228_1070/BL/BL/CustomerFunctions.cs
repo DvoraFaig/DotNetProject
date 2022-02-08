@@ -194,7 +194,7 @@ namespace BL
                 {
                     c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
                 }
-                catch(Exception e) { throw new Exceptions.ObjNotExistException(typeof(Customer), customerRequestedId); }
+                catch (Exception e) { throw new Exceptions.ObjNotExistException(typeof(Customer), customerRequestedId); }
 
                 if (c.IsActive == false)
                     dal.AddCustomer(c);
@@ -239,18 +239,16 @@ namespace BL
             {
                 lock (dal)
                 {
-                    Customer customer = GetCustomerById(customerId);
-                    if (dal.IsCustomerActive(customer.Id))
-                        dal.removeCustomer(convertBLToDalCustomer(customer));
-                    else
-                        throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
+                    //Customer customer = GetCustomerById(customerId);
+                    //if (dal.IsCustomerActive(customer.Id))
+                    dal.removeCustomer(dal.getCustomerWithSpecificCondition(c => c.Id == customerId).First());
+                    //else
+                    //    throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
                 }
             }
-            catch (ArgumentNullException) { }
-            catch (InvalidOperationException) { }
-            catch (DO.Exceptions.NoMatchingData e1)
+            catch (DO.Exceptions.ObjNotExistException e1)
             {
-                throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
+                throw new Exceptions.ObjNotExistException(typeof(Customer), customerId, e1);
             }
         }
     }

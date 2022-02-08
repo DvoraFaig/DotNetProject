@@ -149,21 +149,22 @@ namespace PL
 
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
         {
-
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (messageBoxClosing == MessageBoxResult.OK)
-            {
-                new StationListWindow(blObject).Show();
-                this.Close();
-            }
+            //MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            //if (messageBoxClosing == MessageBoxResult.OK)
+            //{
+            //    new StationListWindow(blObject).Show();
+            //    this.Close();
+            //}
+            new StationListWindow(blObject).Show();
+            this.Close();
         }
 
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
-            ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
-            Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
-            new DroneWindow(blObject, drone).Show();
-            this.Close();
+            ////ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
+            ////Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
+            ////new DroneWindow(blObject, drone).Show();
+            ////this.Close();
         }
 
         /// <summary>
@@ -175,14 +176,12 @@ namespace PL
         {
             try
             {
-                blObject.changeInfoOfStation(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+                blObject.changeStationInfo(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
-            catch (ArgumentNullException e1) { PLFunctions.messageBoxResponseFromServer("Change Station information", e1.Message); }
-            catch (FormatException e2) { PLFunctions.messageBoxResponseFromServer("Change Station information", e2.Message); }
-            catch (OverflowException e3) { PLFunctions.messageBoxResponseFromServer("Change Station information", e3.Message); }
-            catch (Exception) { }
+            catch (Exceptions.ObjNotAvailableException ee) { PLFunctions.messageBoxResponseFromServer("Change Station information", ee.Message); }
+            catch (Exception e1) { PLFunctions.messageBoxResponseFromServer("Change Station information", e1.Message); }
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
@@ -210,6 +209,10 @@ namespace PL
             catch (BO.Exceptions.ObjExistException e1)
             {
                 PLFunctions.messageBoxResponseFromServer("Remove Station", e1.Message);
+            }
+            catch (BO.Exceptions.ObjNotAvailableException e2)
+            {
+                PLFunctions.messageBoxResponseFromServer("Remove Station", e2.Message);
             }
         }
     }

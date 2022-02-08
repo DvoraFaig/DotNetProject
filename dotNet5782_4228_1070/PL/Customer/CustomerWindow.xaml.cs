@@ -326,7 +326,7 @@ namespace PL
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
             }
-            catch (BO.Exceptions.ObjExistException e1)
+            catch (BO.Exceptions.ObjNotExistException e1)
             {
                 PLFunctions.messageBoxResponseFromServer("Remove Customer", e1.Message);
             }

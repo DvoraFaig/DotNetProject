@@ -95,13 +95,20 @@ namespace Dal
         /// <param name="droneToRemove">The drone to remove. droneToRemove.IsActive = false</param>
         public void removeDrone(Drone droneToRemove)
         {
-            XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
-            XElement droneXElemnt = (from d in droneRoot.Elements()
-                                     where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
-                                     select d).FirstOrDefault();
+            try
+            {
+                XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+                XElement droneXElemnt = (from d in droneRoot.Elements()
+                                         where Convert.ToInt32(d.Element("Id").Value) == droneToRemove.Id
+                                         select d).FirstOrDefault();
 
-            if (droneXElemnt != null)
-                droneXElemnt.Element("IsActive").Value = "false";
+                if (droneXElemnt != null)
+                    droneXElemnt.Element("IsActive").Value = "false";
+            }
+            catch (Exception)
+            {
+                throw new Exceptions.ObjNotExistException(typeof(Drone), droneToRemove.Id);
+            }
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
@@ -116,35 +123,38 @@ namespace Dal
             //{
             //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
             //}
+
+
+            //public void removeDrone(int index)
+            //{
+            //    XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
+            //    int i = 0;
+            //    XElement droneXElemnt = (from d in droneRoot.Elements()
+            //                             where i++ == index
+            //                             select d).FirstOrDefault();
+
+            //    if (droneXElemnt != null)
+            //        droneXElemnt.Element("IsActive").Value = "false";
+
+            //    #region LoadListFromXMLSerializer
+            //    //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
+            //    //try
+            //    //{
+            //    //    Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
+            //    //    if (drone.IsActive)
+            //    //        drone.IsActive = false;
+            //    //    changeDroneInfo(drone);
+            //    //}
+            //    //catch (Exception e1)
+            //    //{
+            //    //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+            //    //}
+            //    #endregion
+            //}
             #endregion
         }
 
-        //public void removeDrone(int index)
-        //{
-        //    XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
-        //    int i = 0;
-        //    XElement droneXElemnt = (from d in droneRoot.Elements()
-        //                             where i++ == index
-        //                             select d).FirstOrDefault();
 
-        //    if (droneXElemnt != null)
-        //        droneXElemnt.Element("IsActive").Value = "false";
-
-        //    #region LoadListFromXMLSerializer
-        //    //IEnumerable<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-        //    //try
-        //    //{
-        //    //    Drone drone = getDroneWithSpecificCondition(d => d.Id == droneToRemove.Id).First();
-        //    //    if (drone.IsActive)
-        //    //        drone.IsActive = false;
-        //    //    changeDroneInfo(drone);
-        //    //}
-        //    //catch (Exception e1)
-        //    //{
-        //    //    throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
-        //    //}
-        //    #endregion
-        //}
 
 
         /// <summary>

@@ -26,7 +26,8 @@ namespace BlApi
         void RemoveStation(Station station);
         void RemoveCustomer(int customerId);
         void RemoveDrone(Drone drone);
-        void RemoveDroneCharge(int droneId);
+
+        //void RemoveDroneCharge(int droneId);
 
         //public void RemoveCustomer(Customer customer);
         //public void RemoveStation(Station station);
@@ -46,7 +47,7 @@ namespace BlApi
 
         //List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customer = null);
         IEnumerable<CustomerInParcel> GetLimitedCustomersList(int customerId = 0);
-        IEnumerable<Parcel> getParcels();
+        IEnumerable<Parcel> getParcels(); //======= to earse
 
         //================
         //  Get object
@@ -63,7 +64,7 @@ namespace BlApi
         //================
         //public void ChangeDroneModel(Drone drone);
         void ChangeDroneModel(int droneId, string newModel);
-        void changeInfoOfStation(int id, string name = null, int ChargeSlots = -1);
+        void changeStationInfo(int id, string name = null, int ChargeSlots = -1);
         //public void UpdateCustomerDetails(int id, string name = null, string phone = null);
         BO.Customer UpdateCustomerDetails(int id, string name = null, string phone = null);
         Drone SendDroneToCharge(int droneId);

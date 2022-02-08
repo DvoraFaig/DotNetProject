@@ -93,7 +93,7 @@ namespace Dal
             }
             catch (Exception e1)
             {
-                throw new Exceptions.NoMatchingData(typeof(Drone), droneToRemove.Id, e1);
+                throw new Exceptions.ObjNotExistException(typeof(Drone), droneToRemove.Id, e1);
             }
         }
 

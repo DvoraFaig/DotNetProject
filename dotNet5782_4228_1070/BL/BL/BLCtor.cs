@@ -238,7 +238,7 @@ namespace BL
                 disFromStationToSender = distance(new Position() { Latitude = stationOfDrone.Latitude, Longitude = stationOfDrone.Longitude }, senderPosition);
             }
             double sumDisForDrone = disFromStationToSender + disFromSenderToCustomer + disFromTargetTostation;
-            double sumBattery = sumDisForDrone * requestDroneElectricityUsage()[(int)parcel.Weight];
+            double sumBattery = sumDisForDrone * requestElectricity((int)parcel.Weight);//requestDroneElectricityUsage()[(int)parcel.Weight];
             return new Random().Next((int)sumBattery, 100);
         }
 
@@ -333,20 +333,20 @@ namespace BL
             return customersWithDeliveredParcels;
         }
 
-        /// <summary>
-        /// returns an array of drones' electricity usage. 
-        /// arr[] =
-        /// empty,
-        /// lightWeight,
-        /// mediumWeight,
-        /// heavyWeight,
-        /// chargingRate
-        /// </summary>
-        /// <returns></returns>
-        private double[] requestDroneElectricityUsage()
-        {
-            return dal.electricityUseByDrone();
-        }
+        ///// <summary>
+        ///// returns an array of drones' electricity usage. 
+        ///// arr[] =
+        ///// empty,
+        ///// lightWeight,
+        ///// mediumWeight,
+        ///// heavyWeight,
+        ///// chargingRate
+        ///// </summary>
+        ///// <returns></returns>
+        //private double[] requestDroneElectricityUsage()
+        //{
+        //    requestElectricity
+        //}
 
         /// <summary>
         /// Amount of power consumption of Drone
