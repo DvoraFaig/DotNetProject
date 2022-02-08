@@ -164,7 +164,7 @@ namespace PL
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Add Drone", e1.Message);
             }
             //catch (BO.Exceptions.ObjNotAvailableException ee)
             //{
@@ -188,7 +188,7 @@ namespace PL
             //}
             catch (Exception)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
+                PLFunctions.messageBoxResponseFromServer("Add Drone", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion
         }
@@ -201,7 +201,7 @@ namespace PL
         /// RestartTextBoxesAndSelectorBtnClick
         private void RestartTextBoxesAndSelectorBtnClick(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
+            PLFunctions.clearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(WeightCategories));
         }
 
@@ -250,7 +250,7 @@ namespace PL
                 //new DroneListWindow(blObjectD).Show();
                 this.Close();
             }
-            catch (InvalidOperationException exeptionInvalid) { PLFuncions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
+            catch (InvalidOperationException exeptionInvalid) { PLFunctions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
             //catch (ObjNotExistException exeptionNotExist) { PLFuncions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
         }
 
@@ -276,9 +276,9 @@ namespace PL
                     visibilityDroneBtns();
                     //ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
-                catch (BO.Exceptions.ObjNotExistException ex) { PLFuncions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
-                catch (BO.Exceptions.ObjNotAvailableException) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
-                catch (Exception) { PLFuncions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
+                catch (BO.Exceptions.ObjNotExistException ex) { PLFunctions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
+                catch (BO.Exceptions.ObjNotAvailableException) { PLFunctions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
+                catch (Exception) { PLFunctions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
             }
             else
             {
@@ -308,7 +308,7 @@ namespace PL
                 }
                 catch (Exception)
                 {
-                    PLFuncions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nCan't charge the drone\nPlease try later....");
+                    PLFunctions.messageBoxResponseFromServer("Sent Drone To Charge", "ERROR\nCan't charge the drone\nPlease try later....");
                 }
                 //}
 
@@ -374,10 +374,10 @@ namespace PL
                     //currentDrone.Update(blObject.PairParcelWithDrone(currentDrone.Id));
                 }
                 #region Exceptions
-                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
-                catch (BO.Exceptions.ObjNotAvailableException e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (BO.Exceptions.ObjNotAvailableException e2) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
                 //catch (BO.Exceptions.ObjNotAvailableException e3) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e3.Message); }
-                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                catch (Exception e2) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
                 #endregion
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[1]) // Pick Up Parcel
@@ -397,8 +397,8 @@ namespace PL
 
                 }
                 #region Exceptions 
-                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
-                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (Exception e2) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
                 #endregion
             }
             else if (contentClickedButton == deliveryButtonOptionalContent[2]) // Which Package Delivery - to delivere the package
@@ -411,8 +411,8 @@ namespace PL
                     blObject.DeliveryParcelByDrone(currentDrone.Id);
                 }
                 #region Exceptions
-                catch (BO.Exceptions.ObjNotExistException e1) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
-                catch (Exception e2) { PLFuncions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
+                catch (BO.Exceptions.ObjNotExistException e1) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e1.Message); }
+                catch (Exception e2) { PLFunctions.messageBoxResponseFromServer("Pair a Prcel With a Drone", e2.Message); }
                 #endregion
             }
             //setDeliveryBtn
@@ -425,7 +425,7 @@ namespace PL
             }
             catch (Exceptions.ObjNotExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}");
+                PLFunctions.messageBoxResponseFromServer("Send Drone To Charge", $"{e1.Message}");
                 //status = maintenace?????????????????????
             }
             //catch(BO.Exceptions.ObjNotExistException )
@@ -434,7 +434,7 @@ namespace PL
         #region TextBox OnlyNumbers PreviewKeyDown function
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
         #endregion
 
@@ -454,7 +454,7 @@ namespace PL
             }
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Remove Drone", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Remove Drone", e1.Message);
             }
         }
 

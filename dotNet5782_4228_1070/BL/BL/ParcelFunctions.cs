@@ -267,8 +267,8 @@ namespace BL
                         dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
                         ParcelChangeAction(parcel);
                     }
-                    catch (ArgumentNullException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
-                    catch (InvalidOperationException e1) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e1); }
+                    catch (Exceptions.ObjNotExistException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
+                    catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
                 }
                 else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
             }

@@ -19,7 +19,7 @@ using System.Reflection;
 
 namespace PL
 {
-    public static class PLFuncions
+    public static class PLFunctions
     {
         public static void clearFormTextBox(params TextBox[] textBoxes)
         {

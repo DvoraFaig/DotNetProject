@@ -97,13 +97,20 @@ namespace Dal
         /// <param name="parcelToRemove">remove current parcel</param>
         public void removeParcel(Parcel parcelToRemove)
         {
-            XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
-            XElement parcelXElemnt = (from p in parcelRoot.Elements()
-                                      where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
-                                      select p).FirstOrDefault();
+            try
+            {
+                XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
+                XElement parcelXElemnt = (from p in parcelRoot.Elements()
+                                          where Convert.ToInt32(p.Element("Id").Value) == parcelToRemove.Id
+                                          select p).FirstOrDefault();
 
-            if (parcelXElemnt != null)
-                parcelXElemnt.Element("IsActive").Value = "false";
+                if (parcelXElemnt != null)
+                    parcelXElemnt.Element("IsActive").Value = "false";
+            }
+            catch(Exception e1)
+            {
+                throw new Exceptions.ObjNotExistException(typeof(Parcel), parcelToRemove.Id, e1);
+            }
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);

@@ -108,7 +108,7 @@ namespace PL
                 {
                     blObject.AddStation(newStation);
                 }
-                catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
+                catch (Exceptions.DataChanged e1) { PLFunctions.messageBoxResponseFromServer("Add a Station", e1.Message); }
 
                 new StationListWindow(blObject).Show();
                 this.Close();
@@ -117,7 +117,7 @@ namespace PL
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Add a Station", e1.Message);
             }
             //catch (ArgumentNullException)
             //{
@@ -137,14 +137,14 @@ namespace PL
             //}
             catch (Exception)
             {
-                PLFuncions.messageBoxResponseFromServer("Cann't add a station", "== ERROR receiving data ==\nPlease try again");
+                PLFunctions.messageBoxResponseFromServer("Cann't add a station", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion 
         }
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
+            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
         }
 
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
@@ -179,16 +179,16 @@ namespace PL
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
-            catch (ArgumentNullException e1) { PLFuncions.messageBoxResponseFromServer("Change Station information", e1.Message); }
-            catch (FormatException e2) { PLFuncions.messageBoxResponseFromServer("Change Station information", e2.Message); }
-            catch (OverflowException e3) { PLFuncions.messageBoxResponseFromServer("Change Station information", e3.Message); }
+            catch (ArgumentNullException e1) { PLFunctions.messageBoxResponseFromServer("Change Station information", e1.Message); }
+            catch (FormatException e2) { PLFunctions.messageBoxResponseFromServer("Change Station information", e2.Message); }
+            catch (OverflowException e3) { PLFunctions.messageBoxResponseFromServer("Change Station information", e3.Message); }
             catch (Exception) { }
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
         #endregion
 
@@ -209,7 +209,7 @@ namespace PL
             }
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Remove Station", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Remove Station", e1.Message);
             }
         }
     }

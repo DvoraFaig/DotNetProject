@@ -155,7 +155,7 @@ namespace PL
         /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
     }
 }

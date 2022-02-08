@@ -95,7 +95,7 @@ namespace Dal
             }
             catch (Exception e1)
             {
-                throw new Exceptions.NoMatchingData(typeof(Parcel), parcelToRemove.Id, e1);
+                throw new Exceptions.ObjNotExistException(typeof(Parcel), parcelToRemove.Id, e1);
             }
             //DataSource.Parcels.Remove(parcel);
         }

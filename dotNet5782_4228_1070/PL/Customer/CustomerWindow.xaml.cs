@@ -48,10 +48,9 @@ namespace PL
             blObjectD = blObject;
             currentCustomer = new PO.Customer(blObject);
             updateOrAddWindow = true;
-            PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
+            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
-            //AddOrUpdateCustomer.Height = 400;
         }
 
         /// <summary>
@@ -143,13 +142,6 @@ namespace PL
         /// <param name="e"></param>
         private void addCustomerBtnClick(object sender, RoutedEventArgs e)
         {
-            //if (isClient) // go to page add parcel
-            //{
-            //    new ParcelWindow(blObjectD, currentCustomer.Id).Show();
-            //    this.Close();
-            //}
-            //else
-            //{ // try to add a customer
             try
             {
                 BO.Customer newCustomer = new BO.Customer()
@@ -163,11 +155,12 @@ namespace PL
                         Longitude = int.Parse(LongitudeTextBox.Text)
                     }
                 };
+
                 try
                 {
                     blObjectD.AddCustomer(newCustomer);
                 }
-                catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
+                catch (Exceptions.DataChanged e1) { PLFunctions.messageBoxResponseFromServer("Add a Customer", $"Customer was added successfully\n{e1.Message}"); }
                 new CustomerListWindow(blObjectD).Show();
                 this.Close();
             }
@@ -175,30 +168,13 @@ namespace PL
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Customer", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Add Customer", e1.Message);
             }
-            //catch (ArgumentNullException)
-            //{
-            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-            //}
-            //catch (FormatException)
-            //{
-            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-            //}
-            //catch (OverflowException)
-            //{
-            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-            //}
-            //catch (NullReferenceException)
-            //{
-            //    PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
-            //}
             catch (Exception)
             {
-                PLFuncions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
+                PLFunctions.messageBoxResponseFromServer("Add Customer", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion
-            ////}
         }
 
         /// <summary>
@@ -208,7 +184,7 @@ namespace PL
         /// <param name="e"></param>
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
+            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
         }
 
         /// <summary>
@@ -290,7 +266,7 @@ namespace PL
         /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
 
         /// <summary>
@@ -352,7 +328,7 @@ namespace PL
             }
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Remove Customer", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Remove Customer", e1.Message);
             }
         }
 

@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BO;
-
 
 namespace PL
 {
@@ -22,7 +13,6 @@ namespace PL
     public partial class ParcelWindow : Window
     {
         private BlApi.IBl blObject;
-        //private BO.Parcel parcel;
         private PO.Parcel currentParcel;
         private BO.Customer clientCustomer;
         private bool isClientAndNotAdmin = false;
@@ -30,9 +20,6 @@ namespace PL
         private bool returnToParcelListWindow = false;
         private Window returnBackToUnupdateWindow;
         private bool customerUpdateHisParcel = false;
-        private BO.Customer parcelSender;
-        private BO.Customer parcelTarget;
-        private BO.Drone parcelDrone;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -49,12 +36,11 @@ namespace PL
         }
         #endregion
 
-
-        public ParcelWindow(BlApi.IBl blObject )
+        public ParcelWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             this.blObject = blObject;
-            Loaded += ToolWindowLoaded;//The x button
+            Loaded += ToolWindowLoaded;
             initializeDetailsAddForm();
             currentParcel = new PO.Parcel(blObject);
             visibleAddForm.Visibility = Visibility.Visible;
@@ -76,7 +62,7 @@ namespace PL
             ParcelSenderSelector.Visibility = Visibility.Hidden;
             UpdateButton.Visibility = Visibility.Hidden;
             senderName.Visibility = Visibility.Visible;
-            senderName.Text = $" {clientCustomer.Name}" ;
+            senderName.Text = $" {clientCustomer.Name}";
             ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(senderCustomerId);
             SenderText.Visibility = Visibility.Visible;
             SenderText.Content = clientCustomer.Name;
@@ -92,22 +78,22 @@ namespace PL
         /// <param name="cameFromPageParcelList">To know were to return back. if ture = parcelList, if false = return to a specific customer </param>
         public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool cameFromPageParcelList, bool isSender)
         {
-            InitializeComponent();
-            Loaded += ToolWindowLoaded;//The x button
-            this.blObject = blObject;
-            currentParcel = new PO.Parcel(blObject, parcel);
-            AddParcelDisplay.DataContext = currentParcel;
+            #region = initializeUpdate
+            //InitializeComponent();
+            //Loaded += ToolWindowLoaded;//The x button
+            //this.blObject = blObject;
+            //currentParcel = new PO.Parcel(blObject, parcel);
+            //AddParcelDisplay.DataContext = currentParcel;
+            //isClientAndNotAdmin = false;
+            //visibleAddForm.Visibility = Visibility.Hidden;
+            //visibleUpdateForm.Visibility = Visibility.Visible;
+            //clientIsSender = isSender;
+            //initializeCustomers(isSender);
+            //setBtns();
+            #endregion
+
+            initializeUpdate(blObject, parcel, isSender);
             returnToParcelListWindow = cameFromPageParcelList;
-            isClientAndNotAdmin = false;
-            visibleAddForm.Visibility = Visibility.Hidden;
-            visibleUpdateForm.Visibility = Visibility.Visible;
-            initializeObj();
-            setBtns();
-            clientIsSender = isSender;
-            if (isSender)
-                this.clientCustomer = blObject.GetCustomerById(currentParcel.Sender.Id);
-            else
-                this.clientCustomer = blObject.GetCustomerById(currentParcel.Target.Id);
         }
 
         /// <summary>
@@ -119,25 +105,28 @@ namespace PL
         /// <param name="window"></param>
         public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool isSender, Window window)
         {
-            InitializeComponent();
-            Loaded += ToolWindowLoaded; //The x button
-            this.blObject = blObject;
-            currentParcel = new PO.Parcel(blObject, parcel);
-            AddParcelDisplay.DataContext = currentParcel;
-            returnToParcelListWindow = false;
+            #region = initializeUpdate
+            //InitializeComponent();
+            //Loaded += ToolWindowLoaded; //The x button
+            //this.blObject = blObject;
+            //currentParcel = new PO.Parcel(blObject, parcel);
+            //AddParcelDisplay.DataContext = currentParcel;
+            //returnToParcelListWindow = false;
+            //visibleAddForm.Visibility = Visibility.Hidden;
+            //visibleUpdateForm.Visibility = Visibility.Visible;
+            //clientIsSender = isSender;
+            //initializeCustomers(clientIsSender);
+            //setBtns();
+            #endregion
+
+            initializeUpdate(blObject, parcel, isSender);
+
             isClientAndNotAdmin = true;
-            clientIsSender = isSender;
             returnBackToUnupdateWindow = window;
-            //this.parcel = parcel;
-            visibleAddForm.Visibility = Visibility.Hidden;
-            visibleUpdateForm.Visibility = Visibility.Visible;
-            if (clientIsSender)
-                this.clientCustomer = blObject.GetCustomerById(currentParcel.Sender.Id);
-            else
-                this.clientCustomer = blObject.GetCustomerById(currentParcel.Target.Id);
+
+            #region erase
             //initializeDetailsUpdateForm();
-            initializeObj();
-            setBtns();
+            //initializeObj();
             //if (isClientAndNotAdmin)
             //{
             //    if (currentParcel.Drone != null) // parcel was schedualed
@@ -147,8 +136,45 @@ namespace PL
             //}
             //initializeObjAndSetConfirm();
             //initializeDrone();
+            #endregion
         }
 
+        /// <summary>
+        /// Initialize update details
+        /// </summary>
+        /// <param name="blObject"></param>
+        /// <param name="parcel"></param>
+        /// <param name="isSender"></param>
+        private void initializeUpdate(BlApi.IBl blObject, Parcel parcel, bool isSender)
+        {
+            InitializeComponent();
+            Loaded += ToolWindowLoaded; //The x button
+            this.blObject = blObject;
+            currentParcel = new PO.Parcel(blObject, parcel);
+            AddParcelDisplay.DataContext = currentParcel;
+            returnToParcelListWindow = false;
+            visibleAddForm.Visibility = Visibility.Hidden;
+            visibleUpdateForm.Visibility = Visibility.Visible;
+            clientIsSender = isSender;
+            initializeCustomer(clientIsSender);
+            setBtns();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isSender"></param>
+        private void initializeCustomer(bool isSender)
+        {
+            if (isSender)
+                this.clientCustomer = blObject.GetCustomerById(currentParcel.Sender.Id);
+            else
+                this.clientCustomer = blObject.GetCustomerById(currentParcel.Target.Id);
+        }
+
+        /// <summary>
+        /// Set buttons
+        /// </summary>
         private void setBtns()
         {
             if (currentParcel.Scheduled != null)
@@ -159,19 +185,13 @@ namespace PL
             setRemoveBtn();
         }
 
-        private void initializeObj()
-        {
-            parcelSender = blObject.GetCustomerById(currentParcel.Sender.Id);
-            parcelTarget = blObject.GetCustomerById(currentParcel.Target.Id);
-            if (currentParcel.Drone != null)
-                parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
-        }
 
         private void initializeDrone()
         {
+            BO.Drone parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
             if (currentParcel.Drone != null && parcelDrone != null)
             {
-                if ((currentParcel.PickUp != null && currentParcel.Delivered == null) && isClientAndNotAdmin 
+                if ((currentParcel.PickUp != null && currentParcel.Delivered == null) && isClientAndNotAdmin
                     || !isClientAndNotAdmin)
                 {
                     List<BO.Drone> droneOfParcel = new List<BO.Drone>();
@@ -181,11 +201,15 @@ namespace PL
                     return;
                 }
             }
+
             ExpenderDroneObj.Visibility = Visibility.Hidden;
             DroneText.Visibility = Visibility.Visible;
             //DroneText.Content = $"{currentParcel.Drone.ToString()}";
         }
 
+        /// <summary>
+        /// Set remove Btn
+        /// </summary>
         private void setRemoveBtn()
         {
             if (!clientIsSender && isClientAndNotAdmin) //Admin could remove a parcel? isClientAndNotAdmin
@@ -212,6 +236,10 @@ namespace PL
 
         private void setConfirmBtn()
         {
+            BO.Customer parcelSender = blObject.GetCustomerById(currentParcel.Sender.Id);
+            BO.Customer parcelTarget = blObject.GetCustomerById(currentParcel.Target.Id);
+            BO.Drone parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
+
             if (currentParcel.Requeasted != null)
             {
                 ConfirmButton.Visibility = Visibility.Hidden;
@@ -246,29 +274,6 @@ namespace PL
         }
 
 
-        /// <summary>
-        /// initialize update form details of parcels' textBoxes.
-        /// </summary>
-        private void initializeDetailsUpdateForm()
-        {
-            /*IdText.Text = $"{parcel.Id}";
-            SenderText.Content = parcel.Sender;
-            TargetText.Content = parcel.Target;
-            WeightText.Text = $"{parcel.Weight}";
-            PriorityText.Text = $"{parcel.Priority}";*/
-            if (currentParcel.Drone == null) //DroneText.Content = $"{parcel.Drone.Id}";
-            {
-
-                //DroneText.Content = "No Drone";
-                DroneText.IsEnabled = false;
-            }
-            /*if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
-            else
-            {
-                DroneText.Content = "No Drone";
-                DroneText.IsEnabled = false;
-            }*/
-        }
 
         /// <summary>
         /// initialize add form details of parcels' textBoxes.
@@ -291,43 +296,29 @@ namespace PL
         /// <param name="e"></param>
         private void removeParcelBtnClick(object sender, RoutedEventArgs e)
         {
+            if (!clientIsSender && isClientAndNotAdmin)
+                return;
+
             try
             {
-                if (!clientIsSender)//////
-                    return;
-                try
-                {
-                    blObject.RemoveParcel(currentParcel.Id);
-                    customerUpdateHisParcel = true;
-                }
-                catch (ArgumentNullException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
-                catch (InvalidOperationException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
-                catch (Exceptions.ObjNotExistException) { PLFuncions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+                blObject.RemoveParcel(currentParcel.Id);
+                customerUpdateHisParcel = true;
 
-                if (isClientAndNotAdmin && !customerUpdateHisParcel)//if customer der=tailes are not updated. return to the window(without creating a new window).
-                    returnBackToUnupdateWindow.Show();
-                else if (isClientAndNotAdmin)
-                    new CustomerWindow(blObject, clientCustomer, true).Show();
-                else
+                if (returnToParcelListWindow)
                     new ParcelListWindow_(blObject).Show();
-                this.Close();
-                PLFuncions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
-            }
-            catch (Exceptions.ObjNotAvailableException ex)
-            {
-                PLFuncions.messageBoxResponseFromServer("Remove Parcel", ex.Message);
-            }
-        }
 
-        ///// <summary>
-        ///// Message from the server. like errors
-        ///// </summary>
-        ///// <param name="header">the name of the header of the messageBox</param>
-        ///// <param name="message">The message</param>
-        //private void messageBoxResponseFromServer(String header,String message)
-        //{
-        //    MessageBox.Show(header , message);
-        //}
+                else if (isClientAndNotAdmin && !customerUpdateHisParcel)
+                    returnBackToUnupdateWindow.Show();
+
+                else //if (isClientAndNotAdmin)
+                    new CustomerWindow(blObject, clientCustomer, true).Show();
+
+                this.Close();
+                PLFunctions.messageBoxResponseFromServer("Parcel Remove", "Parcel was removed succesfully");
+            }
+            catch (Exceptions.ObjNotExistException) { PLFunctions.messageBoxResponseFromServer("Remove Parcel", $"The requested parcel with id {currentParcel.Id} wasn't found"); }
+            catch (Exception) { PLFunctions.messageBoxResponseFromServer("Remove Parcel", $"Error\nPlease try again"); }
+        }
 
         /// <summary>
         /// 
@@ -360,42 +351,15 @@ namespace PL
                         this.Close();
                     }
                 }
+
                 #region Exceptions
-                catch (BO.Exceptions.ObjNotAvailableException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                catch (BO.Exceptions.ObjNotExistException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                catch (BO.Exceptions.ObjExistException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data or enter a different Id ==\nPlease try again");
-                }
-                catch (ArgumentNullException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (FormatException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (OverflowException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-                }
-                catch (NullReferenceException)
-                {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
-                }
                 catch (Exception)
                 {
-                    PLFuncions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
+                    PLFunctions.messageBoxResponseFromServer("Add Parcel", "== ERROR receiving data ==\nPlease try again");
                 }
                 #endregion
             }
-            else PLFuncions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
+            else PLFunctions.messageBoxResponseFromServer("Add a parcel", "Missinig Details");
         }
 
         /// <summary>
@@ -507,12 +471,12 @@ namespace PL
             ///setConfirmBtn
             if (ConfirmButton.Content == "Confirm pickUp")
             {
-                blObject.DronePicksUpParcel(parcelDrone.Id); //currentParcel.Drone.Id;
+                blObject.DronePicksUpParcel(currentParcel.Drone.Id); //currentParcel.Drone.Id;
             }
             //takes time from pick up to delivery.
             else if (ConfirmButton.Content == "Confirm delivery")
             {
-                blObject.DeliveryParcelByDrone(parcelDrone.Id);
+                blObject.DeliveryParcelByDrone(currentParcel.Drone.Id);
             }
             setConfirmBtn();
         }
@@ -538,9 +502,39 @@ namespace PL
             DroneListView.Background = Brushes.White;
         }
 
-        private void IdText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
+
+
+///// <summary>
+///// initialize update form details of parcels' textBoxes.
+///// </summary>
+//private void initializeDetailsUpdateForm()
+//{
+//    /*IdText.Text = $"{parcel.Id}";
+//    SenderText.Content = parcel.Sender;
+//    TargetText.Content = parcel.Target;
+//    WeightText.Text = $"{parcel.Weight}";
+//    PriorityText.Text = $"{parcel.Priority}";*/
+//    if (currentParcel.Drone == null) //DroneText.Content = $"{parcel.Drone.Id}";
+//    {
+
+//        //DroneText.Content = "No Drone";
+//        DroneText.IsEnabled = false;
+//    }
+//    /*if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
+//    else
+//    {
+//        DroneText.Content = "No Drone";
+//        DroneText.IsEnabled = false;
+//    }*/
+//}
+
+
+//private void initializeObj()
+//{
+//    //parcelSender = blObject.GetCustomerById(currentParcel.Sender.Id);
+//    //parcelTarget = blObject.GetCustomerById(currentParcel.Target.Id);
+//    //if (currentParcel.Drone != null)
+//    //    parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
+//}

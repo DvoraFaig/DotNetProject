@@ -100,7 +100,6 @@ namespace PL
             worker.WorkerSupportsCancellation = true;
             worker.RunWorkerAsync(worker);
             worker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
-
         }
 
         /// <summary>
@@ -111,7 +110,6 @@ namespace PL
         public void DoWork(object
             ? sender, DoWorkEventArgs e)
         {
-            bool a = false;
             blObject.StartSimulation(
                 tempDrone,  //currentDrone.BO(),
                 (tempDrone, i, des) =>
@@ -120,7 +118,7 @@ namespace PL
                     droneCase = i;
                     droneDisFromDes = des;
                 },
-                () => a = worker.CancellationPending);
+                () => worker.CancellationPending);
         }
 
         /// <summary>
@@ -190,6 +188,10 @@ namespace PL
                 case DroneStatusInSim.HideTextBlock:
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     DisDroneFromDes.Visibility = Visibility.Hidden;
+                    break;
+                case DroneStatusInSim.completeSim:
+                    //RunWorkerCompleted(sender, null);
+                    worker.CancelAsync();
                     break;
                 default:
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;

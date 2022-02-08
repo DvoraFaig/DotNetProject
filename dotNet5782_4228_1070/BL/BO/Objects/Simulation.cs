@@ -154,9 +154,15 @@ namespace BO
                 {
                     int amountParcelToDelivery = Idal.getParcelWithSpecificCondition(p => p.Delivered == null).Count();
                     if (amountParcelToDelivery == 0 || drone.Battery == 100)
-                        //needToStop(true); ?????????????????????????????????????????????????????????????
-                    sendDroneToCharge(updateDrone, drone);
-                    DroneStatusMaintenance(updateDrone, drone);
+                    {
+                        updateDrone(drone, DroneStatusInSim.completeSim, 0);
+                        needToStop();
+                    }
+                    else
+                    {
+                        sendDroneToCharge(updateDrone, drone);
+                        DroneStatusMaintenance(updateDrone, drone);
+                    }
                     //BL.SendDroneToCharge(drone);
                     //drone.Status = BO.DroneStatus.Maintenance;
                     //updateDrone(drone, (int)DroneStatus.NotEnoughBatteryForDelivery, distace);
