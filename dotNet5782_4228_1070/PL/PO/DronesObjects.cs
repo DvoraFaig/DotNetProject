@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlApi;
-using BO;
 using System.Windows;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -13,7 +12,7 @@ namespace PO
 {
     public class Drones : DependencyObject
     {
-        public Drones(BlApi.Ibl blObject)
+        public Drones(BlApi.IBl blObject)
         {
             DroneList = new ObservableCollection<DroneToList>();
             blObject.DroneListChangeAction += Update;
@@ -71,9 +70,7 @@ namespace PO
     //[Serializable]
     public class Drone : DependencyObject //, ICloneable
     {
-
-
-        public Drone(BlApi.Ibl blObject, BO.Drone d)
+        public Drone(BlApi.IBl blObject, BO.Drone d)
         {
             Id = d.Id;
             Model = d.Model;
@@ -87,7 +84,7 @@ namespace PO
         }
 
 
-        public Drone(BlApi.Ibl blObject)
+        public Drone(BlApi.IBl blObject)
         {
             //Id = -1;
             //MaxWeight = Enum.GetValues(typeof(DO.WeightCategories));
@@ -171,9 +168,9 @@ namespace PO
             get { return (double)GetValue(BatteryProperty); }
             set { SetValue(BatteryProperty, value); }
         }
-        public DroneStatus Status
+        public BO.DroneStatus Status
         {
-            get { return (DroneStatus)GetValue(StatusProperty); }
+            get { return (BO.DroneStatus)GetValue(StatusProperty); }
             set { SetValue(StatusProperty, value); }
         } //DroneStatus ?? the same name
         public BO.ParcelInTransfer ParcelInTransfer
@@ -245,7 +242,7 @@ namespace PO
             Model = drone.Model;
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
-            droneStatus = drone.droneStatus;
+            Status = drone.droneStatus;
             DronePosition = drone.DronePosition;
             IdParcel = drone.IdParcel;
         }
@@ -270,12 +267,12 @@ namespace PO
             get { return (double)GetValue(BatteryProperty); }
             set { SetValue(BatteryProperty, value); }
         }
-        public DroneStatus droneStatus
+        public BO.DroneStatus Status
         {
-            get { return (DroneStatus)GetValue(droneStatusProperty); }
+            get { return (BO.DroneStatus)GetValue(droneStatusProperty); }
             set { SetValue(droneStatusProperty, value); }
         }
-        public Position DronePosition
+        public BO.Position DronePosition
         {
             //get; set;
             get { return (Position)GetValue(DronePositionProperty); }
@@ -300,7 +297,7 @@ namespace PO
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty MaxWeightProperty = DependencyProperty.Register("MaxWeight", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty BatteryProperty = DependencyProperty.Register("Battery", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
-        public static readonly DependencyProperty droneStatusProperty = DependencyProperty.Register("droneStatus", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
+        public static readonly DependencyProperty droneStatusProperty = DependencyProperty.Register("Status", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty DronePositionProperty = DependencyProperty.Register("DronePosition", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty IdParcelProperty = DependencyProperty.Register("IdParcel", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
 
@@ -318,7 +315,7 @@ namespace PO
     {
         public int Id { get; set; }
         public double Battery { get; set; }
-        public Position droneWithParcel { get; set; }
+        public BO.Position droneWithParcel { get; set; }
         public override string ToString()
         {
             return ($"id: {Id} , battery: {Battery},\n\tdrone position: {droneWithParcel} \n");

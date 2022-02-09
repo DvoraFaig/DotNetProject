@@ -10,12 +10,12 @@ namespace PO
 {
     public class Parcel : DependencyObject
     {
-        public Parcel(BlApi.Ibl blObject)
+        public Parcel(BlApi.IBl blObject)
         {
             blObject.ParcelChangeAction += Update;
         }
 
-        public Parcel(BlApi.Ibl blObject, BO.Parcel p)
+        public Parcel(BlApi.IBl blObject, BO.Parcel p)
         {
             Id = p.Id;
             Sender = p.Sender;

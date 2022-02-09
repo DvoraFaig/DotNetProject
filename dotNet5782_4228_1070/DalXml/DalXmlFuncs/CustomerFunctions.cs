@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public sealed partial class DalXml : DalApi.Idal
+    public sealed partial class DalXml : DalApi.IDal
     {
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Dal
         /// <param name="newCustomer">customer to add.</param>
         public void AddCustomer(Customer newCustomer)
         {
-
+            newCustomer.IsActive = true;
             Customer customer;
             try
             {
@@ -95,12 +95,19 @@ namespace Dal
         /// <param name="customerToRemove">The customer to remove. customerToRemove.IsActive = false</param>
         public void removeCustomer(Customer customerToRemove)
         {
-            XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
-            XElement customerXElemnt = (from c in customerRoot.Elements()
-                                        where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
-                                        select c).FirstOrDefault();
-            if (customerXElemnt != null)
-                customerXElemnt.Element("IsActive").Value = "false";
+            try
+            {
+                XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
+                XElement customerXElemnt = (from c in customerRoot.Elements()
+                                            where Convert.ToInt32(c.Element("Id").Value) == customerToRemove.Id
+                                            select c).FirstOrDefault();
+                if (customerXElemnt != null)
+                    customerXElemnt.Element("IsActive").Value = "false";
+            }
+            catch(Exceptions.ObjNotExistException)
+            {
+                throw new Exceptions.ObjNotExistException(typeof(Customer), customerToRemove.Id);
+            }
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);

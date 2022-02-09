@@ -7,7 +7,7 @@ using DO;
 
 namespace DalApi
 {
-    public interface Idal
+    public interface IDal
     {
         //===============
         //Add functions//
@@ -16,7 +16,7 @@ namespace DalApi
         void AddStation(Station s);
         void AddCustomer(Customer c);
         void AddParcel(Parcel parcel);
-        void AddDroneToCharge(DroneCharge parcel);
+        void AddDroneToCharge(DroneCharge droneCharge);
 
         //==================
         //Remove functions
@@ -24,7 +24,6 @@ namespace DalApi
         public void removeStation(Station stationToRemove);
         public void removeCustomer(Customer customerToRemove);
         public void removeDrone(Drone droneToRemove);
-        //public void removeDrone(int index);
         public void removeParcel(Parcel parcel);
         public void removeDroneChargeByDroneId(int droneId);
 
@@ -37,7 +36,7 @@ namespace DalApi
         IEnumerable<Station> GetStations();
         IEnumerable<Drone> GetDrones();
         IEnumerable<Parcel> GetParcels();
-        IEnumerable<DroneCharge> GetDroneCharges();
+        IEnumerable<DroneCharge> GetDroneCharges(); //==== to erase
         IEnumerable<Customer> GetCustomers();
 
         //==================
@@ -48,6 +47,9 @@ namespace DalApi
         void changeDroneInfo(Drone d);
         void changeCustomerInfo(Customer c);
 
+
+        //========================================================================================
+        //Could erase - no use!!
         //======================
         //check if object exist
         //======================
@@ -57,15 +59,14 @@ namespace DalApi
         public Boolean IsStationById(int id);
         public Boolean IsDroneChargeById(int id);
 
-
-
-
         //================================
         //check if object exsist & active
         //================================
         public Boolean IsStationActive(int requestedId);
         public Boolean IsCustomerActive(int requestedId);
         public Boolean IsDroneActive(int requestedId);
+        //========================================================================================
+        //========================================================================================
 
         //======================
         //Get Object/s with specific condition = Predicate

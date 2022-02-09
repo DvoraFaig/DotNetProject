@@ -6,7 +6,7 @@ using BO;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
 
         /// <summary>

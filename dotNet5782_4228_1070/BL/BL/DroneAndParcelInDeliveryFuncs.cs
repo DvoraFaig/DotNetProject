@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
         /// <summary>
         /// Find a parcel to delivery for drone.
@@ -152,7 +152,7 @@ namespace BL
         /// <returns></returns>
         private DroneInParcel createDroneInParcel(DO.Parcel p, int droneId)
         {
-            Drone d = getDroneByIdFromDronesList(droneId);
+            Drone d = GetDroneById(droneId);
             return new DroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
     }

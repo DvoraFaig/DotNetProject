@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class StationWindow : Window
     {
-        private BlApi.Ibl blObject;
+        private BlApi.IBl blObject;
         //BO.Station station;
         PO.Station currentStation;
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
@@ -40,7 +40,7 @@ namespace PL
         /// Ctor display the add a station Form
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
-        public StationWindow(BlApi.Ibl blObject)
+        public StationWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded;//The x button
@@ -55,7 +55,7 @@ namespace PL
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="station">The station to update/see info</param>
-        public StationWindow(BlApi.Ibl blObject, BO.Station station)
+        public StationWindow(BlApi.IBl blObject, BO.Station station)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -108,7 +108,7 @@ namespace PL
                 {
                     blObject.AddStation(newStation);
                 }
-                catch (Exceptions.DataChanged e1) { PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message); }
+                catch (Exceptions.DataChanged e1) { PLFunctions.messageBoxResponseFromServer("Add a Station", e1.Message); }
 
                 new StationListWindow(blObject).Show();
                 this.Close();
@@ -117,7 +117,7 @@ namespace PL
             #region catch exeptions
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Add a Station", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Add a Station", e1.Message);
             }
             //catch (ArgumentNullException)
             //{
@@ -137,33 +137,34 @@ namespace PL
             //}
             catch (Exception)
             {
-                PLFuncions.messageBoxResponseFromServer("Cann't add a station", "== ERROR receiving data ==\nPlease try again");
+                PLFunctions.messageBoxResponseFromServer("Cann't add a station", "== ERROR receiving data ==\nPlease try again");
             }
             #endregion 
         }
 
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFuncions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
+            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
         }
 
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
         {
-
-            MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (messageBoxClosing == MessageBoxResult.OK)
-            {
-                new StationListWindow(blObject).Show();
-                this.Close();
-            }
+            //MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            //if (messageBoxClosing == MessageBoxResult.OK)
+            //{
+            //    new StationListWindow(blObject).Show();
+            //    this.Close();
+            //}
+            new StationListWindow(blObject).Show();
+            this.Close();
         }
 
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
-            ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
-            Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
-            new DroneWindow(blObject, drone).Show();
-            this.Close();
+            ////ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
+            ////Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
+            ////new DroneWindow(blObject, drone).Show();
+            ////this.Close();
         }
 
         /// <summary>
@@ -175,20 +176,18 @@ namespace PL
         {
             try
             {
-                blObject.changeInfoOfStation(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
+                blObject.changeStationInfo(currentStation.Id, NameTextBox.Text, int.Parse(ChargingSlotsAvailbleTextBox.Text));
                 new StationListWindow(blObject).Show();
                 this.Close();
             }
-            catch (ArgumentNullException e1) { PLFuncions.messageBoxResponseFromServer("Change Station information", e1.Message); }
-            catch (FormatException e2) { PLFuncions.messageBoxResponseFromServer("Change Station information", e2.Message); }
-            catch (OverflowException e3) { PLFuncions.messageBoxResponseFromServer("Change Station information", e3.Message); }
-            catch (Exception) { }
+            catch (Exceptions.ObjNotAvailableException ee) { PLFunctions.messageBoxResponseFromServer("Change Station information", ee.Message); }
+            catch (Exception e1) { PLFunctions.messageBoxResponseFromServer("Change Station information", e1.Message); }
         }
 
         #region TextBox OnlyNumbers PreviewKeyDown function
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            PLFuncions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
         }
         #endregion
 
@@ -209,7 +208,11 @@ namespace PL
             }
             catch (BO.Exceptions.ObjExistException e1)
             {
-                PLFuncions.messageBoxResponseFromServer("Remove Station", e1.Message);
+                PLFunctions.messageBoxResponseFromServer("Remove Station", e1.Message);
+            }
+            catch (BO.Exceptions.ObjNotAvailableException e2)
+            {
+                PLFunctions.messageBoxResponseFromServer("Remove Station", e2.Message);
             }
         }
     }

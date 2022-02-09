@@ -3,8 +3,7 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
-//using IDal.DO;
-//using DalObject;
+//using DO;
 
 
 
@@ -17,8 +16,13 @@
 //    class main
 //    {
 //        Random r = new Random();
-//        static DalObject.DalObject dalObject;
-//        //IDal dalObj = new DalObject.DalObject;
+
+//        /// <summary>
+//        /// Instance of Idal interface.
+//        /// </summary>
+//        static DalApi.Idal dal ;
+
+//        //public static void initializ() => dal = DalApi.DalFactory.factory();
 
 //        /// <summary>
 //        /// The user chooses what to do with the objects:
@@ -27,7 +31,7 @@
 //        /// <param name="args"></param>
 //        static void Main(string[] args)
 //        {
-//            dalObject = new DalObject.DalObject();
+//            dal = DalApi.DalFactory.factory();
 //            Choices choice; //defaualt 0
 //            do
 //            {
@@ -40,7 +44,7 @@
 //                {
 //                    choice = (Choices)(-1);
 //                }
-                
+
 //                switch (choice)
 //                {
 //                    case Choices.Add:
@@ -63,6 +67,7 @@
 //                }
 //            } while ((int)choice != 5);
 //        }
+
 
 //        public static void chooseObjToAdd()
 //        {
@@ -112,53 +117,33 @@
 //                case UpdateObj.DroneReceivesParcel:
 //                    Console.WriteLine("Enter ID of parcel");
 //                    int parcelId = Convert.ToInt32(Console.ReadLine());
-//                    Parcel parcel = DalObject.DalObject.getParcelById(parcelId);
+//                    Parcel parcel = dal.getParcelWithSpecificCondition(p=> p.Id == parcelId).First();
 //                    if (parcel.DroneId == -1)
-//                        Console.WriteLine(dalObject.PairAParcelWithADrone(parcel));
+//                        Console.WriteLine(dal.PairAParcelWithADrone(parcel));
 //                    else Console.WriteLine("Error: Parcel have a drone.");
 //                    break;
 //                case UpdateObj.DroneCollectsAParcel:
 //                    Console.WriteLine("Enter ID of parcel");
 //                    int parcelIdToCollect = Convert.ToInt32(Console.ReadLine());
-//                    Parcel parcelCollect = DalObject.DalObject.getParcelById(parcelIdToCollect);
+//                    Parcel parcelCollect = dal.getParcelWithSpecificCondition(p => p.Id == parcelIdToCollect).First(); 
 //                    dalObject.DroneCollectsAParcel(parcelCollect);
 //                    break;
 //                case UpdateObj.CostumerGetsParcel:
 //                    Console.WriteLine("Enter ID of parcel");
 //                    int parcelIdGet = Convert.ToInt32(Console.ReadLine());
-//                    Parcel parcelGet = DalObject.DalObject.getParcelById(parcelIdGet);
-//                    Drone drone = DalObject.DalObject.getDroneById(parcelGet.DroneId);
+//                    Parcel parcelGet = dal.getParcelWithSpecificCondition(p => p.Id == parcelIdGet).First();
+//                    Drone drone = dal.getDroneWithSpecificCondition(d=> d.Id == parcelGet.DroneId).First();
 //                    dalObject.CostumerGetsParcel(drone, parcelGet);
 //                    break;
 //                case UpdateObj.sendDroneToCharge:
 //                    Console.WriteLine("Enter ID of drone");
 //                    int droneId = Convert.ToInt32(Console.ReadLine());
-//                    Drone droneToCharge = DalObject.DalObject.getDroneById(droneId);
-//                    /*switch (droneToCharge.Status)
-//                    {
-//                        case DroneStatus.Maintenance:
-//                            Console.WriteLine("== Drone is maintenance ==");
-//                            break;
-//                        case DroneStatus.Delivery:
-//                            Console.WriteLine("== Drone in Deliver ==");
-//                            break;
-//                        case DroneStatus.Available:
-//                            dalObject.sendDroneToCharge(droneToCharge);
-//                            break;
-//                    }*/
+//                    Drone droneToCharge = dal.getDroneWithSpecificCondition(d => d.Id == droneId).First();
 //                    break;
 //                case UpdateObj.freeDroneFromCharge:
 //                    Console.WriteLine("Enter Id of drone to charge");
 //                    int droneIdCharged = Convert.ToInt32(Console.ReadLine());
-//                    Drone droneToFree = DalObject.DalObject.getDroneById(droneIdCharged);
-//                    /*if (droneToFree.Status == DroneStatus.Maintenance)
-//                    {
-//                        dalObject.freeDroneFromCharge(droneToFree); 
-//                    }
-//                    else
-//                    {
-//                        Console.WriteLine("Error: Can't free Drone from Charge station.\nDrone is not on charging");
-//                    }*/
+//                    Drone droneToFree = dal.getDroneWithSpecificCondition(d => d.Id == droneIdCharged).First();
 //                    break;
 //                default:
 //                    Console.WriteLine("== ERROR ==");
@@ -186,19 +171,19 @@
 //            switch (obj)
 //            {
 //                case objects.Station:
-//                    Station s = dalObject.getStationById(id);
+//                    Station s = dal.getStationWithSpecificCondition(e=> e.Id == id).First();
 //                    Console.WriteLine(s.ToString());
 //                    break;
 //                case objects.Drone:
-//                    Drone d = DalObject.DalObject.getDroneById(id);
+//                    Drone d = dal.getDroneWithSpecificCondition(e => e.Id == id).First();
 //                    Console.WriteLine(d.ToString());
 //                    break;
 //                case objects.Customer:
-//                    Customer c = DalObject.DalObject.getCustomerById(id);
+//                    Customer c = dal.getCustomerWithSpecificCondition(e => e.Id == id).First();
 //                    Console.WriteLine(c.ToString());
 //                    break;
 //                case objects.Parcel:
-//                    Parcel p = DalObject.DalObject.getParcelById(id);
+//                    Parcel p = dal.getParcelWithSpecificCondition(e => e.Id == id).First();
 //                    Console.WriteLine(p.ToString());
 //                    break;
 //                default:
@@ -206,6 +191,7 @@
 //                    break;
 //            }
 //        }
+
 //        public static void displayArrObjs<T>(T[] arrObjects)
 //        {
 //            foreach (T obj in arrObjects)
@@ -213,6 +199,16 @@
 //                Console.WriteLine(obj.ToString());
 //            }
 //        }
+
+//        public static void dis<T>(IEnumerable<T> arrObjects)
+//        {
+//            foreach (T obj in arrObjects)
+//            {
+//                Console.WriteLine(obj.ToString());
+//            }
+//        }
+
+
 //        /// <summary>
 //        /// Receives an array the objects. (according to a switch)
 //        /// and send the array to displayArrObjs.
@@ -229,37 +225,43 @@
 //            {
 //                obj = (objects)(-1);
 //            }
-//            switch (obj)           
+//            switch (obj)
 //            {
 //                case objects.Station:
-//                    IEnumerable<Station> stations = dalObject.displayStations();
+//                    IEnumerable<Station> stations = dal.GetStations();
 //                    Station[] stationsArr = stations.Cast<Station>().ToArray();
 //                    displayArrObjs(stationsArr);
 //                    break;
 //                case objects.Drone:
-//                    IEnumerable<Drone> drones = dalObject.displayDrone();
-//                    Drone[] dronesArr= drones.Cast<Drone>().ToArray();
-//                    displayArrObjs(dronesArr);          
+//                    IEnumerable<Drone> drones = dal.GetDrones();
+//                    Drone[] dronesArr = drones.Cast<Drone>().ToArray();
+//                    displayArrObjs(dronesArr);
 //                    break;
 //                case objects.Customer:
-//                    IEnumerable<Customer> customers = dalObject.displayCustomers();
+//                    IEnumerable<Customer> customers = dal.GetCustomers();
 //                    Customer[] customersArr = customers.Cast<Customer>().ToArray();
 //                    displayArrObjs(customersArr);
 //                    break;
 //                case objects.Parcel:
-//                    IEnumerable<Parcel> parcels = dalObject.displayParcels();
+//                    IEnumerable<Parcel> parcels = dal.GetParcels();
 //                    Parcel[] parcelsArr = parcels.Cast<Parcel>().ToArray();
-//                    displayArrObjs(parcelsArr); 
+//                    displayArrObjs(parcelsArr);
 //                    break;
 //                case objects.FreeParcel:
-//                    IEnumerable<Parcel> freeParcels = dalObject.displayFreeParcels();
+//                    IEnumerable<Parcel> freeParcels = dal.getParcelWithSpecificCondition(p=> p.Requeasted == null);
 //                    Parcel[] freeParcelsArr = freeParcels.Cast<Parcel>().ToArray();
 //                    displayArrObjs(freeParcelsArr);
 //                    break;
 //                case objects.EmptyCharges:
-//                    IEnumerable<DroneCharge> ChargeStand = dalObject.displayDroneCharge();
-//                    DroneCharge[] ChargeStandArr = ChargeStand.Cast<DroneCharge>().ToArray();
-//                    displayArrObjs(ChargeStandArr);
+//                    IEnumerable<Station> s = dal.GetStations();
+//                    int amountFullChargingSlots = 0;
+//                    try
+//                    {
+//                        amountFullChargingSlots = dal.getDroneChargeWithSpecificCondition(d => d.StationId == s.Id).Count();
+//                    }
+//                    catch (Exception) { }
+//                    s = s.Where(s => s.ChargeSlots - amountFullChargingSlots > 0);
+//                    dis(s);
 //                    break;
 //                default:
 //                    Console.WriteLine("== ERROR ==");
@@ -269,8 +271,8 @@
 //        public static void addStation()
 //        {
 //            Random r = new Random();
-//            int amountS = DalObject.DalObject.amountStations();
-//            if(amountS >= 5)
+//            int amountS = dal.amountStations();
+//            if (amountS >= 5)
 //            {
 //                Console.WriteLine("== Cann't add stations ==");
 //                return;
@@ -287,7 +289,7 @@
 //        public static void addDrone()
 //        {
 //            Random r = new Random();
-//            int amountD = DalObject.DalObject.amountDrones();
+//            int amountD = dal.GetDrones().Count();
 //            if (amountD >= 10)
 //            {
 //                Console.WriteLine("== Cann't add Drones ==");
@@ -299,7 +301,7 @@
 //            WeightCategories MaxWeight = (WeightCategories)Convert.ToInt32(Console.ReadLine());
 //            //DroneStatus Status = DroneStatus.Available;
 //            //double Battery = 100;
-//            dalObject.AddDrone(amountD, Model, MaxWeight);
+//            dal.AddDrone(amountD, Model, MaxWeight);
 //        }
 //        //need sometimes to use customer's detailes - return customer.
 //        public static Customer addCustomer()

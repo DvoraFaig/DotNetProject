@@ -24,7 +24,7 @@ namespace PL
 
     public partial class DroneListWindow : Window
     {
-        private Ibl blObjectH;
+        private IBl blObjectH;
         //CollectionView view;
         private PO.Drones currentDroneList;
         //private ObservableCollection<PO.DroneToList> currentDroneList2 = new ObservableCollection<PO.DroneToList>();
@@ -36,7 +36,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public DroneListWindow(Ibl blObject)
+        public DroneListWindow(IBl blObject)
         {
             InitializeComponent();
             blObjectH = blObject;

@@ -27,7 +27,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
@@ -48,7 +48,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);  // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                //Console.WriteLine(ex.Message);  // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
             throw new Exception();
         }

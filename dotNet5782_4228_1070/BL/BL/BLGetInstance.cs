@@ -8,9 +8,9 @@ using BO;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
-        static BL Instance;
+        private static BL Instance;
         public static BL GetInstance
         {
             get

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 using static BO.Exceptions;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL
     {
         /// <summary>
         /// converte CustomerToList from DO.Customer
@@ -19,10 +15,10 @@ namespace BL
         private CustomerToList converteCustomerToList(DO.Customer customer)
         {
             CustomerToList customerToList = new CustomerToList() { Id = customer.Id, Name = customer.Name, Phone = customer.Phone };
-            customerToList.AmountAsSendingDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered != null).Count();
-            customerToList.AmountAsSendingUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered == null).Count();
-            customerToList.AmountAsTargetDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered != null).Count();
-            customerToList.AmountAsTargetUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered == null).Count();
+            customerToList.AmountSendingDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered != null).Count();
+            customerToList.AmountSendingUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered == null).Count();
+            customerToList.AmountTargetDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered != null).Count();
+            customerToList.AmountTargetUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered == null).Count();
             return customerToList;
         }
 

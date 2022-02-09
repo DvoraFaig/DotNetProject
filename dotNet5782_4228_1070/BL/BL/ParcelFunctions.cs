@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
         public Action<Parcel> ParcelChangeAction { get; set; }
 
@@ -264,11 +264,11 @@ namespace BL
                 {
                     try
                     {
-                        dal.removeParcel(dal.getParcelWithSpecificCondition(p => p.Id == parcel.Id).First());
+                        dal.removeParcel(convertBLToDalParcel(parcel));
                         ParcelChangeAction(parcel);
                     }
-                    catch (ArgumentNullException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
-                    catch (InvalidOperationException e1) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e1); }
+                    catch (Exceptions.ObjNotExistException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
+                    catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
                 }
                 else throw new Exceptions.ObjNotAvailableException("Can't remove parcel. Parcel asign to drone.");
             }

@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL 
     {
         /// <summary>
         /// Receive a BO drone and return a converted DO drone - copy information.

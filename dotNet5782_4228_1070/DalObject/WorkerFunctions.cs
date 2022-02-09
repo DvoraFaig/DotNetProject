@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public partial class DalObject : DalApi.Idal
+    public partial class DalObject : DalApi.IDal
     {
         /// <summary>
         /// Get a Worker/s with a specific condition = predicate

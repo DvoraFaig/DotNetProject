@@ -5,11 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 
-namespace BlApi.IBL
+namespace BlApi.Ibl
 {
-    public static class BLFactory
+    public static class IBLFactory
     {
-        public static Ibl Factory()
+        public static IBl Factory()
+        {
+            return BL.BL.GetInstance;
+        }
+    }
+}
+
+
+namespace BlApi.Isimulation
+{
+    public static class ISimFactory
+    {
+        public static ISimulation GetSimulation()
         {
             return BL.BL.GetInstance;
         }

@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL : BlApi.Ibl
+    sealed partial class BL
     {
         public Action<Customer> CustomerChangeAction { get; set; }
 
@@ -37,15 +37,10 @@ namespace BL
 
                     dal.AddCustomer(convertBLToDalCustomer(customerToAdd));
                 }
+                #region Exceptions
                 catch (DO.Exceptions.DataChanged)
                 {
-                    string message = "";
-                    if (customerToAdd.CustomerPosition.Latitude != cToChange.Latitude || customerToAdd.CustomerPosition.Longitude != cToChange.Longitude)
-                        message = "Position";
-                    if (customerToAdd.Name != cToChange.Name)
-                        message += ", Name";
-                    if (customerToAdd.Phone != cToChange.Phone)
-                        message += "and Phone";
+                    string message = messageDataChanged(cToChange, customerToAdd);
                     if (message != "")
                         throw new Exceptions.DataChanged(typeof(Customer), cToChange.Id, $"Data changed: {message} was changed");
                 }
@@ -53,6 +48,7 @@ namespace BL
                 {
                     throw new ObjExistException(typeof(Customer), customerToAdd.Id);
                 }
+                #endregion
             }
 
             #region erase
@@ -84,6 +80,24 @@ namespace BL
         }
 
         /// <summary>
+        /// Return dif between the changed and unchanges customer
+        /// </summary>
+        /// <param name="cToChange"></param>
+        /// <param name="cWithChange"></param>
+        /// <returns></returns>
+        private string messageDataChanged(DO.Customer cToChange, Customer cWithChange)
+        {
+            string message = "";
+            if (cWithChange.CustomerPosition.Latitude != cToChange.Latitude || cWithChange.CustomerPosition.Longitude != cToChange.Longitude)
+                message = "Position";
+            if (cWithChange.Name != cToChange.Name)
+                message += ", Name";
+            if (cWithChange.Phone != cToChange.Phone)
+                message += "and Phone";
+            return message;
+        }
+
+        /// <summary>
         /// Returns a IEnumerable<CustomerToList> by recieving customers and converting them to CustomerToList
         /// </summary>
         /// <returns></returns>
@@ -93,11 +107,11 @@ namespace BL
             lock (dal)
             {
                 IEnumerable<DO.Customer> customers = dal.GetCustomers();
-                List<CustomerToList> customerToLists = new List<CustomerToList>();
                 return from customer in customers
                        select converteCustomerToList(customer);
             }
         }
+
 
         /// <summary>
         /// Return a List<CustomerInParcel>
@@ -105,22 +119,15 @@ namespace BL
         /// <param name="customerInParcel"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customerInParcel = null)
+        public IEnumerable<CustomerInParcel> GetLimitedCustomersList(int customerId = 0)
         {
             lock (dal)
             {
                 IEnumerable<DO.Customer> customers = dal.GetCustomers();
-                List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
-                foreach (var customer in customers)
-                {
-                    customerToLists.Add(convertDalToBLCustomerInParcel(customer));
-                }
-                if (customerInParcel != null)
-                {
-                    customerInParcel = customerToLists.SingleOrDefault(c => c.Id == customerInParcel.Id);
-                    customerToLists.Remove(customerInParcel);
-                }
-                return customerToLists;
+
+                return (from c in customers
+                        where customerId != c.Id
+                        select convertDalToBLCustomerInParcel(c));
             }
         }
 
@@ -135,8 +142,7 @@ namespace BL
             lock (dal)
             {
                 DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId).First();
-                Customer customer = convertDalToBLCustomer(c);
-                return customer;
+                return convertDalToBLCustomer(c);
             }
         }
 
@@ -151,12 +157,22 @@ namespace BL
         {
             lock (dal)
             {
-                DO.Customer c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
-                if (c.IsActive == false)
+                DO.Customer c;
+                try
                 {
-                    c.IsActive = true;
-                    dal.AddCustomer(c);
+                    c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
                 }
+                catch (Exception e) { throw new Exceptions.ObjNotExistException(typeof(Customer), customerRequestedId); }
+
+                //??????????? or needs to sign in again?
+                //if (c.IsActive == false)
+                //{
+                //    try
+                //    {
+                //        dal.AddCustomer(c);
+                //    }
+                //    catch (BO.Exceptions.DataChanged e) { }
+                //}
 
                 return convertDalToBLCustomer(c);
             }
@@ -167,16 +183,17 @@ namespace BL
         {
             lock (dal)
             {
-                DO.Customer c;
                 try
                 {
-                    c = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
+                    DO.Customer cToUpdate = dal.getCustomerWithSpecificCondition(c => c.Id == id).First();
+
                     if (name != null)
-                        c.Name = name;
+                        cToUpdate.Name = name;
                     if (phone != null && phone.Length >= 9 && phone.Length <= 10)
-                        c.Phone = phone;
-                    dal.changeCustomerInfo(c);
-                    Customer customer = convertDalToBLCustomer(c);
+                        cToUpdate.Phone = phone;
+
+                    dal.changeCustomerInfo(cToUpdate);
+                    Customer customer = convertDalToBLCustomer(cToUpdate);
                     CustomerChangeAction?.Invoke(customer);
                     return (customer);
                 }
@@ -198,19 +215,50 @@ namespace BL
             {
                 lock (dal)
                 {
-                    Customer customer = GetCustomerById(customerId);
-                    if (dal.IsCustomerActive(customer.Id))
-                        dal.removeCustomer(convertBLToDalCustomer(customer));
-                    else
-                        throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
+                    //Customer customer = GetCustomerById(customerId);
+                    //if (dal.IsCustomerActive(customer.Id))
+                    dal.removeCustomer(dal.getCustomerWithSpecificCondition(c => c.Id == customerId).First());
+                    //else
+                    //    throw new Exceptions.ObjExistException(typeof(Customer), customer.Id, "is active");
                 }
             }
-            catch (ArgumentNullException) { }
-            catch (InvalidOperationException) { }
-            catch (DO.Exceptions.NoMatchingData e1)
+            catch (DO.Exceptions.ObjNotExistException e1)
             {
-                throw new Exceptions.NoDataMatchingBetweenDalandBL(e1.Message);
+                throw new Exceptions.ObjNotExistException(typeof(Customer), customerId, e1);
             }
         }
     }
 }
+
+
+///// <summary>
+///// Return a List<CustomerInParcel>
+///// </summary>
+///// <param name="customerInParcel"></param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public List<CustomerInParcel> GetLimitedCustomersList(CustomerInParcel customerInParcel = null)
+//{
+//    lock (dal)
+//    {
+//        IEnumerable<DO.Customer> customers = dal.GetCustomers();
+//        customerInParcel = (customerInParcel == null) ? new CustomerInParcel() : customerInParcel;
+
+//        return (from c in customers
+//                where customerInParcel.Id != c.Id
+//                select convertDalToBLCustomerInParcel(c)).ToList();
+
+//        //List<CustomerInParcel> customerToLists = new List<CustomerInParcel>();
+//        //foreach (var customer in customers)
+//        //{
+//        //    customerToLists.Add(convertDalToBLCustomerInParcel(customer));
+//        //}             
+
+//        //if (customerInParcel != null)
+//        //{
+//        //    customerInParcel = customerToLists.SingleOrDefault(c => c.Id == customerInParcel.Id);
+//        //    customerToLists.Remove(customerInParcel);
+//        //}
+//        //return customerToLists;
+//    }
+//}

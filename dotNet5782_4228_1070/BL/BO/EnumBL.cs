@@ -18,7 +18,7 @@ namespace BO
     public enum ParcelStatuses { Requeasted, Scheduled, PickedUp, Delivered };
     public enum Electricity { Empty, LightWeight, MediumWeight, HeavyWeight, ChargingRate }
     public enum DeliveryStatusAction { Available, AsignedParcel, PickedParcel , DeliveredParcel};
-    public enum DroneStatusInSim { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
+    public enum DroneStatusInSim { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock , completeSim };
 
     //Enums for BL_ConsuoleUI
     public enum UpdateObj { DroneReceivesParcel = 1, DroneCollectsAParcel, CostumerGetsParcel, sendDroneToCharge, freeDroneFromCharge }

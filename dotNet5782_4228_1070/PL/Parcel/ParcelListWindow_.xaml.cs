@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class ParcelListWindow_ : Window
     {
-        private Ibl blObject;
+        private IBl blObject;
         CollectionView view;
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -32,7 +32,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         #endregion
-        public ParcelListWindow_(Ibl blObject)
+        public ParcelListWindow_(IBl blObject)
         {
             InitializeComponent();
             this.blObject = blObject;
@@ -123,7 +123,7 @@ namespace PL
             ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItem;
             //DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             Parcel parcel = blObject.GetParcelById(selectedParcel.Id);
-            new ParcelWindow(blObject, parcel).Show();
+            new ParcelWindow(blObject, parcel , true , false).Show();
             this.Close();
         }
 

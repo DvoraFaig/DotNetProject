@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public sealed partial class DalXml : DalApi.Idal
+    public sealed partial class DalXml : DalApi.IDal
     {
         //dir need to be up from bin
         static string dir = @"DalXml\DataSource\";
@@ -20,7 +20,7 @@ namespace Dal
         /// <summary>
         /// instance of DalXml and will be equal to DalApi
         /// </summary>
-        static DalXml Instance;
+        private static DalXml Instance;
 
         /// <summary>
         /// Avoid reaching DalXml instance by the same time a few places.
@@ -28,12 +28,6 @@ namespace Dal
         /// </summary>
         private static readonly object padlock = new object();
 
-        static DalXml()
-        {
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            DataSource.Initialize(); //////////
-        }
         /// <summary>
         /// return one and only one instance of DalXml 
         /// </summary>
@@ -59,8 +53,12 @@ namespace Dal
         string workerFilePath = @"WorkersList.xml";
         string configFilePath = @"Config.xml";
 
-        public DalXml()
+        private DalXml()
         {
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            DataSource.Initialize(); //////////
+
             if (!File.Exists(dir + stationFilePath))
                 XMLTools.SaveListToXMLSerializer<DO.Station>(DataSource.Stations, dir + stationFilePath);
 

@@ -22,18 +22,18 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Ibl blObject;
+        private IBl blObject;
         public enum ShowObjects { Drone, Station };
 
         public MainWindow()
         {
             InitializeComponent();
-            blObject = BlApi.IBL.BLFactory.Factory();
+            blObject = BlApi.Ibl.IBLFactory.Factory();
             Image img = new Image();
             img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
         }
         
-        public MainWindow(Ibl bl)
+        public MainWindow(IBl bl)
         {
             InitializeComponent();
             blObject = bl;
@@ -41,33 +41,59 @@ namespace PL
             img.Source = new BitmapImage(new Uri("https://he.wikipedia.org/wiki/%D7%A8%D7%97%D7%A4%D7%9F#/media/%D7%A7%D7%95%D7%91%D7%A5:Quadcopter_camera_drone_in_flight.jpg"));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Open Drones window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonClickDrone(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(blObject).Show();
             this.Close();
         }
-        
+
+        /// <summary>
+        /// Open Stations window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickStation(object sender, RoutedEventArgs e)
         {
             new StationListWindow(blObject).Show();
             this.Close();
         }
-        
+
+        /// <summary>
+        /// Open Parcels window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickParcel(object sender, RoutedEventArgs e)
         {
             new ParcelListWindow_(blObject).Show();
             this.Close();
         }
-
-        private void ChangeBackGround(object sender, MouseEventArgs e)
+        
+        /// <summary>
+        /// Open Customers window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonClickCustomer(object sender, RoutedEventArgs e)
         {
-            GoToDroneListWindow.Background = Brushes.Transparent;
+            new CustomerListWindow(blObject).Show();
+            this.Close();
         }
 
-        private void ChangeBackTheBackGround(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Log out.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonClickLogOut(object sender, RoutedEventArgs e)
         {
-            GoToDroneListWindow.Background = Brushes.White;
-
+            new SignInOrUpWindow(blObject).Show();
+            this.Close();
         }
 
         /// <summary>
@@ -87,23 +113,25 @@ namespace PL
             }
             base.OnClosing(e);
         }
-        
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Change by hover
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeBackGround(object sender, MouseEventArgs e)
         {
-            new ParcelListWindow_(blObject).Show();
-            this.Close();
+            GoToDroneListWindow.Background = Brushes.Transparent;
         }
 
-        private void ButtonClickCustomer(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Change back by stopping to hover
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeBackTheBackGround(object sender, MouseEventArgs e)
         {
-            new CustomerListWindow(blObject).Show();
-            this.Close();
-        }
-
-        private void ButtonClickSignIn(object sender, RoutedEventArgs e)
-        {
-            new SignInOrUpWindow(blObject).Show();
-            this.Close();
+            GoToDroneListWindow.Background = Brushes.White;
         }
     }
 }
