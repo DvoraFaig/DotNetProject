@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>1</Id>
+    <Name>Customer1</Name>
+    <Phone>345137570</Phone>
+    <Latitude>6</Latitude>
+    <Longitude>69</Longitude>
+    <IsActive>true</IsActive>
+  </Customer>
+  <Customer>
+    <Id>2</Id>
+    <Name>Customer2</Name>
+    <Phone>542086198</Phone>
+    <Latitude>79</Latitude>
+    <Longitude>41</Longitude>
+    <IsActive>true</IsActive>
+  </Customer>
+  <Customer>
+    <Id>3</Id>
+    <Name>Customer3</Name>
+    <Phone>938627551</Phone>
+    <Latitude>58</Latitude>
+    <Longitude>4</Longitude>
+    <IsActive>true</IsActive>
+  </Customer>
+  <Customer>
+    <Id>4</Id>
+    <Name>Customer4</Name>
+    <Phone>903300651</Phone>
+    <Latitude>27</Latitude>
+    <Longitude>68</Longitude>
+    <IsActive>true</IsActive>
+  </Customer>
+</ArrayOfCustomer>

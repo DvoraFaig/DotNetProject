@@ -15,6 +15,7 @@ namespace Dal
 {
     public sealed partial class DalXml : DalApi.IDal
     {
+
         /// <summary>
         /// Add the new drone to Drones.
         /// </summary>
@@ -66,11 +67,14 @@ namespace Dal
         /// <returns></returns>
         private XElement returnDroneXElement(DO.Drone newDrone)
         {
-            XElement Id = new XElement("Id", newDrone.Id);
-            XElement Model = new XElement("Model", newDrone.Model);
-            XElement MaxWeight = new XElement("MaxWeight", newDrone.MaxWeight);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Drone", Id, Model, MaxWeight, MaxWeight, IsActive);
+            XElement element = newDrone.ToXElement<Drone>();
+            return element;
+
+            //XElement Id = new XElement("Id", newDrone.Id);
+            //XElement Model = new XElement("Model", newDrone.Model);
+            //XElement MaxWeight = new XElement("MaxWeight", newDrone.MaxWeight);
+            //XElement IsActive = new XElement("IsActive", true);
+            //return new XElement("Drone", Id, Model, MaxWeight, MaxWeight, IsActive);
         }
 
         /// <summary>
@@ -80,13 +84,17 @@ namespace Dal
         /// <returns></returns>
         private Drone returnDrone(XElement drone)
         {
-            return new DO.Drone()
-            {
-                Id = Convert.ToInt32(drone.Element("Id").Value),
-                Model = drone.Element("Model").Value,
-                MaxWeight = (WeightCategories)Convert.ToInt32(drone.Element("MaxWeight").Value),
-                IsActive = Convert.ToBoolean((drone.Element("IsActive").Value))
-            };
+
+            var newMyClass = drone.FromXElement<Drone>();
+            return newMyClass;
+
+            //return new DO.Drone()
+            //{
+            //    Id = Convert.ToInt32(drone.Element("Id").Value),
+            //    Model = drone.Element("Model").Value,
+            //    MaxWeight = (WeightCategories)Convert.ToInt32(drone.Element("MaxWeight").Value),
+            //    IsActive = Convert.ToBoolean((drone.Element("IsActive").Value))
+            //};
         }
 
         /// <summary>

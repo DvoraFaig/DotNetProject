@@ -230,8 +230,8 @@ namespace PO
             Model = drone.Model;
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
-            droneStatus = drone.droneStatus;
-            DronePosition = (Position)drone.DronePosition;
+            Status = drone.droneStatus;
+            DronePosition =(BO.Position)drone.DronePosition;
             //DronePosition.Longitude = drone.DronePosition.Longitude;
             //DronePosition.Latitude = drone.DronePosition.Latitude;
             IdParcel = drone.IdParcel;
@@ -275,10 +275,10 @@ namespace PO
         public BO.Position DronePosition
         {
             //get; set;
-            get { return (Position)GetValue(DronePositionProperty); }
+            get { return (BO.Position)GetValue(DronePositionProperty); }
             set
             {
-                Position p = new Position() { Longitude = value.Longitude, Latitude = value.Latitude };
+                BO.Position p = new BO.Position() { Longitude = value.Longitude, Latitude = value.Latitude };
                 SetValue(droneStatusProperty, p);
             }
             //set { SetValue(droneStatusProperty, value); }

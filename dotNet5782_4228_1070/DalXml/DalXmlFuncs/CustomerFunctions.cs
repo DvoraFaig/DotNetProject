@@ -61,13 +61,14 @@ namespace Dal
         /// <returns></returns>
         private XElement returnCustomerXElement(DO.Customer newCustomer)
         {
-            XElement Id = new XElement("Id", newCustomer.Id);
-            XElement Name = new XElement("Name", newCustomer.Name);
-            XElement Phone = new XElement("Phone", newCustomer.Phone);
-            XElement Latitude = new XElement("Latitude", newCustomer.Latitude);
-            XElement Longitude = new XElement("Longitude", newCustomer.Longitude);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Customer", Id, Name, Phone, Latitude, Longitude, IsActive);
+            return newCustomer.ToXElement<Customer>();
+            //XElement Id = new XElement("Id", newCustomer.Id);
+            //XElement Name = new XElement("Name", newCustomer.Name);
+            //XElement Phone = new XElement("Phone", newCustomer.Phone);
+            //XElement Latitude = new XElement("Latitude", newCustomer.Latitude);
+            //XElement Longitude = new XElement("Longitude", newCustomer.Longitude);
+            //XElement IsActive = new XElement("IsActive", true);
+            //return new XElement("Customer", Id, Name, Phone, Latitude, Longitude, IsActive);
         }
 
         /// <summary>
@@ -77,15 +78,17 @@ namespace Dal
         /// <returns></returns>
         private Customer returnCustomer(XElement customer)
         {
-            return new DO.Customer()
-            {
-                Id = Convert.ToInt32(customer.Element("Id").Value),
-                Name = customer.Element("Name").Value,
-                Phone = customer.Element("Phone").Value,
-                Latitude = Convert.ToInt32(customer.Element("Latitude").Value),
-                Longitude = Convert.ToInt32(customer.Element("Longitude").Value),
-                IsActive = Convert.ToBoolean((customer.Element("IsActive").Value))
-            };
+            return customer.FromXElement<Customer>();
+
+            //return new DO.Customer()
+            //{
+            //    Id = Convert.ToInt32(customer.Element("Id").Value),
+            //    Name = customer.Element("Name").Value,
+            //    Phone = customer.Element("Phone").Value,
+            //    Latitude = Convert.ToInt32(customer.Element("Latitude").Value),
+            //    Longitude = Convert.ToInt32(customer.Element("Longitude").Value),
+            //    IsActive = Convert.ToBoolean((customer.Element("IsActive").Value))
+            //};
         }
 
         /// <summary>

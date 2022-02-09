@@ -61,13 +61,14 @@ namespace Dal
         /// <returns></returns>
         private XElement returnStationXElement(DO.Station newStation)
         {
-            XElement Id = new XElement("Id", newStation.Id);
-            XElement Name = new XElement("Name", newStation.Name);
-            XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
-            XElement Latitude = new XElement("Latitude", newStation.Latitude);
-            XElement Longitude = new XElement("Longitude", newStation.Longitude);
-            XElement IsActive = new XElement("IsActive", newStation.IsActive);
-            return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
+            return newStation.ToXElement<Station>();
+            //XElement Id = new XElement("Id", newStation.Id);
+            //XElement Name = new XElement("Name", newStation.Name);
+            //XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
+            //XElement Latitude = new XElement("Latitude", newStation.Latitude);
+            //XElement Longitude = new XElement("Longitude", newStation.Longitude);
+            //XElement IsActive = new XElement("IsActive", newStation.IsActive);
+            //return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
         }
 
         /// <summary>
@@ -77,15 +78,16 @@ namespace Dal
         /// <returns></returns>
         private Station returnStation(XElement station)
         {
-            return new DO.Station()
-            {
-                Id = Convert.ToInt32(station.Element("Id").Value),
-                Name = station.Element("Name").Value,
-                ChargeSlots = Convert.ToInt32(station.Element("ChargeSlots").Value),
-                Latitude = Convert.ToInt32(station.Element("Latitude").Value),
-                Longitude = Convert.ToInt32(station.Element("Longitude").Value),
-                IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
-            };
+            return station.FromXElement<Station>();
+            //return new DO.Station()
+            //{
+            //    Id = Convert.ToInt32(station.Element("Id").Value),
+            //    Name = station.Element("Name").Value,
+            //    ChargeSlots = Convert.ToInt32(station.Element("ChargeSlots").Value),
+            //    Latitude = Convert.ToInt32(station.Element("Latitude").Value),
+            //    Longitude = Convert.ToInt32(station.Element("Longitude").Value),
+            //    IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
+            //};
         }
 
         /// <summary>

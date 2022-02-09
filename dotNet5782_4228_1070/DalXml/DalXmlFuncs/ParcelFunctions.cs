@@ -59,36 +59,38 @@ namespace Dal
         /// <returns></returns>
         private XElement returnParcelXElement(DO.Parcel newParcel)
         {
-            XElement Id = new XElement("Id", newParcel.Id);
-            XElement SenderId = new XElement("SenderId", newParcel.SenderId);
-            XElement TargetId = new XElement("TargetId", newParcel.TargetId);
-            XElement Weight = new XElement("Weight", newParcel.Weight);
-            XElement Priority = new XElement("Priority", newParcel.Priority);
-            XElement DroneId = new XElement("DroneId", newParcel.DroneId);
-            XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
-            XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
-            XElement PickUp = new XElement("PickUp", newParcel.PickUp);
-            XElement Delivered = new XElement("Delivered", newParcel.Delivered);
-            XElement IsActive = new XElement("IsActive", true);
-            return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority, DroneId, Requeasted, Scheduled, PickUp, Delivered, IsActive);
+            return newParcel.ToXElement<Parcel>();
+            //XElement Id = new XElement("Id", newParcel.Id);
+            //XElement SenderId = new XElement("SenderId", newParcel.SenderId);
+            //XElement TargetId = new XElement("TargetId", newParcel.TargetId);
+            //XElement Weight = new XElement("Weight", newParcel.Weight);
+            //XElement Priority = new XElement("Priority", newParcel.Priority);
+            //XElement DroneId = new XElement("DroneId", newParcel.DroneId);
+            //XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
+            //XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
+            //XElement PickUp = new XElement("PickUp", newParcel.PickUp);
+            //XElement Delivered = new XElement("Delivered", newParcel.Delivered);
+            //XElement IsActive = new XElement("IsActive", true);
+            //return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority, DroneId, Requeasted, Scheduled, PickUp, Delivered, IsActive);
         }
 
-        private Parcel returnParcel(XElement station)
+        private Parcel returnParcel(XElement parcel)
         {
-            return new DO.Parcel()
-            {
-                Id = Convert.ToInt32(station.Element("Id").Value),
-                SenderId = Convert.ToInt32(station.Element("SenderId").Value),
-                TargetId = Convert.ToInt32(station.Element("TargetId").Value),
-                Weight = (WeightCategories)Convert.ToInt32(station.Element("Weight").Value),
-                Priority = (Priorities)Convert.ToInt32(station.Element("Priority").Value),
-                DroneId = Convert.ToInt32(station.Element("DroneId").Value),
-                Requeasted = Convert.ToDateTime(station.Element("Requeasted").Value),
-                Scheduled = Convert.ToDateTime(station.Element("Scheduled").Value),
-                PickUp = Convert.ToDateTime(station.Element("PickUp").Value),
-                Delivered = Convert.ToDateTime(station.Element("Delivered").Value),
-                IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
-            };
+            return parcel.FromXElement<Parcel>();
+            //return new DO.Parcel()
+            //{
+            //    Id = Convert.ToInt32(parcel.Element("Id").Value),
+            //    SenderId = Convert.ToInt32(parcel.Element("SenderId").Value),
+            //    TargetId = Convert.ToInt32(parcel.Element("TargetId").Value),
+            //    Weight = (WeightCategories)Convert.ToInt32(parcel.Element("Weight").Value),
+            //    Priority = (Priorities)Convert.ToInt32(parcel.Element("Priority").Value),
+            //    DroneId = Convert.ToInt32(parcel.Element("DroneId").Value),
+            //    Requeasted = Convert.ToDateTime(parcel.Element("Requeasted").Value),
+            //    Scheduled = Convert.ToDateTime(parcel.Element("Scheduled").Value),
+            //    PickUp = Convert.ToDateTime(parcel.Element("PickUp").Value),
+            //    Delivered = Convert.ToDateTime(parcel.Element("Delivered").Value),
+            //    IsActive = Convert.ToBoolean((parcel.Element("IsActive").Value))
+            //};
         }
 
         /// <summary>
