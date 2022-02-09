@@ -152,7 +152,7 @@ namespace BL
         /// <returns></returns>
         private DroneInParcel createDroneInParcel(DO.Parcel p, int droneId)
         {
-            Drone d = getDroneByIdFromDronesList(droneId);
+            Drone d = GetDroneById(droneId);
             return new DroneInParcel() { Id = d.Id, Battery = d.Battery, droneWithParcel = d.DronePosition };
         }
     }

@@ -7,7 +7,7 @@ using DO;
 
 namespace DalApi
 {
-    public interface Idal
+    public interface IDal
     {
         //===============
         //Add functions//

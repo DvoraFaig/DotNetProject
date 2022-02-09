@@ -276,8 +276,8 @@ namespace PL
                     //ChargeDroneTimeGrid.Visibility = Visibility.Visible;
                 }
                 catch (BO.Exceptions.ObjNotExistException ex) { PLFunctions.messageBoxResponseFromServer("Charge Drone", $"{ex.Message} can't charge now."); }
-                catch (BO.Exceptions.ObjNotAvailableException) { PLFunctions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
-                catch (Exception) { PLFunctions.messageBoxResponseFromServer("Charge Drone", "The Drone can't charge now\nPlease try later....."); }
+                catch (BO.Exceptions.ObjNotAvailableException ex1) { PLFunctions.messageBoxResponseFromServer("Charge Drone", $"{ex1.Message}"); }
+                catch (Exception ex2) { PLFunctions.messageBoxResponseFromServer("Charge Drone", $"The Drone can't charge now\n{ex2.Message}\nPlease try later....."); }
             }
             else
             {
@@ -304,6 +304,10 @@ namespace PL
                     DeliveryStatusButton.Visibility = Visibility.Visible;
                     DeliveryStatusButton.Content = deliveryButtonOptionalContent[0];
                     visibilityDroneBtns();
+                }
+                catch(Exceptions.ObjNotAvailableException e1)
+                {
+                    PLFunctions.messageBoxResponseFromServer("Sent Drone To Charge", $"{e1.Message}");
                 }
                 catch (Exception)
                 {

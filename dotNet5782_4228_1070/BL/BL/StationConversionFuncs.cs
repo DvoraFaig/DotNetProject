@@ -23,7 +23,7 @@ namespace BL
             IEnumerable<DO.DroneCharge> droneChargesByStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id);
             foreach (DO.DroneCharge droneCharge in droneChargesByStation)
             {
-                blDroneChargingByStation.Add(new ChargingDrone() { Id = droneCharge.DroneId, Battery = getDroneByIdFromDronesList(droneCharge.DroneId).Battery });
+                blDroneChargingByStation.Add(new ChargingDrone() { Id = droneCharge.DroneId, Battery = GetDroneById(droneCharge.DroneId).Battery });
             };
             int availableChargingSlots = station.ChargeSlots - blDroneChargingByStation.Count();
             return new Station() { Id = station.Id, Name = station.Name, StationPosition = new BO.Position() { Longitude = station.Longitude, Latitude = station.Latitude }, DroneChargeAvailble = availableChargingSlots, DronesCharging = blDroneChargingByStation };

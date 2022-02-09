@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public sealed partial class DalXml : DalApi.Idal
+    public sealed partial class DalXml : DalApi.IDal
     {
         /// <summary>
         /// Add the new parcel to parcels.

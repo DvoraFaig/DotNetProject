@@ -12,17 +12,19 @@ namespace BL
         /// <summary>
         /// Instance of Idal interface.
         /// </summary>
-        private readonly DalApi.Idal dal; //internal???
+        private readonly DalApi.IDal dal; //internal???
 
         /// <summary>
         /// Electicity usage of drone by weight
         /// and chargingRateOfDrone.
         /// </summary>
+        #region props of electricity usage of Drone.
         private double electricityUsageWhenDroneIsEmpty { get; set; }
         private double electricityUsageWhenDroneILightWeight { get; set; }
         private double electricityUsageWhenDroneIsMediumWeight { get; set; }
         private double electricityUsageWhenDroneIsHeavyWeight { get; set; }
         private double chargingRateOfDrone { get; set; }
+        #endregion
 
 
         /// <summary>
@@ -31,7 +33,6 @@ namespace BL
         /// </summary>
         private BL()
         {
-            
             Random r = new Random();
 
             dronesList = new List<Drone>();
@@ -123,7 +124,7 @@ namespace BL
                         #region Find random station
                         int randomStation = r.Next(0, amountStations);
                         Drone updatedDroneWithStationInfoAndBattery = new Drone();
-                        updatedDroneWithStationInfoAndBattery = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
+                        updatedDroneWithStationInfoAndBattery = findStationForDroneForInitializeData(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
                         if (updatedDroneWithStationInfoAndBattery != null)
                         {
                             CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
@@ -136,7 +137,7 @@ namespace BL
                         {
                             foreach (DO.Station stationsObj in stationsToFindPlaceToCharge)
                             {
-                                updatedDroneWithStationInfoAndBattery = findStationForDrone(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
+                                updatedDroneWithStationInfoAndBattery = findStationForDroneForInitializeData(CurrentDrone, stationsToFindPlaceToCharge[randomStation]);
                                 if (updatedDroneWithStationInfoAndBattery != null)
                                 {
                                     CurrentDrone.DronePosition = new Position() { Latitude = stationsToFindPlaceToCharge[randomStation].Latitude, Longitude = stationsToFindPlaceToCharge[randomStation].Longitude };
@@ -198,11 +199,12 @@ namespace BL
 
         /// <summary>
         /// Find a station for a drone with empty charging slots
+        /// Func for initialize Drones in the beginig of the program.
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="station"></param>
         /// <returns></returns>
-        private Drone findStationForDrone(Drone drone, DO.Station station)
+        private Drone findStationForDroneForInitializeData(Drone drone, DO.Station station)
         {
             Random r = new Random();
             int amountChargingDronesInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
@@ -227,55 +229,23 @@ namespace BL
         /// <returns></returns>
         private int calcDroneBatteryDelivery(DO.Parcel parcel, DO.Station stationOfDrone, Position senderPosition, Position targetPosition)
         {
-            double disFromStationToSender = 0; // only for a parcel who wasnt picked up.
+            double disFromStationToSender;
             double disFromSenderToCustomer = distance(senderPosition, targetPosition);
 
-            //from target to closest station;
             DO.Station closestAvailbleStationFromTarget = findAvailbleAndClosestStationForDrone(targetPosition);
             double disFromTargetTostation = distance(targetPosition, new Position() { Latitude = closestAvailbleStationFromTarget.Latitude, Longitude = closestAvailbleStationFromTarget.Longitude });
-            if (parcel.PickUp == new DateTime())
-            {
+
+            if (parcel.PickUp == null)
                 disFromStationToSender = distance(new Position() { Latitude = stationOfDrone.Latitude, Longitude = stationOfDrone.Longitude }, senderPosition);
-            }
-            double sumDisForDrone = disFromStationToSender + disFromSenderToCustomer + disFromTargetTostation;
-            double sumBattery = sumDisForDrone * requestElectricity((int)parcel.Weight);//requestDroneElectricityUsage()[(int)parcel.Weight];
+            else
+                disFromStationToSender = 0;
+
+            double sumBattery = disFromStationToSender * electricityUsageWhenDroneIsEmpty +
+                disFromSenderToCustomer * requestElectricity((int)parcel.Weight)
+                + disFromTargetTostation * electricityUsageWhenDroneIsEmpty;
             return new Random().Next((int)sumBattery, 100);
         }
 
-        ///// <summary>
-        ///// Find availble and closest station for drone;
-        ///// </summary>
-        ///// <param name="dronePosition">Current Drone position</param>
-        ///// <returns></returns>
-        //private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
-        //{
-        //    IEnumerable<DO.Station> stations = dal.GetStations();
-        //    DO.Station availbleClosestStation = new DO.Station();
-        //    double dis = -1;
-        //    double minDis = -1;
-        //    int fullChargingSlots;
-        //    foreach (DO.Station station in stations)
-        //    {
-        //        fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
-        //        if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
-        //        {
-        //            dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
-        //            if (minDis == -1) //Wasn't implemted by a specific drone.
-        //            {
-        //                minDis = dis;
-        //                availbleClosestStation = station;
-        //            }
-        //            else if (minDis > dis)
-        //            {
-        //                minDis = dis;
-        //                availbleClosestStation = station;
-        //            }
-        //            if (minDis == 0)
-        //                return availbleClosestStation;
-        //        }
-        //    }
-        //    return availbleClosestStation;
-        //}
 
         /// <summary>
         /// find availble & closest station for drone. (occurding to distance* weight < Drone.Battery
@@ -314,7 +284,7 @@ namespace BL
                 }
             }
             if (availbleClosestStation.Equals(typeof(Station)))
-                throw new Exceptions.ObjNotExistException($"No station with empty charging slots, please free drone from {availbleClosestStation.Id} station.\n later the free try to send this drone again.", availbleClosestStation);
+                throw new Exceptions.ObjNotAvailableException($"No station with empty charging slots, please free drone from {availbleClosestStation.Id} station.\n Try to send drone to charge later.");//, availbleClosestStation
             return availbleClosestStation;
         }
 
@@ -332,21 +302,6 @@ namespace BL
             }
             return customersWithDeliveredParcels;
         }
-
-        ///// <summary>
-        ///// returns an array of drones' electricity usage. 
-        ///// arr[] =
-        ///// empty,
-        ///// lightWeight,
-        ///// mediumWeight,
-        ///// heavyWeight,
-        ///// chargingRate
-        ///// </summary>
-        ///// <returns></returns>
-        //private double[] requestDroneElectricityUsage()
-        //{
-        //    requestElectricity
-        //}
 
         /// <summary>
         /// Amount of power consumption of Drone
@@ -375,3 +330,37 @@ namespace BL
     }
 }
 
+///// <summary>
+///// Find availble and closest station for drone;
+///// </summary>
+///// <param name="dronePosition">Current Drone position</param>
+///// <returns></returns>
+//private DO.Station findAvailbleAndClosestStationForDrone(Position dronePosition)
+//{
+//    IEnumerable<DO.Station> stations = dal.GetStations();
+//    DO.Station availbleClosestStation = new DO.Station();
+//    double dis = -1;
+//    double minDis = -1;
+//    int fullChargingSlots;
+//    foreach (DO.Station station in stations)
+//    {
+//        fullChargingSlots = dal.getDroneChargeWithSpecificCondition(droneCharge => droneCharge.StationId == station.Id).Count();
+//        if (station.ChargeSlots - fullChargingSlots > 0) //has empty charging slots
+//        {
+//            dis = distance(dronePosition, new Position() { Latitude = station.Latitude, Longitude = station.Longitude });
+//            if (minDis == -1) //Wasn't implemted by a specific drone.
+//            {
+//                minDis = dis;
+//                availbleClosestStation = station;
+//            }
+//            else if (minDis > dis)
+//            {
+//                minDis = dis;
+//                availbleClosestStation = station;
+//            }
+//            if (minDis == 0)
+//                return availbleClosestStation;
+//        }
+//    }
+//    return availbleClosestStation;
+//}

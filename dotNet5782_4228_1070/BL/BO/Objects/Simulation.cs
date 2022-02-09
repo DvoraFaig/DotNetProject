@@ -25,7 +25,7 @@ namespace BO
         /// <summary>
         /// Instance of Idal interface.
         /// </summary>
-        Idal Idal;
+        IDal Idal;
 
         /// <summary>
         /// Instance of Isimulation interface.
@@ -63,7 +63,7 @@ namespace BO
         /// Ctor Simulation
         /// </summary>
         /// <param name="BL">Interface Ibl</param>
-        public Simulation(IBl BL, Idal idal)
+        public Simulation(IBl BL, IDal idal)
         {
             this.Ibl = BL;
             this.Idal = idal;

@@ -8,26 +8,9 @@ using static BO.Exceptions;
 
 namespace BL
 {
-    sealed partial class BL 
+    sealed partial class BL
     {
-        /// <summary>
-        /// Send a predicate to receive a BO.Drone from BL.DroneList. 
-        /// </summary>
-        /// <param name="droneRequestedId">The drone with this id</param>
-        /// <returns></returns>
-        private Drone getDroneByIdFromDronesList(int droneRequestedId)
-        {
-            try
-            {
-                return getDroneWithSpecificConditionFromDronesList(d => d.Id == droneRequestedId).First();
-            }
-            #region Exceptions
-            catch (InvalidOperationException e)
-            {
-                throw new ObjNotExistException(typeof(Drone), droneRequestedId, e);
-            }
-            #endregion
-        }
+        
 
         /// <summary>
         /// Return a drone from droneList from BL
@@ -36,9 +19,11 @@ namespace BL
         /// <returns></returns>
         private IEnumerable<Drone> getDroneWithSpecificConditionFromDronesList(Predicate<Drone> predicate)
         {
-            return (from drone in dronesList
-                    where predicate(drone)
-                    select drone);
+            IEnumerable<Drone> drones = (from drone in dronesList
+                                         where predicate(drone)
+                                         select drone);
+            return from d in drones
+                   select d.Clone<Drone>();
         }
 
         /// <summary>
@@ -59,23 +44,23 @@ namespace BL
             }
             #endregion
         }
-
-        /// <summary>
-        /// Add a drone to dronesList by Index
-        /// </summary>
-        /// <param name="dr"></param>
-        private void AddDroneByIndex(Drone dr)
-        {
-
-            ///////////////////////////
-            // sometimes drone.id != drone.index
-            /////////////////
-            if (dr.Id < dronesList.Count)
-            {
-                dronesList.Insert(dr.Id - 1, dr);
-                return;
-            }
-            dronesList.Add(dr);
-        }
     }
 }
+
+///// <summary>
+///// Add a drone to dronesList by Index
+///// </summary>
+///// <param name="dr"></param>
+//private void AddDroneByIndex(Drone dr)
+//{
+
+//    ///////////////////////////
+//    // sometimes drone.id != drone.index
+//    /////////////////
+//    if (dr.Id < dronesList.Count)
+//    {
+//        dronesList.Insert(dr.Id - 1, dr);
+//        return;
+//    }
+//    dronesList.Add(dr);
+//}
