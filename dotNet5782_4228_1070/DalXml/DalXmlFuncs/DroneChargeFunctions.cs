@@ -21,9 +21,8 @@ namespace Dal
         /// <param name="newDroneCharge">DroneCharge to add.</param>
         public void AddDroneToCharge(DroneCharge newDroneCharge)
         {
-
             XElement droneChargeRoot = XMLTools.LoadData(dir + droneChargeFilePath);
-            droneChargeRoot.Add(returnDroneChargeXElement(newDroneCharge));
+            droneChargeRoot.Add(newDroneCharge.ToXElement<DroneCharge>());
             droneChargeRoot.Save(dir + droneChargeFilePath);
 
             #region LoadListFromXMLSerializer
@@ -36,32 +35,6 @@ namespace Dal
             //newList.Add(newDroneCharge);
             //XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(newList, dir + droneChargeFilePath);
             #endregion
-        }
-
-        /// <summary>
-        /// Receive a DO DroneCharge and return a XElemnt DroneCharge - copy information.
-        /// </summary>
-        /// <param name="newDroneCharge"></param>
-        /// <returns></returns>
-        private XElement returnDroneChargeXElement(DO.DroneCharge newDroneCharge)
-        {
-            XElement DroneId = new XElement("DroneId", newDroneCharge.DroneId);
-            XElement StationId = new XElement("StationId", newDroneCharge.StationId);
-            return new XElement("DroneCharge", DroneId, StationId);
-        }
-
-        /// <summary>
-        /// Receive a  XElement DroneCharge and return a DO DroneCharge - copy information.
-        /// </summary>
-        /// <param name="newDroneCharge"></param>
-        /// <returns></returns>
-        private DroneCharge returnDroneCharge(XElement drone)
-        {
-            return new DO.DroneCharge()
-            {
-                DroneId = Convert.ToInt32(drone.Element("DroneId").Value),
-                StationId = Convert.ToInt32(drone.Element("StationId").Value),
-            };
         }
 
         /// <summary>
@@ -80,27 +53,6 @@ namespace Dal
             {
                 throw new Exceptions.ObjNotExistException(typeof(Drone), droneId, e1);
             }
-        }
-
-        
-
-        /// <summary>
-        /// Get all droneCharge.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<DroneCharge> GetDroneCharges()
-        {
-            IEnumerable<DO.DroneCharge> droneChargesList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
-            return from item in droneChargesList
-                   orderby item.StationId 
-                   select item;
-
-            #region LoadData
-            //XElement droneChargeRoot = XMLTools.LoadData(dir + droneChargeFilePath);
-            //return (from d in droneChargeRoot.Elements()
-            //                 orderby Convert.ToInt32(d.Element("Id").Value)
-            //                 select returnDroneCharge(d));
-            #endregion
         }
 
         /// <summary>
@@ -124,19 +76,64 @@ namespace Dal
             #endregion
         }
 
-        /// <summary>
-        /// If droneCharge with the DroneId exist
-        /// </summary>
-        /// <param name="requestedId">Looking for droneCharge with this DroneId</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsDroneChargeById(int droneId)
-        {
-            IEnumerable<DO.DroneCharge> dronesChargeLits = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
-            if (dronesChargeLits.Any(d => d.DroneId == droneId))
-                return true;
-
-            return false;
-        }
     }
 }
+
+///// <summary>
+///// If droneCharge with the DroneId exist
+///// </summary>
+///// <param name="requestedId">Looking for droneCharge with this DroneId</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsDroneChargeById(int droneId)
+//{
+//    IEnumerable<DO.DroneCharge> dronesChargeLits = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
+//    if (dronesChargeLits.Any(d => d.DroneId == droneId))
+//        return true;
+
+//    return false;
+//}
+
+///// <summary>
+///// Receive a DO DroneCharge and return a XElemnt DroneCharge - copy information.
+///// </summary>
+///// <param name="newDroneCharge"></param>
+///// <returns></returns>
+//private XElement returnDroneChargeXElement(DO.DroneCharge newDroneCharge)
+//{
+//    XElement DroneId = new XElement("DroneId", newDroneCharge.DroneId);
+//    XElement StationId = new XElement("StationId", newDroneCharge.StationId);
+//    return new XElement("DroneCharge", DroneId, StationId);
+//}
+
+///// <summary>
+///// Receive a  XElement DroneCharge and return a DO DroneCharge - copy information.
+///// </summary>
+///// <param name="newDroneCharge"></param>
+///// <returns></returns>
+//private DroneCharge returnDroneCharge(XElement drone)
+//{
+//    return new DO.DroneCharge()
+//    {
+//        DroneId = Convert.ToInt32(drone.Element("DroneId").Value),
+//        StationId = Convert.ToInt32(drone.Element("StationId").Value),
+//    };
+//}
+///// <summary>
+///// Get all droneCharge.
+///// </summary>
+///// <returns></returns>
+//public IEnumerable<DroneCharge> GetDroneCharges()
+//{
+//    IEnumerable<DO.DroneCharge> droneChargesList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dir + droneChargeFilePath);
+//    return from item in droneChargesList
+//           orderby item.StationId
+//           select item;
+
+//    #region LoadData
+//    //XElement droneChargeRoot = XMLTools.LoadData(dir + droneChargeFilePath);
+//    //return (from d in droneChargeRoot.Elements()
+//    //                 orderby Convert.ToInt32(d.Element("Id").Value)
+//    //                 select returnDroneCharge(d));
+//    #endregion
+//}

@@ -36,7 +36,7 @@ namespace Dal
             catch (Exception)
             {
                 XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-                stationRoot.Add(returnStationXElement(newStation));
+                stationRoot.Add(newStation.ToXElement<Station>());
                 stationRoot.Save(dir + stationFilePath);
             }
 
@@ -52,42 +52,6 @@ namespace Dal
             //    throw new DO.Exceptions.ObjExistException(typeof(DO.Station), newStation.Id);
             //}
             #endregion 
-        }
-
-        /// <summary>
-        /// Receive a DO station and return a XElemnt station - copy information.
-        /// </summary>
-        /// <param name="newStation"></param>
-        /// <returns></returns>
-        private XElement returnStationXElement(DO.Station newStation)
-        {
-            return newStation.ToXElement<Station>();
-            //XElement Id = new XElement("Id", newStation.Id);
-            //XElement Name = new XElement("Name", newStation.Name);
-            //XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
-            //XElement Latitude = new XElement("Latitude", newStation.Latitude);
-            //XElement Longitude = new XElement("Longitude", newStation.Longitude);
-            //XElement IsActive = new XElement("IsActive", newStation.IsActive);
-            //return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
-        }
-
-        /// <summary>
-        /// Receive a XElement station and return a DO station - copy information.
-        /// </summary>
-        /// <param name="newStation"></param>
-        /// <returns></returns>
-        private Station returnStation(XElement station)
-        {
-            return station.FromXElement<Station>();
-            //return new DO.Station()
-            //{
-            //    Id = Convert.ToInt32(station.Element("Id").Value),
-            //    Name = station.Element("Name").Value,
-            //    ChargeSlots = Convert.ToInt32(station.Element("ChargeSlots").Value),
-            //    Latitude = Convert.ToInt32(station.Element("Latitude").Value),
-            //    Longitude = Convert.ToInt32(station.Element("Longitude").Value),
-            //    IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
-            //};
         }
 
         /// <summary>
@@ -136,7 +100,7 @@ namespace Dal
             XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
             return (from s in stationRoot.Elements()
                     orderby Convert.ToInt32(s.Element("Id").Value)
-                    select returnStation(s));
+                    select s.FromXElement<Station>());
 
             #region found better way
             //IEnumerable<DO.Station> studentsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
@@ -161,8 +125,8 @@ namespace Dal
             //if (stationElemnt == (default(XElement)))
             //    throw new Exceptions.ObjNotExistException(typeof(Parcel), stationWithUpdateInfo.Id);
 
-            XElement xElementUpdateStation = returnStationXElement(stationWithUpdateInfo);
-            stationElemnt = xElementUpdateStation;
+            XElement xElementUpdateStation = stationWithUpdateInfo.ToXElement<Station>();
+            stationElemnt.ReplaceWith(xElementUpdateStation);
             stationRoot.Save(dir + stationFilePath);
 
             #region LoadListFromXMLSerializer
@@ -186,63 +150,14 @@ namespace Dal
         {
             XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
             return (from s in stationRoot.Elements()
-                    where predicate(returnStation(s))
-                    select returnStation(s));
+                    where predicate(s.FromXElement<Station>())
+                    select s.FromXElement<Station>());
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Station> stationList = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
             //return (from station in stationList
             //        where predicate(station)
             //        select station);
-            #endregion
-        }
-
-        /// <summary>
-        /// If station with the requested id exist
-        /// </summary>
-        /// <param name="requestedId">Looking for station with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsStationById(int requestedId)
-        {
-            XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-            XElement stationXElemnt = (from s in stationRoot.Elements()
-                                       where Convert.ToInt32(s.Element("Id").Value) == requestedId
-                                       select s).FirstOrDefault();
-            if (stationXElemnt != null)
-                return true;
-            return false;
-
-            #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-            //if (stationsLists.Any(s => s.Id == requestedId))
-            //    return true;
-            //return false;
-            #endregion
-        }
-
-        /// <summary>
-        /// If station with the requested id exist & active
-        /// </summary>
-        /// <param name="requestedId">Looking for station with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsStationActive(int requestedId)
-        {
-            XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-            XElement stationXElemnt = (from s in stationRoot.Elements()
-                                       where Convert.ToInt32(s.Element("Id").Value) == requestedId
-                                       && Convert.ToBoolean(s.Element("IsActive").Value)
-                                       select s).FirstOrDefault();
-            if (stationXElemnt != null)
-                return true;
-            return false;
-
-            #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-            //if (stationsLists.Any(s => s.Id == requestedId && s.IsActive))
-            //    return true;
-            //return false;
             #endregion
         }
 
@@ -261,3 +176,90 @@ namespace Dal
         }
     }
 }
+
+
+///// <summary>
+///// If station with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for station with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public bool IsStationById(int requestedId)
+//{
+//    XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
+//    XElement stationXElemnt = (from s in stationRoot.Elements()
+//                               where Convert.ToInt32(s.Element("Id").Value) == requestedId
+//                               select s).FirstOrDefault();
+//    if (stationXElemnt != null)
+//        return true;
+//    return false;
+
+//    #region LoadListFromXMLSerializer
+//    //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
+//    //if (stationsLists.Any(s => s.Id == requestedId))
+//    //    return true;
+//    //return false;
+//    #endregion
+//}
+
+///// <summary>
+///// If station with the requested id exist & active
+///// </summary>
+///// <param name="requestedId">Looking for station with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public bool IsStationActive(int requestedId)
+//{
+//    XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
+//    XElement stationXElemnt = (from s in stationRoot.Elements()
+//                               where Convert.ToInt32(s.Element("Id").Value) == requestedId
+//                               && Convert.ToBoolean(s.Element("IsActive").Value)
+//                               select s).FirstOrDefault();
+//    if (stationXElemnt != null)
+//        return true;
+//    return false;
+
+//    #region LoadListFromXMLSerializer
+//    //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
+//    //if (stationsLists.Any(s => s.Id == requestedId && s.IsActive))
+//    //    return true;
+//    //return false;
+//    #endregion
+//}
+
+
+/////// <summary>
+/////// Receive a DO station and return a XElemnt station - copy information.
+/////// </summary>
+/////// <param name="newStation"></param>
+/////// <returns></returns>
+////private XElement returnStationXElement(DO.Station newStation)
+////{
+////    return newStation.ToXElement<Station>();
+////    //XElement Id = new XElement("Id", newStation.Id);
+////    //XElement Name = new XElement("Name", newStation.Name);
+////    //XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
+////    //XElement Latitude = new XElement("Latitude", newStation.Latitude);
+////    //XElement Longitude = new XElement("Longitude", newStation.Longitude);
+////    //XElement IsActive = new XElement("IsActive", newStation.IsActive);
+////    //return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
+////}
+///
+/////// <summary>
+/////// Receive a XElement station and return a DO station - copy information.
+/////// </summary>
+/////// <param name="newStation"></param>
+/////// <returns></returns>
+////private Station returnStation(XElement station)
+////{
+////    return station.FromXElement<Station>();
+////    //return new DO.Station()
+////    //{
+////    //    Id = Convert.ToInt32(station.Element("Id").Value),
+////    //    Name = station.Element("Name").Value,
+////    //    ChargeSlots = Convert.ToInt32(station.Element("ChargeSlots").Value),
+////    //    Latitude = Convert.ToInt32(station.Element("Latitude").Value),
+////    //    Longitude = Convert.ToInt32(station.Element("Longitude").Value),
+////    //    IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
+////    //};
+////}

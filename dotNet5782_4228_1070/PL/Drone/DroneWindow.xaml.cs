@@ -216,21 +216,23 @@ namespace PL
             //if (messageBoxClosing == MessageBoxResult.OK)
             //{
             ////new DroneListWindow(blObjectD).Show();
-            if (!isSimulationWorking || !simIsAskedToStopButOperationNotCompleted)
+            if (!isSimulationWorking) //|| !simIsAskedToStopButOperationNotCompleted
             {
                 this.Close();
                 return;
             }
 
-            if (isSimulationWorking) 
+            if (isSimulationWorking && !simIsAskedToStop) 
             {
                 isReturnBtnClick = true;
                 isProgressBarFromReturnBtn = true;
-                simIsAskedToStopButOperationNotCompleted = true;
+                simIsAskedToStop = true;
                 worker.CancelAsync();
                 ProgressBarForSimulation.Visibility = Visibility.Visible;
                 //return;
             }
+            simIsAskedToStop = true;
+
 
         }
 

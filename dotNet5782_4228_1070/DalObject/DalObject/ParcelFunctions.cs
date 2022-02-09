@@ -110,16 +110,10 @@ namespace Dal
         }
 
         /// <summary>
-        /// If parcel with the requested id exist
+        /// Find parcels status in delivery
         /// </summary>
-        /// <param name="requestedId">Looking for parcel with this id</param>
+        /// <param name="p">parcel to find status for</param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsParcelById(int requestedId)
-        {
-            return DataSource.Parcels.Any(p => p.Id == requestedId);
-        }
-
         public ParcelStatuses findParcelStatus(DO.Parcel p)
         {
             if (p.Delivered != null)
@@ -134,3 +128,15 @@ namespace Dal
         }
     }
 }
+
+
+///// <summary>
+///// If parcel with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for parcel with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsParcelById(int requestedId)
+//{
+//    return DataSource.Parcels.Any(p => p.Id == requestedId);
+//}

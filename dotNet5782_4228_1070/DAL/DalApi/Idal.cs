@@ -36,7 +36,6 @@ namespace DalApi
         IEnumerable<Station> GetStations();
         IEnumerable<Drone> GetDrones();
         IEnumerable<Parcel> GetParcels();
-        IEnumerable<DroneCharge> GetDroneCharges(); //==== to erase
         IEnumerable<Customer> GetCustomers();
 
         //==================
@@ -46,28 +45,7 @@ namespace DalApi
         void changeParcelInfo(Parcel p);
         void changeDroneInfo(Drone d);
         void changeCustomerInfo(Customer c);
-
-
-        //========================================================================================
-        //Could erase - no use!!
-        //======================
-        //check if object exist
-        //======================
-        public Boolean IsCustomerById(int id);
-        public Boolean IsParcelById(int id); 
-        public Boolean IsDroneById(int id);
-        public Boolean IsStationById(int id);
-        public Boolean IsDroneChargeById(int id);
-
-        //================================
-        //check if object exsist & active
-        //================================
-        public Boolean IsStationActive(int requestedId);
-        public Boolean IsCustomerActive(int requestedId);
-        public Boolean IsDroneActive(int requestedId);
-        //========================================================================================
-        //========================================================================================
-
+       
         //======================
         //Get Object/s with specific condition = Predicate
         //======================
@@ -81,12 +59,10 @@ namespace DalApi
         double[] electricityUseByDrone();
 
         ParcelStatuses findParcelStatus(DO.Parcel p);
-
     }
 }
 
-///maybe will be used later
-
+#region maybe will be used later
 //function to use in the futer
 //======================================================
 //void removeDrone(Drone drone);
@@ -272,3 +248,4 @@ namespace DalApi
 //    return DataSource.DroneCharges.Count();
 //}
 //======================================================================================
+#endregion

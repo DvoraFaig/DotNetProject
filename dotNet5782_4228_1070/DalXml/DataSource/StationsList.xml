@@ -3,33 +3,33 @@
   <Station>
     <Id>1</Id>
     <Name>station1</Name>
-    <ChargeSlots>6</ChargeSlots>
-    <Longitude>25</Longitude>
-    <Latitude>2</Latitude>
+    <ChargeSlots>5</ChargeSlots>
+    <Longitude>47</Longitude>
+    <Latitude>49</Latitude>
     <IsActive>true</IsActive>
   </Station>
   <Station>
     <Id>2</Id>
     <Name>station2</Name>
     <ChargeSlots>7</ChargeSlots>
-    <Longitude>1</Longitude>
-    <Latitude>82</Latitude>
+    <Longitude>56</Longitude>
+    <Latitude>22</Latitude>
     <IsActive>true</IsActive>
   </Station>
   <Station>
     <Id>3</Id>
     <Name>station3</Name>
-    <ChargeSlots>6</ChargeSlots>
-    <Longitude>48</Longitude>
-    <Latitude>46</Latitude>
+    <ChargeSlots>5</ChargeSlots>
+    <Longitude>58</Longitude>
+    <Latitude>62</Latitude>
     <IsActive>true</IsActive>
   </Station>
   <Station>
     <Id>4</Id>
     <Name>station4</Name>
-    <ChargeSlots>8</ChargeSlots>
-    <Longitude>89</Longitude>
-    <Latitude>66</Latitude>
+    <ChargeSlots>9</ChargeSlots>
+    <Longitude>48</Longitude>
+    <Latitude>51</Latitude>
     <IsActive>true</IsActive>
   </Station>
 </ArrayOfStation>

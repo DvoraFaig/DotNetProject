@@ -23,16 +23,6 @@ namespace Dal
         }
 
         /// <summary>
-        /// Get all droneCharge.
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneCharge> GetDroneCharges()
-        {
-            return from d in DataSource.DroneCharges select d;
-        }
-
-        /// <summary>
         /// Get a DroneCharge/s with a specific condition = predicate
         /// </summary>
         /// <param name="predicate">return a drone charge /s that meeets the condition</param>
@@ -66,16 +56,25 @@ namespace Dal
             //    throw new Exceptions.NoMatchingData(typeof(Drone), droneId, e1);
             //}
         }
-
-        /// <summary>
-        /// If droneCharge with the DroneId exist
-        /// </summary>
-        /// <param name="requestedId">Looking for droneCharge with this DroneId</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsDroneChargeById(int droneId)
-        {
-            return DataSource.DroneCharges.Any(d => d.DroneId == droneId);
-        }
     }
 }
+
+///// <summary>
+///// If droneCharge with the DroneId exist
+///// </summary>
+///// <param name="requestedId">Looking for droneCharge with this DroneId</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsDroneChargeById(int droneId)
+//{
+//    return DataSource.DroneCharges.Any(d => d.DroneId == droneId);
+//}
+///// <summary>
+///// Get all droneCharge.
+///// </summary>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public IEnumerable<DroneCharge> GetDroneCharges()
+//{
+//    return from d in DataSource.DroneCharges select d;
+//}

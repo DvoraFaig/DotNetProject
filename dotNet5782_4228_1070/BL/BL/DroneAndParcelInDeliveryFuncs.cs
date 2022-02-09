@@ -45,8 +45,8 @@ namespace BL
                                 double batteryAfterDeliveringByTarget = Math.Round(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * requestElectricity((int)p.Weight), 1);
                                 DO.Station stationWithMinDisFromTarget = findAvailbleAndClosestStationForDrone(targetPosition, batteryAfterDeliveringByTarget);
                                 double disTargetToStation = distance(targetPosition, new Position() { Longitude = stationWithMinDisFromTarget.Longitude, Latitude = stationWithMinDisFromTarget.Latitude });
-                                double droneElectricity = requestElectricity((int)p.Weight);
-                                double totalBatteryForDeliveryUsage = (double)(disDroneToSenderP * droneElectricity + disSenderToTarget * droneElectricity + disTargetToStation * droneElectricity);
+                                double electricityUsageWithParcel = requestElectricity((int)p.Weight);
+                                double totalBatteryForDeliveryUsage = (double)(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * electricityUsageWithParcel + disTargetToStation * electricityUsageWhenDroneIsEmpty);
                                 totalBatteryForDeliveryUsage = Math.Round(totalBatteryForDeliveryUsage, 2);
                                 #region find the most matching parcel
                                 if (droneToParcel.Battery - totalBatteryForDeliveryUsage > 0) //[4]

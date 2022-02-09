@@ -152,17 +152,22 @@ namespace BO
             {
                 try //not enough battery
                 {
-                    int amountParcelToDelivery = Idal.getParcelWithSpecificCondition(p => p.Delivered == null).Count();
-                    if (amountParcelToDelivery == 0 || drone.Battery == 100)
-                    {
-                        updateDrone(drone, DroneStatusInSim.completeSim, 0);
-                        needToStop();
-                    }
-                    else
+                    //int amountParcelToDelivery = Idal.getParcelWithSpecificCondition(p => p.Delivered == null).Count();
+                    //if (amountParcelToDelivery == 0 || drone.Battery == 100)
+                    //{
+                    //    updateDrone(drone, DroneStatusInSim.completeSim, 0);
+                    //    needToStop();
+                    //}
+                    //else
+                    //{
+                    if (drone.Battery != 100)
                     {
                         sendDroneToCharge(updateDrone, drone);
                         DroneStatusMaintenance(updateDrone, drone);
                     }
+                    else
+                        Thread.Sleep(5000);
+                    //}
                     //BL.SendDroneToCharge(drone);
                     //drone.Status = BO.DroneStatus.Maintenance;
                     //updateDrone(drone, (int)DroneStatus.NotEnoughBatteryForDelivery, distace);
@@ -244,6 +249,7 @@ namespace BO
                 }
                 catch (Exception)
                 {
+                    //addDroneCharge?? if falls by changeDroneInfoInDroneList
                     Thread.Sleep(1000);
                 }
             }
@@ -262,7 +268,7 @@ namespace BO
         /// <param name="updateDrone">Func to update info in PL</param>
         private void DroneStatusDelivery(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
-
+            //BO.Parcel p = Ibl.getParcelByDrone(drone.Id);
             DeliveryStatusAction droneStatus = Ibl.GetfromEnumDroneStatusInDelivery(drone);
             switch ((int)droneStatus)
             {
@@ -444,10 +450,10 @@ namespace BO
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
                         updateDrone(drone, DroneStatusInSim.ToDelivery, distace);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(2000);
                         drone = calcDisAndSimulateDlivery(updateDrone, drone, target.CustomerPosition, Ibl.requestElectricity((int)parcel.Weight));
                         updateDrone(drone, DroneStatusInSim.Delivery, distace);
-                        Thread.Sleep(500);
+                        Thread.Sleep(2000);
                         drone.ParcelInTransfer = null;
                         parcel.Delivered = DateTime.Now;
                         updateDrone(drone, DroneStatusInSim.HideTextBlock, distace);

@@ -127,27 +127,27 @@ namespace Dal
                 DataSource.Config.chargingRate };
             return arr;
         }
-
-        /// <summary>
-        /// If drone with the requested id exist
-        /// </summary>
-        /// <param name="requestedId">Looking for drone with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsDroneById(int requestedId)
-        {
-            return DataSource.Drones.Any(d => d.Id == requestedId);
-        }
-
-        /// <summary>
-        /// If drone with the requested id exist and active
-        /// </summary>
-        /// <param name="requestedId">Looking for drone with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsDroneActive(int requestedId)
-        {
-            return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);
-        }
     }
 }
+
+///// <summary>
+///// If drone with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for drone with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsDroneById(int requestedId)
+//{
+//    return DataSource.Drones.Any(d => d.Id == requestedId);
+//}
+
+///// <summary>
+///// If drone with the requested id exist and active
+///// </summary>
+///// <param name="requestedId">Looking for drone with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsDroneActive(int requestedId)
+//{
+//    return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);
+//}

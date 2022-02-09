@@ -67,6 +67,8 @@ namespace Dal
 
             if (!File.Exists(dir + droneChargeFilePath))
                 XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(DataSource.DroneCharges, dir + droneChargeFilePath);
+            else
+                XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(new List<DroneCharge>(), dir + droneChargeFilePath);
 
             if (!File.Exists(dir + customerFilePath))
                 XMLTools.SaveListToXMLSerializer<DO.Customer>(DataSource.Customers, dir + customerFilePath);

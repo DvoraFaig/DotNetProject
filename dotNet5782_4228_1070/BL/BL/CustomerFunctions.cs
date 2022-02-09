@@ -107,6 +107,7 @@ namespace BL
             lock (dal)
             {
                 IEnumerable<DO.Customer> customers = dal.GetCustomers();
+
                 return from customer in customers
                        select converteCustomerToList(customer);
             }

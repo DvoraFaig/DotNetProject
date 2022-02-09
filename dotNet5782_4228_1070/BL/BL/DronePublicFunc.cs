@@ -29,7 +29,8 @@ namespace BL
         public void AddDrone(Drone droneToAdd, int stationId)
         {
             Station s = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
-            if (s.DroneChargeAvailble - s.DronesCharging.Count <= 0)
+            //if (s.DroneChargeAvailble - s.DronesCharging.Count <= 0)
+            if (s.DroneChargeAvailble == 0)
                 throw new Exceptions.ObjNotAvailableException(typeof(Station), stationId, "doesn't have available charging slots.");
 
             dal.AddDroneToCharge(new DO.DroneCharge() { StationId = stationId, DroneId = droneToAdd.Id });
@@ -464,12 +465,12 @@ namespace BL
 
         public void changeDroneInfoInDroneList(Drone droneWithUpdateInfo)
         {
-            //int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
-            //dronesList[index] = droneWithUpdateInfo;
+            int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
+            dronesList[index] = droneWithUpdateInfo;
 
-            Drone droneToChange = dronesList.Find(d => d.Id == droneWithUpdateInfo.Id);
-            droneToChange = droneWithUpdateInfo;
-            DroneChangeAction?.Invoke(droneToChange);
+            //Drone droneToChange = dronesList.Find(d => d.Id == droneWithUpdateInfo.Id);
+            //droneToChange = droneWithUpdateInfo;
+            //DroneChangeAction?.Invoke(droneToChange);
             //DroneChangeAction?.Invoke(dronesList[index]);
         }
     }

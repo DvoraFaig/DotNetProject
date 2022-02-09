@@ -109,14 +109,12 @@ namespace PL
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            //System.Windows.Application.Current.Shutdown();
+            //check if simulation is working?????   
             for (int intCounter = App.Current.Windows.Count - 1; intCounter > 0; intCounter--)
                 App.Current.Windows[intCounter].Close();
 
             new MainWindow(blObjectH).Show();
             this.Close();
-            //Environment.Exit(0);
-            //this.Close();
         }
 
         private void AddDroneButtonClick(object sender, RoutedEventArgs e)

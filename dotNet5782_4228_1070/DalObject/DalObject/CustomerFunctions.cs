@@ -102,29 +102,28 @@ namespace Dal
                 throw new Exceptions.ObjNotExistException(typeof(Customer), customerToRemove.Id, e1);
             }
         }
-
-        /// <summary>
-        /// If customer with the requested id exist
-        /// </summary>
-        /// <param name="requestedId">Looking for customer with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsCustomerById(int requestedId)
-        {
-            return DataSource.Customers.Any(c => c.Id == requestedId);
-        }
-
-        /// <summary>
-        /// If customer with the requested id exist and Active
-        /// </summary>
-        /// <param name="requestedId"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsCustomerActive(int requestedId)
-        {
-            return DataSource.Customers.Any(c => c.Id == requestedId && c.IsActive == true);
-        }
     }
 }
 
+///// <summary>
+///// If customer with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for customer with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsCustomerById(int requestedId)
+//{
+//    return DataSource.Customers.Any(c => c.Id == requestedId);
+//}
+
+///// <summary>
+///// If customer with the requested id exist and Active
+///// </summary>
+///// <param name="requestedId"></param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsCustomerActive(int requestedId)
+//{
+//    return DataSource.Customers.Any(c => c.Id == requestedId && c.IsActive == true);
+//}
 

@@ -23,7 +23,8 @@ namespace Dal
         {
             XElement ParcelRoot = XMLTools.LoadData(dir + parcelFilePath);
             newParcel.IsActive = true;
-            ParcelRoot.Add(returnParcelXElement(newParcel));
+            //ParcelRoot.Add(returnParcelXElement(newParcel));
+            ParcelRoot.Add(newParcel.ToXElement<Parcel>());
             ParcelRoot.Save(dir + parcelFilePath);
 
             //Parcel parcel;
@@ -50,47 +51,6 @@ namespace Dal
             //parcelsList.Add(newParcel);
             //XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, dir + parcelFilePath);
             #endregion
-        }
-
-        /// <summary>
-        /// Receive a DO parcel and return a XElemnt parcel - copy information.
-        /// </summary>
-        /// <param name="newParcel"></param>
-        /// <returns></returns>
-        private XElement returnParcelXElement(DO.Parcel newParcel)
-        {
-            return newParcel.ToXElement<Parcel>();
-            //XElement Id = new XElement("Id", newParcel.Id);
-            //XElement SenderId = new XElement("SenderId", newParcel.SenderId);
-            //XElement TargetId = new XElement("TargetId", newParcel.TargetId);
-            //XElement Weight = new XElement("Weight", newParcel.Weight);
-            //XElement Priority = new XElement("Priority", newParcel.Priority);
-            //XElement DroneId = new XElement("DroneId", newParcel.DroneId);
-            //XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
-            //XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
-            //XElement PickUp = new XElement("PickUp", newParcel.PickUp);
-            //XElement Delivered = new XElement("Delivered", newParcel.Delivered);
-            //XElement IsActive = new XElement("IsActive", true);
-            //return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority, DroneId, Requeasted, Scheduled, PickUp, Delivered, IsActive);
-        }
-
-        private Parcel returnParcel(XElement parcel)
-        {
-            return parcel.FromXElement<Parcel>();
-            //return new DO.Parcel()
-            //{
-            //    Id = Convert.ToInt32(parcel.Element("Id").Value),
-            //    SenderId = Convert.ToInt32(parcel.Element("SenderId").Value),
-            //    TargetId = Convert.ToInt32(parcel.Element("TargetId").Value),
-            //    Weight = (WeightCategories)Convert.ToInt32(parcel.Element("Weight").Value),
-            //    Priority = (Priorities)Convert.ToInt32(parcel.Element("Priority").Value),
-            //    DroneId = Convert.ToInt32(parcel.Element("DroneId").Value),
-            //    Requeasted = Convert.ToDateTime(parcel.Element("Requeasted").Value),
-            //    Scheduled = Convert.ToDateTime(parcel.Element("Scheduled").Value),
-            //    PickUp = Convert.ToDateTime(parcel.Element("PickUp").Value),
-            //    Delivered = Convert.ToDateTime(parcel.Element("Delivered").Value),
-            //    IsActive = Convert.ToBoolean((parcel.Element("IsActive").Value))
-            //};
         }
 
         /// <summary>
@@ -139,14 +99,14 @@ namespace Dal
             XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
             return (from p in parcelRoot.Elements()
                     orderby Convert.ToInt32(p.Element("Id").Value)
-                    select returnParcel(p));
+                    select p.FromXElement<Parcel>());//returnParcel(p));
 
             #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Parcel> parceslList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            //return from item in parceslList
-            //       orderby item.Id
-            //       select item;
-            #endregion
+                    //IEnumerable<DO.Parcel> parceslList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+                    //return from item in parceslList
+                    //       orderby item.Id
+                    //       select item;
+                    #endregion
         }
 
         /// <summary>
@@ -163,8 +123,8 @@ namespace Dal
             //if (parcelElement == (default(XElement)))
             //    throw new Exceptions.ObjNotExistException(typeof(Parcel), parcelWithUpdateInfo.Id);
 
-            XElement xElementUpdateParcel = returnParcelXElement(parcelWithUpdateInfo);
-            parcelElement = xElementUpdateParcel;
+            XElement xElementUpdateParcel = parcelWithUpdateInfo.ToXElement<Parcel>(); //returnParcelXElement(parcelWithUpdateInfo);
+            parcelElement.ReplaceWith(xElementUpdateParcel);
             ParcelRoot.Save(dir + parcelFilePath);
 
             #region LoadListFromXMLSerializer
@@ -188,8 +148,8 @@ namespace Dal
         {
             XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
             return (from p in parcelRoot.Elements()
-                    where predicate(returnParcel(p))
-                    select returnParcel(p));
+                    where predicate(p.FromXElement<Parcel>())
+                    select p.FromXElement<Parcel>());
 
             #region LoadListFromXMLSerializer
             //IEnumerable<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
@@ -199,57 +159,7 @@ namespace Dal
             #endregion
         }
 
-        /// <summary>
-        /// If parcel with the requested id exist
-        /// </summary>
-        /// <param name="requestedId">Looking for parcel with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsParcelById(int requestedId)
-        {
-            XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
-            XElement parcelXElemnt = (from p in parcelRoot.Elements()
-                                      where Convert.ToInt32(p.Element("Id").Value) == requestedId
-                                      select p).FirstOrDefault();
 
-            if (parcelXElemnt != null)
-                return true;
-            return false;
-
-            #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Parcel> parcelsLists = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            //if (parcelsLists.Any(p => p.Id == requestedId))
-            //    return true;
-
-            //return false;
-            #endregion
-        }
-
-        /// <summary>
-        /// If parcel with the requested id exist & active
-        /// </summary>
-        /// <param name="requestedId">Looking for parcel with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsParcelActive(int requestedId)
-        {
-            XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
-            XElement parcelXElemnt = (from p in parcelRoot.Elements()
-                                      where Convert.ToInt32(p.Element("Id").Value) == requestedId
-                                      && Convert.ToBoolean(p.Element("IsActive").Value)
-                                      select p).FirstOrDefault();
-
-            if (parcelXElemnt != null)
-                return true;
-            return false;
-
-            #region LoadListFromXMLSerializer
-            //IEnumerable<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
-            //if (parcelsList.Any(s => s.Id == requestedId && s.IsActive))
-            //    return true;
-            //return false;
-            #endregion
-        }
 
         /// <summary>
         /// Return how much parcels there is.
@@ -283,3 +193,95 @@ namespace Dal
         }
     }
 }
+
+///// <summary>
+///// Receive a DO parcel and return a XElemnt parcel - copy information.
+///// </summary>
+///// <param name="newParcel"></param>
+///// <returns></returns>
+//private XElement returnParcelXElement(DO.Parcel newParcel)
+//{
+//    //XElement Id = new XElement("Id", newParcel.Id);
+//    //XElement SenderId = new XElement("SenderId", newParcel.SenderId);
+//    //XElement TargetId = new XElement("TargetId", newParcel.TargetId);
+//    //XElement Weight = new XElement("Weight", newParcel.Weight);
+//    //XElement Priority = new XElement("Priority", newParcel.Priority);
+//    //XElement DroneId = new XElement("DroneId", newParcel.DroneId);
+//    //XElement Requeasted = new XElement("Requeasted", newParcel.Requeasted);
+//    //XElement Scheduled = new XElement("Scheduled", newParcel.Scheduled);
+//    //XElement PickUp = new XElement("PickUp", newParcel.PickUp);
+//    //XElement Delivered = new XElement("Delivered", newParcel.Delivered);
+//    //XElement IsActive = new XElement("IsActive", true);
+//    //return new XElement("Parcel", Id, SenderId, TargetId, Weight, Priority, DroneId, Requeasted, Scheduled, PickUp, Delivered, IsActive);
+//}
+
+//private Parcel returnParcel(XElement parcel)
+//{
+//    //return new DO.Parcel()
+//    //{
+//    //    Id = Convert.ToInt32(parcel.Element("Id").Value),
+//    //    SenderId = Convert.ToInt32(parcel.Element("SenderId").Value),
+//    //    TargetId = Convert.ToInt32(parcel.Element("TargetId").Value),
+//    //    Weight = (WeightCategories)Convert.ToInt32(parcel.Element("Weight").Value),
+//    //    Priority = (Priorities)Convert.ToInt32(parcel.Element("Priority").Value),
+//    //    DroneId = Convert.ToInt32(parcel.Element("DroneId").Value),
+//    //    Requeasted = Convert.ToDateTime(parcel.Element("Requeasted").Value),
+//    //    Scheduled = Convert.ToDateTime(parcel.Element("Scheduled").Value),
+//    //    PickUp = Convert.ToDateTime(parcel.Element("PickUp").Value),
+//    //    Delivered = Convert.ToDateTime(parcel.Element("Delivered").Value),
+//    //    IsActive = Convert.ToBoolean((parcel.Element("IsActive").Value))
+//    //};
+//}
+
+
+///// <summary>
+///// If parcel with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for parcel with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public bool IsParcelById(int requestedId)
+//{
+//    XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
+//    XElement parcelXElemnt = (from p in parcelRoot.Elements()
+//                              where Convert.ToInt32(p.Element("Id").Value) == requestedId
+//                              select p).FirstOrDefault();
+
+//    if (parcelXElemnt != null)
+//        return true;
+//    return false;
+
+//    #region LoadListFromXMLSerializer
+//    //IEnumerable<DO.Parcel> parcelsLists = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+//    //if (parcelsLists.Any(p => p.Id == requestedId))
+//    //    return true;
+
+//    //return false;
+//    #endregion
+//}
+
+///// <summary>
+///// If parcel with the requested id exist & active
+///// </summary>
+///// <param name="requestedId">Looking for parcel with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public bool IsParcelActive(int requestedId)
+//{
+//    XElement parcelRoot = XMLTools.LoadData(dir + parcelFilePath);
+//    XElement parcelXElemnt = (from p in parcelRoot.Elements()
+//                              where Convert.ToInt32(p.Element("Id").Value) == requestedId
+//                              && Convert.ToBoolean(p.Element("IsActive").Value)
+//                              select p).FirstOrDefault();
+
+//    if (parcelXElemnt != null)
+//        return true;
+//    return false;
+
+//    #region LoadListFromXMLSerializer
+//    //IEnumerable<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(dir + parcelFilePath);
+//    //if (parcelsList.Any(s => s.Id == requestedId && s.IsActive))
+//    //    return true;
+//    //return false;
+//    #endregion
+//}

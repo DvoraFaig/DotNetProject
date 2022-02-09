@@ -112,29 +112,27 @@ namespace Dal
         {
             return DataSource.Stations.Count();
         }
-
-        /// <summary>
-        /// If station with the requested id exist
-        /// </summary>
-        /// <param name="requestedId">Looking for station with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsStationById(int requestedId)
-        {
-            return DataSource.Stations.Any(s => s.Id == requestedId);
-        }
-
-        /// <summary>
-        /// If station with the requested id exist and active.
-        /// </summary>
-        /// <param name="requestedId">Looking for station with this id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Boolean IsStationActive(int requestedId)
-        {
-            return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
-        }
-
-
     }
 }
+
+///// <summary>
+///// If station with the requested id exist
+///// </summary>
+///// <param name="requestedId">Looking for station with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsStationById(int requestedId)
+//{
+//    return DataSource.Stations.Any(s => s.Id == requestedId);
+//}
+
+///// <summary>
+///// If station with the requested id exist and active.
+///// </summary>
+///// <param name="requestedId">Looking for station with this id</param>
+///// <returns></returns>
+//[MethodImpl(MethodImplOptions.Synchronized)]
+//public Boolean IsStationActive(int requestedId)
+//{
+//    return DataSource.Stations.Any(s => s.Id == requestedId && s.IsActive == true);
+//}
