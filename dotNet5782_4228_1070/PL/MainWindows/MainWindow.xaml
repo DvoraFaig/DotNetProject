@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="GridMain" Opacity="0.98" Height="434" VerticalAlignment="Top" Margin="54,14,-54,0" >
+    <Grid x:Name="GridMain" Opacity="0.98" Height="400" VerticalAlignment="Top" Margin="54,14,-54,0" >
         <Grid.Background >
             <ImageBrush ImageSource="/pic/worldParcels.jpg" Stretch="None" ></ImageBrush>
         </Grid.Background>

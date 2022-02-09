@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
 using BlApi;
+using System.Collections.ObjectModel;
 //using PO;
 
 namespace PL
@@ -24,9 +25,9 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private Ibl blObjectH;
-        CollectionView view;
+        //CollectionView view;
         private PO.Drones currentDroneList;
-
+        //private ObservableCollection<PO.DroneToList> currentDroneList2 = new ObservableCollection<PO.DroneToList>();
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -42,8 +43,13 @@ namespace PL
             Loaded += ToolWindowLoaded;//The x button
             //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             currentDroneList = new PO.Drones(blObjectH);
+            DroneListView.DataContext = currentDroneList.DroneList;
             currentDroneList.getNewList(blObjectH.returnDronesToList());
-            DroneListView.DataContext = (IEnumerable<PO.DroneToList>)currentDroneList.DroneList;
+            //new
+            //DroneListView.DataContext = currentDroneList2;
+            //currentDroneList2.Add(currentDroneList.DroneList[0]);
+            //currentDroneList2.Add(currentDroneList.DroneList[1]);
+            //currentDroneList2.Add(currentDroneList.DroneList[2]);
             //DroneListView.DataContext = (IEnumerable<PO.DroneToList>)currentDroneList.DroneList;
             //IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
@@ -51,7 +57,7 @@ namespace PL
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
             //DataContext = dronesToList;
-            view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
+            //view = (CollectionView)CollectionViewSource.GetDefaultView(DroneListView.DataContext);
         }
 
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
@@ -70,6 +76,8 @@ namespace PL
         /// <param name="e"></param>
         private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //currentDroneList2.Add(currentDroneList.DroneList[3]);
+            
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
             if (weight!=null)
@@ -101,8 +109,14 @@ namespace PL
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
+            //System.Windows.Application.Current.Shutdown();
+            for (int intCounter = App.Current.Windows.Count - 1; intCounter > 0; intCounter--)
+                App.Current.Windows[intCounter].Close();
+
             new MainWindow(blObjectH).Show();
             this.Close();
+            //Environment.Exit(0);
+            //this.Close();
         }
 
         private void AddDroneButtonClick(object sender, RoutedEventArgs e)
@@ -138,12 +152,12 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
-        private void sortDronesByStatus(object sender, RoutedEventArgs e)
+        /*private void sortDronesByStatus(object sender, RoutedEventArgs e)
         {
             string propertyToGroup = "droneStatus";
             view.GroupDescriptions.Clear();
             PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
             view.GroupDescriptions.Add(property);
-        }
+        }*/
     }
 }

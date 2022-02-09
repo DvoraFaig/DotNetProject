@@ -7,21 +7,22 @@ using BlApi;
 using BO;
 using System.Windows;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace PO
 {
-    public class Drones :DependencyObject
+    public class Drones : DependencyObject
     {
         public Drones(BlApi.Ibl blObject)
         {
-            DroneList = new List<DroneToList>();
+            DroneList = new ObservableCollection<DroneToList>();
             blObject.DroneListChangeAction += Update;
         }
 
-           
-        public List<DroneToList> DroneList
+        //public ObserverCollection<DroneToList> d;
+        public ObservableCollection<DroneToList> DroneList
         {
-            get { return (List<DroneToList>)GetValue(DroneListProperty); }
+            get { return (ObservableCollection<DroneToList>)GetValue(DroneListProperty); }
             set { SetValue(DroneListProperty, value); }
         }
         public static readonly DependencyProperty DroneListProperty = DependencyProperty.Register("DroneList", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
@@ -41,7 +42,10 @@ namespace PO
                 }
                 else
                 {
-                    int index = DroneList.FindIndex(d => d.Id == updatedDrone.Id);
+                    //int index = DroneList.IndexOf
+
+                    int index = DroneList.IndexOf(DroneList.FirstOrDefault(d => d.Id == updatedDrone.Id));
+                    //int index = DroneList.FindIndex(d => d.Id == updatedDrone.Id);
                     DroneList[index].Update(updatedDrone);
                 }
             }
@@ -51,7 +55,11 @@ namespace PO
         {
             if (!drones.Equals(null))
             {
-                DroneList.Clear();
+                foreach (DroneToList drone in DroneList.ToList())
+                {
+                    DroneList.Remove(drone);
+                }
+                //DroneList.Clear();
                 foreach (BO.DroneToList drone in drones)
                 {
                     DroneList.Add(new DroneToList(drone));
@@ -226,7 +234,9 @@ namespace PO
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
             droneStatus = drone.droneStatus;
-            DronePosition = drone.DronePosition;
+            DronePosition = (Position)drone.DronePosition;
+            //DronePosition.Longitude = drone.DronePosition.Longitude;
+            //DronePosition.Latitude = drone.DronePosition.Latitude;
             IdParcel = drone.IdParcel;
         }
         public void Update(BO.DroneToList drone)
@@ -239,7 +249,7 @@ namespace PO
             DronePosition = drone.DronePosition;
             IdParcel = drone.IdParcel;
         }
-        
+
         public int Id
         {
             get { return (int)GetValue(IdProperty); }
@@ -267,8 +277,22 @@ namespace PO
         }
         public Position DronePosition
         {
+            //get; set;
             get { return (Position)GetValue(DronePositionProperty); }
-            set { SetValue(droneStatusProperty, value); }
+            set
+            {
+                Position p = new Position() { Longitude = value.Longitude, Latitude = value.Latitude };
+                SetValue(droneStatusProperty, p);
+            }
+            //set { SetValue(droneStatusProperty, value); }
+            /*set
+            {
+                SetValue(droneStatusProperty, new Position()
+                {
+                    Longitude = value.Longitude,
+                    Latitude = value.Latitude
+                });
+            }*/
         }
         public int IdParcel { get; set; } //if there is
 
