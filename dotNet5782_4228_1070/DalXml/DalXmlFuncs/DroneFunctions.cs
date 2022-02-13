@@ -156,9 +156,6 @@ namespace Dal
                                     where Convert.ToInt32(p.Element("Id").Value) == droneWithUpdateInfo.Id
                                     select p).FirstOrDefault();
 
-            //if (droneElement == (default(XElement)))
-            //    throw new Exceptions.ObjNotExistException(typeof(Parcel), droneWithUpdateInfo.Id);
-
             XElement xElementUpdateDrone = droneWithUpdateInfo.ToXElement<Drone>();
             droneElement.ReplaceWith(xElementUpdateDrone);
             droneRoot.Save(dir + droneFilePath);
@@ -207,91 +204,14 @@ namespace Dal
         /// <returns></returns>
         public double[] electricityUseByDrone()
         {
-            return XMLTools.LoadListFromXMLSerializer<double>(dir + configFilePath).ToArray();
+            try
+            {
+                return XMLTools.LoadListFromXMLSerializer<double>(dir + configFilePath).ToArray();
+            }
+            catch (Exception e)
+            {
+                throw new Exceptions.ObjNotExistException($"{e.Message}");
+            }
         }
     }
 }
-
-
-
-///// <summary>
-///// If drone with the requested id exist & active
-///// </summary>
-///// <param name="requestedId">Looking for drone with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsDroneActive(int requestedId)
-//{
-//    XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
-//    XElement droneXElemnt = (from d in droneRoot.Elements()
-//                             where Convert.ToInt32(d.Element("Id").Value) == requestedId
-//                             && Convert.ToBoolean(d.Element("IsActive").Value)
-//                             select d).FirstOrDefault();
-
-//    if (droneXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Drone> dronesLits = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-//    //if (dronesLits.Any(d => d.Id == requestedId && d.IsActive))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-///// <summary>
-///// If drone with the requested id exist
-///// </summary>
-///// <param name="requestedId">Looking for drone with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsDroneById(int requestedId)
-//{
-//    XElement droneRoot = XMLTools.LoadData(dir + droneFilePath);
-//    XElement droneXElemnt;
-//    droneXElemnt = (from d in droneRoot.Elements()
-//                    where Convert.ToInt32(d.Element("Id").Value) == requestedId
-//                    select d).FirstOrDefault();
-
-//    if (droneXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Drone> dronesLits = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dir + droneFilePath);
-//    //if (dronesLits.Any(d => d.Id == requestedId))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-///// <summary>
-///// Receive a DO drone and return a XElemnt drone - copy information.
-///// </summary>
-///// <param name="newDrone"></param>
-///// <returns></returns>
-//private XElement returnDroneXElement(DO.Drone newDrone)
-//{
-//    //XElement Id = new XElement("Id", newDrone.Id);
-//    //XElement Model = new XElement("Model", newDrone.Model);
-//    //XElement MaxWeight = new XElement("MaxWeight", newDrone.MaxWeight);
-//    //XElement IsActive = new XElement("IsActive", true);
-//    //return new XElement("Drone", Id, Model, MaxWeight, MaxWeight, IsActive);
-//}
-
-///// <summary>
-///// Receive a XElement drone and return a DO drone - copy information.
-///// </summary>
-///// <param name="newDrone"></param>
-///// <returns></returns>
-//private Drone returnDrone(XElement drone)
-//{
-//    //return new DO.Drone()
-//    //{
-//    //    Id = Convert.ToInt32(drone.Element("Id").Value),
-//    //    Model = drone.Element("Model").Value,
-//    //    MaxWeight = (WeightCategories)Convert.ToInt32(drone.Element("MaxWeight").Value),
-//    //    IsActive = Convert.ToBoolean((drone.Element("IsActive").Value))
-//    //};
-//}

@@ -100,15 +100,5 @@ namespace Dal
                 throw new Exceptions.ObjNotExistException(typeof(Station), stationToRemove.Id, e1);
             }
         }
-
-        /// <summary>
-        /// Return how much stations there is.
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public int amountStations()
-        {
-            return DataSource.Stations.Count();
-        }
     }
 }

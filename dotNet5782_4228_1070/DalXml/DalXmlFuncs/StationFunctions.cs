@@ -122,9 +122,6 @@ namespace Dal
                                       where Convert.ToInt32(p.Element("Id").Value) == stationWithUpdateInfo.Id
                                       select p).FirstOrDefault();
 
-            //if (stationElemnt == (default(XElement)))
-            //    throw new Exceptions.ObjNotExistException(typeof(Parcel), stationWithUpdateInfo.Id);
-
             XElement xElementUpdateStation = stationWithUpdateInfo.ToXElement<Station>();
             stationElemnt.ReplaceWith(xElementUpdateStation);
             stationRoot.Save(dir + stationFilePath);
@@ -160,106 +157,5 @@ namespace Dal
             //        select station);
             #endregion
         }
-
-        /// <summary>
-        /// Return how much stations there is.
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public int amountStations()
-        {
-            return XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath).Count();
-
-            //XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-            //return (from p in stationRoot.Elements()
-            //        select p).Count();
-        }
     }
 }
-
-
-///// <summary>
-///// If station with the requested id exist
-///// </summary>
-///// <param name="requestedId">Looking for station with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsStationById(int requestedId)
-//{
-//    XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-//    XElement stationXElemnt = (from s in stationRoot.Elements()
-//                               where Convert.ToInt32(s.Element("Id").Value) == requestedId
-//                               select s).FirstOrDefault();
-//    if (stationXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-//    //if (stationsLists.Any(s => s.Id == requestedId))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-///// <summary>
-///// If station with the requested id exist & active
-///// </summary>
-///// <param name="requestedId">Looking for station with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsStationActive(int requestedId)
-//{
-//    XElement stationRoot = XMLTools.LoadData(dir + stationFilePath);
-//    XElement stationXElemnt = (from s in stationRoot.Elements()
-//                               where Convert.ToInt32(s.Element("Id").Value) == requestedId
-//                               && Convert.ToBoolean(s.Element("IsActive").Value)
-//                               select s).FirstOrDefault();
-//    if (stationXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Station> stationsLists = XMLTools.LoadListFromXMLSerializer<DO.Station>(dir + stationFilePath);
-//    //if (stationsLists.Any(s => s.Id == requestedId && s.IsActive))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-
-/////// <summary>
-/////// Receive a DO station and return a XElemnt station - copy information.
-/////// </summary>
-/////// <param name="newStation"></param>
-/////// <returns></returns>
-////private XElement returnStationXElement(DO.Station newStation)
-////{
-////    return newStation.ToXElement<Station>();
-////    //XElement Id = new XElement("Id", newStation.Id);
-////    //XElement Name = new XElement("Name", newStation.Name);
-////    //XElement ChargeSlots = new XElement("ChargeSlots", newStation.ChargeSlots);
-////    //XElement Latitude = new XElement("Latitude", newStation.Latitude);
-////    //XElement Longitude = new XElement("Longitude", newStation.Longitude);
-////    //XElement IsActive = new XElement("IsActive", newStation.IsActive);
-////    //return new XElement("Station", Id, Name, ChargeSlots, Latitude, Longitude, IsActive);
-////}
-///
-/////// <summary>
-/////// Receive a XElement station and return a DO station - copy information.
-/////// </summary>
-/////// <param name="newStation"></param>
-/////// <returns></returns>
-////private Station returnStation(XElement station)
-////{
-////    return station.FromXElement<Station>();
-////    //return new DO.Station()
-////    //{
-////    //    Id = Convert.ToInt32(station.Element("Id").Value),
-////    //    Name = station.Element("Name").Value,
-////    //    ChargeSlots = Convert.ToInt32(station.Element("ChargeSlots").Value),
-////    //    Latitude = Convert.ToInt32(station.Element("Latitude").Value),
-////    //    Longitude = Convert.ToInt32(station.Element("Longitude").Value),
-////    //    IsActive = Convert.ToBoolean((station.Element("IsActive").Value))
-////    //};
-////}

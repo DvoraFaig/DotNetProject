@@ -57,36 +57,42 @@ namespace Dal
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            DataSource.Initialize(); //////////
-
-            if (!File.Exists(dir + stationFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.Station>(DataSource.Stations, dir + stationFilePath);
-
-            if (!File.Exists(dir + droneFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.Drone>(DataSource.Drones, dir + droneFilePath);
-
-            if (!File.Exists(dir + droneChargeFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(DataSource.DroneCharges, dir + droneChargeFilePath);
-            else
-                XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(new List<DroneCharge>(), dir + droneChargeFilePath);
-
-            if (!File.Exists(dir + customerFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.Customer>(DataSource.Customers, dir + customerFilePath);
-
-            if (!File.Exists(dir + parcelFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.Parcel>(DataSource.Parcels, dir + parcelFilePath);
-
-            if (!File.Exists(dir + workerFilePath))
-                XMLTools.SaveListToXMLSerializer<DO.Worker>(DataSource.Workers, dir + workerFilePath);
-
-            if (!File.Exists(dir + configFilePath))
+            DataSource.Initialize(); try
             {
-                XElement configRoot = XMLTools.LoadData(dir + configFilePath);
-                double[] DroneElectricityUsage = { 0.1, 0.2, 0.4, 0.6, 0.7 };
-                XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
+
+                if (!File.Exists(dir + stationFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.Station>(DataSource.Stations, dir + stationFilePath);
+
+                if (!File.Exists(dir + droneFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.Drone>(DataSource.Drones, dir + droneFilePath);
+
+                if (!File.Exists(dir + droneChargeFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(DataSource.DroneCharges, dir + droneChargeFilePath);
+                else
+                    XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(new List<DroneCharge>(), dir + droneChargeFilePath);
+
+                if (!File.Exists(dir + customerFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.Customer>(DataSource.Customers, dir + customerFilePath);
+
+                if (!File.Exists(dir + parcelFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.Parcel>(DataSource.Parcels, dir + parcelFilePath);
+
+                if (!File.Exists(dir + workerFilePath))
+                    XMLTools.SaveListToXMLSerializer<DO.Worker>(DataSource.Workers, dir + workerFilePath);
+
+                if (!File.Exists(dir + configFilePath))
+                {
+                    XElement configRoot = XMLTools.LoadData(dir + configFilePath);
+                    double[] DroneElectricityUsage = { 0.1, 0.2, 0.4, 0.6, 0.7 };
+                    XMLTools.SaveListToXMLSerializer<double>(DroneElectricityUsage, dir + configFilePath);
+                }
+            }
+            catch (Exceptions.FileLoadCreateException e)
+            {
+                throw new Exceptions.FileLoadCreateException(null, e.Message, e);
             }
         }
-    }   
+    }
 }
 #region garbage
 

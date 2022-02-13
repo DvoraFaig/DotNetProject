@@ -15,7 +15,7 @@ namespace DO
         public Priorities Priority { get; set; }
         public int? DroneId { get; set; }
         public DateTime? Requeasted { get; set; }
-        public DateTime? Scheduled { get; set; } //pair a parcel to drone
+        public DateTime? Scheduled { get; set; } 
         public DateTime? PickUp { get; set; }
         public DateTime? Delivered { get; set; }
         public bool IsActive { get; set; }

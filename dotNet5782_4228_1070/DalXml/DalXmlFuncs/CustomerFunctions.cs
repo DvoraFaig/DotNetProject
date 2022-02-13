@@ -122,9 +122,6 @@ namespace Dal
                                        where Convert.ToInt32(c.Element("Id").Value) == customerWithUpdateInfo.Id
                                        select c).FirstOrDefault();
 
-            //if (customerElemnt == (default(XElement)))
-            //    throw new Exceptions.ObjNotExistException(typeof(Parcel), customerWithUpdateInfo.Id);
-
             XElement xElementUpdateDrone = customerWithUpdateInfo.ToXElement<Customer>();
             customerElemnt.ReplaceWith(xElementUpdateDrone);
             customerRoot.Save(dir + customerFilePath);
@@ -162,90 +159,3 @@ namespace Dal
         }
     }
 }
-
-///// <summary>
-///// If customer with the requested id exist & active
-///// </summary>
-///// <param name="requestedId">Looking for customer with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsCustomerActive(int requestedId)
-//{
-//    XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
-//    XElement customerXElemnt = (from c in customerRoot.Elements()
-//                                where Convert.ToInt32(c.Element("Id").Value) == requestedId
-//                                && Convert.ToBoolean(c.Element("IsActive").Value)
-//                                select c).FirstOrDefault();
-
-//    if (customerXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-//    //if (customersList.Any(c => c.Id == requestedId))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-///// <summary>
-///// If customer with the requested id exist
-///// </summary>
-///// <param name="requestedId">Looking for customer with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public bool IsCustomerById(int requestedId)
-//{
-//    XElement customerRoot = XMLTools.LoadData(dir + customerFilePath);
-//    XElement customerXElemnt = (from c in customerRoot.Elements()
-//                                where Convert.ToInt32(c.Element("Id").Value) == requestedId
-//                                select c).FirstOrDefault();
-//    if (customerXElemnt != null)
-//        return true;
-//    return false;
-
-//    #region LoadListFromXMLSerializer
-//    //IEnumerable<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(dir + customerFilePath);
-//    //if (customersList.Any(c => c.Id == requestedId))
-//    //    return true;
-//    //return false;
-//    #endregion
-//}
-
-///// <summary>
-///// Receive a DO Customer and return a XElemnt Customer - copy information.
-///// </summary>
-///// <param name="newCustomer"></param>
-///// <returns></returns>
-//private XElement returnCustomerXElement(DO.Customer newCustomer)
-//{
-//    return newCustomer.ToXElement<Customer>();
-//    //XElement Id = new XElement("Id", newCustomer.Id);
-//    //XElement Name = new XElement("Name", newCustomer.Name);
-//    //XElement Phone = new XElement("Phone", newCustomer.Phone);
-//    //XElement Latitude = new XElement("Latitude", newCustomer.Latitude);
-//    //XElement Longitude = new XElement("Longitude", newCustomer.Longitude);
-//    //XElement IsActive = new XElement("IsActive", true);
-//    //return new XElement("Customer", Id, Name, Phone, Latitude, Longitude, IsActive);
-//}
-
-///// <summary>
-///// Receive a XElement Customer and return a XElemnt DO.Customer - copy information.
-///// </summary>
-///// <param name="newCustomer"></param>
-///// <returns></returns>
-//private Customer returnCustomer(XElement customer)
-//{
-//    return customer.FromXElement<Customer>();
-
-//    //return new DO.Customer()
-//    //{
-//    //    Id = Convert.ToInt32(customer.Element("Id").Value),
-//    //    Name = customer.Element("Name").Value,
-//    //    Phone = customer.Element("Phone").Value,
-//    //    Latitude = Convert.ToInt32(customer.Element("Latitude").Value),
-//    //    Longitude = Convert.ToInt32(customer.Element("Longitude").Value),
-//    //    IsActive = Convert.ToBoolean((customer.Element("IsActive").Value))
-//    //};
-//}

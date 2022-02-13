@@ -26,8 +26,15 @@ namespace PL
         public SignInOrUpWindow()
         {
             InitializeComponent();
-            this.blObject = BlApi.Ibl.IBLFactory.Factory();
-            //Response.Visibility = Visibility.Hidden;
+            try
+            {
+                this.blObject = BlApi.Ibl.IBLFactory.Factory();
+            }
+            catch (BO.Exceptions.FileLoadCreateException ex)
+            {
+                PLFunctions.messageBoxResponseFromServer("Error loading program", ex.Message);
+                this.Close();
+            }
         }
 
         public SignInOrUpWindow(BlApi.IBl blObject)
@@ -46,7 +53,7 @@ namespace PL
                 MessageBoxResult messageBoxClosing = MessageBox.Show(message, "Hi", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 if (messageBoxClosing == MessageBoxResult.OK)
                 {
-
+                    this.Close();
                 }
             }
         }

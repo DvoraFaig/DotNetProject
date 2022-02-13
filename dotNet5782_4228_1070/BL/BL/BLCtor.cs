@@ -36,7 +36,14 @@ namespace BL
             Random r = new Random();
 
             dronesList = new List<Drone>();
-            dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
+            try
+            {
+                dal = DalApi.DalFactory.factory(); //start one time an IDal.DO.IDal object.
+            }
+            catch (DO.Exceptions.FileLoadCreateException e)
+            {
+                throw new Exceptions.FileLoadCreateException("Cann't load program" ,e);
+            }
 
             #region props implementation
             double[] electricityUsageDrone = dal.electricityUseByDrone();
@@ -54,7 +61,7 @@ namespace BL
             DO.Customer sender, target;
             Position senderPosition, targetPosition;
             Drone CurrentDrone = new Drone();
-            int amountStations = dal.amountStations();
+            int amountStations = dal.GetStations().Count();
             List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
             try
             {

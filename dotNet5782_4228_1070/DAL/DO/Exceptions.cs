@@ -19,73 +19,33 @@ namespace DO
                 : base(String.Format($"The {t.Name} with id {id} doesn't exist."))
             {
             }
-            //public ObjNotExistException(string message ,Exception exception)
-            //    : base(String.Format($"The {message}"))
-            //{
-            //}
-
-        }
-        public class ObjExistException : Exception
-        {
-            public ObjExistException(Type t, int id , Exception exception)
-                : base(String.Format($"The {t.Name} with id {id} exist."),exception)
+            public ObjNotExistException(string t)
+                : base(String.Format($"The {t} doesn't exist"))
             {
             }
+
+        }
+
+        public class ObjExistException : Exception
+        {
             public ObjExistException(Type t, int id)
                 : base(String.Format($"The {t.Name} with id {id} exist."))
             {
             }
-            //public ObjExistException(string message, Exception exception)
-            //    : base(String.Format($"The {message}", exception))
-            //{
-            //}
-        }   
-        public class NoMatchingData: Exception
+        }
+
+        public class FileLoadCreateException : Exception
         {
-            public NoMatchingData(Type t ,int id ,Exception exception)
-                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
-            {
-
-            }
-
+            public FileLoadCreateException(string filePath , string message, Exception exception)
+                : base(string.Format($"{message}"),exception){ }
         }
 
         public class DataChanged : Exception
         {
-            public DataChanged(Type t, int id, Exception exception)
-                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
-            { 
-            }
-
             public DataChanged(Type t, int id)
                 : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"))
             {
             }
-
         }
-
-        public class DataAdded : Exception
-        {
-            public DataAdded(Type t, int id, Exception exception)
-                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"), exception)
-            {
-            }
-
-            public DataAdded(Type t, int id)
-                : base(string.Format($"{t.Name} id: {id} exist but data doesn't match"))
-            {
-            }
-
-        }
-
-
-        //public class DalConfigException : Exception
-        //{
-        //    public DalConfigException(string s)
-        //        : base(String.Format($"{s}"))
-        //    {
-        //    }
-        //}
-
     }
 }

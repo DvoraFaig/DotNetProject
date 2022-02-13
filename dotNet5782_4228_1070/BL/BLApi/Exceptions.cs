@@ -100,5 +100,11 @@ namespace BO
             }
             
         }
+
+        public class FileLoadCreateException : Exception
+        {
+            public FileLoadCreateException(string message, Exception exception)
+                : base(string.Format($"{message}"), exception) { }
+        }
     }
 }

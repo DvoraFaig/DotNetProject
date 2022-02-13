@@ -25,12 +25,12 @@ namespace Dal
                 x.Serialize(file, list);
                 file.Close();
             }
-            catch (Exception )
+            catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);
-                //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new Exceptions.FileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
+
         public static IEnumerable<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
@@ -46,11 +46,13 @@ namespace Dal
                 }
 
             }
-            catch (Exception )
+            catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);  // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new Exceptions.FileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
-            throw new Exception();
+
+            throw new Exceptions.ObjNotExistException($"{filePath}");
+
         }
         #endregion
 
@@ -62,7 +64,6 @@ namespace Dal
             }
             catch
             {
-                //Console.WriteLine("File upload problem");
                 return null;
             }
         }

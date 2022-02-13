@@ -14,7 +14,9 @@ namespace DO
     /// </summary>
     public enum Priorities { Regular = 1, Fast, Emergency }
 
-
+    /// <summary>
+    /// Parcel status from Requeasted to Delivered
+    /// </summary>
     public enum ParcelStatuses { Requeasted, Scheduled, PickedUp, Delivered };
 
 }
