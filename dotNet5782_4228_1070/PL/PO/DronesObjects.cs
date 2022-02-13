@@ -172,7 +172,13 @@ namespace PO
         {
             get { return (BO.DroneStatus)GetValue(StatusProperty); }
             set { SetValue(StatusProperty, value); }
-        } //DroneStatus ?? the same name
+        }
+
+        /*public BO.DroneStatus Status
+{
+get { return (BO.DroneStatus)GetValue(StatusProperty); }
+set { SetValue(StatusProperty, value); }
+} *///DroneStatus ?? the same name
         public BO.ParcelInTransfer ParcelInTransfer
         {
             get { return (BO.ParcelInTransfer)GetValue(ParcelInTransferProperty); }
@@ -231,7 +237,7 @@ namespace PO
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
             Status = drone.droneStatus;
-            DronePosition =(BO.Position)drone.DronePosition;
+            DronePosition =drone.DronePosition;
             //DronePosition.Longitude = drone.DronePosition.Longitude;
             //DronePosition.Latitude = drone.DronePosition.Latitude;
             IdParcel = drone.IdParcel;
@@ -278,8 +284,8 @@ namespace PO
             get { return (BO.Position)GetValue(DronePositionProperty); }
             set
             {
-                BO.Position p = new BO.Position() { Longitude = value.Longitude, Latitude = value.Latitude };
-                SetValue(droneStatusProperty, p);
+                //BO.Position p = new BO.Position() { Longitude = value.Longitude, Latitude = value.Latitude };
+                SetValue(DronePositionProperty, value);
             }
             //set { SetValue(droneStatusProperty, value); }
             /*set
@@ -291,7 +297,11 @@ namespace PO
                 });
             }*/
         }
-        public int IdParcel { get; set; } //if there is
+        public int IdParcel
+        {
+            get { return (int)GetValue(IdParcelProperty); }
+            set { SetValue(IdParcelProperty, value); }
+        } //if there is
 
         public static readonly DependencyProperty IdProperty = DependencyProperty.Register("Id", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model", typeof(object), typeof(DroneToList), new UIPropertyMetadata(0));
