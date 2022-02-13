@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL 
+    sealed partial class BL
     {
         public Action<Parcel> ParcelChangeAction { get; set; }
 
@@ -399,17 +399,21 @@ namespace BL
         /// <returns></returns>
         private static ParcelStatuses findParcelStatus(Parcel p)
         {
-            if (p.Delivered != null)
-                return ParcelStatuses.Delivered;
+            return p.Delivered != null ? ParcelStatuses.Delivered :
+                p.PickUp != null ? ParcelStatuses.PickedUp : 
+                p.Scheduled != null ? ParcelStatuses.Scheduled : 
+                ParcelStatuses.Requeasted;
+            //if (p.Delivered != null)
+            //    return ParcelStatuses.Delivered;
 
-            else if (p.PickUp != null)
-                return ParcelStatuses.PickedUp;
+            //else if (p.PickUp != null)
+            //    return ParcelStatuses.PickedUp;
 
-            else if (p.Scheduled != null)
-                return ParcelStatuses.Scheduled;
+            //else if (p.Scheduled != null)
+            //    return ParcelStatuses.Scheduled;
 
-            else //if (p.Requeasted != null)
-                return ParcelStatuses.Requeasted;
+            //else //if (p.Requeasted != null)
+            //    return ParcelStatuses.Requeasted;
         }
     }
 }

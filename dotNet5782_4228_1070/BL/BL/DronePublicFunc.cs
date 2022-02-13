@@ -436,31 +436,28 @@ namespace BL
         {
             // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
             if (drone.Status == DroneStatus.Available)
-            {
                 return DeliveryStatusAction.Available;
-            }
-            else if (drone.Status == DroneStatus.Delivery)
+
+            //else if (drone.Status == DroneStatus.Delivery)
+            //{
+            else
             {
                 if (drone.ParcelInTransfer != null)
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
-                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude) // i erased else if
-                    {
+                        drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
                         return DeliveryStatusAction.PickedParcel;
-                    }
 
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
                                 && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
-                    {
                         return DeliveryStatusAction.DeliveredParcel;
-                    }
+
                     return DeliveryStatusAction.AsignedParcel;
                 }
                 else
                     return DeliveryStatusAction.DeliveredParcel;
-
             }
-            throw new Exceptions.ObjNotAvailableException("No macthing status");
+            //throw new Exceptions.ObjNotAvailableException("No macthing status");
         }
 
         public void changeDroneInfoInDroneList(Drone droneWithUpdateInfo)

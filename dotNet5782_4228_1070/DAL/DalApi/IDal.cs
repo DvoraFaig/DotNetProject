@@ -27,7 +27,6 @@ namespace DalApi
         public void removeParcel(Parcel parcel);
         public void removeDroneChargeByDroneId(int droneId);
 
-
         int amountParcels();
         int amountStations();    
 
