@@ -17,7 +17,6 @@ namespace Dal
         /// instance of DalObject and will be equal to DalApi
         /// </summary>
         private static DalObject Instance;
-        //private static DalObject Instance = null;
 
         /// <summary>
         /// Avoid reaching DalXml instance by the same time a few places.

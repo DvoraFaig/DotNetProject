@@ -97,15 +97,6 @@ namespace Dal
             }
         }
 
-        //public void removeDrone(int index)
-        //{
-        //    Drone drone = DataSource.Drones[index];
-        //    drone.IsActive = false;
-        //    changeDroneInfo(drone);
-
-        //    //.IsActive = false;
-        //}
-
         /// <summary>
         /// returns an array of drones' electricity usage. 
         /// arr[] =
@@ -129,25 +120,3 @@ namespace Dal
         }
     }
 }
-
-///// <summary>
-///// If drone with the requested id exist
-///// </summary>
-///// <param name="requestedId">Looking for drone with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public Boolean IsDroneById(int requestedId)
-//{
-//    return DataSource.Drones.Any(d => d.Id == requestedId);
-//}
-
-///// <summary>
-///// If drone with the requested id exist and active
-///// </summary>
-///// <param name="requestedId">Looking for drone with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public Boolean IsDroneActive(int requestedId)
-//{
-//    return DataSource.Drones.Any(d => d.Id == requestedId && d.IsActive);
-//}

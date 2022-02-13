@@ -58,7 +58,6 @@ namespace DalApi
 
         double[] electricityUseByDrone();
 
-        ParcelStatuses findParcelStatus(DO.Parcel p);
     }
 }
 

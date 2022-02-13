@@ -38,43 +38,11 @@ namespace Dal
         /// <summary>
         /// Remove charging drone by drone id.
         /// <param name="droneId">The charging drone with droneId</param>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDroneChargeByDroneId(int droneId)
         {
             int index = DataSource.DroneCharges.FindIndex(d => d.DroneId == droneId);
             DataSource.DroneCharges.RemoveAt(index);
-            //try
-            //{
-            //slice??
-            //   DroneCharge droneCharge = (from d in DataSource.DroneCharges
-            //                   where d.DroneId == droneId
-            //                   select d).First();
-            //    DataSource.DroneCharges.Remove(droneCharge);
-            //}
-            //catch (Exception e1)
-            //{
-            //    throw new Exceptions.NoMatchingData(typeof(Drone), droneId, e1);
-            //}
         }
     }
 }
-
-///// <summary>
-///// If droneCharge with the DroneId exist
-///// </summary>
-///// <param name="requestedId">Looking for droneCharge with this DroneId</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public Boolean IsDroneChargeById(int droneId)
-//{
-//    return DataSource.DroneCharges.Any(d => d.DroneId == droneId);
-//}
-///// <summary>
-///// Get all droneCharge.
-///// </summary>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public IEnumerable<DroneCharge> GetDroneCharges()
-//{
-//    return from d in DataSource.DroneCharges select d;
-//}

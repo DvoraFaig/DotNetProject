@@ -20,21 +20,6 @@ namespace Dal
         public void AddParcel(Parcel newParcel)
         {
             DataSource.Parcels.Add(newParcel);
-
-            //Parcel parcel;
-            //try
-            //{
-            //    parcel = getParcelWithSpecificCondition(c => c.Id == newParcel.Id).First();
-            //    if (parcel.IsActive)
-            //        throw new Exceptions.ObjExistException(typeof(Parcel), newParcel.Id);
-
-            //    changeParcelInfo(newParcel);
-            //    throw new Exceptions.DataChanged(typeof(Parcel), newParcel.Id);
-            //}
-            //catch (Exception)
-            //{
-            //    DataSource.Parcels.Add(newParcel);
-            //}
         }
 
         /// <summary>
@@ -110,15 +95,3 @@ namespace Dal
         }
     }
 }
-
-
-///// <summary>
-///// If parcel with the requested id exist
-///// </summary>
-///// <param name="requestedId">Looking for parcel with this id</param>
-///// <returns></returns>
-//[MethodImpl(MethodImplOptions.Synchronized)]
-//public Boolean IsParcelById(int requestedId)
-//{
-//    return DataSource.Parcels.Any(p => p.Id == requestedId);
-//}
