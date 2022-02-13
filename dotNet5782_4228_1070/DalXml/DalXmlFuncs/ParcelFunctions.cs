@@ -174,23 +174,6 @@ namespace Dal
             //return (from p in parcelRoot.Elements()
             //        select p).Count();
         }
-
-        /// <summary>
-        /// Findcparcel status occurding to it's DateTime
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public ParcelStatuses findParcelStatus(DO.Parcel p)
-        {
-            if (p.Delivered != null)
-                return ParcelStatuses.Delivered;
-            else if (p.PickUp != null)
-                return ParcelStatuses.PickedUp;
-            else if (p.Scheduled != null)
-                return ParcelStatuses.Scheduled;
-            else //if (p.Requeasted != null)
-                return ParcelStatuses.Requeasted;
-        }
     }
 }
 

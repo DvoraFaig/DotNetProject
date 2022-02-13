@@ -39,7 +39,7 @@ namespace BL
 
                 customerInParcel.Id = cId;
                 customerInParcel.Name = cName;
-                parcelStatus = dal.findParcelStatus(parcel);
+                parcelStatus = findParcelStatus(parcel);
                 customerParcels.Add(new ParcelAtCustomer()
                 {
                     Id = parcel.Id,

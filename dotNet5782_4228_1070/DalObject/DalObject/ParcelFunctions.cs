@@ -108,24 +108,6 @@ namespace Dal
         {
             return DataSource.Parcels.Count();
         }
-
-        /// <summary>
-        /// Find parcels status in delivery
-        /// </summary>
-        /// <param name="p">parcel to find status for</param>
-        /// <returns></returns>
-        public ParcelStatuses findParcelStatus(DO.Parcel p)
-        {
-            if (p.Delivered != null)
-                return ParcelStatuses.Delivered;
-            else if (p.PickUp != null)
-                return ParcelStatuses.PickedUp;
-
-            else if (p.Scheduled != null)
-                return ParcelStatuses.Scheduled;
-            else //if (p.Requeasted != null)
-                return ParcelStatuses.Requeasted;
-        }
     }
 }
 

@@ -119,17 +119,17 @@ namespace BL
                 IEnumerable<DO.Parcel> parcelsList = new List<DO.Parcel>();
 
                 if (weight >= 0 && status >= 0 && priority >= 0)
-                    parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories && dal.findParcelStatus(p) == parcelStatuses && p.Priority == parcelPriority);
+                    parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories && findParcelStatus(p) == parcelStatuses && p.Priority == parcelPriority);
                 else if (weight >= 0 && status >= 0 && priority == -1)
-                    parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories && dal.findParcelStatus(p) == parcelStatuses);
+                    parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories && findParcelStatus(p) == parcelStatuses);
                 else if (weight >= 0 && status == -1 && priority >= 0)
                     parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories && p.Priority == parcelPriority);
                 else if (weight >= 0 && status == -1 && priority == -1)
                     parcelsList = dal.getParcelWithSpecificCondition(p => p.Weight == weightCategories);
                 else if (weight == -1 && status >= 0 && priority >= 0)
-                    parcelsList = dal.getParcelWithSpecificCondition(p => dal.findParcelStatus(p) == parcelStatuses && p.Priority == parcelPriority);
+                    parcelsList = dal.getParcelWithSpecificCondition(p => findParcelStatus(p) == parcelStatuses && p.Priority == parcelPriority);
                 else if (weight == -1 && status >= 0 && priority == -1)
-                    parcelsList = dal.getParcelWithSpecificCondition(p => dal.findParcelStatus(p) == parcelStatuses);
+                    parcelsList = dal.getParcelWithSpecificCondition(p => findParcelStatus(p) == parcelStatuses);
                 else if (weight == -1 && status == -1 && priority >= 0)
                     parcelsList = dal.getParcelWithSpecificCondition(p => p.Priority == parcelPriority);
                 else parcelsList = dal.GetParcels();
@@ -403,17 +403,13 @@ namespace BL
                 p.PickUp != null ? ParcelStatuses.PickedUp : 
                 p.Scheduled != null ? ParcelStatuses.Scheduled : 
                 ParcelStatuses.Requeasted;
-            //if (p.Delivered != null)
-            //    return ParcelStatuses.Delivered;
-
-            //else if (p.PickUp != null)
-            //    return ParcelStatuses.PickedUp;
-
-            //else if (p.Scheduled != null)
-            //    return ParcelStatuses.Scheduled;
-
-            //else //if (p.Requeasted != null)
-            //    return ParcelStatuses.Requeasted;
+        }
+        public DO.ParcelStatuses findParcelStatus(DO.Parcel p)
+        {
+            return (DO.ParcelStatuses)(p.Delivered != null ? ParcelStatuses.Delivered :
+               p.PickUp != null ? ParcelStatuses.PickedUp :
+               p.Scheduled != null ? ParcelStatuses.Scheduled :
+               ParcelStatuses.Requeasted);
         }
     }
 }
