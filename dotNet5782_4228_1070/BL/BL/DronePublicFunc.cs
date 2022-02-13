@@ -451,6 +451,7 @@ namespace BL
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
                                 && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
                         return DeliveryStatusAction.DeliveredParcel;
+                        return DeliveryStatusAction.DeliveredParcel;
 
                     return DeliveryStatusAction.AsignedParcel;
                 }

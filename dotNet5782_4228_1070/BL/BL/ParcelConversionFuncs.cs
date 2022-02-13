@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
-    sealed partial class BL 
+    sealed partial class BL
     {
 
 
@@ -68,7 +68,11 @@ namespace BL
                 TargetName = targetName,
                 Weight = (WeightCategories)parcel.Weight,
                 Priority = (Priorities)parcel.Priority,
-                ParcelStatus = findParcelStatus(convertDalToBLParcel(parcel))
+                //ParcelStatus = findParcelStatus(convertDalToBLParcel(parcel))
+                ParcelStatus = parcel.Delivered != null ? ParcelStatuses.Delivered :
+                    parcel.PickUp != null ? ParcelStatuses.PickedUp :
+                    parcel.Scheduled != null ? ParcelStatuses.Scheduled :
+                    ParcelStatuses.Requeasted
             };
         }
 
