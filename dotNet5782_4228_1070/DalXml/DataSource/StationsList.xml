@@ -24,7 +24,7 @@
     <Latitude>62</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station>
+  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>4</Id>
     <Name>station4</Name>
     <ChargeSlots>9</ChargeSlots>

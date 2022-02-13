@@ -18,7 +18,6 @@ namespace PO
             blObject.DroneListChangeAction += Update;
         }
 
-        //public ObserverCollection<DroneToList> d;
         public ObservableCollection<DroneToList> DroneList
         {
             get { return (ObservableCollection<DroneToList>)GetValue(DroneListProperty); }
@@ -31,7 +30,7 @@ namespace PO
         /// </summary>
         /// <param name="updatedDrone"></param>
         /// <param name="isNew">To add new drone to list send 'True', to update send 'False'.</param>
-        public void Update(BO.DroneToList updatedDrone, bool isNew)
+        public void Update(BO.Drone updatedDrone, bool isNew)
         {
             if (!updatedDrone.Equals(null))
             {
@@ -42,10 +41,9 @@ namespace PO
                 else
                 {
                     //int index = DroneList.IndexOf
-
                     int index = DroneList.IndexOf(DroneList.FirstOrDefault(d => d.Id == updatedDrone.Id));
-                    //int index = DroneList.FindIndex(d => d.Id == updatedDrone.Id);
                     DroneList[index].Update(updatedDrone);
+                    //int index = DroneList.FindIndex(d => d.Id == updatedDrone.Id);
                 }
             }
         }
@@ -82,7 +80,6 @@ namespace PO
             SartToCharge = d.SartToCharge;
             blObject.DroneChangeAction += Update;
         }
-
 
         public Drone(BlApi.IBl blObject)
         {
@@ -237,20 +234,32 @@ set { SetValue(StatusProperty, value); }
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
             Status = drone.droneStatus;
-            DronePosition =drone.DronePosition;
+            DronePosition = drone.DronePosition;
             //DronePosition.Longitude = drone.DronePosition.Longitude;
             //DronePosition.Latitude = drone.DronePosition.Latitude;
             IdParcel = drone.IdParcel;
         }
-        public void Update(BO.DroneToList drone)
+
+        public DroneToList(BO.Drone drone)
         {
             Id = drone.Id;
             Model = drone.Model;
             MaxWeight = drone.MaxWeight;
             Battery = drone.Battery;
-            Status = drone.droneStatus;
+            Status = drone.Status;
             DronePosition = drone.DronePosition;
-            IdParcel = drone.IdParcel;
+            IdParcel = (drone.ParcelInTransfer != null) ? drone.ParcelInTransfer.Id : default(int);
+        }
+
+        public void Update(BO.Drone drone)
+        {
+            Id = drone.Id;
+            Model = drone.Model;
+            MaxWeight = drone.MaxWeight;
+            Battery = drone.Battery;
+            Status = drone.Status;
+            DronePosition = drone.DronePosition;
+            IdParcel = (drone.ParcelInTransfer != null) ? drone.ParcelInTransfer.Id : default(int);
         }
 
         public int Id

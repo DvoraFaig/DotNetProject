@@ -13,7 +13,7 @@ namespace BL
     sealed partial class BL
     {
         public Action<Drone> DroneChangeAction { get; set; }
-        public Action<DroneToList, bool> DroneListChangeAction { get; set; }
+        public Action<Drone, bool> DroneListChangeAction { get; set; }
 
         /// <summary>
         /// Check if drone with the same id exist.
@@ -46,6 +46,7 @@ namespace BL
             {
                 changeDroneInfoInDroneList(droneToAdd);
                 DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
+                DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true);
                 return;
             }
             catch (DO.Exceptions.ObjExistException)
@@ -55,6 +56,7 @@ namespace BL
 
             dronesList.Add(droneToAdd.Clone<Drone>()); //droneToAdd
             DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
+            DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true);
 
             #region erase
             //////Station station = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
@@ -264,6 +266,7 @@ namespace BL
                     dronesList[index].Model = newModel;
                     dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
                     DroneChangeAction?.Invoke(dronesList[index]);
+                    DroneListChangeAction?.Invoke(dronesList[index], false);
                 }
             }
             #region Exceptions
@@ -327,6 +330,7 @@ namespace BL
                         drone.SartToCharge = DateTime.Now;
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
+                        DroneListChangeAction?.Invoke(drone, false);
                         return drone;
                     }
                     catch (Exceptions.ObjNotExistException)
@@ -363,10 +367,10 @@ namespace BL
                         TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
                         double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                         drone.Battery += Math.Round(baterryToAdd);
-                        drone.Battery = Math.Min(drone.Battery, 100); 
+                        drone.Battery = Math.Min(drone.Battery, 100);
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
-
+                        DroneListChangeAction?.Invoke(drone, false);
                         return drone;
                     }
                 }
@@ -475,6 +479,7 @@ namespace BL
             //droneToChange = droneWithUpdateInfo;
             //DroneChangeAction?.Invoke(droneToChange);
             DroneChangeAction?.Invoke(dronesList[index]);
+            DroneListChangeAction?.Invoke(dronesList[index], false);
         }
     }
 }
