@@ -63,16 +63,16 @@ namespace BO
         /// Ctor Simulation
         /// </summary>
         /// <param name="BL">Interface Ibl</param>
-        public Simulation(IBl BL, IDal idal)
+        public Simulation(IBl BL, IDal idal , Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
             this.Ibl = BL;
             this.Idal = idal;
             this.Isimulation = BlApi.Isimulation.ISimFactory.GetSimulation();
             distace = 0;
+            StartSim(drone, updateDrone, needToStop);
         }
 
         public enum DroneStatus { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
-
 
         private double distace { get; set; }
 
@@ -223,7 +223,7 @@ namespace BO
                 drone.Battery = Math.Max(0, drone.Battery);
                 drone.Battery = Math.Round(drone.Battery, 1);
                 updateDrone(drone, 0, 0);
-                //BL.changeDroneInfo(drone);
+                Ibl.changeDroneInfoInDroneList(drone);
                 Thread.Sleep(100);//100
             }
         }
@@ -536,6 +536,7 @@ namespace BO
             //Thread.Sleep(1000);
             Position stationPos = new Position() { Latitude = s.Latitude, Longitude = s.Longitude };
             drone = calcDisAndSimulateDlivery(updateDrone, drone, stationPos, Ibl.requestElectricity(0));
+            //updateDrone(drone, DroneStatusInSim.ToCharge, 0);
             drone.SartToCharge = DateTime.Now;
             Ibl.changeDroneInfoInDroneList(drone);
             updateDrone(drone, DroneStatusInSim.HideTextBlock, distace);
@@ -651,7 +652,7 @@ namespace BO
             #endregion
 
             droneA.DronePosition = destination;
-            updateDrone(droneA, 0, distace);
+            updateDrone(droneA, DroneStatusInSim.HideTextBlock, distace);
             return droneA;
         }
     }

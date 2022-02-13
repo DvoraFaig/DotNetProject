@@ -3,7 +3,7 @@
   <Drone>
     <Id>1</Id>
     <Model>Drone1</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <MaxWeight>Heavy</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
@@ -15,43 +15,25 @@
   <Drone>
     <Id>3</Id>
     <Model>Drone3</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <MaxWeight>Light</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <Id>4</Id>
     <Model>Drone4</Model>
-    <MaxWeight>Heavy</MaxWeight>
+    <MaxWeight>Medium</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <Id>5</Id>
     <Model>Drone5</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <MaxWeight>Light</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <Id>6</Id>
     <Model>Drone6</Model>
-    <MaxWeight>Light</MaxWeight>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <Id>7</Id>
-    <Model>Drone7</Model>
-    <MaxWeight>Light</MaxWeight>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <Id>8</Id>
-    <Model>Drone8</Model>
     <MaxWeight>Heavy</MaxWeight>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <Id>9</Id>
-    <Model>Drone9</Model>
-    <MaxWeight>Medium</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
 </ArrayOfDrone>

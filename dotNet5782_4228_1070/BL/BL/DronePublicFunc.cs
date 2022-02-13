@@ -478,6 +478,9 @@ namespace BL
             //Drone droneToChange = dronesList.Find(d => d.Id == droneWithUpdateInfo.Id);
             //droneToChange = droneWithUpdateInfo;
             //DroneChangeAction?.Invoke(droneToChange);
+
+
+
             DroneChangeAction?.Invoke(dronesList[index]);
             DroneListChangeAction?.Invoke(dronesList[index], false);
         }

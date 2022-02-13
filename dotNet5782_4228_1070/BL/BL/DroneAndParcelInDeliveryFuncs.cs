@@ -25,76 +25,17 @@ namespace BL
                 {
                     lock (dal)
                     {
-                        DO.Customer senderParcel;
-                        DO.Customer targetParcel;
-                        DO.Customer senderMaxParcel;
-                        double disMaxPToSender = -1; // the biggest distance.....
                         Drone droneToParcel = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
-                        IEnumerable<DO.Parcel> parcels = dal.GetParcels();
-                        DO.Parcel maxParcel = new DO.Parcel();// = new IDal.DO.Parcel() { Weight = 0 };//parcels.First(); //check if weight is good=====================
-                        foreach (DO.Parcel p in parcels)
-                        {
-                            if (p.Scheduled == null)//&& requested!=null .Equals(default(DO.Parcel).Scheduled)
-                            {
-                                senderParcel = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First();
-                                targetParcel = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First();
-                                Position senderPosition = new Position() { Longitude = senderParcel.Longitude, Latitude = senderParcel.Latitude };
-                                Position targetPosition = new Position() { Longitude = targetParcel.Longitude, Latitude = targetParcel.Latitude };
-                                double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
-                                double disSenderToTarget = distance(senderPosition, targetPosition);
-                                double batteryAfterDeliveringByTarget = Math.Round(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * requestElectricity((int)p.Weight), 1);
-                                DO.Station stationWithMinDisFromTarget = findAvailbleAndClosestStationForDrone(targetPosition, batteryAfterDeliveringByTarget);
-                                double disTargetToStation = distance(targetPosition, new Position() { Longitude = stationWithMinDisFromTarget.Longitude, Latitude = stationWithMinDisFromTarget.Latitude });
-                                double electricityUsageWithParcel = requestElectricity((int)p.Weight);
-                                double totalBatteryForDeliveryUsage = (double)(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * electricityUsageWithParcel + disTargetToStation * electricityUsageWhenDroneIsEmpty);
-                                totalBatteryForDeliveryUsage = Math.Round(totalBatteryForDeliveryUsage, 2);
-                                #region find the most matching parcel
-                                if (droneToParcel.Battery - totalBatteryForDeliveryUsage > 0) //[4]
-                                {
-                                    if ((BO.WeightCategories)p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
-                                    {
-                                        if (maxParcel.Equals(default(DO.Parcel)))
-                                        {
-                                            maxParcel = p;
-                                            senderMaxParcel = senderParcel;
-                                            disMaxPToSender = disDroneToSenderP;
-                                        }
-                                        else
-                                        {
-                                            if (maxParcel.Priority < p.Priority)
-                                            {
-                                                maxParcel = p;
-                                                senderMaxParcel = senderParcel;
-                                                disMaxPToSender = disDroneToSenderP;
-                                            }
-                                            else if (maxParcel.Priority == p.Priority /*&& p.Weight <= droneToParcel.MaxWeight && maxParcel.Weight <= droneToParcel.MaxWeight*/)
-                                            {
-                                                if (maxParcel.Weight < p.Weight)
-                                                    maxParcel = p;
-                                                else if (maxParcel.Weight == p.Weight)
-                                                {
-                                                    if (disDroneToSenderP < disMaxPToSender || disMaxPToSender == -1)
-                                                    {
-                                                        maxParcel = p;
-                                                        senderMaxParcel = senderParcel;
-                                                        disMaxPToSender = disDroneToSenderP;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                #endregion
-                            }
-                        }
+                        DO.Parcel maxParcel = machParcel(droneToParcel);
+
                         if (maxParcel.Equals(default(DO.Parcel)))
-                        {
                             throw new Exceptions.ObjNotAvailableException("No Parcel matching drones' conditions");
-                        }
+
                         droneToParcel.Status = DroneStatus.Delivery;
                         droneToParcel.ParcelInTransfer = returnAParcelInTransfer(
                             maxParcel, convertBLToDalCustomer(GetCustomerById(maxParcel.SenderId)),
                             convertBLToDalCustomer(GetCustomerById(maxParcel.TargetId)));
+
                         updateBLDrone(droneToParcel);
                         maxParcel.DroneId = droneToParcel.Id;
                         maxParcel.Scheduled = DateTime.Now;
@@ -111,6 +52,75 @@ namespace BL
                 throw new ObjNotAvailableException(e.Message);
             }
             #endregion
+        }
+
+        private DO.Parcel machParcel(Drone droneToParcel)
+        {
+            DO.Customer senderParcel;
+            DO.Customer targetParcel;
+            DO.Customer senderMaxParcel;
+            double disMaxPToSender = -1;
+            IEnumerable<DO.Parcel> parcels = dal.GetParcels();
+            DO.Parcel maxParcel = new DO.Parcel();
+            foreach (DO.Parcel p in parcels)
+            {
+                if (p.Scheduled == null) //&& requested!=null .Equals(default(DO.Parcel).Scheduled)
+                {
+                    #region declare and implement variables
+                    senderParcel = dal.getCustomerWithSpecificCondition(c => c.Id == p.SenderId).First();
+                    targetParcel = dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First();
+                    Position senderPosition = new Position() { Longitude = senderParcel.Longitude, Latitude = senderParcel.Latitude };
+                    Position targetPosition = new Position() { Longitude = targetParcel.Longitude, Latitude = targetParcel.Latitude };
+                    double disDroneToSenderP = distance(droneToParcel.DronePosition, senderPosition);
+                    double disSenderToTarget = distance(senderPosition, targetPosition);
+                    double batteryAfterDeliveringByTarget = Math.Round(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * requestElectricity((int)p.Weight), 1);
+                    DO.Station stationWithMinDisFromTarget = findAvailbleAndClosestStationForDrone(targetPosition, batteryAfterDeliveringByTarget);
+                    double disTargetToStation = distance(targetPosition, new Position() { Longitude = stationWithMinDisFromTarget.Longitude, Latitude = stationWithMinDisFromTarget.Latitude });
+                    double electricityUsageWithParcel = requestElectricity((int)p.Weight);
+                    double totalBatteryForDeliveryUsage = (double)(disDroneToSenderP * electricityUsageWhenDroneIsEmpty + disSenderToTarget * electricityUsageWithParcel + disTargetToStation * electricityUsageWhenDroneIsEmpty);
+                    totalBatteryForDeliveryUsage = Math.Round(totalBatteryForDeliveryUsage, 2);
+                    #endregion
+
+                    #region find the most matching parcel
+                    if (droneToParcel.Battery - totalBatteryForDeliveryUsage > 0) //[4]
+                    {
+                        if ((BO.WeightCategories)p.Weight <= droneToParcel.MaxWeight) //BLParcel bLParcel = convertDalToBLParcel(p);
+                        {
+                            if (maxParcel.Equals(default(DO.Parcel)))
+                            {
+                                maxParcel = p;
+                                senderMaxParcel = senderParcel;
+                                disMaxPToSender = disDroneToSenderP;
+                            }
+                            else
+                            {
+                                if (maxParcel.Priority < p.Priority)
+                                {
+                                    maxParcel = p;
+                                    senderMaxParcel = senderParcel;
+                                    disMaxPToSender = disDroneToSenderP;
+                                }
+                                else if (maxParcel.Priority == p.Priority /*&& p.Weight <= droneToParcel.MaxWeight && maxParcel.Weight <= droneToParcel.MaxWeight*/)
+                                {
+                                    if (maxParcel.Weight < p.Weight)
+                                        maxParcel = p;
+                                    else if (maxParcel.Weight == p.Weight)
+                                    {
+                                        if (disDroneToSenderP < disMaxPToSender || disMaxPToSender == -1)
+                                        {
+                                            maxParcel = p;
+                                            senderMaxParcel = senderParcel;
+                                            disMaxPToSender = disDroneToSenderP;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                }
+            }
+            return maxParcel;
         }
 
         /// <summary>
@@ -131,20 +141,12 @@ namespace BL
                 Id = p.Id,
                 SenderCustomer = convertDalToBLCustomerInParcel(sender),
                 TargetCustomer = convertDalToBLCustomerInParcel(target),
-                //parcelStatus = false,
                 isWaiting = p.PickUp == null ? true : false,
                 Priority = (Priorities)p.Priority,
                 distance = distance(senderP, targetP),
                 Weight = (WeightCategories)p.Weight
             };
         }
-
-        //public Parcel convertADroneToParcelWhenDroneIsTakenByDrone(Drone drone)
-        //{
-        //    return new Parcel();
-
-        //}
-
 
         /// <summary>
         /// return a DroneInParcel occurding to a parcel and drone id.

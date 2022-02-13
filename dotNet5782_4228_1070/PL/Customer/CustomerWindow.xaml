@@ -87,7 +87,7 @@
                     </ListView.View>
                 </ListView>
             </Expander>
-            <Expander x:Name="ExpenderTarget" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Expanded="changeBackGroundExpenderExpandedTarget" Collapsed="changeBackGroundExpenderCollapsedTarget" Grid.Column="1"  Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="4" Header="Customer As Target"  >
+            <Expander x:Name="ExpenderTarget" Visibility="{Binding ElementName=visibleUpdateForm, Path=Visibility}" Expanded="changeBackGroundExpenderExpandedTarget" Collapsed="changeBackGroundExpenderCollapsedTarget"  Grid.ColumnSpan="5" Grid.Row="6" Grid.RowSpan="3" Header="Customer As Target" Margin="30,0,0,-17"  >
                 <ListView x:Name="CustomerAsTargetParcelsListView"  ItemsSource="{Binding CustomerAsTarget, Mode=TwoWay}" Foreground="Black" FontSize="10"  FontFamily="Tahoma" FontWeight="Light"
             Background="White"  MouseDoubleClick="SelectParcelOfTarget"  >
                     <ListView.View >

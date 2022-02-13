@@ -14,12 +14,20 @@ namespace BL
         /// <returns></returns>
         private CustomerToList converteCustomerToList(DO.Customer customer)
         {
-            CustomerToList customerToList = new CustomerToList() { Id = customer.Id, Name = customer.Name, Phone = customer.Phone };
-            customerToList.AmountSendingDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered != null).Count();
-            customerToList.AmountSendingUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered == null).Count();
-            customerToList.AmountTargetDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered != null).Count();
-            customerToList.AmountTargetUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered == null).Count();
-            return customerToList;
+            int AmountSendingDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered != null).Count();
+            int AmountSendingUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.SenderId == customer.Id && p.Delivered == null).Count();
+            int AmountTargetDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered != null).Count();
+            int AmountTargetUnDeliveredParcels = dal.getParcelWithSpecificCondition(p => p.TargetId == customer.Id && p.Delivered == null).Count();
+            return new CustomerToList()
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone,
+                AmountSendingDeliveredParcels = AmountSendingDeliveredParcels,
+                AmountSendingUnDeliveredParcels = AmountSendingUnDeliveredParcels,
+                AmountTargetDeliveredParcels = AmountTargetDeliveredParcels,
+                AmountTargetUnDeliveredParcels = AmountTargetUnDeliveredParcels
+            };
         }
 
         /// <summary>

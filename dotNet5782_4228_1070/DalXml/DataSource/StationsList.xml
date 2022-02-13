@@ -1,35 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
     <Id>1</Id>
     <Name>station1</Name>
     <ChargeSlots>5</ChargeSlots>
-    <Longitude>47</Longitude>
-    <Latitude>49</Latitude>
+    <Longitude>83</Longitude>
+    <Latitude>40</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
     <Id>2</Id>
     <Name>station2</Name>
-    <ChargeSlots>7</ChargeSlots>
-    <Longitude>56</Longitude>
-    <Latitude>22</Latitude>
+    <ChargeSlots>6</ChargeSlots>
+    <Longitude>16</Longitude>
+    <Latitude>8</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
     <Id>3</Id>
     <Name>station3</Name>
-    <ChargeSlots>5</ChargeSlots>
-    <Longitude>58</Longitude>
-    <Latitude>62</Latitude>
+    <ChargeSlots>7</ChargeSlots>
+    <Longitude>27</Longitude>
+    <Latitude>81</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
     <Id>4</Id>
     <Name>station4</Name>
-    <ChargeSlots>9</ChargeSlots>
-    <Longitude>48</Longitude>
-    <Latitude>51</Latitude>
+    <ChargeSlots>5</ChargeSlots>
+    <Longitude>86</Longitude>
+    <Latitude>81</Latitude>
     <IsActive>true</IsActive>
   </Station>
 </ArrayOfStation>

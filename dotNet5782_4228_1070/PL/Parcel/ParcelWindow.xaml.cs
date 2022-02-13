@@ -36,6 +36,10 @@ namespace PL
         }
         #endregion
 
+        /// <summary>
+        /// As admin add a parcel
+        /// </summary>
+        /// <param name="blObject"></param>
         public ParcelWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
@@ -48,6 +52,11 @@ namespace PL
             returnToParcelListWindow = true;
         }
 
+        /// <summary>
+        /// customer want's to add a parcel.
+        /// </summary>
+        /// <param name="blObject"></param>
+        /// <param name="senderCustomerId"></param>
         public ParcelWindow(BlApi.IBl blObject, int senderCustomerId)
         {
             InitializeComponent();
@@ -72,6 +81,7 @@ namespace PL
 
         /// <summary>
         /// Ctor display the update / see info a specific parcel Form.
+        /// from customer window (as admin.)
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="parcel">The parcel to update / see info</param>
@@ -94,10 +104,12 @@ namespace PL
 
             initializeUpdate(blObject, parcel, isSender);
             returnToParcelListWindow = cameFromPageParcelList;
+            ConfirmButton.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
         /// Ctor display the update / see info a specific parcel Form.
+        /// Client!!
         /// </summary>
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="parcel">The parcel to update / see info </param>
@@ -466,10 +478,15 @@ namespace PL
 
         }
 
+
+        /// <summary>
+        /// Text of confirm parcel btn.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void confirmParcelBtn(object sender, RoutedEventArgs e)
         {
-            ///////////////////
-            ///setConfirmBtn
+
             if (ConfirmButton.Content == "Confirm pickUp")
             {
                 blObject.DronePicksUpParcel(currentParcel.Drone.Id); //currentParcel.Drone.Id;

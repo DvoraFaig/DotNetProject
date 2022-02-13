@@ -192,8 +192,8 @@ namespace PL
                     //worker.CancelAsync();
                     break;
                 default:
-                    StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
-                    DisDroneFromDes.Visibility = Visibility.Visible;
+                    //StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
+                    //DisDroneFromDes.Visibility = Visibility.Visible;
                     break;
             }
         }

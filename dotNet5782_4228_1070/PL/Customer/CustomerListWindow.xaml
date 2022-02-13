@@ -27,10 +27,11 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="225*"/>
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="40*"/>
         </Grid.ColumnDefinitions>
+
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -41,8 +42,8 @@
             <Button x:Name="AddCustomerButton" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add Customer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddCustomerButtonClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>
         </Grid>
-        <Label x:Name="SendingParcelsLabel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Content="Sending parcels:" Style="{StaticResource styleLabelForms}"></Label>
-        <Label x:Name="RecieivingParcelsLabel" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="Recieiving parcels:" Style="{StaticResource styleLabelForms}"></Label>
+        <Label x:Name="SendingParcelsLabel" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="Sending parcels:" Style="{StaticResource styleLabelForms}" FontWeight="DemiBold"></Label>
+        <Label x:Name="RecieivingParcelsLabel" Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" Content="Recieiving parcels:" Style="{StaticResource styleLabelForms}" FontWeight="DemiBold" Margin="210,0,0,0"/>
         <ListView x:Name="CustomerListView"  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true" Foreground="Black" FontSize="15"  FontFamily="Tahoma" FontWeight="Light" HorizontalAlignment="Left"
             Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="2"  Background="White" MouseDoubleClick="CustomerSelection"  >
             <ListView.View >
@@ -50,10 +51,10 @@
                     <GridViewColumn Header="Id" Width="90" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Name"  Width="110" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Phone" Width="100" DisplayMemberBinding="{Binding Phone}" />
-                    <GridViewColumn Header="Deliverd" Width="90" DisplayMemberBinding="{Binding AmountAsSendingDeliveredParcels}" />
-                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountAsSendingUnDeliveredParcels}" />
-                    <GridViewColumn Header="Delivered" Width="90" DisplayMemberBinding="{Binding AmountAsTargetDeliveredParcels}" />
-                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountAsTargetUnDeliveredParcels}" />
+                    <GridViewColumn Header="Deliverd" Width="90" DisplayMemberBinding="{Binding AmountSendingDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountSendingUnDeliveredParcels}" />
+                    <GridViewColumn Header="Delivered" Width="90" DisplayMemberBinding="{Binding AmountTargetDeliveredParcels}" />
+                    <GridViewColumn Header="UnDelivered" Width="110" DisplayMemberBinding="{Binding AmountTargetUnDeliveredParcels}" />
                 </GridView>
             </ListView.View>
         </ListView>
