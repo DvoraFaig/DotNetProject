@@ -363,7 +363,7 @@ namespace BL
                         TimeSpan second = (TimeSpan)(DateTime.Now - drone.SartToCharge) * 100;
                         double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
                         drone.Battery += Math.Round(baterryToAdd);
-                        drone.Battery = Math.Min(drone.Battery, 100);
+                        drone.Battery = Math.Min(drone.Battery, 100); 
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
 
