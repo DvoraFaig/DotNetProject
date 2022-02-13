@@ -32,6 +32,23 @@ namespace PO
                 CustomerAsTarget = c.CustomerAsTarget;
         }
 
+        public BO.Customer BO()
+        {
+            return new BO.Customer()
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Phone = this.Phone,
+                CustomerPosition = new BO.Position()
+                {
+                    Longitude = this.CustomerPosition.Longitude,
+                    Latitude = this.CustomerPosition.Latitude
+                },
+                CustomerAsSender = this.CustomerAsSender,
+                CustomerAsTarget = this.CustomerAsTarget
+            };
+        }
+
         public int Id
         {
             get { return (int)GetValue(IdProperty); }

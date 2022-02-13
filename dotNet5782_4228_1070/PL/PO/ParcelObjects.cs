@@ -45,20 +45,23 @@ namespace PO
             //blObject.ParcelChangeAction += Update;
         }
 
-        /*
-        public void Update(BlApi.Ibl blObject, BO.Parcel p)
+
+        public BO.Parcel BO()
         {
-            Id = p.Id;
-            Sender = p.Sender;
-            Target = p.Target;
-            Weight = (WeightCategories)p.Weight;
-            Priority = (Priorities)p.Priority;
-            Drone = p.Drone;
-            Requeasted = p.Requeasted;
-            Scheduled = p.Scheduled;
-            PickUp = p.PickUp;
-            Delivered = p.Delivered;
-        }*/
+            return new BO.Parcel()
+            {
+                Id = this.Id,
+                Sender = this.Sender,
+                Target = this.Target,
+                Weight = (BO.WeightCategories)this.Weight,
+                Priority = (BO.Priorities)this.Priority,
+                Drone = this.Drone,
+                Requeasted = this.Requeasted,
+                Scheduled = this.Scheduled,
+                PickUp = this.PickUp,
+                Delivered = this.Delivered
+            };
+        }
 
         public int Id
         {

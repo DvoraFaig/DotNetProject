@@ -187,7 +187,7 @@ namespace PL
         private void returnToParcelWindowOfCustomer()
         {
             bool isSender = currentCustomer.Id == parcelOfCustomer.Sender.Id ? true : false;
-            new ParcelWindow(blObjectD, parcelOfCustomer, false, isSender).Show();
+            new ParcelWindow(blObjectD, parcelOfCustomer, true, isSender).Show();
             this.Close();
         }
 

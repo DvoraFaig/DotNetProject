@@ -412,7 +412,7 @@ namespace PL
                 //    customer = blObject.GetCustomerById(currentParcel.Target.Id);
                 //}
 
-                new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), true).Show();
+                new CustomerWindow(blObject,blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
             else
@@ -457,7 +457,7 @@ namespace PL
                 return;
             CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? currentParcel.Target : currentParcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
-            new CustomerWindow(blObject, customer, false ,blObject.GetParcelById(currentParcel.Id)).Show();
+            new CustomerWindow(blObject, customer, false ,currentParcel.BO()).Show();
             this.Close();
         }
 
