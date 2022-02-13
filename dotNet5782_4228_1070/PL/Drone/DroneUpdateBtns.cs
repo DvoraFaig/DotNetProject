@@ -20,6 +20,8 @@ namespace PL
 {
     public partial class DroneWindow : Window
     {
+        string[] chargeButtonContent = { "Free Drone From Charge", "Send Drone To Charge" };
+
         /// <summary>
         /// set visibility and content buttons.
         /// </summary>
@@ -77,11 +79,11 @@ namespace PL
             switch (currentDrone.Status)
             {
                 case DroneStatus.Available:
-                    ChargeButton.Content = "Send Drone To Charge";
+                    ChargeButton.Content = chargeButtonContent[1];
                     ChargeButton.Visibility = Visibility.Visible;
                     break;
                 case DroneStatus.Maintenance:
-                    ChargeButton.Content = "Free Drone From Charge";
+                    ChargeButton.Content = chargeButtonContent[0];
                     ChargeButton.Visibility = Visibility.Visible;
                     break;
             }
@@ -97,8 +99,5 @@ namespace PL
             else
                 RemoveDrone.Visibility = Visibility.Hidden;
         }
-
-        
-
     }
 }

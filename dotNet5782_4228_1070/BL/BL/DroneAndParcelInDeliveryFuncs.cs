@@ -99,6 +99,8 @@ namespace BL
                         maxParcel.DroneId = droneToParcel.Id;
                         maxParcel.Scheduled = DateTime.Now;
                         dal.changeParcelInfo(maxParcel);
+                        DroneChangeAction?.Invoke(droneToParcel);
+                        ParcelChangeAction?.Invoke(convertDalToBLParcel(maxParcel));
                         return droneToParcel;
                     }
                 }

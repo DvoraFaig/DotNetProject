@@ -163,7 +163,7 @@ namespace BL
                 {
                     c = dal.getCustomerWithSpecificCondition(c => c.Id == customerRequestedId && c.Name == customerRequestedName).First();
                 }
-                catch (Exception e) { throw new Exceptions.ObjNotExistException(typeof(Customer), customerRequestedId); }
+                catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Customer), customerRequestedId); }
 
                 //??????????? or needs to sign in again?
                 //if (c.IsActive == false)
@@ -174,7 +174,6 @@ namespace BL
                 //    }
                 //    catch (BO.Exceptions.DataChanged e) { }
                 //}
-
                 return convertDalToBLCustomer(c);
             }
         }

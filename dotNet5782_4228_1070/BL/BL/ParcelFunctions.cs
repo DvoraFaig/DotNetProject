@@ -41,7 +41,7 @@ namespace BL
                     };
 
                     dal.AddParcel(p);
-                    ParcelChangeAction(convertDalToBLParcel(p));
+                    ParcelChangeAction?.Invoke(convertDalToBLParcel(p));
                 }
             }
             else
@@ -265,7 +265,7 @@ namespace BL
                     try
                     {
                         dal.removeParcel(convertBLToDalParcel(parcel));
-                        ParcelChangeAction(parcel);
+                        //ParcelChangeAction?.Invoke(parcel);
                     }
                     catch (Exceptions.ObjNotExistException e) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id, e); }
                     catch (Exception) { throw new Exceptions.ObjNotExistException(typeof(Parcel), parcel.Id); }
@@ -313,8 +313,8 @@ namespace BL
                         parcel.PickUp = DateTime.Now;
                         dal.changeParcelInfo(parcel);
                         drone.ParcelInTransfer.isWaiting = false; //////////////////////
-                        //ParcelChangeAction(convertDalToBLParcel(parcel));
-                        DroneChangeAction(drone);
+                        ParcelChangeAction?.Invoke(convertDalToBLParcel(parcel));
+                        DroneChangeAction?.Invoke(drone);
                         return drone;
                     }
                 }
@@ -329,7 +329,7 @@ namespace BL
         public void changeParcelInfo(Parcel parcel)
         {
             dal.changeParcelInfo(convertBLToDalParcel(parcel));
-            //ParcelChangeAction(parcel);
+            ParcelChangeAction?.Invoke(parcel);
         }
 
 
@@ -362,8 +362,8 @@ namespace BL
                         updateBLDrone(bLDroneToSuplly);
                         parcelToDelivery.Delivered = DateTime.Now;
                         dal.changeParcelInfo(parcelToDelivery);
-                        //ParcelChangeAction(convertDalToBLParcel(parcelToDelivery));
-                        DroneChangeAction(bLDroneToSuplly);
+                        ParcelChangeAction?.Invoke(convertDalToBLParcel(parcelToDelivery));
+                        DroneChangeAction?.Invoke(bLDroneToSuplly);
                         return bLDroneToSuplly;
                     }
                 }

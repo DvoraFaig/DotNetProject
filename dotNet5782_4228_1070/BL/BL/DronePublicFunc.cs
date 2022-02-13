@@ -326,7 +326,7 @@ namespace BL
                         //dal.changeDroneInfo(convertBLToDalDrone(drone)); //???
                         drone.SartToCharge = DateTime.Now;
                         changeDroneInfoInDroneList(drone);
-                        //DroneChangeAction?.Invoke(drone);
+                        DroneChangeAction?.Invoke(drone);
                         return drone;
                     }
                     catch (Exceptions.ObjNotExistException)
@@ -365,8 +365,7 @@ namespace BL
                         drone.Battery += Math.Round(baterryToAdd);
                         drone.Battery = Math.Min(drone.Battery, 100);
                         changeDroneInfoInDroneList(drone);
-
-                        //DroneChangeAction?.Invoke(drone);
+                        DroneChangeAction?.Invoke(drone);
 
                         return drone;
                     }
@@ -446,17 +445,23 @@ namespace BL
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
+                    {
                         return DeliveryStatusAction.PickedParcel;
+                    }
 
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
                                 && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
+                    {
                         return DeliveryStatusAction.DeliveredParcel;
-                        return DeliveryStatusAction.DeliveredParcel;
+                    }
+                    //return DeliveryStatusAction.DeliveredParcel;
 
                     return DeliveryStatusAction.AsignedParcel;
                 }
                 else
+                {
                     return DeliveryStatusAction.DeliveredParcel;
+                }
             }
             //throw new Exceptions.ObjNotAvailableException("No macthing status");
         }
@@ -469,7 +474,7 @@ namespace BL
             //Drone droneToChange = dronesList.Find(d => d.Id == droneWithUpdateInfo.Id);
             //droneToChange = droneWithUpdateInfo;
             //DroneChangeAction?.Invoke(droneToChange);
-            //DroneChangeAction?.Invoke(dronesList[index]);
+            DroneChangeAction?.Invoke(dronesList[index]);
         }
     }
 }

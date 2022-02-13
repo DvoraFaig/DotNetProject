@@ -25,7 +25,7 @@ namespace Dal
                 x.Serialize(file, list);
                 file.Close();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 //Console.WriteLine(ex.Message);
                 //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
@@ -46,7 +46,7 @@ namespace Dal
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 //Console.WriteLine(ex.Message);  // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }

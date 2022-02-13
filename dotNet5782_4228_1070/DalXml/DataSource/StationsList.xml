@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Station>
+  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>1</Id>
     <Name>station1</Name>
     <ChargeSlots>5</ChargeSlots>
@@ -8,7 +8,7 @@
     <Latitude>49</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station>
+  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>2</Id>
     <Name>station2</Name>
     <ChargeSlots>7</ChargeSlots>
@@ -16,7 +16,7 @@
     <Latitude>22</Latitude>
     <IsActive>true</IsActive>
   </Station>
-  <Station>
+  <Station xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>3</Id>
     <Name>station3</Name>
     <ChargeSlots>5</ChargeSlots>

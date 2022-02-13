@@ -262,7 +262,7 @@ namespace PL
         /// <param name="e"></param>
         private void ChargeButtonClick(object sender, RoutedEventArgs e)
         {
-            if (ChargeButton.Content.ToString() == "Send Drone To Charge")
+            if (ChargeButton.Content.ToString() == chargeButtonContent[1])
             {
                 try
                 {

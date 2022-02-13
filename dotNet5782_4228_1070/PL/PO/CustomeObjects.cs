@@ -66,7 +66,7 @@ namespace PO
         {
             get
             {
-                if (GetValue(CustomerAsTargetProperty) != null)
+                if (!(GetValue(CustomerAsTargetProperty)).Equals(null))
                     return (List<BO.ParcelAtCustomer>)GetValue(CustomerAsTargetProperty);
                 else return null;
             }
