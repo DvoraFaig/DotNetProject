@@ -27,6 +27,8 @@ namespace PL
         PO.Customer currentCustomer;
         private bool updateOrAddWindow { get; set; }//true = add drone
         bool isClient = false;
+        BO.Parcel parcelOfCustomer = null;
+        bool cameFromParcelWindow = false;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -85,7 +87,7 @@ namespace PL
         /// <param name="blObject">Instance of interface Ibl</param>
         /// <param name="client">The customer to update/see info</param>
         /// <param name="isClient">if the user is a client or a worker</param>
-        public CustomerWindow(BlApi.IBl blObject, BO.Customer client, bool isClient)
+        public CustomerWindow(BlApi.IBl blObject, BO.Customer client, bool isClient , BO.Parcel parcelOfCustomer = null)
         {
             InitializeComponent();
             Loaded += ToolWindowLoaded; //The x button
@@ -110,6 +112,8 @@ namespace PL
                 RemoveBtn.Visibility = Visibility.Hidden;
                 AddParcelButton.Visibility = Visibility.Visible;
             }
+            this.parcelOfCustomer = parcelOfCustomer;
+            cameFromParcelWindow = parcelOfCustomer == null ? false : true;
         }
 
         /// <summary>
@@ -178,6 +182,16 @@ namespace PL
         }
 
         /// <summary>
+        /// Return to parcel window of customer.
+        /// </summary>
+        private void returnToParcelWindowOfCustomer()
+        {
+            bool isSender = currentCustomer.Id == parcelOfCustomer.Sender.Id ? true : false;
+            new ParcelWindow(blObjectD, parcelOfCustomer, false, isSender).Show();
+            this.Close();
+        }
+
+        /// <summary>
         /// Reset all text boxes in the Add form
         /// </summary>
         /// <param name="sender"></param>
@@ -206,8 +220,13 @@ namespace PL
             }
             else
             {
-                new CustomerListWindow(blObjectD).Show();
-                this.Close();
+                if (cameFromParcelWindow)
+                    returnToParcelWindowOfCustomer();
+                else
+                {
+                    new CustomerListWindow(blObjectD).Show();
+                    this.Close();
+                }
             }
         }
 
@@ -222,8 +241,13 @@ namespace PL
             //currentCustomer.Update(blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text));
             if (!isClient)
             {
-                new CustomerListWindow(blObjectD).Show();
-                this.Close();
+                if (cameFromParcelWindow)
+                    returnToParcelWindowOfCustomer();
+                else
+                {
+                    new CustomerListWindow(blObjectD).Show();
+                    this.Close();
+                }
             }
         }
 
@@ -234,6 +258,9 @@ namespace PL
         /// <param name="e"></param>
         private void SelectParcelOfSender(object sender, MouseButtonEventArgs e)
         {
+            if (cameFromParcelWindow)
+                return;
+
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsSenderParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
             if (isClient)
@@ -250,6 +277,9 @@ namespace PL
         /// <param name="e"></param>
         private void SelectParcelOfTarget(object sender, MouseButtonEventArgs e)
         {
+            if (cameFromParcelWindow)
+                return;
+
             BO.ParcelAtCustomer parcelAtCustomer = (BO.ParcelAtCustomer)CustomerAsTargetParcelsListView.SelectedItem;
             BO.Parcel parcel = blObjectD.GetParcelById(parcelAtCustomer.Id);
             if (isClient)
@@ -258,6 +288,7 @@ namespace PL
                 new ParcelWindow(blObjectD, parcel, false , false).Show();
             this.Close();
         }
+
 
         /// <summary>
         /// Avoid writing chars in a specific textbox like id.
