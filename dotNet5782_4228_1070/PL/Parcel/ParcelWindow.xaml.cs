@@ -72,7 +72,7 @@ namespace PL
             UpdateButton.Visibility = Visibility.Hidden;
             senderName.Visibility = Visibility.Visible;
             senderName.Text = $" {clientCustomer.Name}";
-            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList(senderCustomerId);
+            ParcelTargetSelector.ItemsSource = blObject.GetCustomersExeptOne(senderCustomerId);
             SenderText.Visibility = Visibility.Visible;
             SenderText.Content = clientCustomer.Name;
             clientIsSender = true;
@@ -295,8 +295,8 @@ namespace PL
             ParcelTitle.Content = "Add a Parcel";
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(Priorities));
-            ParcelTargetSelector.ItemsSource = blObject.GetLimitedCustomersList();
-            ParcelSenderSelector.ItemsSource = blObject.GetLimitedCustomersList();
+            ParcelTargetSelector.ItemsSource = blObject.GetCustomersExeptOne();
+            ParcelSenderSelector.ItemsSource = blObject.GetCustomersExeptOne();
         }
 
         /// <summary>

@@ -78,16 +78,6 @@ namespace BL
                 IEnumerable<DO.Station> stations = dal.GetStations();
                 return (from s in stations
                         select convertStationToStationToList(s));
-                #region to erase
-                //List<StationToList> stationToList = new List<StationToList>();
-                //foreach (var station in stations)
-                //{
-                //    int occupiedChargeSlotsInStation = dal.getDroneChargeWithSpecificCondition(d => d.StationId == station.Id).Count();
-                //    int avilableChargeSlotsInStation = station.ChargeSlots - occupiedChargeSlotsInStation;
-                //    stationToList.Add(new StationToList() { Id = station.Id, Name = station.Name, DroneChargeAvailble = avilableChargeSlotsInStation, DroneChargeOccupied = occupiedChargeSlotsInStation });
-                //}
-                //return stationToList;
-                #endregion
             }
         }
 
@@ -188,7 +178,6 @@ namespace BL
 
             try
             {
-                //if active?
                 lock (dal)
                     dal.removeStation(convertBLToDalStation(station));
             }

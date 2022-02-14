@@ -19,8 +19,7 @@ namespace BL
         /// <param name="needToStop">Func to use to stop simulation</param>
         public void StartSimulation(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
-            /*var sim =*/ new Simulation(this , dal , drone, updateDrone,needToStop);
-            //sim.StartSim(drone, updateDrone, needToStop);
+            new Simulation(this , dal , drone, updateDrone,needToStop);
         }
     }
 }

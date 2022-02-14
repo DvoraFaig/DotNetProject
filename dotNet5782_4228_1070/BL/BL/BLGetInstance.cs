@@ -10,7 +10,14 @@ namespace BL
 {
     sealed partial class BL 
     {
+        /// <summary>
+        /// Instance of BL 
+        /// </summary>
         private static BL Instance;
+
+        /// <summary>
+        /// Return Singelton BL 
+        /// </summary>
         public static BL GetInstance
         {
             get

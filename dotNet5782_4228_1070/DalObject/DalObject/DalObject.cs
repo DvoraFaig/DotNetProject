@@ -19,12 +19,6 @@ namespace Dal
         private static DalObject Instance;
 
         /// <summary>
-        /// Avoid reaching DalXml instance by the same time a few places.
-        /// DalXml is supposed to be a Singelton
-        /// </summary>
-        private static readonly object padlock = new object();
-
-        /// <summary>
         /// Ctor - calls Initialize  = Initialize info of the program
         /// </summary>
         private DalObject()
@@ -33,18 +27,15 @@ namespace Dal
         }
 
         /// <summary>
-        /// return one and only one instance of DalObject 
+        /// Return Singelton DalObject 
         /// </summary>
         public static DalObject GetInstance
         {
             get
             {
-                lock (padlock)
-                {
-                    if (Instance == null)
-                        Instance = new DalObject();
-                    return Instance;
-                }
+                if (Instance == null)
+                    Instance = new DalObject();
+                return Instance;
             }
         }
     }

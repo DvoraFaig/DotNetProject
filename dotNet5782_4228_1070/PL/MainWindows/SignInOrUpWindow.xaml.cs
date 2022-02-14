@@ -67,7 +67,7 @@ namespace PL
         {
             try
             {
-                BO.Customer client = blObject.GetCustomerByIdAndName(int.Parse(IdTextBox.Text), passwordBoxCustomer.Password.ToString());
+                BO.Customer client = blObject.GetCustomerById(int.Parse(IdTextBox.Text), passwordBoxCustomer.Password.ToString());
                 if (client != null)
                 {
                     PLFunctions.messageBoxResponseFromServer("","Sign in Succesfully");
@@ -134,7 +134,7 @@ namespace PL
         {
             try
             {
-                bool ifWorkwerExist = blObject.ifWorkerExist(new BO.Worker()
+                bool ifWorkwerExist = blObject.IfWorkerExist(new BO.Worker()
                 {
                     Id = int.Parse(WorkerIdTextBox.Text),
                     Password = passwordBox.Password.ToString()//WorkerPasswordTextBox.Text

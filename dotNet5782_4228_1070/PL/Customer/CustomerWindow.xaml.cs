@@ -237,7 +237,7 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text);
+            blObjectD.changeCustomerInfo(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text);
             //currentCustomer.Update(blObjectD.UpdateCustomerDetails(currentCustomer.Id, NameTextBox.Text, PhoneTextBox.Text));
             if (!isClient)
             {

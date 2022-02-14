@@ -34,8 +34,11 @@ namespace BL
         {
             try
             {
-                int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
-                dronesList[index] = droneWithUpdateInfo;
+                lock (dronesList)
+                {
+                    int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
+                    dronesList[index] = droneWithUpdateInfo;
+                }
             }
             #region Exceptions
             catch (Exception)
@@ -46,21 +49,3 @@ namespace BL
         }
     }
 }
-
-///// <summary>
-///// Add a drone to dronesList by Index
-///// </summary>
-///// <param name="dr"></param>
-//private void AddDroneByIndex(Drone dr)
-//{
-
-//    ///////////////////////////
-//    // sometimes drone.id != drone.index
-//    /////////////////
-//    if (dr.Id < dronesList.Count)
-//    {
-//        dronesList.Insert(dr.Id - 1, dr);
-//        return;
-//    }
-//    dronesList.Add(dr);
-//}

@@ -26,7 +26,7 @@ namespace BL
                     lock (dal)
                     {
                         Drone droneToParcel = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
-                        DO.Parcel maxParcel = machParcel(droneToParcel);
+                        DO.Parcel maxParcel = pairParcel(droneToParcel);
 
                         if (maxParcel.Equals(default(DO.Parcel)))
                             throw new Exceptions.ObjNotAvailableException("No Parcel matching drones' conditions");
@@ -54,7 +54,12 @@ namespace BL
             #endregion
         }
 
-        private DO.Parcel machParcel(Drone droneToParcel)
+        /// <summary>
+        /// Pair a parcel to drone occurrding to conditions
+        /// </summary>
+        /// <param name="droneToParcel"></param>
+        /// <returns></returns>
+        private DO.Parcel pairParcel(Drone droneToParcel)
         {
             DO.Customer senderParcel;
             DO.Customer targetParcel;

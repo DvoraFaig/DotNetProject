@@ -47,7 +47,6 @@ namespace BL
             else
             {
                 throw new Exceptions.ObjNotAvailableException("Sender and targe customer are equal.\nplease change target or sender customer.");
-                //throw new ObjNotExistException($"sender customer {parcelToAdd.Sender.Id} or terget customer {parcelToAdd.Target.Id} not exsist");
             }
         }
 
@@ -56,47 +55,15 @@ namespace BL
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<ParcelToList> GetParcelToList()//////
+        public IEnumerable<ParcelToList> GetParcelToList()
         {
             lock (dal)
             {
                 IEnumerable<DO.Parcel> parcelsList = dal.GetParcels();
                 return (from parcel in parcelsList
                         select convertParcelToParcelToList(parcel));
-
-                //IEnumerable<BO.Parcel> parcels = (from parcel in parcelsList
-                //                                  select convertDalToBLParcel(parcel));
-                //return convertBLParcelToBLParcelsToList(parcels);
             }
         }
-
-        /// <summary>
-        /// Returns a IEnumerable<Parcels> by recieving parcels from dal and converting them to BO.Parcel.
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Parcel> getParcels()
-        {
-            lock (dal)
-            {
-                IEnumerable<DO.Parcel> parcels = dal.GetParcels();
-                return (from parcel in parcels
-                        select convertDalToBLParcel(parcel));
-            }
-        }
-
-        ////private static ParcelStatuses findParcelStatus(ParcelStatuses p)
-        ////{
-        ////    if (p.Delivered != null)
-        ////        return ParcelStatuses.Delivered;
-        ////    else if (p.PickUp != null)
-        ////        return ParcelStatuses.PickedUp;
-
-        ////    else if (p.Scheduled != null)
-        ////        return ParcelStatuses.Scheduled;
-        ////    else //if (p.Requeasted != null)
-        ////        return ParcelStatuses.Requeasted;
-        ////}
 
         /// <summary>
         /// Receive weight, status and priority and returns List<ParcelToList> accurding to the conditions 
@@ -106,7 +73,7 @@ namespace BL
         /// <param name="priority"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<ParcelToList> DisplayParcelToListByFilters(int weight, int status, int priority)
+        public IEnumerable<ParcelToList> GetParcelsByConditions(int weight, int status, int priority)
         {
             #region Objects and variables declaration & implementation
             DO.ParcelStatuses parcelStatuses = (DO.ParcelStatuses)status;
@@ -136,57 +103,17 @@ namespace BL
 
                 return from parcel in parcelsList
                        select convertParcelToParcelToList(convertDalToBLParcel(parcel));
-
-                #region to delete
-                ///////////////the good????
-                //List<BO.Parcel> list = new List<Parcel>();
-                //IEnumerable<Parcel> IList;
-                //if (weight >= 0 && status >= 0 && priority >= 0)
-                //    IList = dal.getParcelWithSpecificCondition(
-                //        p => p.Weight == (DO.WeightCategories)weight
-                //        && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status
-                //        && p.Priority == (DO.Priorities)priority);
-                //else if (weight >= 0 && status >= 0 && priority == -1)
-                //    IList = dal.getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
-                //else if (weight >= 0 && status == -1 && priority >= 0)
-                //    IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight && p.Priority == (DO.Priorities)priority);
-                //else if (weight >= 0 && status == -1 && priority == -1)
-                //    IList = getParcelWithSpecificCondition(p => p.Weight == (DO.WeightCategories)weight);
-                //else if (weight == -1 && status >= 0 && priority >= 0)
-                //    IList = getParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status && p.Priority == (DO.Priorities)priority);
-                //else if (weight == -1 && status >= 0 && priority == -1)
-                //    IList = getParcelWithSpecificCondition(p => findParcelStatus(convertBLToDalParcel(p)) == (ParcelStatuses)status);
-                //else if (weight == -1 && status == -1 && priority >= 0)
-                //    IList = getParcelWithSpecificCondition(p => p.Priority == (DO.Priorities)priority);
-                //else IList = getParcels();
-                ////foreach (var i in IList)
-                ////{
-                ////    list.Add(i);
-                ////}
-                ////return convertBLParcelToBLParcelsToList(list);
-                //return from parcel in IList
-                //       select convertParcelToParcelToList(parcel);
-                ////////////////////////////
-                #endregion
             }
         }
 
-        ///// <summary>
-        ///// Return a BO.Parcel/s(converted) with a specific condition = predicate from parcels = getParcels
-        ///// </summary>
-        ///// <param name="predicate"></param>
-        ///// <returns></returns>
-        //private IEnumerable<Parcel> getParcelWithSpecificCondition(Predicate<Parcel> predicate)
-        //{
-        //    IEnumerable<Parcel> parcels = getParcels();
-        //    return (from parcel in parcels
-        //            where predicate(parcel)
-        //            select parcel);
-        //}
 
-
+        /// <summary>
+        /// Return parcel by Id
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Parcel getParcelByDrone(int droneId)
+        public Parcel GetParcelByDrone(int droneId)
         {
             try
             {
@@ -194,7 +121,7 @@ namespace BL
                 {
                     DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
 
-                    if (parcel.Equals(null))//????????????????
+                    if (parcel.Equals(null))
                         throw new Exceptions.ObjNotExistException(typeof(ParcelInTransfer), -1);//
 
                     return convertDalToBLParcel(parcel);
@@ -205,32 +132,6 @@ namespace BL
                 throw new ObjNotExistException(typeof(ParcelInTransfer), -1, e);
             }
         }
-
-        ///// <summary>
-        ///// Check a predicate to dal and check if drone is schedualed to Parcel.
-        ///// </summary>
-        ///// <param name="droneId"></param>
-        ///// <returns></returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
-        //public bool checkIfExistParcelByDrone(int droneId)
-        //{
-        //    try
-        //    {
-        //        lock (dal)
-        //        {
-        //            {
-        //                DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-        //                if (parcel.Equals(null))
-        //                    return false;
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         /// <summary>
         /// Return a BO.Parcel(converted) that the func receives it by an id from dal.getParcelWithSpecificCondition
@@ -285,14 +186,12 @@ namespace BL
                     {
                         Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId && d.Status == DroneStatus.Delivery).First();
                         DO.Parcel parcel = dal.getParcelWithSpecificCondition(p => p.DroneId == droneId).First();
-                        if (parcel.PickUp != null /*!parcel.PickUp.Equals(default(DO.Parcel).PickUp)*/)
-                        {
+                        if (parcel.PickUp != null) 
                             throw new Exception("The parcel is collected already");
-                        }
-                        if (parcel.Scheduled == null /*parcel.Scheduled.Equals(default(DO.Parcel).Scheduled)*/)
-                        {
+                        
+                        if (parcel.Scheduled == null) 
                             throw new Exception("The parcel is not schedueld.");
-                        }
+                        
                         DO.Customer senderP;
                         try
                         {
@@ -312,7 +211,7 @@ namespace BL
                         updateBLDrone(drone);
                         parcel.PickUp = DateTime.Now;
                         dal.changeParcelInfo(parcel);
-                        drone.ParcelInTransfer.isWaiting = false; //////////////////////
+                        drone.ParcelInTransfer.isWaiting = false;
                         ParcelChangeAction?.Invoke(convertDalToBLParcel(parcel));
                         DroneChangeAction?.Invoke(drone);
                         return drone;
@@ -326,6 +225,10 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Change parcel info.
+        /// </summary>
+        /// <param name="parcel"></param>
         public void changeParcelInfo(Parcel parcel)
         {
             dal.changeParcelInfo(convertBLToDalParcel(parcel));
@@ -333,8 +236,14 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// Deliver parcel
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone DeliveryParcelByDrone(int droneId) //ParcelStatuses.Delivered.
+        public Drone DeliveryParcelByDrone(int droneId) 
         {
             try
             {
@@ -378,32 +287,11 @@ namespace BL
             }
         }
 
-        //private static ParcelStatuses findParcelStatus(DO.Parcel p)
-        //{
-        //    if (p.Delivered != null)
-        //        return ParcelStatuses.Delivered;
-        //    else if (p.PickUp != null)
-        //        return ParcelStatuses.PickedUp;
-
-        //    else if (p.Scheduled != null)
-        //        return ParcelStatuses.Scheduled;
-        //    else //if (p.Requeasted != null)
-        //        return ParcelStatuses.Requeasted;
-        //}
-
-
         /// <summary>
         /// Find parcels' status: { Available, AsignedParcel, PickedParcel , DeliveredParcel}
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private static ParcelStatuses findParcelStatus(Parcel p)
-        {
-            return p.Delivered != null ? ParcelStatuses.Delivered :
-                p.PickUp != null ? ParcelStatuses.PickedUp : 
-                p.Scheduled != null ? ParcelStatuses.Scheduled : 
-                ParcelStatuses.Requeasted;
-        }
         public DO.ParcelStatuses findParcelStatus(DO.Parcel p)
         {
             return (DO.ParcelStatuses)(p.Delivered != null ? ParcelStatuses.Delivered :

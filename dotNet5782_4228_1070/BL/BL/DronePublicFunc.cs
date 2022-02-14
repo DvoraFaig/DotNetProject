@@ -29,7 +29,6 @@ namespace BL
         public void AddDrone(Drone droneToAdd, int stationId)
         {
             Station s = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
-            //if (s.DroneChargeAvailble - s.DronesCharging.Count <= 0)
             if (s.DroneChargeAvailble == 0)
                 throw new Exceptions.ObjNotAvailableException(typeof(Station), stationId, "doesn't have available charging slots.");
 
@@ -58,96 +57,6 @@ namespace BL
             DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
             DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true);
 
-            #region erase
-            //////Station station = convertDalToBLStation(dal.getStationWithSpecificCondition(s => s.Id == stationId).First());
-            //////if (station.DronesCharging.Count - s.DroneChargeAvailble <= 0)
-            //////    throw new Exceptions.ObjNotAvailableException(typeof(Station), stationId, "doesn't have available charging slots.");
-
-            ////try
-            ////{
-            ////    DO.Drone drone = dal.getDroneWithSpecificCondition(d => d.Id == droneToAdd.Id).First();
-            ////    if (!drone.IsActive )
-            ////        dal.changeDroneInfo(convertBLToDalDrone(droneToAdd));
-            ////dronesList.Add(dr);
-            ////dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
-            ////DroneChangeAction?.Invoke(dr);
-            ////}
-            ////catch (Exception)
-            ////{
-            ////    dal.AddDrone(convertBLToDalDrone(droneToAdd));
-            ////dronesList.Add(dr);
-            ////dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id });
-            ////DroneChangeAction?.Invoke(dr);
-            ////}
-
-            //////drone.IsActive
-            ////throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
-            //#endregion
-
-            //DO.Drone drone = dal.getDroneWithSpecificCondition(d => d.Id == droneToAdd.Id).FirstOrDefault();
-
-            //if (!drone.Equals(default(DO.Drone)) && drone.IsActive/*dal.IsDroneActive(droneToAdd.Id)*/)
-            //{
-            //    #region Exceptions
-            //    throw new ObjExistException(typeof(BO.Drone), droneToAdd.Id);
-            //    #endregion
-            //}
-            //else
-            //{
-            //    lock (dal)
-            //    {
-            //        //if ((int)droneToAdd.MaxWeight > 3 || (int)droneToAdd.MaxWeight < 1)
-            //        //    throw new Exception("Weight of drone is out of range");
-            //        DO.WeightCategories maxWeightconvertToEnum = droneToAdd.MaxWeight;
-            //        int battery = new Random().Next(20, 40);
-            //        DO.Station s;
-            //        try
-            //        {
-            //            s = dal.getStationWithSpecificCondition(s => s.Id == stationId).First();
-            //        }
-            //        #region Exceptions
-            //        catch (InvalidOperationException)
-            //        {
-            //            throw new ObjNotExistException(typeof(DO.Station), stationId);
-            //        }
-            //        #endregion
-            //        Station sBL = convertDalToBLStation(s);
-
-            //        if (s.ChargeSlots - sBL.DronesCharging.Count > 0)
-            //        {
-            //            Position p = new Position() { Longitude = s.Longitude, Latitude = s.Latitude };
-            //            Drone dr = new Drone() { Id = droneToAdd.Id, Model = droneToAdd.Model, MaxWeight = maxWeightconvertToEnum, Status = DroneStatus.Maintenance, Battery = battery, DronePosition = p };
-
-            //            if (drone.Equals(default(DO.Drone)) && !drone.IsActive)
-            //            {
-            //                dr = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneToAdd.Id).First();
-            //                dal.changeDroneInfo(convertBLToDalDrone(droneToAdd));
-            //                changeDroneInfo(droneToAdd);
-
-            //                ////////////???? what with the station?
-            //                // was removed when was available.....
-            //                //removeDroneCharge of drone if is 
-            //                //to leave the drone info or to update,....
-            //            }
-            //            else
-            //            {
-            //                dronesList.Add(dr);
-            //                dal.AddDrone(convertBLToDalDrone(dr));
-            //            }
-
-            //            DroneChangeAction?.Invoke(dr);
-            //            dal.AddDroneToCharge(new DO.DroneCharge() { StationId = s.Id, DroneId = droneToAdd.Id }); //??????
-
-            //}
-            //else
-            //{
-            //    #region Exceptions
-            //    throw new Exceptions.ObjNotAvailableException(typeof(Station), stationId, "doesn't have available charging slots.")
-            //    #endregion
-            //}
-            //}
-            // }
-            #endregion
         }
 
 
@@ -167,33 +76,6 @@ namespace BL
             drone.Status = DroneStatus.Maintenance;
             drone.DronePosition = stationPos;
             return drone;
-            //return new Drone()
-            //{
-            //    Id = drone.Id,
-            //    Model = drone.Model,
-            //    MaxWeight = drone.MaxWeight,
-            //    Status = DroneStatus.Maintenance,
-            //    Battery = battery,
-            //    DronePosition = stationPos,
-            //    SartToCharge = DateTime.Now,
-            //};
-        }
-
-        /// <summary>
-        /// Return DronesList
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Drone> getDrones()
-        {
-            lock (dronesList)
-            {
-                IEnumerable<Drone> drones = (from d in dronesList
-                                             orderby d.Id
-                                             select d);
-                return from d in drones
-                       select d.Clone<Drone>();
-            }
         }
 
         /// <summary>
@@ -201,7 +83,7 @@ namespace BL
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> returnDronesToList()
+        public IEnumerable<DroneToList> GetDronesToList()
         {
             lock (dronesList)  //not changing info???
             {
@@ -216,15 +98,19 @@ namespace BL
         /// <param name="status">if 3>status>-1 == values of DroneStatus. if status==-1 weight is null</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> DisplayDroneToListByFilters(int weight, int status)
+        public IEnumerable<DroneToList> GetDronesByConditions(int weight, int status)
         {
-            IEnumerable<Drone> IList = getDrones(); //if Both null took it out of there becuase Ienumerable needed a statment...
+            IEnumerable<Drone> IList = new List<Drone>();
+
+            if (weight == -1 && status == -1)
+                return GetDronesToList();
             if (weight >= 0 && status == -1)
                 IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (WeightCategories)weight);
             else if (weight == -1 && status >= 0)
                 IList = getDroneWithSpecificConditionFromDronesList(d => d.Status == (DroneStatus)status);
             else if (weight >= 0 && status >= 0)
                 IList = getDroneWithSpecificConditionFromDronesList(d => d.MaxWeight == (WeightCategories)weight && d.Status == (DroneStatus)status);
+
             return convertDronesToDronesToList(IList);
         }
 
@@ -259,10 +145,9 @@ namespace BL
         {
             try
             {
-                lock (dronesList) //not changing info??? //locjk dal
+                lock (dronesList) 
                 {
                     int index = dronesList.FindIndex(d => d.Id == droneId);
-                    //dronesList[index].Id = droneId;
                     dronesList[index].Model = newModel;
                     dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
                     DroneChangeAction?.Invoke(dronesList[index]);
@@ -289,8 +174,6 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone SendDroneToCharge(int droneId)
         {
-            /*if (drone.Battery == 100 && drone.Status == DroneStatus.Available)
-                throw new ObjNotExistException("Drones' battery is full.");*/
             lock (dal)
             {
                 lock (dronesList)
@@ -401,8 +284,6 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
-            //if (drone.Status == DroneStatus.Delivery)
-            //    throw new Exceptions.ObjNotAvailableException(typeof(Drone), drone.Id, "Drone is in delivery\nCould not be removed.");
             try
             {
                 lock (dal)
@@ -410,13 +291,8 @@ namespace BL
                     dal.removeDrone(convertBLToDalDrone(drone));
                 }
 
-                //dronesList.Remove((Drone)drone);????
                 int index = dronesList.FindIndex(d => d.Id == drone.Id);
                 dronesList.RemoveAt(index);
-                //}
-                //#region Exceptions
-                //else
-                //    throw new Exceptions.ObjExistException(typeof(Drone), drone.Id, "is active");
             }
             catch (DO.Exceptions.ObjNotExistException e1)
             {
@@ -432,44 +308,44 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetDroneStatusInDelivery(Drone droneInt)
         {
-            return (int)GetfromEnumDroneStatusInDelivery(droneInt);
+            return (int)returnDroneStatusInDelivery(droneInt);
         }
 
-        public DeliveryStatusAction GetfromEnumDroneStatusInDelivery(Drone drone)
+        /// <summary>
+        /// Drone Dtatus
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns></returns>
+        public DeliveryStatusAction returnDroneStatusInDelivery(Drone drone)
         {
-            // return DeliveryStatusAction(GetDroneStatusInDelivery(droneId));
             if (drone.Status == DroneStatus.Available)
                 return DeliveryStatusAction.Available;
 
-            //else if (drone.Status == DroneStatus.Delivery)
-            //{
             else
             {
                 if (drone.ParcelInTransfer != null)
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
-                    {
                         return DeliveryStatusAction.PickedParcel;
-                    }
+                    
 
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
                                 && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
-                    {
                         return DeliveryStatusAction.DeliveredParcel;
-                    }
-                    //return DeliveryStatusAction.DeliveredParcel;
 
                     return DeliveryStatusAction.AsignedParcel;
                 }
                 else
-                {
                     return DeliveryStatusAction.DeliveredParcel;
-                }
+                
             }
-            //throw new Exceptions.ObjNotAvailableException("No macthing status");
         }
 
+        /// <summary>
+        /// Change drone info by drone list in BL
+        /// </summary>
+        /// <param name="droneWithUpdateInfo"></param>
         public void changeDroneInfoInDroneList(Drone droneWithUpdateInfo)
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);

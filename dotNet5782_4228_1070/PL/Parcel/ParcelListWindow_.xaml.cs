@@ -99,7 +99,7 @@ namespace PL
                 priority = -1;
                 ChosenPriority.Visibility = Visibility.Hidden;
             }
-            IEnumerable<ParcelToList> b = blObject.DisplayParcelToListByFilters((int)weight, (int)status, (int)priority);
+            IEnumerable<ParcelToList> b = blObject.GetParcelsByConditions((int)weight, (int)status, (int)priority);
             DataContext = b;
             view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
 

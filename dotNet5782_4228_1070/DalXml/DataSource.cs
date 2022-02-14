@@ -9,7 +9,6 @@ namespace Dal
 {
     internal static class DataSource
     {
-        //Arrays of the classes
         internal static List<Drone> Drones;
         internal static List<Station> Stations;
         internal static List<Customer> Customers;
@@ -94,15 +93,8 @@ namespace Dal
                     p.TargetId = Customers[r.Next(0, Customers.Count)].Id;
                 } while (p.SenderId == p.TargetId);
                 int matchToDrone = r.Next(0, 2);
-                if (matchToDrone == 0)  //find an availble drone with matching weight and no parcel is schedueld with it
+                if (matchToDrone == 0) 
                 {
-                    //////p.DroneId = Drones.Find(d =>
-                    //////(d.MaxWeight >= p.Weight
-                    //////    &&
-                    //////    Parcels.Find(p => p.DroneId == d.Id).Id == 0)).Id;
-                    //
-                    //find avilable drone with drone.weight >= parcel.weight
-                    //
                     p.DroneId = Drones.FirstOrDefault(d =>
                     (d.MaxWeight >= p.Weight
                         &&
@@ -141,37 +133,7 @@ namespace Dal
                     Password = $"Worker{i}",
                 });
             }
-            //DroneCharge
-            //int indexStation;
-            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-            //for (int i = 0; i < dronesNotInDelivery.Count; i++)
-            //{
-            //    int fullChargingSlotsInStation;
-            //    indexStation = r.Next(0, Stations.Count);
-            //    fullChargingSlotsInStation = DroneCharges.Count(d => d.StationId == Stations[indexStation].Id);
-            //    if (Stations[indexStation].ChargeSlots > fullChargingSlotsInStation) //if there is a place for another Drone to charge
-            //    {
-            //        DroneCharges.Add(new DroneCharge() { DroneId = dronesNotInDelivery[i].Id, StationId = Stations[indexStation].Id });
-            //    }
-            //}
-
-
-            //DroneCharge
-            //List<Drone> dronesNotInDelivery = Drones.FindAll(d => 0 == Parcels.Find(p => p.DroneId == d.Id).DroneId);
-            //int droneIndex = 0;
-            //for (int i = 0; i < Stations.Count; i++)
-            //{
-            //    if (droneIndex == dronesNotInDelivery.Count)
-            //        break;
-            //    for (int j = 0; j < Stations[i].ChargeSlots; j++)
-            //    {
-            //        if (droneIndex == dronesNotInDelivery.Count)
-            //            break;
-            //        DroneCharges.Add(new DroneCharge() { StationId = Stations[i].Id, DroneId = dronesNotInDelivery[droneIndex].Id });
-            //        droneIndex++;
-
-            //    }
-            //}
+          
             Config.empty = .1;
             Config.lightWeight = .2;
             Config.mediumWeight = .4;
@@ -186,7 +148,6 @@ namespace Dal
             internal static double mediumWeight = .4;
             internal static double heavyWeight = .6;
             internal static double chargingRate = .7;
-            internal static string DalObjectOrDalXml = "DalXml";
         }
     }
 }

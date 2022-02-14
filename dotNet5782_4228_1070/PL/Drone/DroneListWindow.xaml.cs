@@ -44,7 +44,7 @@ namespace PL
             //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             currentDroneList = new PO.Drones(blObjectH);
             DroneListView.DataContext = currentDroneList.DroneList;
-            currentDroneList.getNewList(blObjectH.returnDronesToList());
+            currentDroneList.getNewList(blObjectH.GetDronesToList());
             //new
             //DroneListView.DataContext = currentDroneList2;
             //currentDroneList2.Add(currentDroneList.DroneList[0]);
@@ -76,7 +76,6 @@ namespace PL
         /// <param name="e"></param>
         private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //currentDroneList2.Add(currentDroneList.DroneList[3]);
             
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
@@ -102,8 +101,9 @@ namespace PL
                 status = -1;
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
-            IEnumerable<DroneToList> b = blObjectH.DisplayDroneToListByFilters((int)weight ,(int)status);
-            //DroneListView.ItemsSource = b;
+
+            IEnumerable<DroneToList> b = blObjectH.GetDronesByConditions((int)weight ,(int)status);
+
             currentDroneList.getNewList(b);
         }
 

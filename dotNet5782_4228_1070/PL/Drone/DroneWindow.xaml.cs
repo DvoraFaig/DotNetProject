@@ -90,7 +90,7 @@ namespace PL
             }
             else
             {
-                parcel = blObject.getParcelByDrone(currentDrone.Id);
+                parcel = blObject.GetParcelByDrone(currentDrone.Id);
                 senedrOfParcel = blObject.GetCustomerById(parcel.Sender.Id);
                 targetOfParcel = blObject.GetCustomerById(parcel.Target.Id);
             }

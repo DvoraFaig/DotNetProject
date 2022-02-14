@@ -68,11 +68,7 @@ namespace BL
                 TargetName = targetName,
                 Weight = (WeightCategories)parcel.Weight,
                 Priority = (Priorities)parcel.Priority,
-                //ParcelStatus = findParcelStatus(convertDalToBLParcel(parcel))
-                ParcelStatus = parcel.Delivered != null ? ParcelStatuses.Delivered :
-                    parcel.PickUp != null ? ParcelStatuses.PickedUp :
-                    parcel.Scheduled != null ? ParcelStatuses.Scheduled :
-                    ParcelStatuses.Requeasted
+                ParcelStatus =(ParcelStatuses)findParcelStatus(parcel)
             };
         }
 
@@ -90,7 +86,10 @@ namespace BL
                 TargetName = parcel.Target.Name,
                 Weight = parcel.Weight,
                 Priority = (Priorities)parcel.Priority,
-                ParcelStatus = findParcelStatus(parcel)
+                ParcelStatus = parcel.Delivered != null ? ParcelStatuses.Delivered :
+                    parcel.PickUp != null ? ParcelStatuses.PickedUp :
+                    parcel.Scheduled != null ? ParcelStatuses.Scheduled :
+                    ParcelStatuses.Requeasted
             };
         }
 
@@ -123,8 +122,7 @@ namespace BL
                 PickUp = parcel.PickUp,
                 Delivered = parcel.Delivered
             };
-            //if (parcel.Sender != null) convertedParcel.SenderId = parcel.Sender.Id;//?
-            //if (parcel.Target != null) convertedParcel.TargetId = parcel.Target.Id;
+          
             if (parcel.Drone != null) convertedParcel.DroneId = parcel.Drone.Id;
             return convertedParcel;
         }
@@ -134,11 +132,11 @@ namespace BL
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private Parcel convertDalToBLParcel(DO.Parcel p) ///////////////////////////////
+        private Parcel convertDalToBLParcel(DO.Parcel p) 
         {
             DroneInParcel drone = null;
             Parcel parcel = new Parcel();
-            if (!p.Scheduled.Equals(default(DO.Parcel).Scheduled)) //if the parcel is paired with a drone
+            if (!p.Scheduled.Equals(default(DO.Parcel).Scheduled))
             {
                 drone = createDroneInParcel(p, getDroneWithSpecificConditionFromDronesList(d => d.Id == (int)p.DroneId).First().Id);
             }
@@ -158,29 +156,3 @@ namespace BL
         }
     }
 }
-
-
-///// <summary>
-///// convert list Parcels ToParcelsToList
-///// </summary>
-///// <param name="parcels">BO.Parcel</param>
-///// <returns></returns>
-//private List<ParcelToList> convertBLParcelToBLParcelsToList(IEnumerable<Parcel> parcels)
-//{
-//    List<ParcelToList> listParcels = new List<ParcelToList>();
-//    ParcelToList toAdd = new ParcelToList();
-//    foreach (Parcel parcel in parcels)
-//    {
-//        toAdd = new ParcelToList()
-//        {
-//            Id = parcel.Id,
-//            SenderName = parcel.Sender.Name,
-//            TargetName = parcel.Target.Name,
-//            Weight = parcel.Weight,
-//            Priority = parcel.Priority,
-//            ParcelStatus = findParcelStatus(parcel)
-//        };
-//        listParcels.Add(toAdd);
-//    }
-//    return listParcels;
-//}

@@ -42,7 +42,7 @@ namespace BL
             station.Longitude = s.StationPosition.Longitude;
             station.Latitude = s.StationPosition.Latitude;
             int DronesCharging;
-            try //if station doesn't have droneCharging.
+            try 
             {
                 DronesCharging = s.DronesCharging.Count();
             }

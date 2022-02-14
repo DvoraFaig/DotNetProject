@@ -17,7 +17,7 @@ namespace BL
         /// <param name="worker">The worker who loged in</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool ifWorkerExist(Worker worker)
+        public bool IfWorkerExist(Worker worker)
         {
             try
             {

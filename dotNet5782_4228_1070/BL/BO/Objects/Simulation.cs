@@ -269,7 +269,7 @@ namespace BO
         private void DroneStatusDelivery(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
             //BO.Parcel p = Ibl.getParcelByDrone(drone.Id);
-            DeliveryStatusAction droneStatus = Ibl.GetfromEnumDroneStatusInDelivery(drone);
+            DeliveryStatusAction droneStatus = Ibl.returnDroneStatusInDelivery(drone);
             switch ((int)droneStatus)
             {
                 #region Parcel wasn't pick up. (parcel.Scheduled != null && parcel.PickUp ==null.)
