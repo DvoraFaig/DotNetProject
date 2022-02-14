@@ -29,7 +29,6 @@ namespace PL
         /// </summary>
         public double droneDisFromDes { get; set; }
 
-
         /// <summary>
         /// Checks if simulation is working.
         /// </summary>

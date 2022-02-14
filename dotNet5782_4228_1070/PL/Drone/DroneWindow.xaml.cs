@@ -45,11 +45,6 @@ namespace PL
         bool isReturnBtnClick = false;
         bool isSimulationWorking = false;
 
-        /// <summary>
-        /// Is ProgressBar from click Return btn = true;
-        /// </summary>
-        bool isProgressBarFromReturnBtn = false;
-
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -225,7 +220,6 @@ namespace PL
             if (isSimulationWorking && !simIsAskedToStop) 
             {
                 isReturnBtnClick = true;
-                isProgressBarFromReturnBtn = true;
                 simIsAskedToStop = true;
                 worker.CancelAsync();
                 ProgressBarForSimulation.Visibility = Visibility.Visible;
