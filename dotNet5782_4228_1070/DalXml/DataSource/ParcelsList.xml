@@ -121,8 +121,8 @@
     <Id>10</Id>
     <SenderId>1</SenderId>
     <TargetId>4</TargetId>
-    <Weight>Medium</Weight>
-    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Priority>Emergency</Priority>
     <DroneId xsi:nil="true" />
     <Requeasted>2022-02-14T14:43:35.2178766+02:00</Requeasted>
     <Scheduled xsi:nil="true" />

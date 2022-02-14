@@ -117,11 +117,14 @@ namespace PL
             initializeUpdate(blObject, parcel, isSender);
             returnToParcelListWindow = cameFromPageParcelList;
             ConfirmButton.Visibility = Visibility.Hidden;
+            visibleUpdatedetails.Visibility = currentParcel.Drone== null ? Visibility.Visible : Visibility.Hidden;
 
-
-            ParcelWeightSelector1.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-            ParcelPrioritySelector1.ItemsSource = Enum.GetValues(typeof(Priorities));
-            ParcelTargetSelector1.ItemsSource = blObject.GetCustomersExeptOne();
+            if (currentParcel.Drone == null)
+            {
+                ParcelWeightSelector1.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+                ParcelPrioritySelector1.ItemsSource = Enum.GetValues(typeof(Priorities));
+                ParcelTargetSelector1.ItemsSource = blObject.GetCustomersExeptOne();
+            }
         }
 
         /// <summary>
@@ -135,7 +138,13 @@ namespace PL
         public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool isSender, Window window)
         {
             initializeUpdate(blObject, parcel, isSender);
-
+            visibleUpdatedetails.Visibility = currentParcel.Drone == null ? Visibility.Visible : Visibility.Hidden;
+            if (currentParcel.Drone == null)
+            {
+                ParcelWeightSelector1.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+                ParcelPrioritySelector1.ItemsSource = Enum.GetValues(typeof(Priorities));
+                ParcelTargetSelector1.ItemsSource = blObject.GetCustomersExeptOne();
+            }
             isClientAndNotAdmin = true;
             returnBackToUnupdateWindow = window;
         }
