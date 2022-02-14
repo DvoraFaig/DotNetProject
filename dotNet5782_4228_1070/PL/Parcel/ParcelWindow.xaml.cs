@@ -117,6 +117,11 @@ namespace PL
             initializeUpdate(blObject, parcel, isSender);
             returnToParcelListWindow = cameFromPageParcelList;
             ConfirmButton.Visibility = Visibility.Hidden;
+
+
+            ParcelWeightSelector1.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            ParcelPrioritySelector1.ItemsSource = Enum.GetValues(typeof(Priorities));
+            ParcelTargetSelector1.ItemsSource = blObject.GetCustomersExeptOne();
         }
 
         /// <summary>
@@ -383,7 +388,7 @@ namespace PL
         {
             if (isClientAndNotAdmin)
             {
-                new CustomerWindow(blObject,blObject.GetCustomerById(clientCustomer.Id), true).Show();
+                new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
             else
@@ -439,16 +444,26 @@ namespace PL
                 weight = (WeightCategories)ParcelWeightSelector1.SelectedItem;
             }
             Priorities priority = default;
-            if (isComboBoxesFieldsFull(ParcelPrioritySelector1)){
+            if (isComboBoxesFieldsFull(ParcelPrioritySelector1))
+            {
                 priority = (Priorities)ParcelPrioritySelector1.SelectedItem;
             }
             CustomerInParcel targetCustomer = default;
-            if (isComboBoxesFieldsFull(ParcelTargetSelector1)) {
+            if (isComboBoxesFieldsFull(ParcelTargetSelector1))
+            {
                 targetCustomer = ((CustomerInParcel)ParcelTargetSelector1.SelectedItem);
+                if (targetCustomer.Id == currentParcel.Sender.Id)
+                {
+                    PLFunctions.messageBoxResponseFromServer("Update Parcel", "Sender and Target are equal.");
+                    return;
+                }
             }
             try
             {
-                blObject.updateParcel(currentParcel.Id,  targetCustomer, priority, weight);
+                blObject.updateParcel(currentParcel.Id, targetCustomer, priority, weight);
+                currentParcel.Target = targetCustomer != default ? targetCustomer : currentParcel.Target;
+                currentParcel.Priority = targetCustomer != default ? (PO.Priorities)priority : currentParcel.Priority;
+                currentParcel.Weight = weight != default ? (PO.WeightCategories)weight : currentParcel.Weight;
             }
             catch (Exception) { }
         }
@@ -463,7 +478,7 @@ namespace PL
         {
             if (ConfirmButton.Content == "Confirm pickUp")
             {
-                blObject.DronePicksUpParcel(currentParcel.Drone.Id); 
+                blObject.DronePicksUpParcel(currentParcel.Drone.Id);
             }
             else if (parcelStatus == BO.ParcelStatuses.Delivered)
             {

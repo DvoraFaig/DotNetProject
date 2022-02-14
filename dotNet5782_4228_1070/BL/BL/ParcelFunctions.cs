@@ -149,10 +149,21 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Update Parcel
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="targetCustomer"></param>
+        /// <param name="priority"></param>
+        /// <param name="weight"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void updateParcel(int Id, CustomerInParcel targetCustomer, Priorities priority, WeightCategories weight)
         {
-
+            DO.Parcel parcel = dal.getParcelWithSpecificCondition(p=> p.Id == Id).First();
+            parcel.TargetId = targetCustomer != default ? targetCustomer.Id : parcel.TargetId;
+            parcel.Priority = priority != default ? (DO.Priorities)priority : parcel.Priority;
+            parcel.Weight = weight != default ?  (DO.WeightCategories)weight : parcel.Weight;
+            dal.changeParcelInfo(parcel);
         }
 
 
