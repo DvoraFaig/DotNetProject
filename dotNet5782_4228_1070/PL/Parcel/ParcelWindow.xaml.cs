@@ -20,6 +20,7 @@ namespace PL
         private bool returnToParcelListWindow = false;
         private Window returnBackToUnupdateWindow;
         private bool customerUpdateHisParcel = false;
+        private bool updateVisible;
 
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -49,6 +50,7 @@ namespace PL
             currentParcel = new PO.Parcel(blObject);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
+            visibleUpdatedetails.Visibility = Visibility.Hidden;
             returnToParcelListWindow = true;
         }
 
@@ -77,6 +79,7 @@ namespace PL
             SenderText.Content = clientCustomer.Name;
             clientIsSender = true;
             returnToParcelListWindow = false;
+            visibleUpdatedetails.Visibility = currentParcel.Drone.Equals(null) ? Visibility.Visible : Visibility.Hidden;
         }
 
         /// <summary>
@@ -419,7 +422,24 @@ namespace PL
 
         private void updateParcelInfoBtnClick(object sender, RoutedEventArgs e)
         {
-
+            WeightCategories weight = default;
+            if (isComboBoxesFieldsFull(ParcelWeightSelector1))
+            {
+                weight = (WeightCategories)ParcelWeightSelector1.SelectedItem;
+            }
+            Priorities priority = default;
+            if (isComboBoxesFieldsFull(ParcelPrioritySelector1)){
+                priority = (Priorities)ParcelPrioritySelector1.SelectedItem;
+            }
+            CustomerInParcel targetCustomer = default;
+            if (isComboBoxesFieldsFull(ParcelTargetSelector1)) {
+                targetCustomer = ((CustomerInParcel)ParcelTargetSelector1.SelectedItem);
+            }
+            try
+            {
+                blObject.updateParcel(currentParcel.Id,  targetCustomer, priority, weight);
+            }
+            catch (Exception) { }
         }
 
 
@@ -430,7 +450,6 @@ namespace PL
         /// <param name="e"></param>
         private void confirmParcelBtn(object sender, RoutedEventArgs e)
         {
-
             if (ConfirmButton.Content == "Confirm pickUp")
             {
                 blObject.DronePicksUpParcel(currentParcel.Drone.Id); //currentParcel.Drone.Id;

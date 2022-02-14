@@ -149,6 +149,13 @@ namespace BL
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void updateParcel(int Id, CustomerInParcel targetCustomer, Priorities priority, WeightCategories weight)
+        {
+
+        }
+
+
         /// <summary>
         /// Checks if the parcel to remove exist.
         /// If exist send to remove

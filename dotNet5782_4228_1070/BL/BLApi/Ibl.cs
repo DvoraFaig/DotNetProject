@@ -66,7 +66,7 @@ namespace BlApi
         Parcel GetParcelByDrone(int droneId);
         void AddParcel(Parcel parcelToAdd);
         void RemoveParcel(int parcelId);
-
+        void updateParcel(int Id, CustomerInParcel targetCustomer, Priorities priority, WeightCategories weight);
 
 
 
