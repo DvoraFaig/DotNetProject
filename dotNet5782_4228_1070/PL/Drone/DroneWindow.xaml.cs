@@ -212,11 +212,8 @@ namespace PL
         /// <param name="e"></param>
         private void ReturnToDroneListWindowBtnClick(object sender, RoutedEventArgs e)
         {
-            //MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            //if (messageBoxClosing == MessageBoxResult.OK)
-            //{
-            ////new DroneListWindow(blObjectD).Show();
-            if (!isSimulationWorking) //|| !simIsAskedToStopButOperationNotCompleted
+            
+            if (!isSimulationWorking) 
             {
                 this.Close();
                 return;

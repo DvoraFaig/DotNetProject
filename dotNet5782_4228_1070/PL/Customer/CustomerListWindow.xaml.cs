@@ -22,6 +22,9 @@ namespace PL
     /// </summary>
     public partial class CustomerListWindow : Window
     {
+        /// <summary>
+        /// Instance of IBl interface.
+        /// </summary>
         private IBl blObjectH;
         #region the closing button
         private const int GWL_STYLE = -16;
@@ -35,10 +38,15 @@ namespace PL
         {
             InitializeComponent();
             blObjectH = blObject;
-            Loaded += ToolWindowLoaded;//The x button
+            Loaded += ToolWindowLoaded;
             CustomerListView.ItemsSource = blObjectH.GetCustomersToList();
         }
         
+        /// <summary>
+        /// Hide Closing Btn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -46,20 +54,35 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
+        /// <summary>
+        /// Close and return to MainWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             new MainWindow(blObjectH).Show();
             this.Close();
         }
 
+        /// <summary>
+        /// Open specific customers' window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CustomerSelection(object sender, MouseButtonEventArgs e)
         {
             CustomerToList customerToList = (CustomerToList)CustomerListView.SelectedItem;
-            Customer customer = blObjectH.GetCustomerById(customerToList.Id);////changed frrom get with specific...
+            Customer customer = blObjectH.GetCustomerById(customerToList.Id);
             new CustomerWindow(blObjectH, customer , false ).Show();
             this.Close();
         }
 
+        /// <summary>
+        /// Open Add Customer Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddCustomerButtonClick(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(blObjectH).Show();

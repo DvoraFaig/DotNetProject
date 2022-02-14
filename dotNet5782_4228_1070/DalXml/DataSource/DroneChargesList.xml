@@ -1,15 +1,2 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <DroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <DroneId>3</DroneId>
-    <StationId>2</StationId>
-  </DroneCharge>
-  <DroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <DroneId>5</DroneId>
-    <StationId>3</StationId>
-  </DroneCharge>
-  <DroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <DroneId>6</DroneId>
-    <StationId>1</StationId>
-  </DroneCharge>
-</ArrayOfDroneCharge>
+<?xml version="1.0"?>
+<ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />

@@ -22,12 +22,34 @@ namespace PL
     /// </summary>
     public partial class CustomerWindow : Window
     {
+        /// <summary>
+        /// Instance of IBl interface.
+        /// </summary>
         private BlApi.IBl blObjectD;
-        //BO.Customer customer;// = new Customer();
+
+        /// <summary>
+        /// Current customer
+        /// </summary>
         PO.Customer currentCustomer;
-        private bool updateOrAddWindow { get; set; }//true = add drone
+
+        /// <summary>
+        /// Show update or add form
+        /// </summary>
+        private bool updateOrAddWindow { get; set; }
+
+        /// <summary>
+        /// Usage by client or admin
+        /// </summary>
         bool isClient = false;
+        
+        /// <summary>
+        /// If entered from parcels save the parcel of customer
+        /// </summary>
         BO.Parcel parcelOfCustomer = null;
+
+        /// <summary>
+        /// If came from a spacific parcel window
+        /// </summary>
         bool cameFromParcelWindow = false;
 
         #region the closing button
@@ -46,7 +68,7 @@ namespace PL
         public CustomerWindow(BlApi.IBl blObject)
         {
             InitializeComponent();
-            Loaded += ToolWindowLoaded;//The x button
+            Loaded += ToolWindowLoaded;
             blObjectD = blObject;
             currentCustomer = new PO.Customer(blObject);
             updateOrAddWindow = true;
@@ -63,22 +85,15 @@ namespace PL
         public CustomerWindow(BlApi.IBl blObject, BO.Customer customerInCtor)
         {
             InitializeComponent();
-            Loaded += ToolWindowLoaded; //The x button
+            Loaded += ToolWindowLoaded; 
             updateOrAddWindow = false;
             blObjectD = blObject;
-            //customer = customerInCtor;
             currentCustomer = new PO.Customer(blObject, customerInCtor);
             AddOrUpdateCustomer.DataContext = currentCustomer;
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
-            //IdTextBox.Text = $"{customerInCtor.Id}";
-            //NameTextBox.Text = $"{customerInCtor.Name}";
-            //PhoneTextBox.Text = $"{customerInCtor.Phone}";
-            //PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
-            //CustomerAsTargetParcelsListView.ItemsSource = customerInCtor.CustomerAsTarget;
             parcelsListViewContantAndDispaly();
             AddOrUpdateCustomer.Height = 400;
-
         }
 
         /// <summary>
@@ -94,16 +109,12 @@ namespace PL
             updateOrAddWindow = false;
             this.isClient = isClient;
             blObjectD = blObject;
-            //currentCustomer = new PO.Customer(blObject, client);
-            //customer = client;
+           
             visibleAddForm.Visibility = Visibility.Hidden;
             visibleUpdateForm.Visibility = Visibility.Visible;
             currentCustomer = new PO.Customer(blObject, client);
             AddOrUpdateCustomer.DataContext = currentCustomer;
-            //IdTextBox.Text = $"{client.Id}";
-            //NameTextBox.Text = $"{client.Name}";
-            //PhoneTextBox.Text = $"{client.Phone}";
-            //PositionTextBox.Text = $"( {customer.CustomerPosition.Latitude} , {customer.CustomerPosition.Longitude} )";
+
             parcelsListViewContantAndDispaly();
             if (isClient)
             {
@@ -117,7 +128,7 @@ namespace PL
         }
 
         /// <summary>
-        /// If there is no list hide the list space.....
+        /// If there is no list of parcels of the client/customer hide the list space
         /// </summary>
         private void parcelsListViewContantAndDispaly()
         {

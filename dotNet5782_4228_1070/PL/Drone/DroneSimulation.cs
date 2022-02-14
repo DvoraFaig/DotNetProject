@@ -14,12 +14,6 @@ namespace PL
         BackgroundWorker worker = new BackgroundWorker();
         //Private WithEvents Worker As BackgroundWorker;
 
-
-        /// <summary>
-        /// Drone status in delivery: for changing text occurding to status
-        /// </summary>
-        //public enum droneStatusInDelivery { ToPickUp = 1, PickUp, ToDelivery, Delivery, ToCharge, NoAvailbleChargingSlots, NotEnoughBatteryForDelivery, DisFromDestination, HideTextBlock };
-
         /// <summary>
         /// If Simulator is asked to stop but operation is not Completed yet = true/false.
         /// For the progress bar.
@@ -69,10 +63,10 @@ namespace PL
         /// <param name="e"></param>
         private void InitializeWorker(object sender, RoutedEventArgs e)
         {
-            if (isSimulationWorking && simIsAskedToStop) //first time?
+            if (isSimulationWorking && simIsAskedToStop) 
                 return;
 
-            if (isSimulationWorking)//AutomationBtn.Content == "Manual")
+            if (isSimulationWorking)
             {
                 simIsAskedToStop = true;
                 worker.CancelAsync();
@@ -80,7 +74,7 @@ namespace PL
                 return;
             }
 
-            if (!isSimulationWorking)//AutomationBtn.Content == "Start Automation")
+            if (!isSimulationWorking)
                 worker = new BackgroundWorker();
 
             droneCase = 0;
@@ -88,9 +82,9 @@ namespace PL
             AutomationBtn.Content = "Manual";
             changeVisibilityOfUpdateBtn(Visibility.Hidden);
             isSimulationWorking = true;
-            worker.DoWork += new DoWorkEventHandler(DoWork); //worker.DoWork += (DoWork);
+            worker.DoWork += new DoWorkEventHandler(DoWork); 
             worker.WorkerReportsProgress = true;
-            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted); //worker.RunWorkerCompleted += (RunWorkerCompleted);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
             worker.WorkerSupportsCancellation = true;
             worker.RunWorkerAsync(worker);
             worker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
@@ -104,7 +98,7 @@ namespace PL
         public void DoWork(object? sender, DoWorkEventArgs e)
         {
             blObject.StartSimulation(
-                tempDrone,  //currentDrone.BO(),
+                tempDrone, 
                 (tempDrone, i, des) =>
                 {
                     worker.ReportProgress((int)i);
@@ -132,6 +126,7 @@ namespace PL
             visibilityDroneBtns();
             setDeliveryBtn();
             simIsAskedToStop = false;
+            isSimulationWorking = false;
         }
 
         /// <summary>
@@ -142,26 +137,25 @@ namespace PL
         public void ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             currentDrone.Update(tempDrone);
-            //if (droneCase != -1 && droneCase != 0)
-            //{ //if droneCase == -1 it already used the switch and their in no point using it and wasting time; 0 = not in delivery status
+           
             StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
             DisDroneFromDes.Visibility = Visibility.Hidden;
             switch (droneCase)
             {
                 case DroneStatusInSim.ToPickUp:
-                    deliveryVisibility(Visibility.Visible);
-                    StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";//"Drone on the way to pick up the parcel";
+                    parcelInDeliveryVisibility(Visibility.Visible);
+                    StatusTextBoxLabelSimulation.Content = "Destination\nSender Customer";
                     break;
                 case DroneStatusInSim.PickUp:
-                    deliveryVisibility(Visibility.Visible);
+                    parcelInDeliveryVisibility(Visibility.Visible);
                     StatusTextBoxLabelSimulation.Content = "Picking up parcel";
                     break;
                 case DroneStatusInSim.ToDelivery:
-                    deliveryVisibility(Visibility.Visible);
-                    StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";//"Drone on the way to deliver the parcel";
+                    parcelInDeliveryVisibility(Visibility.Visible);
+                    StatusTextBoxLabelSimulation.Content = "Destination\nReceiving Customer";
                     break;
                 case DroneStatusInSim.Delivery:
-                    deliveryVisibility(Visibility.Hidden);
+                    parcelInDeliveryVisibility(Visibility.Hidden);
                     StatusTextBoxLabelSimulation.Content = "Delivering parcel";
                     break;
                 case DroneStatusInSim.ToCharge:
@@ -187,10 +181,6 @@ namespace PL
                     StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;
-                case DroneStatusInSim.completeSim:
-                    //RunWorkerCompleted(sender, null);
-                    //worker.CancelAsync();
-                    break;
                 default:
                     //StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
                     //DisDroneFromDes.Visibility = Visibility.Visible;
@@ -198,7 +188,11 @@ namespace PL
             }
         }
 
-        private void deliveryVisibility(Visibility visibility)
+        /// <summary>
+        /// Parcel in delivery status visibility
+        /// </summary>
+        /// <param name="visibility"></param>
+        private void parcelInDeliveryVisibility(Visibility visibility)
         {
             ParcelIdIdTextBox.Text = visibility == Visibility.Visible ? $"{currentDrone.ParcelInTransfer.Id}" : "";
             ParcelIdIdTextBox.Visibility = visibility;

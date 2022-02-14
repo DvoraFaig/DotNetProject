@@ -357,8 +357,8 @@ namespace BL
 
 
 
-            DroneChangeAction?.Invoke(dronesList[index]);
-            DroneListChangeAction?.Invoke(dronesList[index], false);
+            ////////DroneChangeAction?.Invoke(dronesList[index]);
+            ////////DroneListChangeAction?.Invoke(dronesList[index], false);
         }
     }
 }
