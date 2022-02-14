@@ -47,7 +47,6 @@ namespace BO
         /// </summary>
         Customer target;
 
-
         /// <summary>
         /// <param name="drone">The Drone</param>
         /// </summary>
@@ -58,6 +57,10 @@ namespace BO
         /// </summary>
         Action<Drone, DroneStatusInSim, double> updateDrone;
 
+        /// <summary>
+        /// Time to stop
+        /// </summary>
+        const int DELEY = 1000;
 
         /// <summary>
         /// Ctor Simulation
@@ -99,21 +102,6 @@ namespace BO
                         break;
 
                     case BO.DroneStatus.Maintenance:
-                        #region a differance way
-                        //double BatteryLeftToFullCharge = 100 - drone.Battery;
-                        //double percentFillBatteryForCharging = BL.requestElectricity(0);
-                        ////double baterryToAdd = second.TotalMinutes * chargingRateOfDrone;
-                        ////baterryToAdd/chargingRateOfDrone = second.TotalMinutes;
-                        //double timeLeftToCharge = BatteryLeftToFullCharge / percentFillBatteryForCharging;
-                        //double a = Math.Ceiling(timeLeftToCharge);//int
-                        //while (a > 0 && drone.Battery < 100)
-                        //{
-                        //    drone.Battery += percentFillBatteryForCharging * 10;
-                        //    updateDrone(drone, 1);
-                        //    Thread.Sleep(100);
-                        //    a -= 100*percentFillBatteryForCharging; //-10
-                        //}
-                        #endregion
                         DroneStatusMaintenance(updateDrone, drone);
                         freeDroneFromCharge(updateDrone, drone);
                         break;
@@ -124,7 +112,7 @@ namespace BO
                     default:
                         break;
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(DELEY);
             }
         }
 
@@ -146,9 +134,10 @@ namespace BO
                 updateDrone(drone, DroneStatusInSim.HideTextBlock, distace); 
                 Ibl.changeDroneInfoInDroneList(drone);
             }
+            #region Exceptions
             catch (ObjNotAvailableException)
             {
-                try //not enough battery
+                try //not enough battery for delivery
                 {
                     if (drone.Battery != 100)
                     {
@@ -156,30 +145,31 @@ namespace BO
                         DroneStatusMaintenance(updateDrone, drone);
                     }
                     else
-                        Thread.Sleep(5000);
+                        Thread.Sleep(DELEY*5);
                 }
                 catch (ObjNotExistException) //No charging slots available
                 {
-                    Thread.Sleep(5000);
+                    Thread.Sleep(DELEY*5);
                 }
-                catch (ObjNotAvailableException) //Not enough battery to fly to station
+                catch (ObjNotAvailableException)
                 {
-                    needToStop();
-                    //Parcel parcel = BL.getParcelByStatus(Scheduled)//??????????????
-                    //Not supposed to happen:
+                    #region Exceptions
+                    //Not supposed to happen - the program find a c;ose station before delivery. :
+                    //Not enough battery to fly to a far station - place is full by closest station.
+                    //could wait for the charge slot in the close station to be available again.
                     //If hapens Drone Will be like a parcel and another parcel will pick him
                     //up and deliver it to the neerest station with an empty charge slots.
                     // Not implemented becuase need to do other actions
                     // in the next interation on the while loop
+                    #endregion
                 }
 
             }
-            // Do: If drone not has enough buttery to go to the near station.... do something
             catch (Exception)
             {
-                Thread.Sleep(2000);
-                ///to stop
+                Thread.Sleep(DELEY*2);
             }
+            #endregion
         }
 
 
@@ -233,7 +223,7 @@ namespace BO
                 catch (Exception)
                 {
                     //addDroneCharge?? if falls by changeDroneInfoInDroneList
-                    Thread.Sleep(1000);
+                    Thread.Sleep(DELEY);
                 }
             }
             while (!succeedFreeDroneFromCharge);
@@ -257,167 +247,8 @@ namespace BO
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
                         updateDrone(drone, DroneStatusInSim.ToPickUp, distace);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(DELEY);
                         drone = calcDisAndSimulateDlivery(updateDrone, drone, sender.CustomerPosition, Ibl.requestElectricity(0));
-                        #region export this
-                        ////////////////////////////////==========================================================
-                        //#region declare and implement variables
-                        //Position senderA = sender.CustomerPosition;
-                        //double distanceDroneToSender = distance(drone.DronePosition, senderA);
-                        //double batteryUsageByWeight = BL.requestElectricity(0);//(int)parcel.Weight
-                        //double Incline = 0;
-                        //double b;
-                        //double batteryToRemove = distanceDroneToSender * batteryUsageByWeight;
-
-                        //double changeXInDis = drone.DronePosition.Latitude > senderA.Latitude ? -1 : 1; //drone x > costomer x // go back by x
-                        //double changeYInDis = drone.DronePosition.Longitude > senderA.Longitude ? -1 : 1; //drone y > costomer y // go back by x
-
-                        //double x = drone.DronePosition.Latitude;
-                        //double y = drone.DronePosition.Longitude;
-                        //double dis;
-                        //double batteryUsageByWeightForM;
-                        //#endregion
-
-                        ////implement variables that are different in cases.
-
-                        //#region Latitude is equal between drone and currentTarget
-                        //if (drone.DronePosition.Latitude == senderA.Latitude)
-                        //{
-                        //    changeXInDis = 0;
-                        //    b = drone.DronePosition.Longitude;
-                        //    dis = changeYInDis; //The differance is by Longitude
-                        //}
-                        //#endregion
-
-                        //#region Longitude is equal between drone and currentTarget
-                        //else if (drone.DronePosition.Longitude == senderA.Longitude)
-                        //{
-                        //    changeYInDis = 0;
-                        //    b = drone.DronePosition.Longitude;
-                        //    dis = changeXInDis; //The differance is by Latitude
-                        //}
-                        //#endregion
-
-                        //#region Position is dirrerent between drone and currentTarget
-                        //else  //x = Latitude, y = Longitude.
-                        //{
-                        //    Incline = ((drone.DronePosition.Longitude - senderA.Longitude)
-                        //       / (drone.DronePosition.Latitude - senderA.Latitude));
-                        //    #region calc
-                        //    //y = Incline * x + b
-                        //    //-b = Incline * x - y
-                        //    #endregion
-                        //    b = Incline * x - y;
-                        //    b = -b;
-                        //    double Equation = Incline * x + b;
-                        //    changeYInDis = (Incline * (x + 1) + b)/*the Y2*/ - y/*Y1*/;
-                        //    dis = distance(drone.DronePosition, new Position() { Latitude = x + 1, Longitude = changeYInDis });
-                        //}
-                        //#endregion
-
-                        //Position now = new Position() { Latitude = x, Longitude = y };
-                        //Position currentPos;
-                        //batteryUsageByWeightForM = Math.Round(Math.Abs(batteryUsageByWeight * dis), 2);
-
-                        //#region calc dis and display simulation
-                        //while (drone.Battery > 0 && !(x == senderA.Latitude && y == senderA.Longitude))
-                        //{
-                        //    x += changeXInDis;
-                        //    y += changeYInDis;
-
-                        //    currentPos = new Position() { Latitude = x, Longitude = y };
-                        //    #region changes of drone to update by display
-                        //    drone.DronePosition.Latitude = x;
-                        //    drone.DronePosition.Longitude = y;
-                        //    drone.DronePosition = currentPos;
-                        //    drone.Battery -= batteryUsageByWeightForM;
-                        //    drone.Battery = Math.Round(drone.Battery, 1);
-
-                        //    updateDrone(drone, 1);
-                        //    //BL.changeDroneInfo(drone);
-                        //    #endregion
-                        //    Thread.Sleep(500);
-                        //}
-                        //#endregion
-                        //////////////////////////////==========================================================
-                        #endregion
-                        #region export to a func calcAndSimulateDlivery
-                        //double distanceDroneToSender = distance(drone.DronePosition, sender.CustomerPosition);
-                        //double batteryUsageByWeight = BL.requestElectricity(0);//(int)parcel.Weight
-                        //double Incline = 0;
-                        //double b;
-                        //double batteryToRemove = distanceDroneToSender * batteryUsageByWeight;
-
-                        //double changeXInDis = drone.DronePosition.Latitude > sender.CustomerPosition.Latitude ? -1 : 1; //drone x > costomer x // go back by x
-                        //double changeYInDis = drone.DronePosition.Longitude > sender.CustomerPosition.Longitude ? -1 : 1; //drone y > costomer y // go back by x
-
-                        //double x = drone.DronePosition.Latitude;
-                        //double y = drone.DronePosition.Longitude;
-                        //double dis;
-                        //double batteryUsageByWeightForM; 
-
-                        //if (drone.DronePosition.Latitude == sender.CustomerPosition.Latitude)
-                        //{
-                        //    changeXInDis = 0;
-                        //    b = drone.DronePosition.Longitude;
-                        //    dis = changeYInDis; //The differance is by Longitude
-                        //}
-                        //else if (drone.DronePosition.Longitude == sender.CustomerPosition.Longitude)
-                        //{
-                        //    changeYInDis = 0;
-                        //    b = drone.DronePosition.Longitude;
-                        //    dis = changeXInDis; //The differance is by Latitude
-                        //}
-                        //else  //x = Latitude, y = Longitude.
-                        //{
-                        //    Incline = ((drone.DronePosition.Longitude - sender.CustomerPosition.Longitude)
-                        //       / (drone.DronePosition.Latitude - sender.CustomerPosition.Latitude));
-                        //    #region calc
-                        //    //y = Incline * x + b
-                        //    //-b = Incline * x - y
-                        //    #endregion
-                        //    b = Incline * x - y;
-                        //    b = -b;
-                        //    double Equation = Incline * x + b;
-                        //    changeYInDis = (Incline * (x+1) + b)/*the Y2*/ - y/*Y1*/;
-                        //    dis = distance(drone.DronePosition, new Position() { Latitude = x + 1, Longitude = changeYInDis });
-                        //}
-
-                        //Position now = new Position() { Latitude = x, Longitude = y };
-                        //Position currentPos;
-                        //batteryUsageByWeightForM = Math.Round(Math.Abs(batteryUsageByWeight * dis), 2);
-
-                        //while (drone.Battery > 0 && !(x == sender.CustomerPosition.Latitude && y == sender.CustomerPosition.Longitude))
-                        //{
-                        //    x += changeXInDis;
-                        //    y += changeYInDis;
-                        //    //if (changeYInDis != 0) // if the drone and customer Latitude is the same and the change is only by Y;
-                        //    //{ y += changeYInDis; b += changeYInDis; } //y += changeYInDis; b=y
-
-                        //    //y = Incline * x + b;
-
-                        //    currentPos = new Position() { Latitude = x, Longitude = y };
-                        //    //if (changeYInDis != 0) // if the change is 1/-1 the same Latitude
-                        //    //    dis = changeYInDis;
-                        //    //else if (b == drone.DronePosition.Longitude) // if the change is 1/-1 the same Longitude
-                        //    //    dis = changeXInDis;
-                        //    //else
-                        //    //{
-                        //    //    dis = distance(now, to);
-                        //    //    now = to;
-                        //    //}
-                        //    #region changes of drone to update by display
-                        //    drone.DronePosition.Latitude = x;
-                        //    drone.DronePosition.Longitude = y;
-                        //    drone.DronePosition = currentPos;
-                        //    drone.Battery -= Math.Round(Math.Abs(batteryUsageByWeight * dis),2); //batteryUsageByWeight * 10;
-                        //    updateDrone(drone, 1);
-                        //    #endregion
-                        //    //BL.changeDroneInfo(drone);
-                        //    Thread.Sleep(1000);
-
-                        //}
-                        #endregion
                         updateDrone(drone, DroneStatusInSim.PickUp, distace);
                         parcel.PickUp = DateTime.Now;
                         Isimulation.changeParcelInfo(parcel);
@@ -430,17 +261,17 @@ namespace BO
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
                         updateDrone(drone, DroneStatusInSim.ToDelivery, distace);
-                        Thread.Sleep(2000);
+                        Thread.Sleep(DELEY);
                         drone = calcDisAndSimulateDlivery(updateDrone, drone, target.CustomerPosition, Ibl.requestElectricity((int)parcel.Weight));
                         updateDrone(drone, DroneStatusInSim.Delivery, distace);
-                        Thread.Sleep(2000);
+                        Thread.Sleep(DELEY);
                         drone.ParcelInTransfer = null;
                         parcel.Delivered = DateTime.Now;
                         updateDrone(drone, DroneStatusInSim.HideTextBlock, distace);
                         drone.Status = BO.DroneStatus.Available;
                         Ibl.changeDroneInfoInDroneList(drone);
                         Isimulation.changeParcelInfo(parcel);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(DELEY);
                         parcel = null;
                         sender = null;
                         target = null;
@@ -448,7 +279,7 @@ namespace BO
                     }
                 #endregion
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(DELEY);
 
         }
 
