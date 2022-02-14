@@ -12,18 +12,12 @@ namespace PL
         /// BackgroundWorker for simulation
         /// </summary>
         BackgroundWorker worker = new BackgroundWorker();
-        //Private WithEvents Worker As BackgroundWorker;
 
         /// <summary>
         /// If Simulator is asked to stop but operation is not Completed yet = true/false.
         /// For the progress bar.
         /// </summary>
         bool simIsAskedToStop = false;
-
-        /// <summary>
-        /// Is ProgressBar from click Return btn = true;
-        /// </summary>
-        bool isProgressBarFromReturnBtn = false;
 
         /// <summary>
         /// Enum of drone status in simulation.
