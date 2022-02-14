@@ -104,4 +104,30 @@
     <Delivered xsi:nil="true" />
     <IsActive>true</IsActive>
   </Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Id>9</Id>
+    <SenderId>2</SenderId>
+    <TargetId>3</TargetId>
+    <Weight>Light</Weight>
+    <Priority>Regular</Priority>
+    <DroneId xsi:nil="true" />
+    <Requeasted>2022-02-14T14:02:12.5127324+02:00</Requeasted>
+    <Scheduled xsi:nil="true" />
+    <PickUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Id>10</Id>
+    <SenderId>1</SenderId>
+    <TargetId>4</TargetId>
+    <Weight>Medium</Weight>
+    <Priority>Regular</Priority>
+    <DroneId xsi:nil="true" />
+    <Requeasted>2022-02-14T14:43:35.2178766+02:00</Requeasted>
+    <Scheduled xsi:nil="true" />
+    <PickUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <IsActive>true</IsActive>
+  </Parcel>
 </ArrayOfParcel>
