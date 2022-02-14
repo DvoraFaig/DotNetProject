@@ -95,7 +95,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DoWork(object? sender, DoWorkEventArgs e)
+        public void DoWork(object sender, DoWorkEventArgs e)
         {
             blObject.StartSimulation(
                 tempDrone, 
@@ -113,7 +113,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        public void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             worker.CancelAsync();
 
@@ -134,7 +134,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        public void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             currentDrone.Update(tempDrone);
             blObject.DroneListChangeAction(tempDrone, false, false);

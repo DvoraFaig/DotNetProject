@@ -21,6 +21,8 @@ namespace PL
         private Window returnBackToUnupdateWindow;
         private bool customerUpdateHisParcel = false;
 
+        BO.ParcelStatuses parcelStatus;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -266,6 +268,7 @@ namespace PL
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm pickUp";
+                        parcelStatus = BO.ParcelStatuses.PickedUp;
                     }
                 }
                 if (currentParcel.PickUp != null && currentParcel.Delivered == null)
@@ -277,6 +280,7 @@ namespace PL
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm delivery";
+                        parcelStatus = BO.ParcelStatuses.Delivered;
                     }
                 }
             }
@@ -395,20 +399,8 @@ namespace PL
         /// <param name="e"></param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            //returnBackTo.Show();
             if (isClientAndNotAdmin)
             {
-                //BO.Customer customer;
-
-                //if (clientIsSender)
-                //{
-                //    customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
-                //}
-                //else
-                //{
-                //    customer = blObject.GetCustomerById(currentParcel.Target.Id);
-                //}
-
                 new CustomerWindow(blObject,blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
@@ -419,10 +411,6 @@ namespace PL
                 else
                 {
                     new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), false).Show();
-                    //if (clientIsSender)
-                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
-                    //else
-                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
                 }
 
                 this.Close();
@@ -440,7 +428,6 @@ namespace PL
                 return;
             Drone d = blObject.GetDroneById(currentParcel.Drone.Id);
             new DroneWindow(blObject, d).Show();
-            //this.Close();
         }
 
         /// <summary>
@@ -483,13 +470,11 @@ namespace PL
         /// <param name="e"></param>
         private void confirmParcelBtn(object sender, RoutedEventArgs e)
         {
-
-            if (ConfirmButton.Content == "Confirm pickUp")
+            if (parcelStatus == BO.ParcelStatuses.PickedUp)
             {
-                blObject.DronePicksUpParcel(currentParcel.Drone.Id); //currentParcel.Drone.Id;
+                blObject.DronePicksUpParcel(currentParcel.Drone.Id); 
             }
-            //takes time from pick up to delivery.
-            else if (ConfirmButton.Content == "Confirm delivery")
+            else if (parcelStatus == BO.ParcelStatuses.Delivered)
             {
                 blObject.DeliveryParcelByDrone(currentParcel.Drone.Id);
             }
