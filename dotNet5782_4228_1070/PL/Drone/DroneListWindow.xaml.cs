@@ -76,10 +76,10 @@ namespace PL
         /// <param name="e"></param>
         private void StatusSelectorANDWeightSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             object status = StatusSelector.SelectedItem;
             object weight = WeightSelector.SelectedItem;
-            if (weight!=null)
+            if (weight != null)
             {
                 weight = WeightSelector.SelectedItem;
                 ChosenWeight.Visibility = Visibility.Visible;
@@ -102,7 +102,7 @@ namespace PL
                 ChosenStatus.Visibility = Visibility.Hidden;
             }
 
-            IEnumerable<DroneToList> b = blObjectH.GetDronesByConditions((int)weight ,(int)status);
+            IEnumerable<DroneToList> b = blObjectH.GetDronesByConditions((int)weight, (int)status);
 
             currentDroneList.getNewList(b);
         }
@@ -143,7 +143,7 @@ namespace PL
             Drone drone = blObjectH.GetDroneById(droneToList.Id);
             new DroneWindow(blObjectH, drone).Show();
         }
-        
+
         /// <summary>
         /// Clear status of drone selection to null
         /// </summary>

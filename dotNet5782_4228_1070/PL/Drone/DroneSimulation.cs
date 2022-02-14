@@ -137,7 +137,7 @@ namespace PL
         public void ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             currentDrone.Update(tempDrone);
-           
+            blObject.DroneListChangeAction(tempDrone, false, false);
             StatusTextBoxLabelSimulation.Visibility = Visibility.Visible;
             DisDroneFromDes.Visibility = Visibility.Hidden;
             switch (droneCase)

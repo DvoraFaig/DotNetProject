@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>1</Id>
     <SenderId>1</SenderId>
     <TargetId>2</TargetId>
     <Weight>Medium</Weight>
     <Priority>Fast</Priority>
-    <DroneId xsi:nil="true" />
+    <DroneId>1</DroneId>
     <Requeasted>2022-02-14T01:50:01.2005727+02:00</Requeasted>
-    <Scheduled xsi:nil="true" />
-    <PickUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsActive>true</IsActive>
+    <Scheduled>2022-02-14T09:15:40.9773703+02:00</Scheduled>
+    <PickUp>2022-02-14T09:52:28.89384+02:00</PickUp>
+    <Delivered>2022-02-14T09:52:39.4435777+02:00</Delivered>
+    <IsActive>false</IsActive>
   </Parcel>
-  <Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>2</Id>
     <SenderId>2</SenderId>
     <TargetId>4</TargetId>
@@ -22,9 +22,9 @@
     <DroneId>1</DroneId>
     <Requeasted>2022-02-14T01:50:01.2190453+02:00</Requeasted>
     <Scheduled>2022-02-14T01:50:01.2257335+02:00</Scheduled>
-    <PickUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsActive>true</IsActive>
+    <PickUp>2022-02-14T09:15:31.791493+02:00</PickUp>
+    <Delivered>2022-02-14T09:15:37.9631489+02:00</Delivered>
+    <IsActive>false</IsActive>
   </Parcel>
   <Parcel>
     <Id>3</Id>
@@ -65,15 +65,15 @@
     <Delivered>2022-02-14T08:42:10.4658811+02:00</Delivered>
     <IsActive>true</IsActive>
   </Parcel>
-  <Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>6</Id>
     <SenderId>4</SenderId>
     <TargetId>3</TargetId>
     <Weight>Heavy</Weight>
     <Priority>Regular</Priority>
-    <DroneId xsi:nil="true" />
+    <DroneId>4</DroneId>
     <Requeasted>2022-02-14T01:50:01.2263002+02:00</Requeasted>
-    <Scheduled xsi:nil="true" />
+    <Scheduled>2022-02-14T09:16:45.8946962+02:00</Scheduled>
     <PickUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
     <IsActive>true</IsActive>
