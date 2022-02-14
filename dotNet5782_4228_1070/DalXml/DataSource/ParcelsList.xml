@@ -26,7 +26,7 @@
     <Delivered>2022-02-14T09:15:37.9631489+02:00</Delivered>
     <IsActive>false</IsActive>
   </Parcel>
-  <Parcel>
+  <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>3</Id>
     <SenderId>1</SenderId>
     <TargetId>4</TargetId>
@@ -35,9 +35,9 @@
     <DroneId>2</DroneId>
     <Requeasted>2022-02-14T01:50:01.225894+02:00</Requeasted>
     <Scheduled>2022-02-14T01:50:01.2259475+02:00</Scheduled>
-    <PickUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsActive>true</IsActive>
+    <PickUp>2022-02-14T11:17:01.9078561+02:00</PickUp>
+    <Delivered>2022-02-14T11:17:08.6333093+02:00</Delivered>
+    <IsActive>false</IsActive>
   </Parcel>
   <Parcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>4</Id>

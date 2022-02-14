@@ -53,11 +53,6 @@ namespace BO
         Drone drone;
 
         /// <summary>
-        /// Func to update info in PL
-        /// </summary>
-        Action<Drone, DroneStatusInSim, double> updateDrone;
-
-        /// <summary>
         /// Time to stop
         /// </summary>
         const int DELEY = 1000;
@@ -92,13 +87,12 @@ namespace BO
         public void StartSim(Drone drone, Action<Drone, DroneStatusInSim, double> updateDrone, Func<bool> needToStop)
         {
             this.drone = drone;
-            this.updateDrone = updateDrone;
             while (!needToStop())
             {
                 switch (drone.Status)
                 {
                     case BO.DroneStatus.Available:
-                        DroneStatusAvailable(updateDrone, drone, needToStop);
+                        DroneStatusAvailable(updateDrone, drone);
                         break;
 
                     case BO.DroneStatus.Maintenance:
@@ -124,7 +118,7 @@ namespace BO
         /// </summary>
         /// <param name="drone">The Drone</param>
         /// <param name="updateDrone">Func to update info in PL</param>
-        private void DroneStatusAvailable(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone, Func<bool> needToStop)
+        private void DroneStatusAvailable(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
             try
             {
@@ -154,13 +148,10 @@ namespace BO
                 catch (ObjNotAvailableException)
                 {
                     #region Exceptions
-                    //Not supposed to happen - the program find a c;ose station before delivery. :
+                    //Not supposed to happen - the program finds a close station before delivery. :
                     //Not enough battery to fly to a far station - place is full by closest station.
                     //could wait for the charge slot in the close station to be available again.
-                    //If hapens Drone Will be like a parcel and another parcel will pick him
-                    //up and deliver it to the neerest station with an empty charge slots.
-                    // Not implemented becuase need to do other actions
-                    // in the next interation on the while loop
+                    //The program will releas a charging slot.
                     #endregion
                 }
 
@@ -181,7 +172,6 @@ namespace BO
         /// <param name="updateDrone">Func to update info in PL</param>
         private void DroneStatusMaintenance(Action<Drone, DroneStatusInSim, double> updateDrone, Drone drone)
         {
-            DateTime now = DateTime.Now;
             TimeSpan second;
             double baterryToAdd;
             double batteryPerTime = Ibl.requestElectricity(0);
@@ -222,7 +212,6 @@ namespace BO
                 }
                 catch (Exception)
                 {
-                    //addDroneCharge?? if falls by changeDroneInfoInDroneList
                     Thread.Sleep(DELEY);
                 }
             }
@@ -327,7 +316,6 @@ namespace BO
             #region declare and implement variables
             double distanceDroneToSender = distance(droneA.DronePosition, destination);
             double batteryUsageByWeight = batteryUsage;
-            double batteryToRemove = distanceDroneToSender * batteryUsageByWeight;
             double changeXInDis; //drone x > costomer x // go back by x
             double changeYInDis; //drone y > costomer y // go back by x
             double x = droneA.DronePosition.Latitude;
@@ -369,7 +357,6 @@ namespace BO
             }
             #endregion
 
-            Position now = new Position() { Latitude = x, Longitude = y };
             Position currentPos;
             batteryUsageByWeightForM = (batteryUsageByWeight * dis);
 

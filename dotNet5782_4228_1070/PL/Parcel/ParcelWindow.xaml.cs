@@ -197,7 +197,9 @@ namespace PL
             setRemoveBtn();
         }
 
-
+        /// <summary>
+        /// Initialize drone
+        /// </summary>
         private void initializeDrone()
         {
             BO.Drone parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
@@ -206,8 +208,8 @@ namespace PL
                 if ((currentParcel.PickUp != null && currentParcel.Delivered == null) && isClientAndNotAdmin
                     || !isClientAndNotAdmin)
                 {
-                    List<BO.Drone> droneOfParcel = new List<BO.Drone>();
-                    droneOfParcel.Add(parcelDrone);//blObject.GetDroneById(currentParcel.Drone.Id)
+                    List<BO.Drone> droneOfParcel = new List<BO.Drone>();//for display
+                    droneOfParcel.Add(parcelDrone);
                     DroneListView.ItemsSource = droneOfParcel;
                     DroneText.Visibility = Visibility.Hidden;
                     return;
@@ -267,12 +269,7 @@ namespace PL
                     }
                 }
                 if (currentParcel.PickUp != null && currentParcel.Delivered == null)
-                {
-                    bool a = ((!isClientAndNotAdmin) //Admin
-                        || (isClientAndNotAdmin && !clientIsSender));
-                    bool b = (isClientAndNotAdmin && !clientIsSender);
-                    bool c = (parcelDrone.DronePosition.Latitude == parcelTarget.CustomerPosition.Latitude //parcel was delivered now.
-                        && parcelDrone.DronePosition.Longitude == parcelTarget.CustomerPosition.Longitude);
+                { 
                     if ((parcelDrone.DronePosition.Latitude == parcelTarget.CustomerPosition.Latitude //parcel was delivered now.
                         && parcelDrone.DronePosition.Longitude == parcelTarget.CustomerPosition.Longitude)
                         && ((!isClientAndNotAdmin) //Admin

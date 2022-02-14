@@ -172,7 +172,7 @@ namespace BL
         /// <param name="droneId"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone SendDroneToCharge(int droneId)
+        public Drone SendDroneToCharge(int droneId )
         {
             lock (dal)
             {
@@ -180,19 +180,8 @@ namespace BL
                 {
                     try
                     {
-                        //EventsChanging.DroneChanged +=
-                        //DroneChanged += PO.Drone.Change;
                         Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId).First();
-                        if (drone.Status != DroneStatus.Available) ///?????????????need??
-                            throw new Exceptions.NoDataMatchingBetweenDalandBL("Drone cann't charge.\nNot in Available status");
-
-                        DO.Station availbleStationForCharging;
-                        try
-                        {
-                            availbleStationForCharging = findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
-                        }
-                        catch (Exceptions.ObjNotAvailableException) { throw new ObjNotAvailableException("Drone cann't charge.\nNo Available charging slots\nPlease try later"); }
-
+                        DO.Station availbleStationForCharging = findAvailableAndClosestStation(drone);
                         DO.DroneCharge droneCharge = new DO.DroneCharge() { StationId = availbleStationForCharging.Id, DroneId = droneId };
                         Position availbleStationforCharging = new Position() { Latitude = availbleStationForCharging.Latitude, Longitude = availbleStationForCharging.Longitude };
                         double dis = (distance(drone.DronePosition, availbleStationforCharging));
@@ -221,6 +210,23 @@ namespace BL
                         throw new Exceptions.ObjNotExistException(typeof(Drone), droneId);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Find An Available and closest charging slots
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns></returns>
+        private DO.Station findAvailableAndClosestStation(Drone drone)
+        {
+            try
+            {
+                return findAvailbleAndClosestStationForDrone(drone.DronePosition, drone.Battery);
+            }
+            catch (Exceptions.ObjNotAvailableException)
+            {
+               return arrangeAnEmptyChargingSlot(drone);
             }
         }
 

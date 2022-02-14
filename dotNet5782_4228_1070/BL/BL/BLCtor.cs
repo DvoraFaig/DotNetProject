@@ -33,13 +33,12 @@ namespace BL
         /// </summary>
         private BL()
         {
-            Random r = new Random();
 
             dronesList = new List<Drone>();
             double[] electricityUsageDrone;
             try
             {
-                dal = DalApi.DalFactory.factory(); 
+                dal = DalApi.DalFactory.factory();
                 electricityUsageDrone = dal.electricityUseByDrone();
             }
             catch (Exceptions.FileLoadCreateException e)
@@ -47,6 +46,7 @@ namespace BL
                 throw new Exceptions.FileLoadCreateException(e.Message, e);
             }
 
+            Random r = new Random();
             #region Drone electricity usage.
             electricityUsageWhenDroneIsEmpty = electricityUsageDrone[0];
             electricityUsageWhenDroneILightWeight = electricityUsageDrone[1];
@@ -63,7 +63,7 @@ namespace BL
             Position senderPosition, targetPosition;
             Drone CurrentDrone = new Drone();
             int amountStations = dal.GetStations().Count();
-            List<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
+            IEnumerable<DO.Customer> cWithDeliveredP = new List<DO.Customer>();
             try
             {
                 cWithDeliveredP = findCustomersWithDeliveredParcel();
@@ -169,10 +169,10 @@ namespace BL
                     #region Drone is with available status.
                     if (CurrentDrone.Status == DroneStatus.Available) //DroneStatus.Available
                     {
-                        if (cWithDeliveredP.Count > 0)
+                        if (cWithDeliveredP.Count() > 0)
                         {
-                            int index = r.Next(0, cWithDeliveredP.Count);
-                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP[index].Id).First();
+                            int index = r.Next(0, cWithDeliveredP.Count());
+                            target = dal.getCustomerWithSpecificCondition(c => c.Id == cWithDeliveredP.ElementAt(index).Id).First();
                             CurrentDrone.DronePosition = new Position() { Longitude = target.Longitude, Latitude = target.Latitude };
                             station = findAvailbleAndClosestStationForDrone(CurrentDrone.DronePosition);
                             double distanceBetweenDroneAndStation = distance(new Position() { Latitude = station.Latitude, Longitude = station.Longitude }, CurrentDrone.DronePosition);
@@ -300,15 +300,12 @@ namespace BL
         /// Find a customer who received a parcel.
         /// </summary>
         /// <returns></returns>
-        private List<DO.Customer> findCustomersWithDeliveredParcel()
+        private IEnumerable<DO.Customer> findCustomersWithDeliveredParcel()
         {
-            IEnumerable<DO.Parcel> parcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null));
-            List<DO.Customer> customersWithDeliveredParcels = new List<DO.Customer>();
-            foreach (DO.Parcel parcel in parcels)
-            {
-                customersWithDeliveredParcels.Add(dal.getCustomerWithSpecificCondition(c => c.Id == parcel.TargetId).First());
-            }
-            return customersWithDeliveredParcels;
+            IEnumerable<DO.Parcel> deliverdParcels = dal.getParcelWithSpecificCondition(p => (p.Delivered != null));
+
+            return from p in deliverdParcels
+                   select dal.getCustomerWithSpecificCondition(c => c.Id == p.TargetId).First();
         }
 
         /// <summary>
