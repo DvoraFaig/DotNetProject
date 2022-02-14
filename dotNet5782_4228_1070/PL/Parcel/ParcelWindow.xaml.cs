@@ -22,6 +22,8 @@ namespace PL
         private bool customerUpdateHisParcel = false;
         private bool updateVisible;
 
+        BO.ParcelStatuses parcelStatus;
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -241,6 +243,7 @@ namespace PL
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm pickUp";
+                        parcelStatus = BO.ParcelStatuses.PickedUp;
                     }
                 }
                 if (currentParcel.PickUp != null && currentParcel.Delivered == null)
@@ -252,6 +255,7 @@ namespace PL
                     {
                         ConfirmButton.Visibility = Visibility.Visible;
                         ConfirmButton.Content = "Confirm delivery";
+                        parcelStatus = BO.ParcelStatuses.Delivered;
                     }
                 }
             }
@@ -372,7 +376,7 @@ namespace PL
         {
             if (isClientAndNotAdmin)
             {
-                new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), true).Show();
+                new CustomerWindow(blObject,blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
             else
@@ -452,10 +456,9 @@ namespace PL
         {
             if (ConfirmButton.Content == "Confirm pickUp")
             {
-                blObject.DronePicksUpParcel(currentParcel.Drone.Id); //currentParcel.Drone.Id;
+                blObject.DronePicksUpParcel(currentParcel.Drone.Id); 
             }
-            //takes time from pick up to delivery.
-            else if (ConfirmButton.Content == "Confirm delivery")
+            else if (parcelStatus == BO.ParcelStatuses.Delivered)
             {
                 blObject.DeliveryParcelByDrone(currentParcel.Drone.Id);
             }

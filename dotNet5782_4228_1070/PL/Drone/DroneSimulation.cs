@@ -12,18 +12,12 @@ namespace PL
         /// BackgroundWorker for simulation
         /// </summary>
         BackgroundWorker worker = new BackgroundWorker();
-        //Private WithEvents Worker As BackgroundWorker;
 
         /// <summary>
         /// If Simulator is asked to stop but operation is not Completed yet = true/false.
         /// For the progress bar.
         /// </summary>
         bool simIsAskedToStop = false;
-
-        /// <summary>
-        /// Is ProgressBar from click Return btn = true;
-        /// </summary>
-        bool isProgressBarFromReturnBtn = false;
 
         /// <summary>
         /// Enum of drone status in simulation.
@@ -35,7 +29,6 @@ namespace PL
         /// </summary>
         public double droneDisFromDes { get; set; }
 
-
         /// <summary>
         /// Checks if simulation is working.
         /// </summary>
@@ -45,7 +38,7 @@ namespace PL
             {
                 AutomationBtn.Content = "Start Automation";
                 ProgressBarForSimulation.Visibility = Visibility.Hidden;
-                visibilityDroneBtns();
+                setRemoveBtn();
                 int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
                 if (contentIndex != 3)
                     setDeliveryBtn();
@@ -95,11 +88,11 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DoWork(object? sender, DoWorkEventArgs e)
+        public void DoWork(object sender, DoWorkEventArgs e)
         {
             blObject.StartSimulation(
                 tempDrone, 
-                (tempDrone, i, des) =>
+                (i, des) =>
                 {
                     worker.ReportProgress((int)i);
                     droneCase = i;
@@ -113,7 +106,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        public void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             worker.CancelAsync();
 
@@ -123,7 +116,7 @@ namespace PL
             AutomationBtn.Content = "Start Automation";
             ProgressBarForSimulation.Visibility = Visibility.Hidden;
             setChargeBtn();
-            visibilityDroneBtns();
+            setRemoveBtn();
             setDeliveryBtn();
             simIsAskedToStop = false;
             isSimulationWorking = false;
@@ -134,7 +127,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        public void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             currentDrone.Update(tempDrone);
             blObject.DroneListChangeAction(tempDrone, false, false);

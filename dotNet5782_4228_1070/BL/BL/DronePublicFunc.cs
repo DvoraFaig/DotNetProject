@@ -85,7 +85,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetDronesToList()
         {
-            lock (dronesList)  //not changing info???
+            lock (dronesList)
             {
                 return convertDronesToDronesToList(dronesList);
             }
@@ -189,7 +189,7 @@ namespace BL
                         if (dis != 0)
                         {
                             double batteryForDis = Math.Round((double)dis * (double)electricityUsageWhenDroneIsEmpty, 1); //to erase
-                            if (drone.Battery - batteryForDis < 0) //to erase
+                            if (drone.Battery - batteryForDis < 0) 
                                 throw new Exceptions.ObjNotAvailableException("Not enough battery for drone to be send to a close station to charge.");
                             drone.Battery = batteryForDis;
                         }
@@ -198,7 +198,6 @@ namespace BL
                         drone.DronePosition = availbleStationforCharging;
                         dal.AddDroneToCharge(droneCharge);
                         dal.changeStationInfo(availbleStationForCharging);
-                        //dal.changeDroneInfo(convertBLToDalDrone(drone)); //???
                         drone.SartToCharge = DateTime.Now;
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
@@ -237,7 +236,7 @@ namespace BL
         /// <param name="timeCharging"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone FreeDroneFromCharging(int droneId/*, double timeCharging*/)
+        public Drone FreeDroneFromCharging(int droneId)
         {
             try
             {
@@ -245,10 +244,6 @@ namespace BL
                 {
                     lock (dal)
                     {
-                        //DO.Station s = dal.getStationWithSpecificCondition(s => s.Id == droneChargeByStation.StationId).First();
-                        //changeInfoOfStation(s.Id, null, s.ChargeSlots);
-                        //DO.DroneCharge droneChargeByStation = dal.getDroneChargeWithSpecificCondition(d => d.DroneId == drone.Id).First();/////////////////
-
                         Drone drone = getDroneWithSpecificConditionFromDronesList(d => d.Id == droneId /*&& d.Status == DroneStatus.Maintenance*/).First();
                         dal.removeDroneChargeByDroneId(drone.Id);
 
@@ -333,8 +328,7 @@ namespace BL
                 {
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude &&
                         drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
-                        return DeliveryStatusAction.PickedParcel;
-                    
+                        return DeliveryStatusAction.PickedParcel;                    
 
                     if (drone.DronePosition.Latitude == drone.ParcelInTransfer.SenderPosition.Latitude
                                 && drone.DronePosition.Longitude == drone.ParcelInTransfer.SenderPosition.Longitude)
@@ -344,7 +338,6 @@ namespace BL
                 }
                 else
                     return DeliveryStatusAction.DeliveredParcel;
-                
             }
         }
 
@@ -356,15 +349,6 @@ namespace BL
         {
             int index = dronesList.FindIndex(d => d.Id == droneWithUpdateInfo.Id);
             dronesList[index] = droneWithUpdateInfo;
-
-            //Drone droneToChange = dronesList.Find(d => d.Id == droneWithUpdateInfo.Id);
-            //droneToChange = droneWithUpdateInfo;
-            //DroneChangeAction?.Invoke(droneToChange);
-
-
-
-            ////////DroneChangeAction?.Invoke(dronesList[index]);
-            ////////DroneListChangeAction?.Invoke(dronesList[index], false);
         }
     }
 }

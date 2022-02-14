@@ -27,11 +27,12 @@ namespace PL
         /// </summary>
         private void setVisibilityAndContentBtn()
         {
-            if(currentDrone.Status == DroneStatus.Delivery)
+            if (currentDrone.Status == DroneStatus.Delivery)
                 findDroneStatusContentBtn();
-            if(currentDrone.Status != DroneStatus.Maintenance)
-                setChargeBtn();
-            visibilityDroneBtns();
+                
+
+            setChargeBtn();
+            setRemoveBtn();
         }
 
         /// <summary>
@@ -86,13 +87,16 @@ namespace PL
                     ChargeButton.Content = chargeButtonContent[0];
                     ChargeButton.Visibility = Visibility.Visible;
                     break;
+                case DroneStatus.Delivery:
+                    ChargeButton.Visibility = Visibility.Hidden;
+                    break;
             }
         }
 
         /// <summary>
         /// Manege Drone update form Visibility of btns.
         /// </summary>
-        private void visibilityDroneBtns()
+        private void setRemoveBtn()
         {
             if (currentDrone.Status == DroneStatus.Available)
                 RemoveDrone.Visibility = Visibility.Visible;

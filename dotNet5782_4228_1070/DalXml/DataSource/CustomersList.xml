@@ -3,33 +3,33 @@
   <Customer>
     <Id>1</Id>
     <Name>Customer1</Name>
-    <Phone>758800490</Phone>
-    <Latitude>7</Latitude>
-    <Longitude>64</Longitude>
+    <Phone>237004606</Phone>
+    <Latitude>65</Latitude>
+    <Longitude>28</Longitude>
     <IsActive>true</IsActive>
   </Customer>
   <Customer>
     <Id>2</Id>
     <Name>Customer2</Name>
-    <Phone>723397139</Phone>
-    <Latitude>63</Latitude>
-    <Longitude>46</Longitude>
+    <Phone>401344430</Phone>
+    <Latitude>33</Latitude>
+    <Longitude>14</Longitude>
     <IsActive>true</IsActive>
   </Customer>
   <Customer>
     <Id>3</Id>
     <Name>Customer3</Name>
-    <Phone>486645931</Phone>
-    <Latitude>72</Latitude>
-    <Longitude>63</Longitude>
+    <Phone>667983031</Phone>
+    <Latitude>75</Latitude>
+    <Longitude>80</Longitude>
     <IsActive>true</IsActive>
   </Customer>
   <Customer>
     <Id>4</Id>
     <Name>Customer4</Name>
-    <Phone>577715974</Phone>
-    <Latitude>34</Latitude>
-    <Longitude>22</Longitude>
+    <Phone>456131620</Phone>
+    <Latitude>66</Latitude>
+    <Longitude>78</Longitude>
     <IsActive>true</IsActive>
   </Customer>
 </ArrayOfCustomer>
