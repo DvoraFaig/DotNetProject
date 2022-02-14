@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Drone>
+  <Drone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>1</Id>
-    <Model>Drone1</Model>
+    <Model>vfngdjk</Model>
     <MaxWeight>Medium</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>2</Id>

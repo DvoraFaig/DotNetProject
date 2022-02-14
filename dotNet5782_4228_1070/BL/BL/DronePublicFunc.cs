@@ -13,7 +13,7 @@ namespace BL
     sealed partial class BL
     {
         public Action<Drone> DroneChangeAction { get; set; }
-        public Action<Drone, bool> DroneListChangeAction { get; set; }
+        public Action<Drone, bool, bool> DroneListChangeAction { get; set; }
 
         /// <summary>
         /// Check if drone with the same id exist.
@@ -45,7 +45,7 @@ namespace BL
             {
                 changeDroneInfoInDroneList(droneToAdd);
                 DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
-                DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true);
+                DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true, false);
                 return;
             }
             catch (DO.Exceptions.ObjExistException)
@@ -55,7 +55,7 @@ namespace BL
 
             dronesList.Add(droneToAdd.Clone<Drone>()); //droneToAdd
             DroneChangeAction?.Invoke(dronesList[dronesList.Count]);
-            DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true);
+            DroneListChangeAction?.Invoke(dronesList[dronesList.Count], true, false);
 
         }
 
@@ -151,7 +151,7 @@ namespace BL
                     dronesList[index].Model = newModel;
                     dal.changeDroneInfo(convertBLToDalDrone(dronesList[index]));
                     DroneChangeAction?.Invoke(dronesList[index]);
-                    DroneListChangeAction?.Invoke(dronesList[index], false);
+                    DroneListChangeAction?.Invoke(dronesList[index], false, false);
                 }
             }
             #region Exceptions
@@ -213,7 +213,7 @@ namespace BL
                         drone.SartToCharge = DateTime.Now;
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
-                        DroneListChangeAction?.Invoke(drone, false);
+                        DroneListChangeAction?.Invoke(drone, false, false);
                         return drone;
                     }
                     catch (Exceptions.ObjNotExistException)
@@ -253,7 +253,7 @@ namespace BL
                         drone.Battery = Math.Min(drone.Battery, 100);
                         changeDroneInfoInDroneList(drone);
                         DroneChangeAction?.Invoke(drone);
-                        DroneListChangeAction?.Invoke(drone, false);
+                        DroneListChangeAction?.Invoke(drone, false, false);
                         return drone;
                     }
                 }
@@ -292,6 +292,7 @@ namespace BL
 
                 int index = dronesList.FindIndex(d => d.Id == drone.Id);
                 dronesList.RemoveAt(index);
+                DroneListChangeAction(drone, false, true);
             }
             catch (DO.Exceptions.ObjNotExistException e1)
             {

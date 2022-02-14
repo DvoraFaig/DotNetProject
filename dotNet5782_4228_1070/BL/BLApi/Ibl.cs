@@ -8,7 +8,7 @@ namespace BlApi
     public interface IBl
     {
         public Action<Drone> DroneChangeAction { get; set; }
-        Action<Drone, bool > DroneListChangeAction { get; set; }
+        Action<Drone, bool, bool> DroneListChangeAction { get; set; }
         Action<Customer> CustomerChangeAction { get; set; }
         Action<Parcel> ParcelChangeAction { get; set; }
 
@@ -18,7 +18,7 @@ namespace BlApi
         IEnumerable<StationToList> GetStationsToList();
         IEnumerable<StationToList> GetStationsWithFreeSlots(int amountAvilableSlots = 0);
         Station GetStationById(int id);
-        void AddStation(Station stationToAdd); 
+        void AddStation(Station stationToAdd);
         void RemoveStation(Station station);
         void changeStationInfo(int id, string name = null, int ChargeSlots = -1);
 
@@ -67,7 +67,7 @@ namespace BlApi
         void AddParcel(Parcel parcelToAdd);
         void RemoveParcel(int parcelId);
 
-       
+
 
 
         //===================
@@ -77,6 +77,6 @@ namespace BlApi
 
         bool CheckWorkerExist(Worker worker);
         Station convertDalToBLStation(DO.Station station);
-       
+
     }
 }

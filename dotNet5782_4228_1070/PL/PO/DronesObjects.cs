@@ -30,11 +30,19 @@ namespace PO
         /// </summary>
         /// <param name="updatedDrone"></param>
         /// <param name="isNew">To add new drone to list send 'True', to update send 'False'.</param>
-        public void Update(BO.Drone updatedDrone, bool isNew)
+        public void Update(BO.Drone updatedDrone, bool isNew, bool toDelete=false)
         {
             if (!updatedDrone.Equals(null))
             {
-                if (isNew)
+                if (toDelete)
+                {
+                    int indexOfDroneInList = DroneList.IndexOf(DroneList.FirstOrDefault(d=>d.Id == updatedDrone.Id));
+                    if (indexOfDroneInList != -1)
+                    {
+                        DroneList.RemoveAt(indexOfDroneInList);
+                    }
+                }
+                else if (isNew)
                 {
                     DroneList.Add(new DroneToList(updatedDrone));
                 }
