@@ -38,7 +38,7 @@ namespace PL
             {
                 AutomationBtn.Content = "Start Automation";
                 ProgressBarForSimulation.Visibility = Visibility.Hidden;
-                visibilityDroneBtns();
+                setRemoveBtn();
                 int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
                 if (contentIndex != 3)
                     setDeliveryBtn();
@@ -116,7 +116,7 @@ namespace PL
             AutomationBtn.Content = "Start Automation";
             ProgressBarForSimulation.Visibility = Visibility.Hidden;
             setChargeBtn();
-            visibilityDroneBtns();
+            setRemoveBtn();
             setDeliveryBtn();
             simIsAskedToStop = false;
             isSimulationWorking = false;

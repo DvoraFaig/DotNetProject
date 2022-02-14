@@ -229,10 +229,10 @@ namespace BO
         private void DroneStatusDelivery(Action<DroneStatusInSim, double> updateDrone, Drone drone)
         {
             DeliveryStatusAction droneStatus = Ibl.returnDroneStatusInDelivery(drone);
-            switch ((int)droneStatus)
+            switch (droneStatus)
             {
-                #region Parcel wasn't pick up. (parcel.Scheduled != null && parcel.PickUp ==null.)
-                case (1):
+                #region parcel was asigned
+                case DeliveryStatusAction.AsignedParcel:
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
                         updateDrone(DroneStatusInSim.ToPickUp, distace);
@@ -244,9 +244,8 @@ namespace BO
                         break;
                     }
                 #endregion
-
-                #region Parcel is pick up but not delivered. (parcel.PickUp !=null.parcel.Delivered == null)
-                case (2): 
+                #region Parcel was pick up but not delivered.
+                case DeliveryStatusAction.PickedParcel: 
                     {
                         initializeObjectsWhenDroneInDelivery(drone);
                         updateDrone( DroneStatusInSim.ToDelivery, distace);
