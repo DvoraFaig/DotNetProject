@@ -54,6 +54,7 @@ namespace PO
             get { return (int)GetValue(IdProperty); }
             set { SetValue(IdProperty, value); }
         }
+
         public string Name
         {
             get { return (string)GetValue(NameProperty); }
@@ -79,6 +80,7 @@ namespace PO
             }
             set { SetValue(CustomerAsSenderProperty, value); }
         }
+
         public List<BO.ParcelAtCustomer> CustomerAsTarget
         {
             get
@@ -102,21 +104,7 @@ namespace PO
         public static readonly DependencyProperty CustomerPositionProperty = DependencyProperty.Register("CustomerPosition", typeof(object), typeof(Customer), new UIPropertyMetadata(0));
         public static readonly DependencyProperty CustomerAsSenderProperty = DependencyProperty.Register("CustomerAsSender", typeof(object), typeof(Customer), new UIPropertyMetadata(0));
         public static readonly DependencyProperty CustomerAsTargetProperty = DependencyProperty.Register("CustomerAsTarget", typeof(object), typeof(Customer), new UIPropertyMetadata(0));
-
-
     }
-
-    public class CustomerToList : DependencyObject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public int AmountSendingDeliveredParcels { get; set; }
-        public int AmountSendingUnDeliveredParcels { get; set; }
-        public int AmountTargetDeliveredParcels { get; set; }
-        public int AmountTargetUnDeliveredParcels { get; set; }
-    }
-
 
     public class CustomerInParcel : DependencyObject //targetId in parcel
     {
