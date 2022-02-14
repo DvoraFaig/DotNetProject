@@ -72,7 +72,7 @@ namespace PL
             blObjectD = blObject;
             currentCustomer = new PO.Customer(blObject);
             updateOrAddWindow = true;
-            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
+            PLFunctions.ClearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
             visibleAddForm.Visibility = Visibility.Visible;
             visibleUpdateForm.Visibility = Visibility.Hidden;
         }
@@ -139,7 +139,7 @@ namespace PL
         }
 
         /// <summary>
-        /// Display DroneWindow Add or Update
+        // Code to remove close box from window
         /// false == show update window
         /// true == show add window
         /// </summary>
@@ -209,7 +209,7 @@ namespace PL
         /// <param name="e"></param>
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
+            PLFunctions.ClearFormTextBox(IdTextBox, NameTextBox, PhoneTextBox, LatitudeTextBox, LongitudeTextBox);
         }
 
         /// <summary>

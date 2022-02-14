@@ -21,25 +21,17 @@ namespace PL
 {
     public static class PLFunctions
     {
-        public static void clearFormTextBox(params TextBox[] textBoxes)
+        /// <summary>
+        /// clear form of text box.
+        /// </summary>
+        /// <param name="textBoxes"></param>
+        public static void ClearFormTextBox(params TextBox[] textBoxes)
         {
             foreach (var t in textBoxes)
             {
                 t.Text = "";
             }
         }
-
-        /*public static void Reset(Object obj)
-        {
-            foreach (PropertyInfo objs in obj.GetType().GetProperties())
-            {
-                if (objs.GetType() == typeof(string))
-                {
-                    objs = "";
-                }
-                else objs = null;
-            }
-        }*/
 
         public static void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -56,7 +48,7 @@ namespace PL
                 e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home || e.Key == Key.End ||
                 e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right ||
                 e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 ||
-                e.Key == Key.NumPad4 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || 
+                e.Key == Key.NumPad4 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 ||
                 e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9
                 )
                 return;
@@ -85,15 +77,5 @@ namespace PL
         {
             MessageBox.Show(message, header);
         }
-
-        /*static PO.Drone ConvertBOToPO(BO.Drone item)
-        {
-            return new PO.Drone() { Id = item.Id,}
-            *//*Type S = item.GetType();
-            if (S.Equals(typeof(BO.Drone)){
-                return new PO.Drone() { Id = item.Id }
-            }
-            return 0;*//*
-        }*/
     }
 }

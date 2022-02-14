@@ -200,7 +200,7 @@ namespace PL
         /// RestartTextBoxesAndSelectorBtnClick
         private void RestartTextBoxesAndSelectorBtnClick(object sender, RoutedEventArgs e)
         {
-            PLFunctions.clearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
+            PLFunctions.ClearFormTextBox(IdTextBox, ModelTextBox, StationIdTextBox);
             DroneWeightSelector.SelectedItem = Enum.GetValues(typeof(WeightCategories));
         }
 

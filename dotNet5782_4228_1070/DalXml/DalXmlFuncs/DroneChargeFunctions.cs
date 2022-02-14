@@ -40,6 +40,7 @@ namespace Dal
         /// <summary>
         /// Remove charging drone by drone id.
         /// <param name="droneId">The charging drone with droneId - to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeDroneChargeByDroneId(int droneId)
         {
             try

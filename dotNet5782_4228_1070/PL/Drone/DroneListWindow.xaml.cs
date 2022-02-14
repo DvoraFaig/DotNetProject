@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
-//using PO;
 
 namespace PL
 {
@@ -24,10 +23,16 @@ namespace PL
 
     public partial class DroneListWindow : Window
     {
+        /// <summary>
+        /// Instance of IBl interface.
+        /// </summary>
         private IBl blObjectH;
-        //CollectionView view;
+
+        /// <summary>
+        /// Current drone list
+        /// </summary>
         private PO.Drones currentDroneList;
-        //private ObservableCollection<PO.DroneToList> currentDroneList2 = new ObservableCollection<PO.DroneToList>();
+
         #region the closing button
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -41,25 +46,20 @@ namespace PL
             InitializeComponent();
             blObjectH = blObject;
             Loaded += ToolWindowLoaded;//The x button
-            //DroneListView.ItemsSource = blObjectH.DisplayDronesToList();
             currentDroneList = new PO.Drones(blObjectH);
             DroneListView.DataContext = currentDroneList.DroneList;
             currentDroneList.getNewList(blObjectH.GetDronesToList());
-            //new
-            //DroneListView.DataContext = currentDroneList2;
-            //currentDroneList2.Add(currentDroneList.DroneList[0]);
-            //currentDroneList2.Add(currentDroneList.DroneList[1]);
-            //currentDroneList2.Add(currentDroneList.DroneList[2]);
-            //DroneListView.DataContext = (IEnumerable<PO.DroneToList>)currentDroneList.DroneList;
-            //IEnumerable<DroneToList> dronesToList = blObject.returnDronesToList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             ChosenStatus.Visibility = Visibility.Hidden;
             ChosenWeight.Visibility = Visibility.Hidden;
-            //DataContext = dronesToList;
-            //view = (CollectionView)CollectionViewSource.GetDefaultView(DroneListView.DataContext);
         }
 
+        /// <summary>
+        // Code to remove close box from window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindowLoaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -107,9 +107,14 @@ namespace PL
             currentDroneList.getNewList(b);
         }
 
+        /// <summary>
+        /// Close all windows that were open (drones).
+        /// Open MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            //check if simulation is working?????   
             for (int intCounter = App.Current.Windows.Count - 1; intCounter > 0; intCounter--)
                 App.Current.Windows[intCounter].Close();
 
@@ -117,45 +122,50 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// Open Add A drone window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddDroneButtonClick(object sender, RoutedEventArgs e)
         {
             new DroneWindow(blObjectH).Show();
-            //this.Close();
         }
 
+        /// <summary>
+        /// Open specific drone Window by selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DroneSelection(object sender, MouseButtonEventArgs e)
         {
             PO.DroneToList droneToList = (PO.DroneToList)DroneListView.SelectedItem;
-            Drone drone = blObjectH.GetDroneById(droneToList.Id);////changed frrom get with specific...
+            Drone drone = blObjectH.GetDroneById(droneToList.Id);
             new DroneWindow(blObjectH, drone).Show();
-            //this.Close();
-        }
-
-        private void DroneListSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
         
+        /// <summary>
+        /// Clear status of drone selection to null
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
         {
             StatusSelector.SelectedItem = null;
             ChosenStatus.Visibility = Visibility.Hidden;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
         }
-        
+
+        /// <summary>
+        /// Change status of drone slection to null
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeWeightToNull(object sender, MouseButtonEventArgs e)
         {
             WeightSelector.SelectedItem = null;
             ChosenWeight.Visibility = Visibility.Hidden;
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
-
-        /*private void sortDronesByStatus(object sender, RoutedEventArgs e)
-        {
-            string propertyToGroup = "droneStatus";
-            view.GroupDescriptions.Clear();
-            PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
-            view.GroupDescriptions.Add(property);
-        }*/
     }
 }

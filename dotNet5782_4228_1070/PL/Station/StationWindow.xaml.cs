@@ -22,9 +22,19 @@ namespace PL
     /// </summary>
     public partial class StationWindow : Window
     {
+        /// <summary>
+        /// Instance of IBl interface.
+        /// </summary>
         private BlApi.IBl blObject;
-        //BO.Station station;
+
+        /// <summary>
+        /// Current Statopn
+        /// </summary>
         PO.Station currentStation;
+
+        /// <summary>
+        /// Delivery btn content
+        /// </summary>
         string[] deliveryButtonOptionalContent = { "Send To Delivery", "Pick Up Parcel", "Which Package Delivery" };
 
         #region the closing button
@@ -58,16 +68,10 @@ namespace PL
         public StationWindow(BlApi.IBl blObject, BO.Station station)
         {
             InitializeComponent();
-            Loaded += ToolWindowLoaded; //The x button
+            Loaded += ToolWindowLoaded; 
             this.blObject = blObject;
             currentStation = new PO.Station(station);
             AddDroneDisplay.DataContext = currentStation;
-            //this.station = station;
-            //IdTextBox.Text = $"{station.Id}";
-            //NameTextBox.Text = $"{ station.Name}";
-            //ChargingSlotsAvailbleTextBox.Text = $"{ station.DroneChargeAvailble}";
-            //PositionTextBox.Text = $"( {station.StationPosition.Latitude} , {station.StationPosition.Longitude} )";
-            //ChargingDronesInStationListView.ItemsSource = station.DronesCharging;
             if (station.DronesCharging.Count() == 0)
                 ChargingDronesInStationListView.Visibility = Visibility.Hidden;
             else
@@ -89,6 +93,11 @@ namespace PL
         }
         #endregion
 
+        /// <summary>
+        /// Add a station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addStationBtnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -142,29 +151,33 @@ namespace PL
             #endregion 
         }
 
+        /// <summary>
+        /// Reastart = clear form text boxes from text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickRestart(object sender, RoutedEventArgs e)
         {
-            PLFunctions.clearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
+            PLFunctions.ClearFormTextBox(IdTextBox, NameTextBox,ChargingSlotsTextBox, StationLatitudeTextBox, StationLongitudeTextBox);
         }
 
+        /// <summary>
+        /// Return to StationListWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickReturnToPageStationListWindow(object sender, RoutedEventArgs e)
         {
-            //MessageBoxResult messageBoxClosing = MessageBox.Show("If you close the next window without saving, your changes will be lost.", "Configuration", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            //if (messageBoxClosing == MessageBoxResult.OK)
-            //{
-            //    new StationListWindow(blObject).Show();
-            //    this.Close();
-            //}
             new StationListWindow(blObject).Show();
             this.Close();
         }
 
         private void DroneChargeSelection(object sender, MouseButtonEventArgs e)
         {
-            ////ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
-            ////Drone drone = blObject.GetDroneById(chargingDrone.Id);/////
-            ////new DroneWindow(blObject, drone).Show();
-            ////this.Close();
+            ChargingDrone chargingDrone = ((ChargingDrone)ChargingDronesInStationListView.SelectedItem);
+            Drone drone = blObject.GetDroneById(chargingDrone.Id);
+            new DroneWindow(blObject, drone).Show();
+            this.Close();
         }
 
         /// <summary>
@@ -184,12 +197,6 @@ namespace PL
             catch (Exception e1) { PLFunctions.messageBoxResponseFromServer("Change Station information", e1.Message); }
         }
 
-        #region TextBox OnlyNumbers PreviewKeyDown function
-        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
-        }
-        #endregion
 
         /// <summary>
         /// Try to send the station to be removed = not active.
@@ -215,5 +222,13 @@ namespace PL
                 PLFunctions.messageBoxResponseFromServer("Remove Station", e2.Message);
             }
         }
+        
+        
+        #region TextBox OnlyNumbers PreviewKeyDown function
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            PLFunctions.TextBox_OnlyNumbers_PreviewKeyDown(sender, e);
+        }
+        #endregion
     }
 }

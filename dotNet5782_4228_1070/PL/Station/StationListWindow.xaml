@@ -39,8 +39,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="AvailbleChargingSlotsLabel" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2" >Availble Charging Slots</Label>
-            <!--<Label x:Name="amountChargingSlotsLabel" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" HorizontalAlignment= "Right" VerticalAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="1" Grid.Row="0" >Amount availble charging slots</Label>-->
-            <!--<CheckBox x:Name="AvailbleChargingSlotsChecked" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold"  HorizontalAlignment= "Left" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0" Checked="CheckedAvailbleChargingSlots"/>-->
             <TextBox Name="amountChargingSlots" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" HorizontalAlignment= "Stretch" VerticalAlignment="Bottom" Grid.Column="2" Margin="15,10" TextChanged="AvailbleChargingSlots"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
             <Button x:Name="AddStationBtn" FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Add station" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Margin="15,10" Click="AddStationBtnClick"/>
             <Button x:Name="CloseButton"    FontFamily="Tahoma" FontSize="16" FontWeight="SemiBold" Content="Close" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Margin="15,10" Click="CloseButtonClick"/>

@@ -127,7 +127,7 @@ namespace PL
         /// </summary>
         private void clearFormTextBox()
         {
-            PLFunctions.clearFormTextBox(SignUpIdTextBox, SignUpNameTextBox, SignUpPhoneTextBox, SignUpLatitudeTextBox, SignUpLongitudeTextBox);
+            PLFunctions.ClearFormTextBox(SignUpIdTextBox, SignUpNameTextBox, SignUpPhoneTextBox, SignUpLatitudeTextBox, SignUpLongitudeTextBox);
         }
 
         private void signUpAsAWorker(object sender, RoutedEventArgs e)

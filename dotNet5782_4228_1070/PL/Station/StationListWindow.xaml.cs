@@ -23,9 +23,11 @@ namespace PL
 
     public partial class StationListWindow : Window
     {
+        /// <summary>
+        /// Instance of IBl interface.
+        /// </summary>
         private IBl blObject;
-        public enum ShowObjects { Drone, Station };
-        private int ShowWindow;
+
         CollectionView view;
 
         #region the closing button
@@ -42,7 +44,7 @@ namespace PL
             this.blObject = blObject;
             Loaded += ToolWindowLoaded;//The x button
             IEnumerable<StationToList> stationToLists = blObject.GetStationsToList();
-            StationListView.ItemsSource = stationToLists;//.Cast<BLStationToList>().ToList();
+            StationListView.ItemsSource = stationToLists;
             DataContext = stationToLists;
             view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
         }
@@ -58,66 +60,33 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
+        /// <summary>
+        /// Close Station List window and return to thr main window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             new MainWindow(blObject).Show();
             this.Close();
         }
 
+        /// <summary>
+        /// Open Add Station Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddStationBtnClick(object sender, RoutedEventArgs e)
         {
             new StationWindow(blObject).Show();
             this.Close();
         }
 
-        private void DroneSelection(object sender, MouseButtonEventArgs e)
-        {
-            //Drone drone = blObjectH.convertDroneToListToDrone((DroneToList)StationListView.SelectedItem);
-            //new DroneWindow(blObjectH, drone).Show();
-            this.Close();
-        }
-
-        //private void ChangeStatusToNull(object sender, MouseButtonEventArgs e)
-        //{
-        //    //StatusSelector.SelectedItem = null;
-        //    //ChosenStatus.Visibility = Visibility.Hidden;
-        //    //StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
-        //}
-
         /// <summary>
-        /// Find availble charging slots with int amountAvilableSlots;
+        /// Dislay Station by X available slots
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
-        //private void CheckedAvailbleChargingSlots(object sender, RoutedEventArgs e)
-        //{
-        //    //AvailbleChargingSlots();
-        //}
-
-        /// <summary>
-        /// Find availble charging slots with int amountAvilableSlots occurding to the checked box
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CheckedAvailbleChargingSlots(object sender, TextChangedEventArgs e)
-        {
-            //AvailbleChargingSlots();
-            //if(AvailbleChargingSlotsChecked.IsChecked == true)
-            //    AvailbleChargingSlots();
-        }
-
-        ///// <summary>
-        ///// Change amount avilable charging slots to null
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void ChangeAmountToNull(object sender, MouseButtonEventArgs e)
-        //{
-        //    amountChargingSlots.Text = "";
-        //    StationListView.ItemsSource = blObject.GetStationsWithFreeSlots(); //.Cast<StationToList>().ToList();
-        //}
-
         private void AvailbleChargingSlots(object sender, TextChangedEventArgs e)
         {
             int amountAvilableSlots = 0;
@@ -132,6 +101,11 @@ namespace PL
             catch (Exception) { }
         }
 
+        /// <summary>
+        /// Open Window of specific station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StationSelection(object sender, MouseButtonEventArgs e)
         {
             StationToList stationToList = (StationToList)StationListView.SelectedItem;
@@ -140,6 +114,11 @@ namespace PL
             this.Close();
         }
 
+        /// <summary>
+        /// Dislay Station withavailable slots
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sortStationByAvailableSlotsClick(object sender, RoutedEventArgs e)
         {
             string propertyToGroup = "DroneChargeAvailble";
