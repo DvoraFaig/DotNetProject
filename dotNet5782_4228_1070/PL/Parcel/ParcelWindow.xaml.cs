@@ -82,6 +82,13 @@ namespace PL
             clientIsSender = true;
             returnToParcelListWindow = false;
             visibleUpdatedetails.Visibility = currentParcel.Drone.Equals(null) ? Visibility.Visible : Visibility.Hidden;
+            if (currentParcel.Drone.Equals(null))
+            {
+                ParcelWeightSelector1.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+                ParcelPrioritySelector1.ItemsSource = Enum.GetValues(typeof(Priorities));
+                ParcelTargetSelector1.ItemsSource = blObject.GetCustomersExeptOne();
+
+            }
         }
 
         /// <summary>
