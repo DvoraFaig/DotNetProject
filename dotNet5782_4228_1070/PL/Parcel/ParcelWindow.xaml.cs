@@ -307,7 +307,7 @@ namespace PL
         }
 
         /// <summary>
-        /// 
+        /// Add a parcel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
