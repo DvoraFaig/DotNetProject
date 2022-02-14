@@ -210,7 +210,7 @@ namespace Dal
             }
             catch (Exception e)
             {
-                throw new Exceptions.ObjNotExistException($"{e.Message}");
+                throw new Exceptions.FileLoadCreateException("Program cann't Load", $"{e.Message}", e);
             }
         }
     }

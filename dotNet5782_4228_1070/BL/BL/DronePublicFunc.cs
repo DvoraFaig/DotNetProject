@@ -258,7 +258,6 @@ namespace BL
                     }
                 }
             }
-            //}
             #region Exceptions
             catch (Exception e)
             {

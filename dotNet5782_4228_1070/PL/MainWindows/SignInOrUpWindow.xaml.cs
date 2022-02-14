@@ -134,7 +134,7 @@ namespace PL
         {
             try
             {
-                bool ifWorkwerExist = blObject.IfWorkerExist(new BO.Worker()
+                bool ifWorkwerExist = blObject.CheckWorkerExist(new BO.Worker()
                 {
                     Id = int.Parse(WorkerIdTextBox.Text),
                     Password = passwordBox.Password.ToString()//WorkerPasswordTextBox.Text

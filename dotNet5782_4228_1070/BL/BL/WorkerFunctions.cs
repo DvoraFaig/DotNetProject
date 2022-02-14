@@ -17,19 +17,19 @@ namespace BL
         /// <param name="worker">The worker who loged in</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IfWorkerExist(Worker worker)
+        public bool CheckWorkerExist(Worker worker)
         {
             try
             {
                 lock (dal)
                 {
-                    DO.Worker worker1 = dal.getWorkerWithSpecificCondition(w => w.Id == worker.Id && w.Password == worker.Password).First();
+                    dal.getWorkerWithSpecificCondition(e => e.Id == worker.Id && e.Password == worker.Password).First();
                     return true;
                 }
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
-                throw new ObjNotExistException(typeof(Worker), worker.Id , e);
+                throw new ObjNotExistException(typeof(Worker), worker.Id, e);
             }
         }
     }

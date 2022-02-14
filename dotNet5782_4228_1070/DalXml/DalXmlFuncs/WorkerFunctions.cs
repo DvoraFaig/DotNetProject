@@ -24,10 +24,17 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Worker> getWorkerWithSpecificCondition(Predicate<Worker> predicate)
         {
-            IEnumerable<DO.Worker> workerList = XMLTools.LoadListFromXMLSerializer<DO.Worker>(dir + workerFilePath);
-            return (from worker in workerList
-                    where predicate(worker)
-                    select worker);
+            try
+            {
+                IEnumerable<DO.Worker> workerList = XMLTools.LoadListFromXMLSerializer<DO.Worker>(dir + workerFilePath);
+                return (from worker in workerList
+                        where predicate(worker)
+                        select worker);
+            }
+            catch (Exception e)
+            {
+                throw new Exceptions.ObjNotExistException($"{e.Message}");
+            }
         }
     }
 }
