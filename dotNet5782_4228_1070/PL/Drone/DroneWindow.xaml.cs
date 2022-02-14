@@ -210,7 +210,6 @@ namespace PL
         /// <param name="e"></param>
         private void ReturnToDroneListWindowBtnClick(object sender, RoutedEventArgs e)
         {
-
             if (!isSimulationWorking)
             {
                 this.Close();
@@ -219,11 +218,11 @@ namespace PL
 
             if (isSimulationWorking && !simIsAskedToStop)
             {
-                isReturnBtnClick = true;
-                simIsAskedToStop = true;
                 worker.CancelAsync();
                 ProgressBarForSimulation.Visibility = Visibility.Visible;
             }
+
+            isReturnBtnClick = true;
             simIsAskedToStop = true;
         }
 
