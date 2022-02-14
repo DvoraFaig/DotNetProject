@@ -117,38 +117,10 @@ namespace PL
         /// <param name="window"></param>
         public ParcelWindow(BlApi.IBl blObject, Parcel parcel, bool isSender, Window window)
         {
-            #region = initializeUpdate
-            //InitializeComponent();
-            //Loaded += ToolWindowLoaded; //The x button
-            //this.blObject = blObject;
-            //currentParcel = new PO.Parcel(blObject, parcel);
-            //AddParcelDisplay.DataContext = currentParcel;
-            //returnToParcelListWindow = false;
-            //visibleAddForm.Visibility = Visibility.Hidden;
-            //visibleUpdateForm.Visibility = Visibility.Visible;
-            //clientIsSender = isSender;
-            //initializeCustomers(clientIsSender);
-            //setBtns();
-            #endregion
-
             initializeUpdate(blObject, parcel, isSender);
 
             isClientAndNotAdmin = true;
             returnBackToUnupdateWindow = window;
-
-            #region erase
-            //initializeDetailsUpdateForm();
-            //initializeObj();
-            //if (isClientAndNotAdmin)
-            //{
-            //    if (currentParcel.Drone != null) // parcel was schedualed
-            //        RemoveBtn.Visibility = Visibility.Hidden;
-            //    if (!isSender)
-            //        RemoveBtn.Visibility = Visibility.Hidden;
-            //}
-            //initializeObjAndSetConfirm();
-            //initializeDrone();
-            #endregion
         }
 
         /// <summary>
@@ -218,7 +190,6 @@ namespace PL
 
             ExpenderDroneObj.Visibility = Visibility.Hidden;
             DroneText.Visibility = Visibility.Visible;
-            //DroneText.Content = $"{currentParcel.Drone.ToString()}";
         }
 
         /// <summary>
@@ -234,9 +205,10 @@ namespace PL
                 RemoveBtn.Visibility = Visibility.Visible;
                 visibility = Visibility.Hidden;
             }
-            else //??? need?
+            else
+            {
                 RemoveBtn.Visibility = Visibility.Hidden;
-
+            }
             setDroneVisibility(visibility);
         }
 
@@ -269,7 +241,7 @@ namespace PL
                     }
                 }
                 if (currentParcel.PickUp != null && currentParcel.Delivered == null)
-                { 
+                {
                     if ((parcelDrone.DronePosition.Latitude == parcelTarget.CustomerPosition.Latitude //parcel was delivered now.
                         && parcelDrone.DronePosition.Longitude == parcelTarget.CustomerPosition.Longitude)
                         && ((!isClientAndNotAdmin) //Admin
@@ -395,21 +367,9 @@ namespace PL
         /// <param name="e"></param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            //returnBackTo.Show();
             if (isClientAndNotAdmin)
             {
-                //BO.Customer customer;
-
-                //if (clientIsSender)
-                //{
-                //    customer = (currentParcel == null) ? clientCustomer : blObject.GetCustomerById(currentParcel.Sender.Id);
-                //}
-                //else
-                //{
-                //    customer = blObject.GetCustomerById(currentParcel.Target.Id);
-                //}
-
-                new CustomerWindow(blObject,blObject.GetCustomerById(clientCustomer.Id), true).Show();
+                new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), true).Show();
                 this.Close();
             }
             else
@@ -419,12 +379,7 @@ namespace PL
                 else
                 {
                     new CustomerWindow(blObject, blObject.GetCustomerById(clientCustomer.Id), false).Show();
-                    //if (clientIsSender)
-                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Sender.Id), false).Show();
-                    //else
-                    //    new CustomerWindow(blObject, blObject.GetCustomerById(currentParcel.Target.Id), false).Show();
                 }
-
                 this.Close();
             }
         }
@@ -440,7 +395,6 @@ namespace PL
                 return;
             Drone d = blObject.GetDroneById(currentParcel.Drone.Id);
             new DroneWindow(blObject, d).Show();
-            //this.Close();
         }
 
         /// <summary>
@@ -454,20 +408,13 @@ namespace PL
                 return;
             CustomerInParcel customerClicked = ((sender as Button).Name == "TargetText") ? currentParcel.Target : currentParcel.Sender;
             Customer customer = blObject.GetCustomerById(customerClicked.Id);
-            new CustomerWindow(blObject, customer, false ,currentParcel.BO()).Show();
+            new CustomerWindow(blObject, customer, false, currentParcel.BO()).Show();
             this.Close();
         }
 
         private void ParcelCustomerSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //CustomerInParcel customerSelected = (sender as ComboBox).SelectedItem;
-            //var customerSelected = (sender as ComboBox).SelectedIndex;
-            // ParcelTargetSelector.SelectedIndex = -1;
-            //ParcelTargetSelector.Items.Remove(ParcelTargetSelector.SelectedItem);
-            //ParcelSenderSelector.Items.RemoveAt(customerSelected);
-            //ParcelTargetSelector.SelectedItem = customerSelected;
-            //ParcelTargetSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
-            //ParcelSenderSelector.ItemsSource = blObject.CustomerLimitedDisplay(customerSelected);
+
         }
 
         private void updateParcelInfoBtnClick(object sender, RoutedEventArgs e)
@@ -519,37 +466,3 @@ namespace PL
 
     }
 }
-
-
-///// <summary>
-///// initialize update form details of parcels' textBoxes.
-///// </summary>
-//private void initializeDetailsUpdateForm()
-//{
-//    /*IdText.Text = $"{parcel.Id}";
-//    SenderText.Content = parcel.Sender;
-//    TargetText.Content = parcel.Target;
-//    WeightText.Text = $"{parcel.Weight}";
-//    PriorityText.Text = $"{parcel.Priority}";*/
-//    if (currentParcel.Drone == null) //DroneText.Content = $"{parcel.Drone.Id}";
-//    {
-
-//        //DroneText.Content = "No Drone";
-//        DroneText.IsEnabled = false;
-//    }
-//    /*if (parcel.Drone != null) DroneText.Content = $"{parcel.Drone.Id}";
-//    else
-//    {
-//        DroneText.Content = "No Drone";
-//        DroneText.IsEnabled = false;
-//    }*/
-//}
-
-
-//private void initializeObj()
-//{
-//    //parcelSender = blObject.GetCustomerById(currentParcel.Sender.Id);
-//    //parcelTarget = blObject.GetCustomerById(currentParcel.Target.Id);
-//    //if (currentParcel.Drone != null)
-//    //    parcelDrone = blObject.GetDroneById(currentParcel.Drone.Id);
-//}
