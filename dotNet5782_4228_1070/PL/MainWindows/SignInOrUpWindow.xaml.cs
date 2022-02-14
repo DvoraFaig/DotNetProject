@@ -41,8 +41,6 @@ namespace PL
         {
             InitializeComponent();
             this.blObject = blObject;
-            //GetPassword.Visibility = Visibility.Hidden;
-            //Response.Visibility = Visibility.Hidden;
         }
 
         private void messageBoxResponseFromServer(String message)
@@ -156,8 +154,6 @@ namespace PL
 
         private void getPassword(object sender, MouseButtonEventArgs e)
         {
-
-            //passwordBox.Password = passwordBox.Password.ToString();
             passwordTextBox.Text = passwordBox.Password.ToString();
             passwordTextBox.Visibility = Visibility.Visible;
             passwordBox.Visibility = Visibility.Hidden;
@@ -167,7 +163,6 @@ namespace PL
 
         private void hidePassword(object sender, MouseButtonEventArgs e)
         {
-            //passwordBox.Password = passwordBox.Password.ToString();
             passwordTextBox.Visibility = Visibility.Hidden;
             passwordBox.Visibility = Visibility.Visible;
             HidePassword.Visibility = Visibility.Visible;
@@ -176,7 +171,6 @@ namespace PL
 
         private void hidePasswordCustomer(object sender, MouseButtonEventArgs e)
         {
-            //passwordBox.Password = passwordBoxCustomer.Password.ToString();
             passwordTextBoxCustomer.Visibility = Visibility.Hidden;
             passwordBoxCustomer.Visibility = Visibility.Visible;
             HidePasswordCustomer.Visibility = Visibility.Visible;

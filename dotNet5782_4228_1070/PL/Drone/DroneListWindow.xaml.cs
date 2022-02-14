@@ -103,7 +103,6 @@ namespace PL
             }
 
             IEnumerable<DroneToList> b = blObjectH.GetDronesByConditions((int)weight, (int)status);
-
             currentDroneList.getNewList(b);
         }
 

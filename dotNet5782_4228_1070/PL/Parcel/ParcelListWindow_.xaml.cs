@@ -102,8 +102,6 @@ namespace PL
             IEnumerable<ParcelToList> b = blObject.GetParcelsByConditions((int)weight, (int)status, (int)priority);
             DataContext = b;
             view = (CollectionView)CollectionViewSource.GetDefaultView(DataContext);
-
-            //ParcelListView.ItemsSource = b;
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
@@ -121,7 +119,6 @@ namespace PL
         private void ParcelSelection(object sender, MouseButtonEventArgs e)
         {
             ParcelToList selectedParcel = (ParcelToList)ParcelListView.SelectedItem;
-            //DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             Parcel parcel = blObject.GetParcelById(selectedParcel.Id);
             new ParcelWindow(blObject, parcel , true , false).Show();
             this.Close();
@@ -150,7 +147,6 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string propertyToGroup = (sender as Button).Content.ToString() + "Name";
-            //string propertyToGroup = "Priority";
             view.GroupDescriptions.Clear();
             PropertyGroupDescription property = new PropertyGroupDescription($"{propertyToGroup}");
             view.GroupDescriptions.Add(property);
