@@ -18,11 +18,11 @@
     <MaxWeight>Light</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
-  <Drone>
+  <Drone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Id>4</Id>
-    <Model>Drone4</Model>
+    <Model>bkjb</Model>
     <MaxWeight>Heavy</MaxWeight>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
   </Drone>
   <Drone>
     <Id>5</Id>

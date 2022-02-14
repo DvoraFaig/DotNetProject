@@ -246,7 +246,7 @@ namespace PL
                 //currentDrone.Model = ModelTextBox.Text;
                 blObject.ChangeDroneModel(currentDrone.Id, currentDrone.Model);
                 //new DroneListWindow(blObjectD).Show();
-                this.Close();
+                //this.Close();
             }
             catch (InvalidOperationException exeptionInvalid) { PLFunctions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
             //catch (ObjNotExistException exeptionNotExist) { PLFuncions.messageBoxResponseFromServer("Change Drones' Model", exeptionInvalid.Message); };
