@@ -93,7 +93,7 @@ namespace PL
         {
             blObject.StartSimulation(
                 tempDrone, 
-                (tempDrone, i, des) =>
+                (i, des) =>
                 {
                     worker.ReportProgress((int)i);
                     droneCase = i;

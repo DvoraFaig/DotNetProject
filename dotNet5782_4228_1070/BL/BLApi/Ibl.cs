@@ -73,7 +73,7 @@ namespace BlApi
         //===================
         //  StartSimulation
         //===================
-        void StartSimulation(Drone std, Action<Drone, DroneStatusInSim, double> updateStudent, Func<bool> needToStop);
+        void StartSimulation(Drone std, Action< DroneStatusInSim, double> updateStudent, Func<bool> needToStop);
 
         bool CheckWorkerExist(Worker worker);
         Station convertDalToBLStation(DO.Station station);
