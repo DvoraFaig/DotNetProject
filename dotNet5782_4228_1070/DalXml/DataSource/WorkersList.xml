@@ -12,8 +12,4 @@
     <Id>3</Id>
     <Password>Worker3</Password>
   </Worker>
-  <Worker>
-    <Id>4</Id>
-    <Password>Worker4</Password>
-  </Worker>
 </ArrayOfWorker>

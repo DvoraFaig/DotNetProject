@@ -30,25 +30,6 @@ namespace PL
         public double droneDisFromDes { get; set; }
 
         /// <summary>
-        /// Checks if simulation is working.
-        /// </summary>
-        private void checkIfEnableToCloseSim()
-        {
-            if (currentDrone.Battery == 100)
-            {
-                AutomationBtn.Content = "Start Automation";
-                ProgressBarForSimulation.Visibility = Visibility.Hidden;
-                setRemoveBtn();
-                int contentIndex = blObject.GetDroneStatusInDelivery(currentDrone.BO());
-                if (contentIndex != 3)
-                    setDeliveryBtn();
-                else
-                    setChargeBtn();
-                simIsAskedToStop = false;
-            }
-        }
-
-        /// <summary>
         /// Initialize obj worker for the simolator of drone
         /// And when manual btn is clicked.
         /// </summary>
@@ -175,8 +156,6 @@ namespace PL
                     DisDroneFromDes.Visibility = Visibility.Hidden;
                     break;
                 default:
-                    //StatusTextBoxLabelSimulation.Visibility = Visibility.Hidden;
-                    //DisDroneFromDes.Visibility = Visibility.Visible;
                     break;
             }
         }
