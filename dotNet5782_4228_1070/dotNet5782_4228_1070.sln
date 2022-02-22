@@ -26,9 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{B035821C-57E
 		xml\‏‏dal-config.xml = xml\‏‏dal-config.xml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B76359F-695A-4416-87D4-6485E48B4C3A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C71F6ECD-E9EF-4598-8DEB-779E75EAC8E5}"
 	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
+		Bonuses.txt = Bonuses.txt
 	EndProjectSection
 EndProject
 Global
